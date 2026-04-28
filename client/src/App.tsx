@@ -22,6 +22,8 @@ import QuantumVault from "./pages/QuantumVault";
 import AIWealth from "./pages/AIWealth";
 import CrossChainBridge from "./pages/CrossChainBridge";
 import Achievements from "./pages/Achievements";
+import Notifications from "./pages/Notifications";
+import Portfolio from "./pages/Portfolio";
 
 function Router() {
   return (
@@ -46,6 +48,8 @@ function Router() {
             <Route path="/ai-wealth" component={AIWealth} />
             <Route path="/bridge" component={CrossChainBridge} />
             <Route path="/achievements" component={Achievements} />
+            <Route path="/notifications" component={Notifications} />
+            <Route path="/portfolio" component={Portfolio} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
