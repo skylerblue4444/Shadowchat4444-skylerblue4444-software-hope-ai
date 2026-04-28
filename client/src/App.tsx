@@ -24,6 +24,7 @@ import CrossChainBridge from "./pages/CrossChainBridge";
 import Achievements from "./pages/Achievements";
 import Notifications from "./pages/Notifications";
 import Portfolio from "./pages/Portfolio";
+import MarketData from "./pages/MarketData";
 
 function Router() {
   return (
@@ -50,6 +51,7 @@ function Router() {
             <Route path="/achievements" component={Achievements} />
             <Route path="/notifications" component={Notifications} />
             <Route path="/portfolio" component={Portfolio} />
+            <Route path="/market" component={MarketData} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
