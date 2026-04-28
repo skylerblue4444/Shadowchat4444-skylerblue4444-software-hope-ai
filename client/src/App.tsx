@@ -21,7 +21,7 @@ import Settings from "./pages/Settings";
 function Router() {
   return (
     <Switch>
-      <Route path={"/ "} component={Home} />
+      <Route path={"/"} component={Home} />
       <Route path={"/dashboard/*"} component={() => (
         <DashboardLayout>
           <Switch>
