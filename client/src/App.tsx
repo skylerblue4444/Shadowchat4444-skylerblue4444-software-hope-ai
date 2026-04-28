@@ -18,6 +18,10 @@ import APIVault from "./pages/APIVault";
 import ColdVault from "./pages/ColdVault";
 import Settings from "./pages/Settings";
 import DAOGovernance from "./pages/DAOGovernance";
+import QuantumVault from "./pages/QuantumVault";
+import AIWealth from "./pages/AIWealth";
+import CrossChainBridge from "./pages/CrossChainBridge";
+import Achievements from "./pages/Achievements";
 
 function Router() {
   return (
@@ -38,6 +42,10 @@ function Router() {
             <Route path="/vault" component={ColdVault} />
             <Route path="/settings" component={Settings} />
             <Route path="/dao" component={DAOGovernance} />
+            <Route path="/quantum-vault" component={QuantumVault} />
+            <Route path="/ai-wealth" component={AIWealth} />
+            <Route path="/bridge" component={CrossChainBridge} />
+            <Route path="/achievements" component={Achievements} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
