@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, trades, portfolios, posts, messages, vaults, leaderboard } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,70 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Trading queries
+export async function createTrade(userId: number, trade: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(trades).values({ userId, ...trade });
+}
+
+export async function getUserTrades(userId: number, limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(trades).where(eq(trades.userId, userId)).limit(limit);
+}
+
+// Portfolio queries
+export async function getOrCreatePortfolio(userId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const existing = await db.select().from(portfolios).where(eq(portfolios.userId, userId)).limit(1);
+  if (existing.length > 0) return existing[0];
+  await db.insert(portfolios).values({ userId });
+  return db.select().from(portfolios).where(eq(portfolios.userId, userId)).limit(1).then(r => r[0]);
+}
+
+// Social queries
+export async function createPost(userId: number, content: string, imageUrl?: string) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(posts).values({ userId, content, imageUrl });
+}
+
+export async function getFeedPosts(limit = 20, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(posts).orderBy(desc(posts.aiRank)).limit(limit).offset(offset);
+}
+
+// Message queries
+export async function sendMessage(senderId: number, recipientId: number, content: string, tipAmount = 0) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(messages).values({ senderId, recipientId, content, tipAmount });
+}
+
+// Vault queries
+export async function createVault(userId: number, vault: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(vaults).values({ userId, ...vault });
+}
+
+export async function getUserVaults(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(vaults).where(eq(vaults.userId, userId));
+}
+
+// Leaderboard queries
+export async function getLeaderboard(category: string, limit = 20) {
+  const db = await getDb();
+  if (!db) return [];
+  const orderByField = category === 'xp' ? leaderboard.xpScore : 
+                       category === 'mining' ? leaderboard.miningScore :
+                       category === 'staking' ? leaderboard.stakingScore :
+                       category === 'trading' ? leaderboard.tradingScore :
+                       leaderboard.referralScore;
+  return db.select().from(leaderboard).orderBy(desc(orderByField)).limit(limit);
+}

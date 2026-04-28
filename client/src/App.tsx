@@ -5,14 +5,42 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import DashboardLayout from "./components/DashboardLayout";
+import Trading from "./pages/Trading";
+import AICopilot from "./pages/AICopilot";
+import SocialFeed from "./pages/SocialFeed";
+import Messaging from "./pages/Messaging";
+import Analytics from "./pages/Analytics";
+import Leaderboard from "./pages/Leaderboard";
+import Onboarding from "./pages/Onboarding";
+import Referrals from "./pages/Referrals";
+import APIVault from "./pages/APIVault";
+import ColdVault from "./pages/ColdVault";
+import Settings from "./pages/Settings";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/ "} component={Home} />
+      <Route path={"/dashboard/*"} component={() => (
+        <DashboardLayout>
+          <Switch>
+            <Route path="/trading" component={Trading} />
+            <Route path="/copilot" component={AICopilot} />
+            <Route path="/social" component={SocialFeed} />
+            <Route path="/messages" component={Messaging} />
+            <Route path="/analytics" component={Analytics} />
+            <Route path="/leaderboard" component={Leaderboard} />
+            <Route path="/onboarding" component={Onboarding} />
+            <Route path="/referrals" component={Referrals} />
+            <Route path="/api-vault" component={APIVault} />
+            <Route path="/vault" component={ColdVault} />
+            <Route path="/settings" component={Settings} />
+            <Route component={NotFound} />
+          </Switch>
+        </DashboardLayout>
+      )} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
@@ -27,8 +55,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
-        // switchable
+        defaultTheme="dark"
       >
         <TooltipProvider>
           <Toaster />
