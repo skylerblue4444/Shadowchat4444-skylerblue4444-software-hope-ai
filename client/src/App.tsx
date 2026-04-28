@@ -17,6 +17,7 @@ import Referrals from "./pages/Referrals";
 import APIVault from "./pages/APIVault";
 import ColdVault from "./pages/ColdVault";
 import Settings from "./pages/Settings";
+import DAOGovernance from "./pages/DAOGovernance";
 
 function Router() {
   return (
@@ -36,6 +37,7 @@ function Router() {
             <Route path="/api-vault" component={APIVault} />
             <Route path="/vault" component={ColdVault} />
             <Route path="/settings" component={Settings} />
+            <Route path="/dao" component={DAOGovernance} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
