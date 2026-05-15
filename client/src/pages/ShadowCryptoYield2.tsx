@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -22,16 +22,16 @@ export default function ShadowCryptoYield2() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Crypto Yield 2.0</h1>
-          <p className="text-sm text-muted-foreground">Advanced yield optimization across 47 DeFi protocols with AI-powered strategy selection</p>
+          <h1 className="text-2xl font-black">Yield Aggregator V2</h1>
+          <p className="text-sm text-muted-foreground">Advanced yield aggregator with AI strategy selection, auto-rebalancing, and gas optimization</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Max Yield</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Maximum Yield</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">47</p><p className="text-xs text-muted-foreground">Protocols</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247pct</p><p className="text-xs text-muted-foreground">Best APY</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">247</p><p className="text-xs text-muted-foreground">Protocols</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847pct</p><p className="text-xs text-muted-foreground">Best APY</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847M USD</p><p className="text-xs text-muted-foreground">TVL</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84</p><p className="text-xs text-muted-foreground">Strategies</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">67pct</p><p className="text-xs text-muted-foreground">Gas Saved</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoYield2() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Crypto Yield 2.0 — Activate Now</p>
+        <p className="font-black text-sm mb-1">Yield Aggregator V2 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Crypto Yield 2.0 activated!"); }}
+            onClick={() => { setActive(true); toast.success("Yield Aggregator V2 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Crypto Yield 2.0 docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Yield Aggregator V2 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

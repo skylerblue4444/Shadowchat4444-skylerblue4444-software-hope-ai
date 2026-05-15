@@ -22,16 +22,16 @@ export default function ShadowCryptoAlert2() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Alert Pro 2.0</h1>
-          <p className="text-sm text-muted-foreground">Advanced crypto alerts with AI pattern recognition and multi-channel notifications</p>
+          <h1 className="text-2xl font-black">Price Alerts V2</h1>
+          <p className="text-sm text-muted-foreground">Advanced multi-condition price alerts with AI prediction, SMS, email, and webhook delivery</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Never Miss</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Never Miss a Move</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-red-400">247</p><p className="text-xs text-muted-foreground">Alert Types</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">94pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8.4M</p><p className="text-xs text-muted-foreground">Active Alerts</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">99.9pct</p><p className="text-xs text-muted-foreground">Delivery Rate</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8</p><p className="text-xs text-muted-foreground">Channels</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Sub-1sec</p><p className="text-xs text-muted-foreground">Response</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84pct</p><p className="text-xs text-muted-foreground">AI Accuracy</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoAlert2() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Alert Pro 2.0 — Activate Now</p>
+        <p className="font-black text-sm mb-1">Price Alerts V2 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Alert Pro 2.0 activated!"); }}
+            onClick={() => { setActive(true); toast.success("Price Alerts V2 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Alert Pro 2.0 docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Price Alerts V2 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -22,16 +22,16 @@ export default function ShadowCryptoIndex2() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Crypto Index 2.0</h1>
-          <p className="text-sm text-muted-foreground">Advanced crypto market index with AI-weighted baskets and automatic rebalancing</p>
+          <h1 className="text-2xl font-black">Crypto Index V2</h1>
+          <p className="text-sm text-muted-foreground">Advanced crypto index funds with AI rebalancing, sector rotation, and tax-loss harvesting</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Smart Index</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Diversify Smart</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">47</p><p className="text-xs text-muted-foreground">Index Tokens</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">2.4B USD</p><p className="text-xs text-muted-foreground">Total AUM</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Daily</p><p className="text-xs text-muted-foreground">Rebalance Freq</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">247pct</p><p className="text-xs text-muted-foreground">Avg Return</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Indices</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847M USD</p><p className="text-xs text-muted-foreground">Total AUM</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847pct</p><p className="text-xs text-muted-foreground">Best Return</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">AI-Daily</p><p className="text-xs text-muted-foreground">Rebalance</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoIndex2() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Crypto Index 2.0 — Activate Now</p>
+        <p className="font-black text-sm mb-1">Crypto Index V2 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Crypto Index 2.0 activated!"); }}
+            onClick={() => { setActive(true); toast.success("Crypto Index V2 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Crypto Index 2.0 docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Crypto Index V2 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

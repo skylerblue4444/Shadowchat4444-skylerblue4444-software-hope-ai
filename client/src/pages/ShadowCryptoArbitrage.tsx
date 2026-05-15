@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -22,16 +22,16 @@ export default function ShadowCryptoArbitrage() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Crypto Arbitrage</h1>
-          <p className="text-sm text-muted-foreground">Automated cross-exchange arbitrage bot with AI-powered opportunity detection</p>
+          <h1 className="text-2xl font-black">Arbitrage Bot</h1>
+          <p className="text-sm text-muted-foreground">Automated cross-exchange arbitrage with AI opportunity detection and instant execution</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Profit Finder</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Risk-Free Alpha</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">8247</p><p className="text-xs text-muted-foreground">Opportunities/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Opportunities/Day</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">0.47pct</p><p className="text-xs text-muted-foreground">Avg Profit</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Exchanges</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">94pct</p><p className="text-xs text-muted-foreground">Win Rate</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">94pct</p><p className="text-xs text-muted-foreground">Success Rate</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoArbitrage() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Crypto Arbitrage — Activate Now</p>
+        <p className="font-black text-sm mb-1">Arbitrage Bot — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Crypto Arbitrage activated!"); }}
+            onClick={() => { setActive(true); toast.success("Arbitrage Bot activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Crypto Arbitrage docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Arbitrage Bot docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
