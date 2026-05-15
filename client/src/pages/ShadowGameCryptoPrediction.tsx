@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT for Law Firms
+ * ShadowChat — Prediction Market
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowITLegal() {
+export default function ShadowGameCryptoPrediction() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"📄",title:"Document Mgmt",desc:"Secure document management",badge:"Organized"},
-    {icon:"👤",title:"Client Portal",desc:"Client self-service portal",badge:"Service"},
-    {icon:"🔐",title:"Confidential",desc:"Attorney-client privilege IT",badge:"Secure"},
-    {icon:"⚖️",title:"Compliance",desc:"Bar association compliance",badge:"Required"},
-    {icon:"💻",title:"Practice Mgmt",desc:"Legal practice management",badge:"Efficient"},
-    {icon:"📞",title:"Consult",desc:"479-406-7123 for consult",badge:"Contact"}];
+  const items=[{icon:"📈",title:"Price Predict",desc:"Predict BTC ETH SKY4444",badge:"Forecast"},
+    {icon:"💰",title:"Win SKY4444",desc:"Correct predictions win big",badge:"Reward"},
+    {icon:"🌍",title:"Community",desc:"Community-created markets",badge:"Decentralized"},
+    {icon:"📊",title:"Track Record",desc:"See your prediction history",badge:"Accountable"},
+    {icon:"⚡",title:"Instant",desc:"Instant settlement",badge:"Fast"},
+    {icon:"✦",title:"SKY4444",desc:"All bets in SKY4444",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT for Law Firms</h1>
-        <p className="text-xs text-muted-foreground">Legal IT · Document management · Client portal · Arkansas</p>
+        <h1 className="text-2xl font-black">Prediction Market</h1>
+        <p className="text-xs text-muted-foreground">Predict crypto prices · Win SKY4444 · Community powered</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowITLegal() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">IT that protects attorney-client privilege.</p>
+          <p className="text-xs text-muted-foreground">Predict the market. Win SKY4444.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

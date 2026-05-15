@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT for Law Firms
+ * ShadowChat — Crypto Tax Suite V2
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowITLegal() {
+export default function ShadowCryptoTaxV2() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"📄",title:"Document Mgmt",desc:"Secure document management",badge:"Organized"},
-    {icon:"👤",title:"Client Portal",desc:"Client self-service portal",badge:"Service"},
-    {icon:"🔐",title:"Confidential",desc:"Attorney-client privilege IT",badge:"Secure"},
-    {icon:"⚖️",title:"Compliance",desc:"Bar association compliance",badge:"Required"},
-    {icon:"💻",title:"Practice Mgmt",desc:"Legal practice management",badge:"Efficient"},
-    {icon:"📞",title:"Consult",desc:"479-406-7123 for consult",badge:"Contact"}];
+  const items=[{icon:"🤖",title:"Auto-Calculate",desc:"Taxes calculated automatically",badge:"Easy"},
+    {icon:"🌍",title:"50 Countries",desc:"Global tax rule support",badge:"Comprehensive"},
+    {icon:"👨‍💼",title:"CPA Export",desc:"Export for your accountant",badge:"Professional"},
+    {icon:"🛡️",title:"Audit Proof",desc:"Audit-ready documentation",badge:"Protected"},
+    {icon:"📊",title:"Gain/Loss",desc:"Realized and unrealized P&L",badge:"Complete"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 tax reporting",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT for Law Firms</h1>
-        <p className="text-xs text-muted-foreground">Legal IT · Document management · Client portal · Arkansas</p>
+        <h1 className="text-2xl font-black">Crypto Tax Suite V2</h1>
+        <p className="text-xs text-muted-foreground">Auto-calculate taxes · 50 countries · CPA export · Audit proof</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowITLegal() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">IT that protects attorney-client privilege.</p>
+          <p className="text-xs text-muted-foreground">Never stress about crypto taxes again.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
