@@ -16,22 +16,22 @@ const features = [
   "Mobile-first responsive design for all devices",
 ];
 
-export default function ShadowCryptoPrivacy() {
+export default function ShadowITCompliance2() {
   const [active, setActive] = useState(false);
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Crypto Privacy</h1>
-          <p className="text-sm text-muted-foreground">Privacy-preserving crypto transactions using zero-knowledge proofs and ring signatures</p>
+          <h1 className="text-2xl font-black">IT Compliance 2.0</h1>
+          <p className="text-sm text-muted-foreground">Automated IT compliance management for HIPAA, PCI-DSS, SOC2, and ISO 27001</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Privacy First</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Always Compliant</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">8.4M</p><p className="text-xs text-muted-foreground">Private TXs</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">100pct</p><p className="text-xs text-muted-foreground">Privacy Score</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">247K</p><p className="text-xs text-muted-foreground">ZK Proofs</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84K</p><p className="text-xs text-muted-foreground">Anonymity Set</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">12</p><p className="text-xs text-muted-foreground">Frameworks</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Controls</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">100pct</p><p className="text-xs text-muted-foreground">Pass Rate</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">247</p><p className="text-xs text-muted-foreground">Audits Passed</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoPrivacy() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Crypto Privacy — Activate Now</p>
+        <p className="font-black text-sm mb-1">IT Compliance 2.0 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Crypto Privacy activated!"); }}
+            onClick={() => { setActive(true); toast.success("IT Compliance 2.0 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Crypto Privacy docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening IT Compliance 2.0 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
