@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Star } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -22,16 +22,16 @@ export default function ShadowNFTBridge() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">🌉 NFT Bridge</h1>
-          <p className="text-sm text-muted-foreground">Bridge NFTs across Ethereum, Solana, BNB Chain, and Polygon with zero-knowledge proofs</p>
+          <h1 className="text-2xl font-black">NFT Bridge</h1>
+          <p className="text-sm text-muted-foreground">Bridge NFTs across Ethereum, Solana, BNB Chain, and Polygon with metadata preservation</p>
         </div>
         <Badge className="bg-indigo-600 text-white shrink-0">Cross-Chain NFTs</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className={"font-black text-lg text-violet-400"}>247K</p><p className="text-xs text-muted-foreground">NFTs Bridged</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8</p><p className="text-xs text-muted-foreground">Chains</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">45 sec</p><p className="text-xs text-muted-foreground">Avg Time</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Yes</p><p className="text-xs text-muted-foreground">Zero-Knowledge</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-cyan-400">847K</p><p className="text-xs text-muted-foreground">NFTs Bridged</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">12</p><p className="text-xs text-muted-foreground">Chains</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">99.99pct</p><p className="text-xs text-muted-foreground">Success Rate</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Under 5min</p><p className="text-xs text-muted-foreground">Avg Time</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -47,8 +47,11 @@ export default function ShadowNFTBridge() {
         <p className="font-black text-sm mb-1">NFT Bridge — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
-          <Button className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`} onClick={() => { setActive(true); toast.success("NFT Bridge activated!"); }}>
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active ✓" : "Activate"}
+          <Button
+            className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
+            onClick={() => { setActive(true); toast.success("NFT Bridge activated!"); }}
+          >
+            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
           <Button variant="outline" onClick={() => toast.info("Opening NFT Bridge docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
@@ -56,8 +59,8 @@ export default function ShadowNFTBridge() {
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions • 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com • Arkansas's #1 IT Partner</p>
+        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
+        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
       </div>
     </div>
   );

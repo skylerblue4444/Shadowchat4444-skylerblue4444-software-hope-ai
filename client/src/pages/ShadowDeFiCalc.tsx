@@ -16,22 +16,22 @@ const features = [
   "Mobile-first responsive design for all devices",
 ];
 
-export default function ShadowCryptoArbitrage() {
+export default function ShadowDeFiCalc() {
   const [active, setActive] = useState(false);
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Arbitrage Finder</h1>
-          <p className="text-sm text-muted-foreground">AI-powered arbitrage opportunity finder across 247 exchanges with execution automation</p>
+          <h1 className="text-2xl font-black">DeFi Calculator</h1>
+          <p className="text-sm text-muted-foreground">Advanced DeFi calculator for yield farming, impermanent loss, and compound interest</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Free Money</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Calculate Returns</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Opportunities/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">0.47pct</p><p className="text-xs text-muted-foreground">Avg Profit</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">247</p><p className="text-xs text-muted-foreground">Exchanges</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Under 50ms</p><p className="text-xs text-muted-foreground">Execution Speed</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Calculations/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247</p><p className="text-xs text-muted-foreground">Formulas</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">100pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">12</p><p className="text-xs text-muted-foreground">Chains</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoArbitrage() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Arbitrage Finder — Activate Now</p>
+        <p className="font-black text-sm mb-1">DeFi Calculator — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Arbitrage Finder activated!"); }}
+            onClick={() => { setActive(true); toast.success("DeFi Calculator activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Arbitrage Finder docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening DeFi Calculator docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
