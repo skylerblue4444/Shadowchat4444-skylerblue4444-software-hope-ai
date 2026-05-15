@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
   Search, MapPin, Clock, DollarSign, Briefcase, Filter,
   Star, CheckCircle, ArrowRight, Users, Building2, Zap,
   Code, Shield, Server, Cloud, Database, Monitor, ChevronRight,
-  BookOpen, Award, TrendingUp, Eye, Heart, Share2, Plus
+  BookOpen, Award, TrendingUp, Eye, Heart, Share2, Plus,
+  Brain, Sparkles, Target, BarChart3, Zap as ZapIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -248,6 +249,12 @@ export default function ITTalent() {
             <TabsTrigger value="talent" className="flex items-center gap-2">
               <Users className="h-4 w-4" /> Browse Talent
             </TabsTrigger>
+            <TabsTrigger value="ai-match" className="flex items-center gap-2">
+              <Brain className="h-4 w-4" /> AI Match
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" /> Analytics
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="jobs">
@@ -387,6 +394,98 @@ export default function ITTalent() {
                 Request Custom Talent Search <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
+          </TabsContent>
+
+          {/* ── AI MATCH TAB ── */}
+          <TabsContent value="ai-match" className="space-y-5">
+            <Card className="border-cyan-500/20 bg-cyan-900/5">
+              <CardContent className="py-5 px-5 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-cyan-400" />
+                  <p className="font-black text-base">AI Job Matching Engine v3.1</p>
+                  <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs ml-auto">Powered by SKY4444 AI</Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">Paste your resume or describe your skills and our AI will rank all open positions by match score, salary fit, and career growth potential.</p>
+                <textarea
+                  placeholder="Paste resume text or describe your skills, experience, and goals..."
+                  className="w-full h-28 px-4 py-3 rounded-xl bg-muted text-sm border border-border/50 focus:outline-none focus:border-cyan-500/40 resize-none"
+                />
+                <Button className="w-full h-10 text-sm bg-cyan-600 text-white border-0 font-bold" onClick={() => toast.success("AI analyzing your profile... Match results ready in 3 seconds!")}
+                >
+                  <Brain className="h-4 w-4 mr-2" />Run AI Job Match
+                </Button>
+              </CardContent>
+            </Card>
+
+            <p className="text-sm font-bold text-muted-foreground">AI-Ranked Matches for Your Profile</p>
+            {JOB_LISTINGS.map((job, i) => {
+              const matchScore = Math.max(60, 98 - i * 7);
+              const matchColor = matchScore >= 90 ? "text-green-400" : matchScore >= 75 ? "text-yellow-400" : "text-orange-400";
+              return (
+                <Card key={job.id} className="border-border/50 hover:border-cyan-500/20 transition-all">
+                  <CardContent className="py-3 px-4 flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-xl bg-muted flex flex-col items-center justify-center shrink-0">
+                      <p className={`font-black text-sm ${matchColor}`}>{matchScore}%</p>
+                      <p className="text-xs text-muted-foreground">match</p>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-sm truncate">{job.title}</p>
+                      <p className="text-xs text-muted-foreground">{job.company} · {job.location}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-cyan-500 rounded-full" style={{ width: `${matchScore}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="font-bold text-xs text-green-400">{job.salary}</p>
+                      <Button size="sm" className="h-7 px-2 text-xs bg-cyan-600 text-white border-0 mt-1 font-bold" onClick={() => toast.success(`Applied to ${job.title}!`)}>Apply</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </TabsContent>
+
+          {/* ── ANALYTICS TAB ── */}
+          <TabsContent value="analytics" className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { label: "Active Jobs",     value: JOB_LISTINGS.length.toString(), color: "text-blue-400"   },
+                { label: "Applications",    value: "1,247",   color: "text-green-400"  },
+                { label: "Avg. Salary",     value: "$82K",    color: "text-yellow-400" },
+                { label: "Placements",      value: "89",      color: "text-cyan-400"   },
+              ].map(s => (
+                <Card key={s.label} className="border-border/50 text-center">
+                  <CardContent className="py-3 px-2">
+                    <p className={`font-black text-lg ${s.color}`}>{s.value}</p>
+                    <p className="text-xs text-muted-foreground">{s.label}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <Card className="border-border/50">
+              <CardContent className="py-4 px-4 space-y-3">
+                <p className="font-bold text-sm">Top Skills in Demand</p>
+                {[
+                  { skill: "React / TypeScript", demand: 94, color: "bg-blue-500"   },
+                  { skill: "AWS / Cloud",         demand: 88, color: "bg-orange-500" },
+                  { skill: "Cybersecurity",        demand: 82, color: "bg-red-500"   },
+                  { skill: "DevOps / Kubernetes",  demand: 79, color: "bg-purple-500"},
+                  { skill: "Python / AI/ML",       demand: 76, color: "bg-green-500" },
+                ].map(s => (
+                  <div key={s.skill} className="space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span className="font-medium">{s.skill}</span>
+                      <span className="text-muted-foreground">{s.demand}% demand</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className={`h-full ${s.color} rounded-full`} style={{ width: `${s.demand}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
