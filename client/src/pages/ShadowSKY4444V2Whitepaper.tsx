@@ -1,24 +1,24 @@
 /**
- * ShadowChat — NFT Fractionalization
+ * ShadowChat — SKY4444 V2 Whitepaper
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowNFTFractionalize() {
+export default function ShadowSKY4444V2Whitepaper() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"✂️",title:"Fractionalize",desc:"Split any NFT into tokens",badge:"Accessible"},
-    {icon:"💰",title:"Own a Piece",desc:"Buy fractions of expensive NFTs",badge:"Affordable"},
-    {icon:"💹",title:"Trade",desc:"Trade NFT fractions",badge:"Liquid"},
-    {icon:"🗳️",title:"Governance",desc:"Vote on NFT decisions",badge:"Democratic"},
-    {icon:"📊",title:"Valuation",desc:"Real-time NFT valuation",badge:"Priced"},
-    {icon:"✦",title:"SKY4444",desc:"Buy fractions with SKY4444",badge:"Native"}];
+  const items=[{icon:"📄",title:"Whitepaper",desc:"Full technical whitepaper",badge:"Official"},
+    {icon:"🔧",title:"V2 Improvements",desc:"What changed in V2",badge:"Technical"},
+    {icon:"🗺️",title:"Roadmap",desc:"Official V2 roadmap",badge:"Forward"},
+    {icon:"🔐",title:"Security",desc:"V2 security improvements",badge:"Safe"},
+    {icon:"💰",title:"Tokenomics",desc:"V2 tokenomics update",badge:"Economy"},
+    {icon:"✦",title:"SKY4444",desc:"Read the SKY4444 V2 whitepaper",badge:"Core"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">NFT Fractionalization</h1>
-        <p className="text-xs text-muted-foreground">Fractionalize expensive NFTs · Own a piece · Trade fractions</p>
+        <h1 className="text-2xl font-black">SKY4444 V2 Whitepaper</h1>
+        <p className="text-xs text-muted-foreground">Updated technical whitepaper · V2 improvements · Roadmap</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowNFTFractionalize() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Own a piece of any NFT.</p>
+          <p className="text-xs text-muted-foreground">The technical foundation of SKY4444 V2.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

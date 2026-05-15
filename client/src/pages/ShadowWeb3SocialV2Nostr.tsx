@@ -1,24 +1,24 @@
 /**
- * ShadowChat — NFT Fractionalization
+ * ShadowChat — Nostr Protocol Hub
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowNFTFractionalize() {
+export default function ShadowWeb3SocialV2Nostr() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"✂️",title:"Fractionalize",desc:"Split any NFT into tokens",badge:"Accessible"},
-    {icon:"💰",title:"Own a Piece",desc:"Buy fractions of expensive NFTs",badge:"Affordable"},
-    {icon:"💹",title:"Trade",desc:"Trade NFT fractions",badge:"Liquid"},
-    {icon:"🗳️",title:"Governance",desc:"Vote on NFT decisions",badge:"Democratic"},
-    {icon:"📊",title:"Valuation",desc:"Real-time NFT valuation",badge:"Priced"},
-    {icon:"✦",title:"SKY4444",desc:"Buy fractions with SKY4444",badge:"Native"}];
+  const items=[{icon:"📡",title:"Decentralized",desc:"No central server",badge:"Free"},
+    {icon:"🚫",title:"Censorship Resistant",desc:"No one can ban you",badge:"Open"},
+    {icon:"⚡",title:"Zaps",desc:"Bitcoin lightning tips",badge:"Native"},
+    {icon:"🔌",title:"Relays",desc:"Connect to any relay",badge:"Flexible"},
+    {icon:"🔑",title:"Key-Based",desc:"Your keys your identity",badge:"Sovereign"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 on Nostr",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">NFT Fractionalization</h1>
-        <p className="text-xs text-muted-foreground">Fractionalize expensive NFTs · Own a piece · Trade fractions</p>
+        <h1 className="text-2xl font-black">Nostr Protocol Hub</h1>
+        <p className="text-xs text-muted-foreground">Decentralized social · Censorship resistant · Zaps · Relays</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowNFTFractionalize() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Own a piece of any NFT.</p>
+          <p className="text-xs text-muted-foreground">The truly censorship-resistant social network.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowSKY4444V2Staking() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🔓",title:"Flexible",desc:"Unstake anytime · 44% APY",badge:"Liquid"},
-    {icon:"🔒",title:"30-Day Lock",desc:"88% APY · 30-day lock",badge:"Better"},
-    {icon:"🔒",title:"90-Day Lock",desc:"177% APY · 90-day lock",badge:"Great"},
-    {icon:"🔒",title:"365-Day Lock",desc:"444% APY · 1-year lock",badge:"Maximum"},
-    {icon:"🔄",title:"Auto-Compound",desc:"Rewards compound daily",badge:"Grow"},
-    {icon:"✦",title:"SKY4444",desc:"Stake SKY4444 earn SKY4444",badge:"Native"}];
+  const items=[{icon:"💰",title:"V2 Rewards",desc:"Higher V2 staking rewards",badge:"Better"},
+    {icon:"💧",title:"Liquid Staking",desc:"Stake and stay liquid",badge:"Flexible"},
+    {icon:"🔄",title:"Auto-Compound",desc:"Compound rewards automatically",badge:"Grow"},
+    {icon:"📊",title:"APY",desc:"Real-time V2 APY display",badge:"Transparent"},
+    {icon:"🔐",title:"Secure",desc:"V2 staking contracts audited",badge:"Safe"},
+    {icon:"✦",title:"SKY4444",desc:"Stake SKY4444 V2",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">SKY4444 V2 Staking</h1>
-        <p className="text-xs text-muted-foreground">Flexible and locked staking · Up to 444% APY · Auto-compound</p>
+        <p className="text-xs text-muted-foreground">Enhanced staking · Liquid staking · Auto-compound · V2 rewards</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSKY4444V2Staking() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">The highest staking yields in crypto.</p>
+          <p className="text-xs text-muted-foreground">Stake SKY4444 V2. Earn more.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
