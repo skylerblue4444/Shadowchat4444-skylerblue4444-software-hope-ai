@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Crypto Magazine
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowCryptoMagazine() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "📰", title: "Monthly Issue", desc: "Deep-dive feature stories", badge: "Quality" },
+    { icon: "👤", title: "Profiles", desc: "Crypto founder interviews", badge: "Exclusive" },
+    { icon: "📊", title: "Data Report", desc: "Monthly market data report", badge: "Analytical" },
+    { icon: "🎨", title: "Design", desc: "Beautiful editorial design", badge: "Premium" },
+    { icon: "🌍", title: "Global", desc: "Distributed in 50 countries", badge: "Reach" },
+    { icon: "✦", title: "SKY4444", desc: "Subscribe with SKY4444", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Crypto Magazine</h1>
+        <p className="text-xs text-muted-foreground">Monthly deep-dives · Feature stories · Industry profiles</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">The Forbes of crypto.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

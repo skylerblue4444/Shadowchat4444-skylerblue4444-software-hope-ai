@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Metaverse Hub
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowMetaverseHub() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "🌍", title: "Virtual Land", desc: "Buy sell build on virtual land", badge: "Own" },
+    { icon: "👤", title: "Avatars", desc: "Customize your digital self", badge: "Identity" },
+    { icon: "🎪", title: "Events", desc: "Virtual concerts and meetups", badge: "Social" },
+    { icon: "💰", title: "SKY4444 Economy", desc: "All transactions in SKY4444", badge: "Native" },
+    { icon: "🏗️", title: "Build", desc: "Create virtual experiences", badge: "Create" },
+    { icon: "🤝", title: "Social", desc: "Meet people in the metaverse", badge: "Connect" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Metaverse Hub</h1>
+        <p className="text-xs text-muted-foreground">Virtual land · Avatars · Events · SKY4444 economy</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Your digital life in the metaverse.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Grid Trading Bot
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowGridTrading() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "📐", title: "Grid Setup", desc: "Set upper/lower bounds", badge: "Simple" },
+    { icon: "🤖", title: "Auto Trade", desc: "Bot executes 24/7", badge: "Hands-free" },
+    { icon: "💰", title: "Profit Grid", desc: "Earn on every oscillation", badge: "Steady" },
+    { icon: "📊", title: "Backtest", desc: "Test on historical data", badge: "Safe" },
+    { icon: "⚡", title: "Live Mode", desc: "Real money · Real profits", badge: "Live" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 grid pairs available", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Grid Trading Bot</h1>
+        <p className="text-xs text-muted-foreground">Auto buy low sell high · Set grid range · Walk away</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Set it and forget it trading.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

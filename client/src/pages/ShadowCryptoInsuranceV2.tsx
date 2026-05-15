@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Crypto Insurance Pro
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowCryptoInsuranceV2() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "🛡️", title: "Smart Contract", desc: "Cover protocol hacks", badge: "Protected" },
+    { icon: "🏦", title: "Exchange", desc: "Cover exchange failures", badge: "Insured" },
+    { icon: "🚨", title: "Rug Pull", desc: "Cover rug pull losses", badge: "Covered" },
+    { icon: "💰", title: "Claims", desc: "Fast 48-hour claims", badge: "Quick" },
+    { icon: "📊", title: "Coverage", desc: "Up to $1M per policy", badge: "Generous" },
+    { icon: "✦", title: "SKY4444", desc: "Pay premiums in SKY4444", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Crypto Insurance Pro</h1>
+        <p className="text-xs text-muted-foreground">Cover smart contract hacks · Exchange failures · Rug pulls</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Sleep soundly knowing your crypto is covered.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

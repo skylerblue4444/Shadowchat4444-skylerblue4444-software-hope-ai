@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Crypto Options
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowOptionsTrading() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "📞", title: "Call Options", desc: "Right to buy at strike price", badge: "Bullish" },
+    { icon: "📉", title: "Put Options", desc: "Right to sell at strike price", badge: "Bearish" },
+    { icon: "🛡️", title: "Hedging", desc: "Protect your portfolio", badge: "Safe" },
+    { icon: "💰", title: "Premium", desc: "Earn by selling options", badge: "Income" },
+    { icon: "📊", title: "Greeks", desc: "Delta Gamma Theta Vega", badge: "Advanced" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 options available", badge: "Unique" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Crypto Options</h1>
+        <p className="text-xs text-muted-foreground">Buy calls/puts on BTC ETH TRUMP SKY4444 · Hedge or speculate</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Trade crypto options like a pro.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

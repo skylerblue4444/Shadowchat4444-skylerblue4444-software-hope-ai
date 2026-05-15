@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — Crypto Dictionary
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowCryptoDictionary() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "📚", title: "5000+ Terms", desc: "Complete crypto glossary", badge: "Complete" },
+    { icon: "🔍", title: "Search", desc: "Find any term instantly", badge: "Fast" },
+    { icon: "📊", title: "Difficulty", desc: "Beginner to expert levels", badge: "Graded" },
+    { icon: "💡", title: "Examples", desc: "Real-world examples", badge: "Practical" },
+    { icon: "🌍", title: "Multi-Language", desc: "10 languages", badge: "Global" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 glossary included", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">Crypto Dictionary</h1>
+        <p className="text-xs text-muted-foreground">5000+ crypto terms explained · Beginner to expert</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Understand every crypto term ever.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

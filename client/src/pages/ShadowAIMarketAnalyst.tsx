@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Events Calendar
+ * ShadowChat — AI Market Analyst
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCalendar() {
+export default function ShadowAIMarketAnalyst() {
   const items = [
-    { icon: "🚀", title: "Mainnet", desc: "Protocol launches", badge: "Bullish" },
-    { icon: "🔓", title: "Token Unlocks", desc: "Vesting cliff dates", badge: "Risk" },
-    { icon: "📊", title: "Earnings", desc: "Exchange earnings reports", badge: "Data" },
-    { icon: "🎪", title: "Conferences", desc: "ETHDenver Consensus +50", badge: "Network" },
-    { icon: "📅", title: "Airdrops", desc: "Upcoming airdrop dates", badge: "Free" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 events highlighted", badge: "Native" }
+    { icon: "🤖", title: "Daily Report", desc: "AI market summary every morning", badge: "Insight" },
+    { icon: "📊", title: "Chart Analysis", desc: "AI reads your charts", badge: "Smart" },
+    { icon: "💡", title: "Trade Ideas", desc: "3 trade ideas per day", badge: "Actionable" },
+    { icon: "📰", title: "News Impact", desc: "AI scores news sentiment", badge: "Context" },
+    { icon: "🎯", title: "Price Targets", desc: "AI-generated price targets", badge: "Precise" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 analysis included", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Events Calendar</h1>
-        <p className="text-xs text-muted-foreground">Mainnet launches · Token unlocks · Earnings · Conferences</p>
+        <h1 className="text-2xl font-black">AI Market Analyst</h1>
+        <p className="text-xs text-muted-foreground">GPT-powered market analysis · Daily reports · Trade ideas</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCalendar() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Never miss a market-moving event.</p>
+          <p className="text-xs text-muted-foreground mb-2">Your personal AI market analyst.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>
