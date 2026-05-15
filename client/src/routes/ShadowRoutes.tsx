@@ -1,4 +1,4 @@
-// AUTO-GENERATED: All Shadow page routes — do not edit manually
+// AUTO-GENERATED — do not edit manually
 import { lazy } from 'react';
 import { Route } from 'wouter';
 
@@ -35,6 +35,7 @@ const ShadowAIImageGen = lazy(() => import('../pages/ShadowAIImageGen'));
 const ShadowAILab = lazy(() => import('../pages/ShadowAILab'));
 const ShadowAIMarket = lazy(() => import('../pages/ShadowAIMarket'));
 const ShadowAIMarketplace = lazy(() => import('../pages/ShadowAIMarketplace'));
+const ShadowAIModeration = lazy(() => import('../pages/ShadowAIModeration'));
 const ShadowAIMusic = lazy(() => import('../pages/ShadowAIMusic'));
 const ShadowAINLP = lazy(() => import('../pages/ShadowAINLP'));
 const ShadowAIOracle = lazy(() => import('../pages/ShadowAIOracle'));
@@ -103,6 +104,7 @@ const ShadowAnalyticsV2 = lazy(() => import('../pages/ShadowAnalyticsV2'));
 const ShadowAngels = lazy(() => import('../pages/ShadowAngels'));
 const ShadowAnthropicClaude = lazy(() => import('../pages/ShadowAnthropicClaude'));
 const ShadowAptos = lazy(() => import('../pages/ShadowAptos'));
+const ShadowArbitrageBot = lazy(() => import('../pages/ShadowArbitrageBot'));
 const ShadowArbitrum = lazy(() => import('../pages/ShadowArbitrum'));
 const ShadowArbitrumNova = lazy(() => import('../pages/ShadowArbitrumNova'));
 const ShadowArubaNets = lazy(() => import('../pages/ShadowArubaNets'));
@@ -141,6 +143,7 @@ const ShadowBonds = lazy(() => import('../pages/ShadowBonds'));
 const ShadowBooking = lazy(() => import('../pages/ShadowBooking'));
 const ShadowBootcamp = lazy(() => import('../pages/ShadowBootcamp'));
 const ShadowBorrowing = lazy(() => import('../pages/ShadowBorrowing'));
+const ShadowBotMarketplace = lazy(() => import('../pages/ShadowBotMarketplace'));
 const ShadowBounties = lazy(() => import('../pages/ShadowBounties'));
 const ShadowBounty = lazy(() => import('../pages/ShadowBounty'));
 const ShadowBridge2 = lazy(() => import('../pages/ShadowBridge2'));
@@ -218,6 +221,7 @@ const ShadowCosmos = lazy(() => import('../pages/ShadowCosmos'));
 const ShadowCreatorEconomy = lazy(() => import('../pages/ShadowCreatorEconomy'));
 const ShadowCreditScore = lazy(() => import('../pages/ShadowCreditScore'));
 const ShadowCrossChain = lazy(() => import('../pages/ShadowCrossChain'));
+const ShadowCrossChainBridge = lazy(() => import('../pages/ShadowCrossChainBridge'));
 const ShadowCrossChainDEX = lazy(() => import('../pages/ShadowCrossChainDEX'));
 const ShadowCrossChainV2 = lazy(() => import('../pages/ShadowCrossChainV2'));
 const ShadowCrowdStrike = lazy(() => import('../pages/ShadowCrowdStrike'));
@@ -235,7 +239,9 @@ const ShadowCryptoBorrowing = lazy(() => import('../pages/ShadowCryptoBorrowing'
 const ShadowCryptoBotTrading = lazy(() => import('../pages/ShadowCryptoBotTrading'));
 const ShadowCryptoBridge3 = lazy(() => import('../pages/ShadowCryptoBridge3'));
 const ShadowCryptoCalendar = lazy(() => import('../pages/ShadowCryptoCalendar'));
+const ShadowCryptoCard = lazy(() => import('../pages/ShadowCryptoCard'));
 const ShadowCryptoCards = lazy(() => import('../pages/ShadowCryptoCards'));
+const ShadowCryptoCommunity = lazy(() => import('../pages/ShadowCryptoCommunity'));
 const ShadowCryptoCommunityDAO = lazy(() => import('../pages/ShadowCryptoCommunityDAO'));
 const ShadowCryptoCompare = lazy(() => import('../pages/ShadowCryptoCompare'));
 const ShadowCryptoConverter = lazy(() => import('../pages/ShadowCryptoConverter'));
@@ -248,6 +254,7 @@ const ShadowCryptoDAO3 = lazy(() => import('../pages/ShadowCryptoDAO3'));
 const ShadowCryptoDAO4 = lazy(() => import('../pages/ShadowCryptoDAO4'));
 const ShadowCryptoDCA = lazy(() => import('../pages/ShadowCryptoDCA'));
 const ShadowCryptoDashboard = lazy(() => import('../pages/ShadowCryptoDashboard'));
+const ShadowCryptoDate = lazy(() => import('../pages/ShadowCryptoDate'));
 const ShadowCryptoDeFiAggregator = lazy(() => import('../pages/ShadowCryptoDeFiAggregator'));
 const ShadowCryptoDeFiData = lazy(() => import('../pages/ShadowCryptoDeFiData'));
 const ShadowCryptoDeFiIndex = lazy(() => import('../pages/ShadowCryptoDeFiIndex'));
@@ -278,6 +285,7 @@ const ShadowCryptoFutures = lazy(() => import('../pages/ShadowCryptoFutures'));
 const ShadowCryptoFutures2 = lazy(() => import('../pages/ShadowCryptoFutures2'));
 const ShadowCryptoGame2 = lazy(() => import('../pages/ShadowCryptoGame2'));
 const ShadowCryptoGiftCards = lazy(() => import('../pages/ShadowCryptoGiftCards'));
+const ShadowCryptoGifts = lazy(() => import('../pages/ShadowCryptoGifts'));
 const ShadowCryptoGov2 = lazy(() => import('../pages/ShadowCryptoGov2'));
 const ShadowCryptoGrid = lazy(() => import('../pages/ShadowCryptoGrid'));
 const ShadowCryptoGridBot = lazy(() => import('../pages/ShadowCryptoGridBot'));
@@ -286,6 +294,7 @@ const ShadowCryptoHedge = lazy(() => import('../pages/ShadowCryptoHedge'));
 const ShadowCryptoIndex = lazy(() => import('../pages/ShadowCryptoIndex'));
 const ShadowCryptoIndex2 = lazy(() => import('../pages/ShadowCryptoIndex2'));
 const ShadowCryptoIndexFund = lazy(() => import('../pages/ShadowCryptoIndexFund'));
+const ShadowCryptoInsurance = lazy(() => import('../pages/ShadowCryptoInsurance'));
 const ShadowCryptoInsurance2 = lazy(() => import('../pages/ShadowCryptoInsurance2'));
 const ShadowCryptoInsure2 = lazy(() => import('../pages/ShadowCryptoInsure2'));
 const ShadowCryptoLaunchV2 = lazy(() => import('../pages/ShadowCryptoLaunchV2'));
@@ -326,10 +335,12 @@ const ShadowCryptoOptionsTrading = lazy(() => import('../pages/ShadowCryptoOptio
 const ShadowCryptoOracle = lazy(() => import('../pages/ShadowCryptoOracle'));
 const ShadowCryptoOrderFlow = lazy(() => import('../pages/ShadowCryptoOrderFlow'));
 const ShadowCryptoPartners = lazy(() => import('../pages/ShadowCryptoPartners'));
+const ShadowCryptoPay = lazy(() => import('../pages/ShadowCryptoPay'));
 const ShadowCryptoPayments2 = lazy(() => import('../pages/ShadowCryptoPayments2'));
 const ShadowCryptoPayroll = lazy(() => import('../pages/ShadowCryptoPayroll'));
 const ShadowCryptoPerpV2 = lazy(() => import('../pages/ShadowCryptoPerpV2'));
 const ShadowCryptoPerpetuals = lazy(() => import('../pages/ShadowCryptoPerpetuals'));
+const ShadowCryptoPodcast = lazy(() => import('../pages/ShadowCryptoPodcast'));
 const ShadowCryptoPortV2 = lazy(() => import('../pages/ShadowCryptoPortV2'));
 const ShadowCryptoPortal = lazy(() => import('../pages/ShadowCryptoPortal'));
 const ShadowCryptoPortfolio4 = lazy(() => import('../pages/ShadowCryptoPortfolio4'));
@@ -416,11 +427,14 @@ const ShadowCryptoSubscriptions = lazy(() => import('../pages/ShadowCryptoSubscr
 const ShadowCryptoSynth = lazy(() => import('../pages/ShadowCryptoSynth'));
 const ShadowCryptoTax2 = lazy(() => import('../pages/ShadowCryptoTax2'));
 const ShadowCryptoTax3 = lazy(() => import('../pages/ShadowCryptoTax3'));
+const ShadowCryptoTaxHelper = lazy(() => import('../pages/ShadowCryptoTaxHelper'));
 const ShadowCryptoTaxPro = lazy(() => import('../pages/ShadowCryptoTaxPro'));
 const ShadowCryptoTaxV3 = lazy(() => import('../pages/ShadowCryptoTaxV3'));
 const ShadowCryptoTechnicals = lazy(() => import('../pages/ShadowCryptoTechnicals'));
+const ShadowCryptoTikTok = lazy(() => import('../pages/ShadowCryptoTikTok'));
 const ShadowCryptoTokenLaunch = lazy(() => import('../pages/ShadowCryptoTokenLaunch'));
 const ShadowCryptoTrumpHub = lazy(() => import('../pages/ShadowCryptoTrumpHub'));
+const ShadowCryptoTwitter = lazy(() => import('../pages/ShadowCryptoTwitter'));
 const ShadowCryptoVault = lazy(() => import('../pages/ShadowCryptoVault'));
 const ShadowCryptoVault2 = lazy(() => import('../pages/ShadowCryptoVault2'));
 const ShadowCryptoVolatility = lazy(() => import('../pages/ShadowCryptoVolatility'));
@@ -434,6 +448,7 @@ const ShadowCryptoYield = lazy(() => import('../pages/ShadowCryptoYield'));
 const ShadowCryptoYield2 = lazy(() => import('../pages/ShadowCryptoYield2'));
 const ShadowCryptoYieldAggregator = lazy(() => import('../pages/ShadowCryptoYieldAggregator'));
 const ShadowCryptoYieldFarming2 = lazy(() => import('../pages/ShadowCryptoYieldFarming2'));
+const ShadowCryptoYouTube = lazy(() => import('../pages/ShadowCryptoYouTube'));
 const ShadowCurve = lazy(() => import('../pages/ShadowCurve'));
 const ShadowCyberArk = lazy(() => import('../pages/ShadowCyberArk'));
 const ShadowDAO2 = lazy(() => import('../pages/ShadowDAO2'));
@@ -447,6 +462,7 @@ const ShadowDAOTreasury = lazy(() => import('../pages/ShadowDAOTreasury'));
 const ShadowDAOTreasury2 = lazy(() => import('../pages/ShadowDAOTreasury2'));
 const ShadowDAOVoting = lazy(() => import('../pages/ShadowDAOVoting'));
 const ShadowDAOVoting2 = lazy(() => import('../pages/ShadowDAOVoting2'));
+const ShadowDCABot = lazy(() => import('../pages/ShadowDCABot'));
 const ShadowDEX = lazy(() => import('../pages/ShadowDEX'));
 const ShadowDEXV2 = lazy(() => import('../pages/ShadowDEXV2'));
 const ShadowDIAIntegration = lazy(() => import('../pages/ShadowDIAIntegration'));
@@ -460,6 +476,7 @@ const ShadowDataV2 = lazy(() => import('../pages/ShadowDataV2'));
 const ShadowDatabricksIntegration = lazy(() => import('../pages/ShadowDatabricksIntegration'));
 const ShadowDatadogIntegration = lazy(() => import('../pages/ShadowDatadogIntegration'));
 const ShadowDatingV2 = lazy(() => import('../pages/ShadowDatingV2'));
+const ShadowDayTradeScreamRoom = lazy(() => import('../pages/ShadowDayTradeScreamRoom'));
 const ShadowDeFiAcademy = lazy(() => import('../pages/ShadowDeFiAcademy'));
 const ShadowDeFiAggregator = lazy(() => import('../pages/ShadowDeFiAggregator'));
 const ShadowDeFiAnalytics = lazy(() => import('../pages/ShadowDeFiAnalytics'));
@@ -586,6 +603,7 @@ const ShadowHFT = lazy(() => import('../pages/ShadowHFT'));
 const ShadowHR = lazy(() => import('../pages/ShadowHR'));
 const ShadowHRV2 = lazy(() => import('../pages/ShadowHRV2'));
 const ShadowHackathon = lazy(() => import('../pages/ShadowHackathon'));
+const ShadowHandsFreeTrading = lazy(() => import('../pages/ShadowHandsFreeTrading'));
 const ShadowHashtags = lazy(() => import('../pages/ShadowHashtags'));
 const ShadowHealth = lazy(() => import('../pages/ShadowHealth'));
 const ShadowHealthAI = lazy(() => import('../pages/ShadowHealthAI'));
@@ -636,8 +654,10 @@ const ShadowITEdgeCompute = lazy(() => import('../pages/ShadowITEdgeCompute'));
 const ShadowITEducation = lazy(() => import('../pages/ShadowITEducation'));
 const ShadowITEndpoint = lazy(() => import('../pages/ShadowITEndpoint'));
 const ShadowITEnterprise = lazy(() => import('../pages/ShadowITEnterprise'));
+const ShadowITFayetteville = lazy(() => import('../pages/ShadowITFayetteville'));
 const ShadowITFiberV2 = lazy(() => import('../pages/ShadowITFiberV2'));
 const ShadowITFinance = lazy(() => import('../pages/ShadowITFinance'));
+const ShadowITFortSmith = lazy(() => import('../pages/ShadowITFortSmith'));
 const ShadowITGovt = lazy(() => import('../pages/ShadowITGovt'));
 const ShadowITGreenTech = lazy(() => import('../pages/ShadowITGreenTech'));
 const ShadowITHealthCheck = lazy(() => import('../pages/ShadowITHealthCheck'));
@@ -648,8 +668,10 @@ const ShadowITHospitality = lazy(() => import('../pages/ShadowITHospitality'));
 const ShadowITHybridCloud = lazy(() => import('../pages/ShadowITHybridCloud'));
 const ShadowITIdentity = lazy(() => import('../pages/ShadowITIdentity'));
 const ShadowITIoTManage = lazy(() => import('../pages/ShadowITIoTManage'));
+const ShadowITJonesboro = lazy(() => import('../pages/ShadowITJonesboro'));
 const ShadowITKnowledgeBase = lazy(() => import('../pages/ShadowITKnowledgeBase'));
 const ShadowITLegal = lazy(() => import('../pages/ShadowITLegal'));
+const ShadowITLittleRock = lazy(() => import('../pages/ShadowITLittleRock'));
 const ShadowITLogistics = lazy(() => import('../pages/ShadowITLogistics'));
 const ShadowITMDMV2 = lazy(() => import('../pages/ShadowITMDMV2'));
 const ShadowITMSP2 = lazy(() => import('../pages/ShadowITMSP2'));
@@ -682,6 +704,7 @@ const ShadowITServiceMesh = lazy(() => import('../pages/ShadowITServiceMesh'));
 const ShadowITSkylerBlue3 = lazy(() => import('../pages/ShadowITSkylerBlue3'));
 const ShadowITSkylerBlue4 = lazy(() => import('../pages/ShadowITSkylerBlue4'));
 const ShadowITSmallBiz = lazy(() => import('../pages/ShadowITSmallBiz'));
+const ShadowITSpringdale = lazy(() => import('../pages/ShadowITSpringdale'));
 const ShadowITStartup = lazy(() => import('../pages/ShadowITStartup'));
 const ShadowITV2 = lazy(() => import('../pages/ShadowITV2'));
 const ShadowITVPNV2 = lazy(() => import('../pages/ShadowITVPNV2'));
@@ -724,6 +747,7 @@ const ShadowJuniperIntegration = lazy(() => import('../pages/ShadowJuniperIntegr
 const ShadowJupiter = lazy(() => import('../pages/ShadowJupiter'));
 const ShadowKYC = lazy(() => import('../pages/ShadowKYC'));
 const ShadowKYCV2 = lazy(() => import('../pages/ShadowKYCV2'));
+const ShadowKYCVerification = lazy(() => import('../pages/ShadowKYCVerification'));
 const ShadowKaminoFinance = lazy(() => import('../pages/ShadowKaminoFinance'));
 const ShadowKelp = lazy(() => import('../pages/ShadowKelp'));
 const ShadowKnowledgeBase = lazy(() => import('../pages/ShadowKnowledgeBase'));
@@ -750,6 +774,7 @@ const ShadowLinea = lazy(() => import('../pages/ShadowLinea'));
 const ShadowLinkedInIntegration = lazy(() => import('../pages/ShadowLinkedInIntegration'));
 const ShadowLiquidRestaking = lazy(() => import('../pages/ShadowLiquidRestaking'));
 const ShadowLiquidStaking = lazy(() => import('../pages/ShadowLiquidStaking'));
+const ShadowLiquidityMining = lazy(() => import('../pages/ShadowLiquidityMining'));
 const ShadowLiquidityV2 = lazy(() => import('../pages/ShadowLiquidityV2'));
 const ShadowLiveV2 = lazy(() => import('../pages/ShadowLiveV2'));
 const ShadowLiveV3 = lazy(() => import('../pages/ShadowLiveV3'));
@@ -814,6 +839,7 @@ const ShadowMint2 = lazy(() => import('../pages/ShadowMint2'));
 const ShadowMistralAI = lazy(() => import('../pages/ShadowMistralAI'));
 const ShadowMixpanelIntegration = lazy(() => import('../pages/ShadowMixpanelIntegration'));
 const ShadowMobileApp = lazy(() => import('../pages/ShadowMobileApp'));
+const ShadowModerationCenter = lazy(() => import('../pages/ShadowModerationCenter'));
 const ShadowMongoDBIntegration = lazy(() => import('../pages/ShadowMongoDBIntegration'));
 const ShadowMonitoring = lazy(() => import('../pages/ShadowMonitoring'));
 const ShadowMoonPayIntegration = lazy(() => import('../pages/ShadowMoonPayIntegration'));
@@ -911,6 +937,7 @@ const ShadowPolls = lazy(() => import('../pages/ShadowPolls'));
 const ShadowPolygon = lazy(() => import('../pages/ShadowPolygon'));
 const ShadowPolygonZkEVM = lazy(() => import('../pages/ShadowPolygonZkEVM'));
 const ShadowPortfolio = lazy(() => import('../pages/ShadowPortfolio'));
+const ShadowPortfolioTracker = lazy(() => import('../pages/ShadowPortfolioTracker'));
 const ShadowPortfolioV2 = lazy(() => import('../pages/ShadowPortfolioV2'));
 const ShadowPortfolioV3 = lazy(() => import('../pages/ShadowPortfolioV3'));
 const ShadowPostgresIntegration = lazy(() => import('../pages/ShadowPostgresIntegration'));
@@ -1448,6 +1475,7 @@ const ShadowTradingPerps = lazy(() => import('../pages/ShadowTradingPerps'));
 const ShadowTradingRisk = lazy(() => import('../pages/ShadowTradingRisk'));
 const ShadowTradingSchool = lazy(() => import('../pages/ShadowTradingSchool'));
 const ShadowTradingSignals = lazy(() => import('../pages/ShadowTradingSignals'));
+const ShadowTradingTerminal = lazy(() => import('../pages/ShadowTradingTerminal'));
 const ShadowTradingV2 = lazy(() => import('../pages/ShadowTradingV2'));
 const ShadowTransakIntegration = lazy(() => import('../pages/ShadowTransakIntegration'));
 const ShadowTravel = lazy(() => import('../pages/ShadowTravel'));
@@ -1456,6 +1484,7 @@ const ShadowTrending = lazy(() => import('../pages/ShadowTrending'));
 const ShadowTrezorIntegration = lazy(() => import('../pages/ShadowTrezorIntegration'));
 const ShadowTron = lazy(() => import('../pages/ShadowTron'));
 const ShadowTrump = lazy(() => import('../pages/ShadowTrump'));
+const ShadowTrustScore = lazy(() => import('../pages/ShadowTrustScore'));
 const ShadowTutorials = lazy(() => import('../pages/ShadowTutorials'));
 const ShadowTwilioIntegration = lazy(() => import('../pages/ShadowTwilioIntegration'));
 const ShadowTwitterXIntegration = lazy(() => import('../pages/ShadowTwitterXIntegration'));
@@ -1519,6 +1548,7 @@ const ShadowWyreIntegration = lazy(() => import('../pages/ShadowWyreIntegration'
 const ShadowXeroIntegration = lazy(() => import('../pages/ShadowXeroIntegration'));
 const ShadowYearn = lazy(() => import('../pages/ShadowYearn'));
 const ShadowYieldAgg = lazy(() => import('../pages/ShadowYieldAgg'));
+const ShadowYieldOptimizer = lazy(() => import('../pages/ShadowYieldOptimizer'));
 const ShadowYouTubeIntegration = lazy(() => import('../pages/ShadowYouTubeIntegration'));
 const ShadowZKProof = lazy(() => import('../pages/ShadowZKProof'));
 const ShadowZKProofs = lazy(() => import('../pages/ShadowZKProofs'));
@@ -1565,6 +1595,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/ai-lab" component={ShadowAILab} />
       <Route path="/dashboard/shadow/ai-market" component={ShadowAIMarket} />
       <Route path="/dashboard/shadow/ai-marketplace" component={ShadowAIMarketplace} />
+      <Route path="/dashboard/shadow/ai-moderation" component={ShadowAIModeration} />
       <Route path="/dashboard/shadow/ai-music" component={ShadowAIMusic} />
       <Route path="/dashboard/shadow/ainlp" component={ShadowAINLP} />
       <Route path="/dashboard/shadow/ai-oracle" component={ShadowAIOracle} />
@@ -1633,6 +1664,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/angels" component={ShadowAngels} />
       <Route path="/dashboard/shadow/anthropic-claude" component={ShadowAnthropicClaude} />
       <Route path="/dashboard/shadow/aptos" component={ShadowAptos} />
+      <Route path="/dashboard/shadow/arbitrage-bot" component={ShadowArbitrageBot} />
       <Route path="/dashboard/shadow/arbitrum" component={ShadowArbitrum} />
       <Route path="/dashboard/shadow/arbitrum-nova" component={ShadowArbitrumNova} />
       <Route path="/dashboard/shadow/aruba-nets" component={ShadowArubaNets} />
@@ -1671,6 +1703,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/booking" component={ShadowBooking} />
       <Route path="/dashboard/shadow/bootcamp" component={ShadowBootcamp} />
       <Route path="/dashboard/shadow/borrowing" component={ShadowBorrowing} />
+      <Route path="/dashboard/shadow/bot-marketplace" component={ShadowBotMarketplace} />
       <Route path="/dashboard/shadow/bounties" component={ShadowBounties} />
       <Route path="/dashboard/shadow/bounty" component={ShadowBounty} />
       <Route path="/dashboard/shadow/bridge2" component={ShadowBridge2} />
@@ -1748,6 +1781,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/creator-economy" component={ShadowCreatorEconomy} />
       <Route path="/dashboard/shadow/credit-score" component={ShadowCreditScore} />
       <Route path="/dashboard/shadow/cross-chain" component={ShadowCrossChain} />
+      <Route path="/dashboard/shadow/cross-chain-bridge" component={ShadowCrossChainBridge} />
       <Route path="/dashboard/shadow/cross-chain-dex" component={ShadowCrossChainDEX} />
       <Route path="/dashboard/shadow/cross-chain-v2" component={ShadowCrossChainV2} />
       <Route path="/dashboard/shadow/crowd-strike" component={ShadowCrowdStrike} />
@@ -1765,7 +1799,9 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-bot-trading" component={ShadowCryptoBotTrading} />
       <Route path="/dashboard/shadow/crypto-bridge3" component={ShadowCryptoBridge3} />
       <Route path="/dashboard/shadow/crypto-calendar" component={ShadowCryptoCalendar} />
+      <Route path="/dashboard/shadow/crypto-card" component={ShadowCryptoCard} />
       <Route path="/dashboard/shadow/crypto-cards" component={ShadowCryptoCards} />
+      <Route path="/dashboard/shadow/crypto-community" component={ShadowCryptoCommunity} />
       <Route path="/dashboard/shadow/crypto-community-dao" component={ShadowCryptoCommunityDAO} />
       <Route path="/dashboard/shadow/crypto-compare" component={ShadowCryptoCompare} />
       <Route path="/dashboard/shadow/crypto-converter" component={ShadowCryptoConverter} />
@@ -1778,6 +1814,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-dao4" component={ShadowCryptoDAO4} />
       <Route path="/dashboard/shadow/crypto-dca" component={ShadowCryptoDCA} />
       <Route path="/dashboard/shadow/crypto-dashboard" component={ShadowCryptoDashboard} />
+      <Route path="/dashboard/shadow/crypto-date" component={ShadowCryptoDate} />
       <Route path="/dashboard/shadow/crypto-de-fi-aggregator" component={ShadowCryptoDeFiAggregator} />
       <Route path="/dashboard/shadow/crypto-de-fi-data" component={ShadowCryptoDeFiData} />
       <Route path="/dashboard/shadow/crypto-de-fi-index" component={ShadowCryptoDeFiIndex} />
@@ -1808,6 +1845,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-futures2" component={ShadowCryptoFutures2} />
       <Route path="/dashboard/shadow/crypto-game2" component={ShadowCryptoGame2} />
       <Route path="/dashboard/shadow/crypto-gift-cards" component={ShadowCryptoGiftCards} />
+      <Route path="/dashboard/shadow/crypto-gifts" component={ShadowCryptoGifts} />
       <Route path="/dashboard/shadow/crypto-gov2" component={ShadowCryptoGov2} />
       <Route path="/dashboard/shadow/crypto-grid" component={ShadowCryptoGrid} />
       <Route path="/dashboard/shadow/crypto-grid-bot" component={ShadowCryptoGridBot} />
@@ -1816,6 +1854,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-index" component={ShadowCryptoIndex} />
       <Route path="/dashboard/shadow/crypto-index2" component={ShadowCryptoIndex2} />
       <Route path="/dashboard/shadow/crypto-index-fund" component={ShadowCryptoIndexFund} />
+      <Route path="/dashboard/shadow/crypto-insurance" component={ShadowCryptoInsurance} />
       <Route path="/dashboard/shadow/crypto-insurance2" component={ShadowCryptoInsurance2} />
       <Route path="/dashboard/shadow/crypto-insure2" component={ShadowCryptoInsure2} />
       <Route path="/dashboard/shadow/crypto-launch-v2" component={ShadowCryptoLaunchV2} />
@@ -1856,10 +1895,12 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-oracle" component={ShadowCryptoOracle} />
       <Route path="/dashboard/shadow/crypto-order-flow" component={ShadowCryptoOrderFlow} />
       <Route path="/dashboard/shadow/crypto-partners" component={ShadowCryptoPartners} />
+      <Route path="/dashboard/shadow/crypto-pay" component={ShadowCryptoPay} />
       <Route path="/dashboard/shadow/crypto-payments2" component={ShadowCryptoPayments2} />
       <Route path="/dashboard/shadow/crypto-payroll" component={ShadowCryptoPayroll} />
       <Route path="/dashboard/shadow/crypto-perp-v2" component={ShadowCryptoPerpV2} />
       <Route path="/dashboard/shadow/crypto-perpetuals" component={ShadowCryptoPerpetuals} />
+      <Route path="/dashboard/shadow/crypto-podcast" component={ShadowCryptoPodcast} />
       <Route path="/dashboard/shadow/crypto-port-v2" component={ShadowCryptoPortV2} />
       <Route path="/dashboard/shadow/crypto-portal" component={ShadowCryptoPortal} />
       <Route path="/dashboard/shadow/crypto-portfolio4" component={ShadowCryptoPortfolio4} />
@@ -1946,11 +1987,14 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-synth" component={ShadowCryptoSynth} />
       <Route path="/dashboard/shadow/crypto-tax2" component={ShadowCryptoTax2} />
       <Route path="/dashboard/shadow/crypto-tax3" component={ShadowCryptoTax3} />
+      <Route path="/dashboard/shadow/crypto-tax-helper" component={ShadowCryptoTaxHelper} />
       <Route path="/dashboard/shadow/crypto-tax-pro" component={ShadowCryptoTaxPro} />
       <Route path="/dashboard/shadow/crypto-tax-v3" component={ShadowCryptoTaxV3} />
       <Route path="/dashboard/shadow/crypto-technicals" component={ShadowCryptoTechnicals} />
+      <Route path="/dashboard/shadow/crypto-tik-tok" component={ShadowCryptoTikTok} />
       <Route path="/dashboard/shadow/crypto-token-launch" component={ShadowCryptoTokenLaunch} />
       <Route path="/dashboard/shadow/crypto-trump-hub" component={ShadowCryptoTrumpHub} />
+      <Route path="/dashboard/shadow/crypto-twitter" component={ShadowCryptoTwitter} />
       <Route path="/dashboard/shadow/crypto-vault" component={ShadowCryptoVault} />
       <Route path="/dashboard/shadow/crypto-vault2" component={ShadowCryptoVault2} />
       <Route path="/dashboard/shadow/crypto-volatility" component={ShadowCryptoVolatility} />
@@ -1964,6 +2008,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-yield2" component={ShadowCryptoYield2} />
       <Route path="/dashboard/shadow/crypto-yield-aggregator" component={ShadowCryptoYieldAggregator} />
       <Route path="/dashboard/shadow/crypto-yield-farming2" component={ShadowCryptoYieldFarming2} />
+      <Route path="/dashboard/shadow/crypto-you-tube" component={ShadowCryptoYouTube} />
       <Route path="/dashboard/shadow/curve" component={ShadowCurve} />
       <Route path="/dashboard/shadow/cyber-ark" component={ShadowCyberArk} />
       <Route path="/dashboard/shadow/dao2" component={ShadowDAO2} />
@@ -1977,6 +2022,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/dao-treasury2" component={ShadowDAOTreasury2} />
       <Route path="/dashboard/shadow/dao-voting" component={ShadowDAOVoting} />
       <Route path="/dashboard/shadow/dao-voting2" component={ShadowDAOVoting2} />
+      <Route path="/dashboard/shadow/dca-bot" component={ShadowDCABot} />
       <Route path="/dashboard/shadow/dex" component={ShadowDEX} />
       <Route path="/dashboard/shadow/dexv2" component={ShadowDEXV2} />
       <Route path="/dashboard/shadow/dia-integration" component={ShadowDIAIntegration} />
@@ -1990,6 +2036,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/databricks-integration" component={ShadowDatabricksIntegration} />
       <Route path="/dashboard/shadow/datadog-integration" component={ShadowDatadogIntegration} />
       <Route path="/dashboard/shadow/dating-v2" component={ShadowDatingV2} />
+      <Route path="/dashboard/shadow/day-trade-scream-room" component={ShadowDayTradeScreamRoom} />
       <Route path="/dashboard/shadow/de-fi-academy" component={ShadowDeFiAcademy} />
       <Route path="/dashboard/shadow/de-fi-aggregator" component={ShadowDeFiAggregator} />
       <Route path="/dashboard/shadow/de-fi-analytics" component={ShadowDeFiAnalytics} />
@@ -2116,6 +2163,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/hr" component={ShadowHR} />
       <Route path="/dashboard/shadow/hrv2" component={ShadowHRV2} />
       <Route path="/dashboard/shadow/hackathon" component={ShadowHackathon} />
+      <Route path="/dashboard/shadow/hands-free-trading" component={ShadowHandsFreeTrading} />
       <Route path="/dashboard/shadow/hashtags" component={ShadowHashtags} />
       <Route path="/dashboard/shadow/health" component={ShadowHealth} />
       <Route path="/dashboard/shadow/health-ai" component={ShadowHealthAI} />
@@ -2166,8 +2214,10 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/it-education" component={ShadowITEducation} />
       <Route path="/dashboard/shadow/it-endpoint" component={ShadowITEndpoint} />
       <Route path="/dashboard/shadow/it-enterprise" component={ShadowITEnterprise} />
+      <Route path="/dashboard/shadow/it-fayetteville" component={ShadowITFayetteville} />
       <Route path="/dashboard/shadow/it-fiber-v2" component={ShadowITFiberV2} />
       <Route path="/dashboard/shadow/it-finance" component={ShadowITFinance} />
+      <Route path="/dashboard/shadow/it-fort-smith" component={ShadowITFortSmith} />
       <Route path="/dashboard/shadow/it-govt" component={ShadowITGovt} />
       <Route path="/dashboard/shadow/it-green-tech" component={ShadowITGreenTech} />
       <Route path="/dashboard/shadow/it-health-check" component={ShadowITHealthCheck} />
@@ -2178,8 +2228,10 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/it-hybrid-cloud" component={ShadowITHybridCloud} />
       <Route path="/dashboard/shadow/it-identity" component={ShadowITIdentity} />
       <Route path="/dashboard/shadow/it-io-t-manage" component={ShadowITIoTManage} />
+      <Route path="/dashboard/shadow/it-jonesboro" component={ShadowITJonesboro} />
       <Route path="/dashboard/shadow/it-knowledge-base" component={ShadowITKnowledgeBase} />
       <Route path="/dashboard/shadow/it-legal" component={ShadowITLegal} />
+      <Route path="/dashboard/shadow/it-little-rock" component={ShadowITLittleRock} />
       <Route path="/dashboard/shadow/it-logistics" component={ShadowITLogistics} />
       <Route path="/dashboard/shadow/itmdmv2" component={ShadowITMDMV2} />
       <Route path="/dashboard/shadow/itmsp2" component={ShadowITMSP2} />
@@ -2212,6 +2264,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/it-skyler-blue3" component={ShadowITSkylerBlue3} />
       <Route path="/dashboard/shadow/it-skyler-blue4" component={ShadowITSkylerBlue4} />
       <Route path="/dashboard/shadow/it-small-biz" component={ShadowITSmallBiz} />
+      <Route path="/dashboard/shadow/it-springdale" component={ShadowITSpringdale} />
       <Route path="/dashboard/shadow/it-startup" component={ShadowITStartup} />
       <Route path="/dashboard/shadow/itv2" component={ShadowITV2} />
       <Route path="/dashboard/shadow/itvpnv2" component={ShadowITVPNV2} />
@@ -2254,6 +2307,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/jupiter" component={ShadowJupiter} />
       <Route path="/dashboard/shadow/kyc" component={ShadowKYC} />
       <Route path="/dashboard/shadow/kycv2" component={ShadowKYCV2} />
+      <Route path="/dashboard/shadow/kyc-verification" component={ShadowKYCVerification} />
       <Route path="/dashboard/shadow/kamino-finance" component={ShadowKaminoFinance} />
       <Route path="/dashboard/shadow/kelp" component={ShadowKelp} />
       <Route path="/dashboard/shadow/knowledge-base" component={ShadowKnowledgeBase} />
@@ -2280,6 +2334,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/linked-in-integration" component={ShadowLinkedInIntegration} />
       <Route path="/dashboard/shadow/liquid-restaking" component={ShadowLiquidRestaking} />
       <Route path="/dashboard/shadow/liquid-staking" component={ShadowLiquidStaking} />
+      <Route path="/dashboard/shadow/liquidity-mining" component={ShadowLiquidityMining} />
       <Route path="/dashboard/shadow/liquidity-v2" component={ShadowLiquidityV2} />
       <Route path="/dashboard/shadow/live-v2" component={ShadowLiveV2} />
       <Route path="/dashboard/shadow/live-v3" component={ShadowLiveV3} />
@@ -2344,6 +2399,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/mistral-ai" component={ShadowMistralAI} />
       <Route path="/dashboard/shadow/mixpanel-integration" component={ShadowMixpanelIntegration} />
       <Route path="/dashboard/shadow/mobile-app" component={ShadowMobileApp} />
+      <Route path="/dashboard/shadow/moderation-center" component={ShadowModerationCenter} />
       <Route path="/dashboard/shadow/mongo-db-integration" component={ShadowMongoDBIntegration} />
       <Route path="/dashboard/shadow/monitoring" component={ShadowMonitoring} />
       <Route path="/dashboard/shadow/moon-pay-integration" component={ShadowMoonPayIntegration} />
@@ -2441,6 +2497,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/polygon" component={ShadowPolygon} />
       <Route path="/dashboard/shadow/polygon-zk-evm" component={ShadowPolygonZkEVM} />
       <Route path="/dashboard/shadow/portfolio" component={ShadowPortfolio} />
+      <Route path="/dashboard/shadow/portfolio-tracker" component={ShadowPortfolioTracker} />
       <Route path="/dashboard/shadow/portfolio-v2" component={ShadowPortfolioV2} />
       <Route path="/dashboard/shadow/portfolio-v3" component={ShadowPortfolioV3} />
       <Route path="/dashboard/shadow/postgres-integration" component={ShadowPostgresIntegration} />
@@ -2978,6 +3035,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/trading-risk" component={ShadowTradingRisk} />
       <Route path="/dashboard/shadow/trading-school" component={ShadowTradingSchool} />
       <Route path="/dashboard/shadow/trading-signals" component={ShadowTradingSignals} />
+      <Route path="/dashboard/shadow/trading-terminal" component={ShadowTradingTerminal} />
       <Route path="/dashboard/shadow/trading-v2" component={ShadowTradingV2} />
       <Route path="/dashboard/shadow/transak-integration" component={ShadowTransakIntegration} />
       <Route path="/dashboard/shadow/travel" component={ShadowTravel} />
@@ -2986,6 +3044,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/trezor-integration" component={ShadowTrezorIntegration} />
       <Route path="/dashboard/shadow/tron" component={ShadowTron} />
       <Route path="/dashboard/shadow/trump" component={ShadowTrump} />
+      <Route path="/dashboard/shadow/trust-score" component={ShadowTrustScore} />
       <Route path="/dashboard/shadow/tutorials" component={ShadowTutorials} />
       <Route path="/dashboard/shadow/twilio-integration" component={ShadowTwilioIntegration} />
       <Route path="/dashboard/shadow/twitter-x-integration" component={ShadowTwitterXIntegration} />
@@ -3049,6 +3108,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/xero-integration" component={ShadowXeroIntegration} />
       <Route path="/dashboard/shadow/yearn" component={ShadowYearn} />
       <Route path="/dashboard/shadow/yield-agg" component={ShadowYieldAgg} />
+      <Route path="/dashboard/shadow/yield-optimizer" component={ShadowYieldOptimizer} />
       <Route path="/dashboard/shadow/you-tube-integration" component={ShadowYouTubeIntegration} />
       <Route path="/dashboard/shadow/zk-proof" component={ShadowZKProof} />
       <Route path="/dashboard/shadow/zk-proofs" component={ShadowZKProofs} />
