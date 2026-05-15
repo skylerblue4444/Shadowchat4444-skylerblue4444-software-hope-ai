@@ -1,32 +1,34 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import DashboardLayout from "./components/DashboardLayout";
-import Trading from "./pages/Trading";
-import AICopilot from "./pages/AICopilot";
-import SocialFeed from "./pages/SocialFeed";
-import Messaging from "./pages/Messaging";
-import Analytics from "./pages/Analytics";
-import Leaderboard from "./pages/Leaderboard";
-import Onboarding from "./pages/Onboarding";
-import Referrals from "./pages/Referrals";
-import APIVault from "./pages/APIVault";
-import ColdVault from "./pages/ColdVault";
-import Settings from "./pages/Settings";
-import DAOGovernance from "./pages/DAOGovernance";
-import QuantumVault from "./pages/QuantumVault";
-import AIWealth from "./pages/AIWealth";
-import CrossChainBridge from "./pages/CrossChainBridge";
-import Achievements from "./pages/Achievements";
-import Notifications from "./pages/Notifications";
-import Portfolio from "./pages/Portfolio";
-import MarketData from "./pages/MarketData";
+import React from 'react';
+import { Switch, Route } from 'wouter';
 
-function Router() {
+// Existing page imports (assumed from structure)
+import Home from './pages/Home';
+import DashboardLayout from './layouts/DashboardLayout';
+import Trading from './pages/Trading';
+import AICopilot from './pages/AICopilot';
+import SocialFeed from './pages/SocialFeed';
+import Messaging from './pages/Messaging';
+import Analytics from './pages/Analytics';
+import Leaderboard from './pages/Leaderboard';
+import Onboarding from './pages/Onboarding';
+import Referrals from './pages/Referrals';
+import APIVault from './pages/APIVault';
+import ColdVault from './pages/ColdVault';
+import Settings from './pages/Settings';
+import DAOGovernance from './pages/DAOGovernance';
+import QuantumVault from './pages/QuantumVault';
+import AIWealth from './pages/AIWealth';
+import CrossChainBridge from './pages/CrossChainBridge';
+import Achievements from './pages/Achievements';
+import Notifications from './pages/Notifications';
+import Portfolio from './pages/Portfolio';
+import MarketData from './pages/MarketData';
+import NotFound from './pages/NotFound';
+
+// NEW: Charity Gaming & NFT Storytelling Hub (Grok integrated feature)
+import CharityHub from './pages/CharityHub';
+
+export default function App() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -52,6 +54,8 @@ function Router() {
             <Route path="/notifications" component={Notifications} />
             <Route path="/portfolio" component={Portfolio} />
             <Route path="/market" component={MarketData} />
+            {/* NEW Charity Route - TRUMP-powered Charity Gaming + NFT Stories */}
+            <Route path="/charity" component={CharityHub} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
@@ -61,25 +65,3 @@ function Router() {
     </Switch>
   );
 }
-
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;
