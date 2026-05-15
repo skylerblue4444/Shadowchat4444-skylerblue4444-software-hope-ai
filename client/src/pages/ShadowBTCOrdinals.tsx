@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Correlation Matrix
+ * ShadowChat — Bitcoin Ordinals
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCorrelation() {
+export default function ShadowBTCOrdinals() {
   const items = [
-    { icon: "📊", title: "Correlation", desc: "0 to 1 correlation scores", badge: "Quantified" },
-    { icon: "🎨", title: "Heatmap", desc: "Visual correlation matrix", badge: "Clear" },
-    { icon: "📈", title: "Historical", desc: "30/90/365-day correlation", badge: "Time" },
-    { icon: "💼", title: "Portfolio", desc: "Optimize diversification", badge: "Smart" },
-    { icon: "🔍", title: "Pairs", desc: "Find uncorrelated pairs", badge: "Diversify" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 correlation data", badge: "Native" }
+    { icon: "🔢", title: "Ordinals", desc: "Bitcoin NFTs on-chain", badge: "Unique" },
+    { icon: "📝", title: "Inscribe", desc: "Create your own ordinal", badge: "Create" },
+    { icon: "🪙", title: "BRC-20", desc: "Bitcoin fungible tokens", badge: "Token" },
+    { icon: "📊", title: "Marketplace", desc: "Buy sell ordinals", badge: "Trade" },
+    { icon: "💰", title: "Value", desc: "Rare ordinals worth thousands", badge: "Valuable" },
+    { icon: "✦", title: "SKY4444", desc: "Buy ordinals with SKY4444", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Correlation Matrix</h1>
-        <p className="text-xs text-muted-foreground">See how coins move together · Diversify smarter</p>
+        <h1 className="text-2xl font-black">Bitcoin Ordinals</h1>
+        <p className="text-xs text-muted-foreground">Inscribe collect trade Bitcoin Ordinals and BRC-20 tokens</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCorrelation() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Build a truly diversified portfolio.</p>
+          <p className="text-xs text-muted-foreground mb-2">Own a piece of Bitcoin history.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

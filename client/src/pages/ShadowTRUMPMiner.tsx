@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Correlation Matrix
+ * ShadowChat — TRUMP Coin Miner
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCorrelation() {
+export default function ShadowTRUMPMiner() {
   const items = [
-    { icon: "📊", title: "Correlation", desc: "0 to 1 correlation scores", badge: "Quantified" },
-    { icon: "🎨", title: "Heatmap", desc: "Visual correlation matrix", badge: "Clear" },
-    { icon: "📈", title: "Historical", desc: "30/90/365-day correlation", badge: "Time" },
-    { icon: "💼", title: "Portfolio", desc: "Optimize diversification", badge: "Smart" },
-    { icon: "🔍", title: "Pairs", desc: "Find uncorrelated pairs", badge: "Diversify" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 correlation data", badge: "Native" }
+    { icon: "🇺🇸", title: "TRUMP Token", desc: "Official TRUMP meme coin", badge: "Patriotic" },
+    { icon: "⛏️", title: "Mine Now", desc: "Click to start mining", badge: "Easy" },
+    { icon: "💰", title: "Earn TRUMP", desc: "Real mining rewards", badge: "Earn" },
+    { icon: "👛", title: "TRUMP Wallet", desc: "Secure TRUMP wallet", badge: "Safe" },
+    { icon: "📊", title: "Hash Rate", desc: "Your mining performance", badge: "Track" },
+    { icon: "✦", title: "SKY4444", desc: "Mine both simultaneously", badge: "Dual" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Correlation Matrix</h1>
-        <p className="text-xs text-muted-foreground">See how coins move together · Diversify smarter</p>
+        <h1 className="text-2xl font-black">TRUMP Coin Miner</h1>
+        <p className="text-xs text-muted-foreground">Mine TRUMP official crypto · Real SHA-256 PoW · Wallet</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCorrelation() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Build a truly diversified portfolio.</p>
+          <p className="text-xs text-muted-foreground mb-2">Mine TRUMP and SKY4444 at the same time.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

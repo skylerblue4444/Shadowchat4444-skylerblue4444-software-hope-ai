@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Correlation Matrix
+ * ShadowChat — Global Macro Dashboard
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCorrelation() {
+export default function ShadowCryptoGlobalMacro() {
   const items = [
-    { icon: "📊", title: "Correlation", desc: "0 to 1 correlation scores", badge: "Quantified" },
-    { icon: "🎨", title: "Heatmap", desc: "Visual correlation matrix", badge: "Clear" },
-    { icon: "📈", title: "Historical", desc: "30/90/365-day correlation", badge: "Time" },
-    { icon: "💼", title: "Portfolio", desc: "Optimize diversification", badge: "Smart" },
-    { icon: "🔍", title: "Pairs", desc: "Find uncorrelated pairs", badge: "Diversify" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 correlation data", badge: "Native" }
+    { icon: "🏦", title: "Fed Rates", desc: "Interest rate impact on crypto", badge: "Macro" },
+    { icon: "💵", title: "DXY", desc: "Dollar index vs BTC", badge: "Correlation" },
+    { icon: "🥇", title: "Gold", desc: "Gold vs Bitcoin comparison", badge: "Alternative" },
+    { icon: "📈", title: "S&P500", desc: "Stock market vs crypto", badge: "Risk-on" },
+    { icon: "🌍", title: "Global", desc: "Macro events calendar", badge: "Aware" },
+    { icon: "✦", title: "SKY4444", desc: "Macro impact on SKY4444", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Correlation Matrix</h1>
-        <p className="text-xs text-muted-foreground">See how coins move together · Diversify smarter</p>
+        <h1 className="text-2xl font-black">Global Macro Dashboard</h1>
+        <p className="text-xs text-muted-foreground">Fed rates · DXY · Gold · S&P500 vs Crypto correlation</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCorrelation() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Build a truly diversified portfolio.</p>
+          <p className="text-xs text-muted-foreground mb-2">Understand the macro forces moving crypto.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

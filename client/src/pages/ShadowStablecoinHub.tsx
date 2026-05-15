@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Correlation Matrix
+ * ShadowChat — Stablecoin Hub
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCorrelation() {
+export default function ShadowStablecoinHub() {
   const items = [
-    { icon: "📊", title: "Correlation", desc: "0 to 1 correlation scores", badge: "Quantified" },
-    { icon: "🎨", title: "Heatmap", desc: "Visual correlation matrix", badge: "Clear" },
-    { icon: "📈", title: "Historical", desc: "30/90/365-day correlation", badge: "Time" },
-    { icon: "💼", title: "Portfolio", desc: "Optimize diversification", badge: "Smart" },
-    { icon: "🔍", title: "Pairs", desc: "Find uncorrelated pairs", badge: "Diversify" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 correlation data", badge: "Native" }
+    { icon: "💵", title: "USDT", desc: "Tether · $120B market cap", badge: "Largest" },
+    { icon: "🔵", title: "USDC", desc: "Circle · Regulated", badge: "Trusted" },
+    { icon: "🌈", title: "DAI", desc: "MakerDAO · Decentralized", badge: "DeFi" },
+    { icon: "📊", title: "Yield", desc: "Up to 12% APY on stables", badge: "Earn" },
+    { icon: "🔄", title: "Swap", desc: "Swap between stablecoins", badge: "Flexible" },
+    { icon: "✦", title: "SKY4444", desc: "Stable-SKY4444 pairs", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Correlation Matrix</h1>
-        <p className="text-xs text-muted-foreground">See how coins move together · Diversify smarter</p>
+        <h1 className="text-2xl font-black">Stablecoin Hub</h1>
+        <p className="text-xs text-muted-foreground">USDT USDC DAI FRAX TUSD · Yield · Swap · Bridge</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCorrelation() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Build a truly diversified portfolio.</p>
+          <p className="text-xs text-muted-foreground mb-2">Everything you need for stablecoins.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

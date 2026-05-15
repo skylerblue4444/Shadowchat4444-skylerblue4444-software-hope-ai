@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Crypto Correlation Matrix
+ * ShadowChat — Crypto Beta Calculator
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowCryptoCorrelation() {
+export default function ShadowCryptoBeta() {
   const items = [
-    { icon: "📊", title: "Correlation", desc: "0 to 1 correlation scores", badge: "Quantified" },
-    { icon: "🎨", title: "Heatmap", desc: "Visual correlation matrix", badge: "Clear" },
-    { icon: "📈", title: "Historical", desc: "30/90/365-day correlation", badge: "Time" },
-    { icon: "💼", title: "Portfolio", desc: "Optimize diversification", badge: "Smart" },
-    { icon: "🔍", title: "Pairs", desc: "Find uncorrelated pairs", badge: "Diversify" },
-    { icon: "✦", title: "SKY4444", desc: "SKY4444 correlation data", badge: "Native" }
+    { icon: "📊", title: "Beta Score", desc: "Volatility vs BTC", badge: "Measured" },
+    { icon: "📈", title: "High Beta", desc: "More volatile than BTC", badge: "Risky" },
+    { icon: "📉", title: "Low Beta", desc: "Less volatile than BTC", badge: "Stable" },
+    { icon: "🛡️", title: "Risk Rating", desc: "1-10 risk score", badge: "Clear" },
+    { icon: "📅", title: "Historical", desc: "Rolling beta calculation", badge: "Dynamic" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 beta tracking", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Crypto Correlation Matrix</h1>
-        <p className="text-xs text-muted-foreground">See how coins move together · Diversify smarter</p>
+        <h1 className="text-2xl font-black">Crypto Beta Calculator</h1>
+        <p className="text-xs text-muted-foreground">Measure coin volatility vs Bitcoin · Risk assessment</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowCryptoCorrelation() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">Build a truly diversified portfolio.</p>
+          <p className="text-xs text-muted-foreground mb-2">Know exactly how risky each coin is.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>
