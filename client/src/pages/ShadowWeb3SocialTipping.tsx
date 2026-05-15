@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Crypto Neobank
+ * ShadowChat — Social Tipping
  * Built by Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -7,19 +7,19 @@ import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 
-export default function ShadowFintechNeobank() {
+export default function ShadowWeb3SocialTipping() {
   const [active,setActive]=useState<number|null>(null);
-  const items=[{icon:"💳",title:"Debit Card",desc:"Spend crypto anywhere",badge:"Convenient"},
-    {icon:"🏦",title:"Account",desc:"USD and crypto account",badge:"Complete"},
-    {icon:"💰",title:"Savings",desc:"4.4% APY on USD balance",badge:"Earn"},
-    {icon:"🏠",title:"Loans",desc:"Borrow against crypto",badge:"Flexible"},
-    {icon:"📱",title:"Mobile",desc:"Full-featured mobile app",badge:"Accessible"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 banking perks",badge:"Native"}];
+  const items=[{icon:"✦",title:"SKY4444 Tips",desc:"Tip in SKY4444",badge:"Native"},
+    {icon:"₿",title:"BTC Tips",desc:"Tip in Bitcoin",badge:"Classic"},
+    {icon:"🐕",title:"DOGE Tips",desc:"Tip in DOGE",badge:"Fun"},
+    {icon:"🇺🇸",title:"TRUMP Tips",desc:"Tip in TRUMP coin",badge:"Patriotic"},
+    {icon:"⚡",title:"Instant",desc:"Tips arrive in seconds",badge:"Fast"},
+    {icon:"💰",title:"No Fees",desc:"Zero fees under $1",badge:"Generous"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black tracking-tight">Crypto Neobank</h1>
-        <p className="text-xs text-muted-foreground mt-0.5">Bank account for crypto people · Debit card · Savings · Loans</p>
+        <h1 className="text-2xl font-black tracking-tight">Social Tipping</h1>
+        <p className="text-xs text-muted-foreground mt-0.5">Tip anyone instantly · Multi-coin · No fees under $1</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -37,7 +37,7 @@ export default function ShadowFintechNeobank() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 px-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat Platform</p>
-          <p className="text-xs text-muted-foreground">The bank built for crypto people.</p>
+          <p className="text-xs text-muted-foreground">Show appreciation with crypto tips.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch Now</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Learn More</Button>

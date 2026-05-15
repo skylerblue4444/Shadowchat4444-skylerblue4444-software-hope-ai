@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Crypto Neobank
+ * ShadowChat — Crypto Gaming Hub
  * Built by Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -7,19 +7,19 @@ import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 
-export default function ShadowFintechNeobank() {
+export default function ShadowCryptoGamingHub() {
   const [active,setActive]=useState<number|null>(null);
-  const items=[{icon:"💳",title:"Debit Card",desc:"Spend crypto anywhere",badge:"Convenient"},
-    {icon:"🏦",title:"Account",desc:"USD and crypto account",badge:"Complete"},
-    {icon:"💰",title:"Savings",desc:"4.4% APY on USD balance",badge:"Earn"},
-    {icon:"🏠",title:"Loans",desc:"Borrow against crypto",badge:"Flexible"},
-    {icon:"📱",title:"Mobile",desc:"Full-featured mobile app",badge:"Accessible"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 banking perks",badge:"Native"}];
+  const items=[{icon:"🎮",title:"P2E Games",desc:"Play and earn SKY4444",badge:"Fun"},
+    {icon:"🏆",title:"Tournaments",desc:"Weekly gaming tournaments",badge:"Compete"},
+    {icon:"🎨",title:"NFT Items",desc:"Own your in-game items",badge:"Yours"},
+    {icon:"💰",title:"Earn",desc:"Real money from gaming",badge:"Income"},
+    {icon:"🌍",title:"Global",desc:"Players from 100 countries",badge:"Community"},
+    {icon:"✦",title:"SKY4444",desc:"All rewards in SKY4444",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black tracking-tight">Crypto Neobank</h1>
-        <p className="text-xs text-muted-foreground mt-0.5">Bank account for crypto people · Debit card · Savings · Loans</p>
+        <h1 className="text-2xl font-black tracking-tight">Crypto Gaming Hub</h1>
+        <p className="text-xs text-muted-foreground mt-0.5">Play-to-earn · NFT games · Tournaments · SKY4444 rewards</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -37,7 +37,7 @@ export default function ShadowFintechNeobank() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 px-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat Platform</p>
-          <p className="text-xs text-muted-foreground">The bank built for crypto people.</p>
+          <p className="text-xs text-muted-foreground">Gaming where you actually own everything.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch Now</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Learn More</Button>
