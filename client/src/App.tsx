@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import { ShadowRoutes } from './routes/ShadowRoutes';
 import { Switch, Route } from 'wouter';
 import { Toaster } from 'sonner';
 import DashboardLayout from './components/DashboardLayout';
@@ -268,6 +269,8 @@ function DashboardRoutes() {
           <Route path="/dashboard/admin/settings"       component={AdminSettings} />
           <Route path="/dashboard/admin/world-leader"   component={WorldLeaderDashboard} />
 
+          {/* ─── All 1481 Shadow pages auto-routed under /dashboard/shadow/* ─── */}
+          <ShadowRoutes />
           <Route component={NotFound} />
         </Switch>
       </Suspense>
