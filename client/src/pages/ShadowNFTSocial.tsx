@@ -23,15 +23,15 @@ export default function ShadowNFTSocial() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">NFT Social</h1>
-          <p className="text-sm text-muted-foreground">NFT-powered social network where your collection is your identity and status</p>
+          <p className="text-sm text-muted-foreground">Social platform for NFT collectors to showcase, trade, and discuss their collections</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Collect Together</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Show Off Your NFTs</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-pink-400">847K</p><p className="text-xs text-muted-foreground">NFT Holders</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Collections Shown</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8.4M</p><p className="text-xs text-muted-foreground">Social Posts</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">247K</p><p className="text-xs text-muted-foreground">Trades via Social</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-pink-400">847K</p><p className="text-xs text-muted-foreground">NFT Collectors</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84K</p><p className="text-xs text-muted-foreground">Collections Showcased</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847K</p><p className="text-xs text-muted-foreground">Social Posts/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8247/day</p><p className="text-xs text-muted-foreground">NFT Sales via Social</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

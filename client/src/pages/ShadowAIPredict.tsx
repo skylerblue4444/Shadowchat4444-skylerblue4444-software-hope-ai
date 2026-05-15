@@ -23,15 +23,15 @@ export default function ShadowAIPredict() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">AI Predictions</h1>
-          <p className="text-sm text-muted-foreground">AI price prediction engine with LSTM, transformer models, and ensemble forecasting</p>
+          <p className="text-sm text-muted-foreground">Advanced AI price prediction with ensemble models, on-chain signals, and macro analysis</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">See the Future</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Predict Markets</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Predictions/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8247</p><p className="text-xs text-muted-foreground">Assets</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">1hr to 30d</p><p className="text-xs text-muted-foreground">Horizon</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-red-400">8247</p><p className="text-xs text-muted-foreground">Predictions/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84pct</p><p className="text-xs text-muted-foreground">Win Rate</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">12</p><p className="text-xs text-muted-foreground">Timeframes</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Always shown</p><p className="text-xs text-muted-foreground">Confidence Scores</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

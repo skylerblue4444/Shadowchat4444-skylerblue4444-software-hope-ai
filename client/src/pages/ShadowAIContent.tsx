@@ -22,16 +22,16 @@ export default function ShadowAIContent() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">AI Content</h1>
-          <p className="text-sm text-muted-foreground">AI content generation for social posts, NFT descriptions, whitepapers, and marketing copy</p>
+          <h1 className="text-2xl font-black">AI Content Creator</h1>
+          <p className="text-sm text-muted-foreground">AI-powered content creation for social posts, trading reports, and marketing materials</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Create Instantly</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Create at Scale</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">847K</p><p className="text-xs text-muted-foreground">Content Pieces/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">8.4M</p><p className="text-xs text-muted-foreground">Content Pieces/Day</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">150+</p><p className="text-xs text-muted-foreground">Languages</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">GPT-4/Gemini</p><p className="text-xs text-muted-foreground">Models</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">A+</p><p className="text-xs text-muted-foreground">Quality</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Content Types</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">A+</p><p className="text-xs text-muted-foreground">Quality Score</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowAIContent() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">AI Content — Activate Now</p>
+        <p className="font-black text-sm mb-1">AI Content Creator — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("AI Content activated!"); }}
+            onClick={() => { setActive(true); toast.success("AI Content Creator activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening AI Content docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening AI Content Creator docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

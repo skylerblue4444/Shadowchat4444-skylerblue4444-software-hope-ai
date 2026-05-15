@@ -23,15 +23,15 @@ export default function ShadowAIVision() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">AI Vision</h1>
-          <p className="text-sm text-muted-foreground">AI computer vision for NFT analysis, market chart reading, and document OCR</p>
+          <p className="text-sm text-muted-foreground">Computer vision for chart pattern recognition, NFT analysis, and visual content moderation</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">See Everything</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">See the Future</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">8.4M</p><p className="text-xs text-muted-foreground">Images Analyzed/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">99.7pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Models</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Under 100ms</p><p className="text-xs text-muted-foreground">Latency</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8.4M</p><p className="text-xs text-muted-foreground">Images/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Patterns Detected</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">99.7pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">47</p><p className="text-xs text-muted-foreground">Models</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

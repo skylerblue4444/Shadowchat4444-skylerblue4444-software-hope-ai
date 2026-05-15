@@ -23,15 +23,15 @@ export default function ShadowAINLP() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">AI Language</h1>
-          <p className="text-sm text-muted-foreground">Advanced NLP for sentiment analysis, news summarization, and multi-language support</p>
+          <p className="text-sm text-muted-foreground">Natural language processing for crypto news, social sentiment, and contract analysis</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Understand All</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Understand Everything</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">150+</p><p className="text-xs text-muted-foreground">Languages</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Documents/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">99.4pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">12</p><p className="text-xs text-muted-foreground">Models</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8.4M</p><p className="text-xs text-muted-foreground">Documents/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">150+</p><p className="text-xs text-muted-foreground">Languages</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">99.7pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">47 fine-tuned</p><p className="text-xs text-muted-foreground">Models</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
