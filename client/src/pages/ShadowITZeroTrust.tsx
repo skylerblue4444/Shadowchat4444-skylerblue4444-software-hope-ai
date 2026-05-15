@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -22,16 +22,16 @@ export default function ShadowITZeroTrust() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">IT Zero Trust</h1>
-          <p className="text-sm text-muted-foreground">Zero-trust network architecture implementation for Skyler Blue IT Resolutions clients</p>
+          <h1 className="text-2xl font-black">Zero Trust Security</h1>
+          <p className="text-sm text-muted-foreground">Complete zero-trust security implementation with microsegmentation and continuous verification</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Never Trust Verify</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Trust Nothing</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-red-400">8247</p><p className="text-xs text-muted-foreground">Policies</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84K</p><p className="text-xs text-muted-foreground">Violations Blocked</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">24K</p><p className="text-xs text-muted-foreground">Users Protected</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">100pct</p><p className="text-xs text-muted-foreground">Compliance</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-red-400">Zero always</p><p className="text-xs text-muted-foreground">Trust Score</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Verifications/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">100pct</p><p className="text-xs text-muted-foreground">Breaches Prevented</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">NIST</p><p className="text-xs text-muted-foreground">Compliance</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowITZeroTrust() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">IT Zero Trust — Activate Now</p>
+        <p className="font-black text-sm mb-1">Zero Trust Security — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("IT Zero Trust activated!"); }}
+            onClick={() => { setActive(true); toast.success("Zero Trust Security activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening IT Zero Trust docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Zero Trust Security docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

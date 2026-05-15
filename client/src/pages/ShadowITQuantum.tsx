@@ -22,16 +22,16 @@ export default function ShadowITQuantum() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Quantum Computing</h1>
-          <p className="text-sm text-muted-foreground">Quantum computing readiness and post-quantum cryptography for Skyler Blue IT clients</p>
+          <h1 className="text-2xl font-black">Quantum Ready</h1>
+          <p className="text-sm text-muted-foreground">Quantum-resistant cryptography and post-quantum security for future-proof IT infrastructure</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Quantum Ready</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Future Proof</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Algorithms</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">4096-bit</p><p className="text-xs text-muted-foreground">Key Strength</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">NIST PQC</p><p className="text-xs text-muted-foreground">Certified</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84</p><p className="text-xs text-muted-foreground">Clients</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">47 PQC</p><p className="text-xs text-muted-foreground">Algorithms</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">100pct</p><p className="text-xs text-muted-foreground">Migration Ready</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">All algorithms</p><p className="text-xs text-muted-foreground">NIST Approved</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Q1 2026</p><p className="text-xs text-muted-foreground">Timeline</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowITQuantum() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Quantum Computing — Activate Now</p>
+        <p className="font-black text-sm mb-1">Quantum Ready — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Quantum Computing activated!"); }}
+            onClick={() => { setActive(true); toast.success("Quantum Ready activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Quantum Computing docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Quantum Ready docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

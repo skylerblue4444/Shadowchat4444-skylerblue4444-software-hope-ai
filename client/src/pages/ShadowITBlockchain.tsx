@@ -22,16 +22,16 @@ export default function ShadowITBlockchain() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">IT Blockchain</h1>
-          <p className="text-sm text-muted-foreground">Enterprise blockchain solutions for supply chain, identity, and contracts by Skyler Blue IT</p>
+          <h1 className="text-2xl font-black">Blockchain IT</h1>
+          <p className="text-sm text-muted-foreground">Enterprise blockchain infrastructure with node management, smart contract deployment, and monitoring</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Enterprise Blockchain</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Blockchain Infrastructure</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-cyan-400">247</p><p className="text-xs text-muted-foreground">Nodes Deployed</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">TXs/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">84</p><p className="text-xs text-muted-foreground">Clients</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Hyperledger/ETH</p><p className="text-xs text-muted-foreground">Chains</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8247</p><p className="text-xs text-muted-foreground">Nodes Managed</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">47</p><p className="text-xs text-muted-foreground">Chains Supported</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">84K</p><p className="text-xs text-muted-foreground">Smart Contracts</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">99.999pct</p><p className="text-xs text-muted-foreground">Uptime</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowITBlockchain() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">IT Blockchain — Activate Now</p>
+        <p className="font-black text-sm mb-1">Blockchain IT — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("IT Blockchain activated!"); }}
+            onClick={() => { setActive(true); toast.success("Blockchain IT activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening IT Blockchain docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Blockchain IT docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
