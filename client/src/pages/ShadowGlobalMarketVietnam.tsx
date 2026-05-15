@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT for Retail
+ * ShadowChat — Vietnam Crypto Market
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowITRetail() {
+export default function ShadowGlobalMarketVietnam() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🛒",title:"POS",desc:"Retail point of sale system",badge:"Core"},
-    {icon:"📦",title:"Inventory",desc:"Real-time inventory tracking",badge:"Accurate"},
-    {icon:"📷",title:"Cameras",desc:"Loss prevention cameras",badge:"Secure"},
-    {icon:"📶",title:"WiFi",desc:"Store WiFi network",badge:"Connected"},
-    {icon:"📊",title:"Analytics",desc:"Sales analytics dashboard",badge:"Insight"},
-    {icon:"📞",title:"Setup",desc:"479-406-7123 to setup",badge:"Contact"}];
+  const items=[{icon:"🇻🇳",title:"VND Trading",desc:"Trade in Vietnamese Dong",badge:"Local"},
+    {icon:"📱",title:"Momo",desc:"Popular mobile wallet",badge:"Popular"},
+    {icon:"💻",title:"Tech Hub",desc:"Growing tech ecosystem",badge:"Dynamic"},
+    {icon:"📊",title:"Remitano",desc:"Popular local exchange",badge:"Reference"},
+    {icon:"🌏",title:"Southeast Asia",desc:"Gateway to SE Asia",badge:"Strategic"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 VND pair",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT for Retail</h1>
-        <p className="text-xs text-muted-foreground">POS inventory cameras WiFi · Arkansas retail · $199/mo</p>
+        <h1 className="text-2xl font-black">Vietnam Crypto Market</h1>
+        <p className="text-xs text-muted-foreground">VND trading · Momo payments · Growing tech hub · Southeast Asia</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowITRetail() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">IT that helps retail stores sell more.</p>
+          <p className="text-xs text-muted-foreground">Vietnam's fastest growing crypto market.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
