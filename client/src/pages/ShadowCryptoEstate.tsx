@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -23,15 +23,15 @@ export default function ShadowCryptoEstate() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Crypto Estate</h1>
-          <p className="text-sm text-muted-foreground">Decentralized crypto estate planning with inheritance, wills, and beneficiary management</p>
+          <p className="text-sm text-muted-foreground">Plan and execute crypto estate transfer with multi-sig inheritance and legal documentation</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Wealth Transfer</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Crypto Inheritance</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">8247</p><p className="text-xs text-muted-foreground">Estates Managed</p></CardContent></Card>
         <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847M USD</p><p className="text-xs text-muted-foreground">Assets Protected</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">24K</p><p className="text-xs text-muted-foreground">Beneficiaries</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">99.99pct</p><p className="text-xs text-muted-foreground">Uptime</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Included</p><p className="text-xs text-muted-foreground">Legal Docs</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">150+</p><p className="text-xs text-muted-foreground">Jurisdictions</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

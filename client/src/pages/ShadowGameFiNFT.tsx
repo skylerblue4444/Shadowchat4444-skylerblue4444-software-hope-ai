@@ -23,15 +23,15 @@ export default function ShadowGameFiNFT() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">GameFi NFTs</h1>
-          <p className="text-sm text-muted-foreground">Trade, rent, and lend in-game NFT items across 247 games with real value</p>
+          <p className="text-sm text-muted-foreground">Trade and use in-game NFT assets across multiple blockchain games on ShadowChat</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Game Items as NFTs</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">In-Game Assets</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8.4M</p><p className="text-xs text-muted-foreground">Game Items</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247</p><p className="text-xs text-muted-foreground">Games</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847K USD</p><p className="text-xs text-muted-foreground">Daily Volume</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Up to 47pct APY</p><p className="text-xs text-muted-foreground">Rental Income</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">247</p><p className="text-xs text-muted-foreground">Games Integrated</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84M</p><p className="text-xs text-muted-foreground">NFT Assets</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8.4M USD</p><p className="text-xs text-muted-foreground">Daily Volume</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8</p><p className="text-xs text-muted-foreground">Rarity Tiers</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

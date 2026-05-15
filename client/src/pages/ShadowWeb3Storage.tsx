@@ -23,15 +23,15 @@ export default function ShadowWeb3Storage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Web3 Storage</h1>
-          <p className="text-sm text-muted-foreground">IPFS and Filecoin-powered decentralized storage with encryption and redundancy</p>
+          <p className="text-sm text-muted-foreground">IPFS and Arweave-powered decentralized storage for files, NFTs, and dApps</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Decentralized Files</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Decentralized Storage</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-cyan-400">84M</p><p className="text-xs text-muted-foreground">Files Stored</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847TB</p><p className="text-xs text-muted-foreground">Storage Used</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">3x</p><p className="text-xs text-muted-foreground">Redundancy</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Under 1sec</p><p className="text-xs text-muted-foreground">Retrieval Speed</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8.4B</p><p className="text-xs text-muted-foreground">Files Stored</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847 PB</p><p className="text-xs text-muted-foreground">Storage</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">7 copies</p><p className="text-xs text-muted-foreground">Redundancy</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Under 1sec</p><p className="text-xs text-muted-foreground">Retrieval</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
