@@ -1,25 +1,25 @@
 /**
- * ShadowChat — Site Map
+ * ShadowChat — Community Hub
  * Production-grade · Global appeal · SKY4444 integrated
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowSitemapPage() {
+export default function ShadowCommunityHub() {
   const items = [
-    { icon: "⛏️", title: "Mining", desc: "Miner Pro · SKY4444 · TRUMP", badge: "Earn" },
-          { icon: "💱", title: "Trading", desc: "Scream Room · Charts · Bots", badge: "Trade" },
-          { icon: "🛒", title: "Shopping", desc: "Global Market · Shop · NFTs", badge: "Buy" },
-          { icon: "💕", title: "Social", desc: "CryptoDate · Feed · Chat", badge: "Connect" },
-          { icon: "💻", title: "IT Services", desc: "Help Desk · Managed · Security", badge: "Support" },
-          { icon: "📚", title: "Learn", desc: "Academy · School · Certs", badge: "Grow" }
+    { icon: "💬", title: "General Chat", desc: "Open discussion for all", badge: "Active" },
+          { icon: "⛏️", title: "Miners Club", desc: "Share mining tips & wins", badge: "Hot" },
+          { icon: "📈", title: "Traders Lounge", desc: "Signals · Analysis · Calls", badge: "Live" },
+          { icon: "🛒", title: "Shop Reviews", desc: "Rate products · Help others", badge: "Helpful" },
+          { icon: "🎓", title: "Learn Crypto", desc: "Beginner to advanced", badge: "Free" },
+          { icon: "🌍", title: "Global Rooms", desc: "USA · China · EU · More", badge: "Worldwide" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Site Map</h1>
-        <p className="text-xs text-muted-foreground">Every page on ShadowChat · 1,655 pages · Navigate easily</p>
+        <h1 className="text-2xl font-black">Community Hub</h1>
+        <p className="text-xs text-muted-foreground">Connect · Discuss · Learn · Earn SKY4444 together</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -36,7 +36,7 @@ export default function ShadowSitemapPage() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Explore all 1,655 pages of ShadowChat.</p>
+          <p className="text-xs text-muted-foreground mb-2">Join the ShadowChat community. Earn SKY4444 for every contribution.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

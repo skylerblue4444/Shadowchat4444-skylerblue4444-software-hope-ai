@@ -1,25 +1,25 @@
 /**
- * ShadowChat — Site Map
+ * ShadowChat — Crypto Tax Report
  * Production-grade · Global appeal · SKY4444 integrated
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowSitemapPage() {
+export default function ShadowTaxReport() {
   const items = [
-    { icon: "⛏️", title: "Mining", desc: "Miner Pro · SKY4444 · TRUMP", badge: "Earn" },
-          { icon: "💱", title: "Trading", desc: "Scream Room · Charts · Bots", badge: "Trade" },
-          { icon: "🛒", title: "Shopping", desc: "Global Market · Shop · NFTs", badge: "Buy" },
-          { icon: "💕", title: "Social", desc: "CryptoDate · Feed · Chat", badge: "Connect" },
-          { icon: "💻", title: "IT Services", desc: "Help Desk · Managed · Security", badge: "Support" },
-          { icon: "📚", title: "Learn", desc: "Academy · School · Certs", badge: "Grow" }
+    { icon: "📋", title: "2024 Tax Report", desc: "All trades · Auto-calculated", badge: "Ready" },
+          { icon: "💰", title: "Capital Gains", desc: "Short/Long term breakdown", badge: "Calculated" },
+          { icon: "⛏️", title: "Mining Income", desc: "Block rewards as income", badge: "Tracked" },
+          { icon: "🛒", title: "Shop Purchases", desc: "Cost basis tracking", badge: "Tracked" },
+          { icon: "📄", title: "Export PDF", desc: "IRS Form 8949 ready", badge: "Export" },
+          { icon: "📊", title: "Export CSV", desc: "TurboTax compatible", badge: "Export" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Site Map</h1>
-        <p className="text-xs text-muted-foreground">Every page on ShadowChat · 1,655 pages · Navigate easily</p>
+        <h1 className="text-2xl font-black">Crypto Tax Report</h1>
+        <p className="text-xs text-muted-foreground">Auto-generate tax reports · IRS compliant · Export CSV/PDF</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -36,7 +36,7 @@ export default function ShadowSitemapPage() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Explore all 1,655 pages of ShadowChat.</p>
+          <p className="text-xs text-muted-foreground mb-2">Generate your crypto tax report in minutes. IRS compliant.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

@@ -1,85 +1,48 @@
-import { useState } from "react";
-import { Headphones, MessageSquare, Clock, CheckCircle, AlertCircle, Plus, Star, Zap } from "lucide-react";
+/**
+ * ShadowChat — IT Help Desk
+ * Production-grade · Global appeal · SKY4444 integrated
+ */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-
-const TICKETS = [
-  { id: "TK-1247", subject: "Email not syncing on Outlook",      priority: "high",   status: "open",       client: "ABC Corp",    agent: "Skyler",   created: "30m ago" },
-  { id: "TK-1246", subject: "VPN connection dropping randomly",  priority: "medium", status: "in-progress",client: "XYZ LLC",     agent: "Sarah",    created: "2h ago"  },
-  { id: "TK-1245", subject: "New laptop setup needed",           priority: "low",    status: "in-progress",client: "Smith & Co",  agent: "James",    created: "4h ago"  },
-  { id: "TK-1244", subject: "Server unresponsive — critical",    priority: "critical",status: "resolved",  client: "MegaCorp",    agent: "Skyler",   created: "6h ago"  },
-  { id: "TK-1243", subject: "Password reset for 5 users",        priority: "low",    status: "resolved",   client: "LocalBiz",    agent: "Sarah",    created: "1d ago"  },
-];
-
-const PRIORITY_COLORS: Record<string, string> = {
-  critical: "bg-red-500/10 text-red-400",
-  high:     "bg-orange-500/10 text-orange-400",
-  medium:   "bg-yellow-500/10 text-yellow-400",
-  low:      "bg-blue-500/10 text-blue-400",
-};
-const STATUS_COLORS: Record<string, string> = {
-  open:         "bg-blue-500/10 text-blue-400",
-  "in-progress":"bg-yellow-500/10 text-yellow-400",
-  resolved:     "bg-green-500/10 text-green-400",
-};
 
 export default function ShadowITHelpDesk() {
-  const [filter, setFilter] = useState("all");
-  const filtered = filter === "all" ? TICKETS : TICKETS.filter(t => t.status === filter || t.priority === filter);
+  const items = [
+    { icon: "🖥️", title: "Remote Support", desc: "Fix any issue remotely", badge: "Fast" },
+          { icon: "🏠", title: "On-Site Visit", desc: "Fayetteville · Rogers · Bentonville", badge: "Local" },
+          { icon: "📞", title: "Phone Support", desc: "479-406-7123 · 24/7", badge: "Always" },
+          { icon: "🔧", title: "Hardware Repair", desc: "PC · Mac · Laptop · Server", badge: "Expert" },
+          { icon: "🌐", title: "Network Setup", desc: "WiFi · Ethernet · VPN", badge: "Pro" },
+          { icon: "🛡️", title: "Security Audit", desc: "Virus removal · Firewall", badge: "Safe" }
+  ];
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black flex items-center gap-2"><Headphones className="h-6 w-6 text-sky-400" />IT Help Desk</h1>
-        <p className="text-sm text-muted-foreground">Skyler Blue IT Resolutions — client support ticket management</p>
+        <h1 className="text-2xl font-black">IT Help Desk</h1>
+        <p className="text-xs text-muted-foreground">24/7 IT support · Remote · On-site · Arkansas · Nationwide</p>
       </div>
-      <div className="grid grid-cols-4 gap-2">
-        {[
-          { label: "Open Tickets",    value: "12",    color: "text-blue-400"   },
-          { label: "In Progress",     value: "8",     color: "text-yellow-400" },
-          { label: "Resolved Today",  value: "24",    color: "text-green-400"  },
-          { label: "Avg Response",    value: "14min", color: "text-sky-400"    },
-        ].map(s => (
-          <Card key={s.label} className="border-border/50 text-center">
-            <CardContent className="py-3 px-2">
-              <p className={"font-black text-lg " + s.color}>{s.value}</p>
-              <p className="text-xs text-muted-foreground">{s.label}</p>
+      <div className="grid grid-cols-2 gap-3">
+        {items.map((item, i) => (
+          <Card key={i} className="border-border/50 hover:border-primary/30 transition-all">
+            <CardContent className="py-3 px-3">
+              <p className="text-2xl mb-1">{item.icon}</p>
+              <p className="font-bold text-xs mb-0.5">{item.title}</p>
+              <p className="text-xs text-muted-foreground">{item.desc}</p>
+              {item.badge && <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">{item.badge}</Badge>}
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="flex gap-2 flex-wrap">
-        {["all","open","in-progress","resolved","critical","high"].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
-            className={"px-3 py-1.5 rounded-full text-xs font-medium transition-colors capitalize " + (filter === f ? "bg-sky-600 text-white" : "bg-muted text-muted-foreground")}>
-            {f}
-          </button>
-        ))}
+      <Card className="border-primary/30 bg-primary/5">
+        <CardContent className="py-4 px-4 text-center">
+          <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
+          <p className="text-xs text-muted-foreground mb-2">Expert IT support from Skyler Blue. Call 479-406-7123 anytime.</p>
+          <Button size="sm" className="text-xs">Get Started</Button>
+        </CardContent>
+      </Card>
+      <div className="text-center py-2">
+        <p className="text-xs text-muted-foreground">ShadowChat · Skyler Blue IT Resolutions · 479-406-7123</p>
       </div>
-      <div className="space-y-2">
-        {filtered.map((t, i) => (
-          <Card key={i} className="border-border/50">
-            <CardContent className="py-3 px-4 flex items-center gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <p className="text-xs text-muted-foreground font-mono">{t.id}</p>
-                  <Badge className={"text-xs border-0 " + PRIORITY_COLORS[t.priority]}>{t.priority}</Badge>
-                  <Badge className={"text-xs border-0 " + STATUS_COLORS[t.status]}>{t.status}</Badge>
-                </div>
-                <p className="font-bold text-sm">{t.subject}</p>
-                <p className="text-xs text-muted-foreground">{t.client} · Agent: {t.agent} · {t.created}</p>
-              </div>
-              <Button size="sm" className="h-7 bg-sky-600 text-white border-0 font-bold text-xs shrink-0" onClick={() => toast.success("Opening ticket " + t.id)}>
-                View
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      <Button className="w-full h-10 bg-sky-600 text-white border-0 font-bold" onClick={() => toast.success("New ticket form opened — call 479-406-7123 for urgent issues")}>
-        <Plus className="h-4 w-4 mr-2" />Create New Ticket
-      </Button>
     </div>
   );
 }

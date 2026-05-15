@@ -1,25 +1,25 @@
 /**
- * ShadowChat — Site Map
+ * ShadowChat — Managed IT Services
  * Production-grade · Global appeal · SKY4444 integrated
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowSitemapPage() {
+export default function ShadowITManagedServices() {
   const items = [
-    { icon: "⛏️", title: "Mining", desc: "Miner Pro · SKY4444 · TRUMP", badge: "Earn" },
-          { icon: "💱", title: "Trading", desc: "Scream Room · Charts · Bots", badge: "Trade" },
-          { icon: "🛒", title: "Shopping", desc: "Global Market · Shop · NFTs", badge: "Buy" },
-          { icon: "💕", title: "Social", desc: "CryptoDate · Feed · Chat", badge: "Connect" },
-          { icon: "💻", title: "IT Services", desc: "Help Desk · Managed · Security", badge: "Support" },
-          { icon: "📚", title: "Learn", desc: "Academy · School · Certs", badge: "Grow" }
+    { icon: "📦", title: "Starter Plan", desc: "$99/mo · 5 devices · Email support", badge: "Best Value" },
+          { icon: "🚀", title: "Business Plan", desc: "$299/mo · 25 devices · Phone support", badge: "Popular" },
+          { icon: "🏢", title: "Enterprise Plan", desc: "$999/mo · Unlimited · Dedicated tech", badge: "Premium" },
+          { icon: "☁️", title: "Cloud Backup", desc: "Daily backups · 99.9% uptime", badge: "Included" },
+          { icon: "🔒", title: "Security Suite", desc: "Antivirus · Firewall · VPN", badge: "Included" },
+          { icon: "📊", title: "Monthly Report", desc: "Detailed IT health report", badge: "Included" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Site Map</h1>
-        <p className="text-xs text-muted-foreground">Every page on ShadowChat · 1,655 pages · Navigate easily</p>
+        <h1 className="text-2xl font-black">Managed IT Services</h1>
+        <p className="text-xs text-muted-foreground">Full IT management · Monthly plans · Arkansas businesses</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -36,7 +36,7 @@ export default function ShadowSitemapPage() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Explore all 1,655 pages of ShadowChat.</p>
+          <p className="text-xs text-muted-foreground mb-2">Let Skyler Blue manage your IT. Focus on your business.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

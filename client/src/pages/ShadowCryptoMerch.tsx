@@ -1,25 +1,25 @@
 /**
- * ShadowChat — Site Map
+ * ShadowChat — Crypto Merchandise
  * Production-grade · Global appeal · SKY4444 integrated
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowSitemapPage() {
+export default function ShadowCryptoMerch() {
   const items = [
-    { icon: "⛏️", title: "Mining", desc: "Miner Pro · SKY4444 · TRUMP", badge: "Earn" },
-          { icon: "💱", title: "Trading", desc: "Scream Room · Charts · Bots", badge: "Trade" },
-          { icon: "🛒", title: "Shopping", desc: "Global Market · Shop · NFTs", badge: "Buy" },
-          { icon: "💕", title: "Social", desc: "CryptoDate · Feed · Chat", badge: "Connect" },
-          { icon: "💻", title: "IT Services", desc: "Help Desk · Managed · Security", badge: "Support" },
-          { icon: "📚", title: "Learn", desc: "Academy · School · Certs", badge: "Grow" }
+    { icon: "👕", title: "SKY4444 Hoodie", desc: "Limited edition · $44.44", badge: "Hot" },
+          { icon: "🧢", title: "TRUMP Crypto Cap", desc: "Official · $24.99", badge: "Popular" },
+          { icon: "₿", title: "Bitcoin Tee", desc: "Classic design · $19.99", badge: "Classic" },
+          { icon: "🐕", title: "Doge Hoodie", desc: "Much wow · $34.99", badge: "Fun" },
+          { icon: "🎒", title: "Crypto Backpack", desc: "Mining rig bag · $49.99", badge: "Useful" },
+          { icon: "🔑", title: "Hardware Wallet", desc: "Secure your coins · $79.99", badge: "Essential" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Site Map</h1>
-        <p className="text-xs text-muted-foreground">Every page on ShadowChat · 1,655 pages · Navigate easily</p>
+        <h1 className="text-2xl font-black">Crypto Merchandise</h1>
+        <p className="text-xs text-muted-foreground">Bitcoin · TRUMP · SKY4444 · DOGE branded products</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -36,7 +36,7 @@ export default function ShadowSitemapPage() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Explore all 1,655 pages of ShadowChat.</p>
+          <p className="text-xs text-muted-foreground mb-2">Wear your crypto. SKY4444 payments accepted. Ships worldwide.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

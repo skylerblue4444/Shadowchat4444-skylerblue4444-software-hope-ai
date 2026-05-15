@@ -1,66 +1,47 @@
-import { useState } from "react";
+/**
+ * ShadowChat — SKY4444 Crypto Card
+ * Production-grade · Global appeal · SKY4444 integrated
+ */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight } from "lucide-react";
-import { toast } from "sonner";
-
-const features = [
-  "Production-grade feature with enterprise-level reliability",
-  "SKY4444 token integration for rewards and payments",
-  "AI-powered automation and smart execution",
-  "Global compliance across 150+ countries and 50+ blockchains",
-  "24/7 Skyler Blue IT Resolutions expert support — 479-406-7123",
-  "Seamless integration with all 1,623 ShadowChat modules",
-  "Real-time analytics and performance dashboards",
-  "Mobile-first responsive design for all devices",
-];
 
 export default function ShadowCryptoCard() {
-  const [active, setActive] = useState(false);
+  const items = [
+    { icon: "💳", title: "Virtual Card", desc: "Instant issue · Use online now", badge: "Instant" },
+          { icon: "💳", title: "Physical Card", desc: "Ships to USA · 5-7 days", badge: "Order" },
+          { icon: "💰", title: "Cashback", desc: "3% back in SKY4444", badge: "Rewarding" },
+          { icon: "🌍", title: "Global Acceptance", desc: "150+ countries · Visa network", badge: "Worldwide" },
+          { icon: "⚡", title: "Instant Convert", desc: "Auto-convert at point of sale", badge: "Seamless" },
+          { icon: "📊", title: "Spending Analytics", desc: "Track every purchase", badge: "Smart" }
+  ];
   return (
-    <div className="space-y-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-black">ShadowChat Crypto Card</h1>
-          <p className="text-sm text-muted-foreground">Spend your SKY4444 and crypto anywhere Visa is accepted — 4.4pct cashback in SKY4444</p>
-        </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Crypto Card</Badge>
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-2xl font-black">SKY4444 Crypto Card</h1>
+        <p className="text-xs text-muted-foreground">Spend crypto anywhere · Visa network · Cashback in SKY4444</p>
       </div>
-      <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">Visa</p><p className="text-xs text-muted-foreground">Network</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">4.4pct SKY4444</p><p className="text-xs text-muted-foreground">Cashback</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Free worldwide</p><p className="text-xs text-muted-foreground">ATM</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Open</p><p className="text-xs text-muted-foreground">Waitlist</p></CardContent></Card>
+      <div className="grid grid-cols-2 gap-3">
+        {items.map((item, i) => (
+          <Card key={i} className="border-border/50 hover:border-primary/30 transition-all">
+            <CardContent className="py-3 px-3">
+              <p className="text-2xl mb-1">{item.icon}</p>
+              <p className="font-bold text-xs mb-0.5">{item.title}</p>
+              <p className="text-xs text-muted-foreground">{item.desc}</p>
+              {item.badge && <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">{item.badge}</Badge>}
+            </CardContent>
+          </Card>
+        ))}
       </div>
-      <Card className="border-border/50">
-        <CardContent className="py-3 px-4 space-y-2">
-          {features.map((f, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <CheckCircle className="h-3.5 w-3.5 text-green-400 shrink-0" />
-              <span className="text-xs">{f}</span>
-            </div>
-          ))}
+      <Card className="border-primary/30 bg-primary/5">
+        <CardContent className="py-4 px-4 text-center">
+          <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
+          <p className="text-xs text-muted-foreground mb-2">Spend your crypto anywhere with the SKY4444 card.</p>
+          <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>
-      <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">ShadowChat Crypto Card</p>
-        <p className="text-xs text-muted-foreground mb-3">ShadowChat — 1,623 pages · 0 TypeScript errors · All on GitHub</p>
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("ShadowChat Crypto Card activated!"); }}
-          >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
-          </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening ShadowChat Crypto Card docs...")}>
-            <ArrowRight className="h-4 w-4 mr-2" /> Learn More
-          </Button>
-        </div>
-      </div>
-      <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; ShadowChat &bull; SKY4444</p>
+      <div className="text-center py-2">
+        <p className="text-xs text-muted-foreground">ShadowChat · Skyler Blue IT Resolutions · 479-406-7123</p>
       </div>
     </div>
   );
