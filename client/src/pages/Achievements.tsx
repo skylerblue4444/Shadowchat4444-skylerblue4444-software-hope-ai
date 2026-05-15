@@ -1,11 +1,10 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { trpc } from '../lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Trophy, Lock } from 'lucide-react';
 export default function Achievements() {
-  const { data: achievements = [] } = useQuery({ queryKey: ['achievements'], queryFn: () => trpc.achievements.getUserAchievements.query() });
+  const { data: achievements = [] } = trpc.achievements.getUserAchievements.useQuery();
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <h1 className="text-4xl font-bold mb-8 flex items-center gap-3"><Trophy className="text-yellow-500" /> Achievements & XP</h1>

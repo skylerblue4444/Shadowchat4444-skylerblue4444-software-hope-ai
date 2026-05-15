@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '@trpc/server';
-import { TRPCError } from '@trpc/server';
+import { router, publicProcedure } from '../_core/trpc';
+import { TRPCError } from '../_core/trpc';
 import {
   CharityCauseSchema,
   JoinGameInput,

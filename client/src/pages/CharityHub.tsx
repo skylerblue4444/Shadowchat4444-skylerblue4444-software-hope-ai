@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { trpc } from '../lib/trpc';
 
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Heart, Trophy, Users, Zap, Award, Bot, Play, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { CharityCause } from '../../shared/trump-charity';
+type CharityCause = { id: string; name: string; description: string; category: string; targetAmount: number; currentAmount: number; trumpMultiplier: number; verified: boolean; imageUrl?: string };
 
 // Production-grade Charity Gaming & NFT Storytelling Hub
 // Now with LIVE TRUMP balance from Portfolio + enhanced UX
@@ -22,40 +22,24 @@ export default function CharityHub() {
   const [selectedCause, setSelectedCause] = useState<CharityCause | null>(null);
   const [donationAmount, setDonationAmount] = useState(25);
   const [donationMessage, setDonationMessage] = useState('');
-  const [gameType, setGameType] = useState<'prediction' | 'trivia' | 'slots' | 'story-coop' | 'impact-raffle'>('prediction');
+  const [gameType, setGameType] = useState<'prediction' | 'trivia' | 'slots' | 'story-coop'>('prediction');
   const [nftTitle, setNftTitle] = useState('');
   const [nftStory, setNftStory] = useState('');
   const [activeTab, setActiveTab] = useState('games');
 
   const queryClient = useQueryClient();
 
-  // Live Portfolio TRUMP Balance (real integration)
-  const { data: portfolio } = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: () => trpc.portfolio.get.query(),
-  });
-  const trumpBalance = portfolio?.trumpBalance ?? 2847.5; // fallback mock
+  // Live Portfolio TRUMP Balance (correct tRPC hook)
+  const { data: portfolio } = trpc.portfolio.get.useQuery();
+  const trumpBalance = (portfolio as any)?.trumpBalance ?? 2847.5;
 
-  // tRPC Queries
-  const { data: causes = [], isLoading: causesLoading } = useQuery({
-    queryKey: ['charity', 'causes'],
-    queryFn: () => trpc.charity.listCauses.query(),
-  });
+  // tRPC Queries — correct hook pattern
+  const { data: causes = [], isLoading: causesLoading } = trpc.charity.listCauses.useQuery();
+  const { data: metrics } = trpc.charity.getImpactMetrics.useQuery();
+  const { data: agentLogs = [] } = trpc.charity.getMultiAgentLog.useQuery();
 
-  const { data: metrics } = useQuery({
-    queryKey: ['charity', 'metrics'],
-    queryFn: () => trpc.charity.getImpactMetrics.query(),
-  });
-
-  const { data: agentLogs = [] } = useQuery({
-    queryKey: ['charity', 'agentLogs'],
-    queryFn: () => trpc.charity.getMultiAgentLog.query(),
-  });
-
-  // Mutations
-  const joinGame = useMutation({
-    mutationFn: (input: { causeId: string; gameType: any; entryFeeTrump: number }) =>
-      trpc.charity.joinGameSession.mutate(input),
+  // Mutations — correct hook pattern
+  const joinGame = trpc.charity.joinGameSession.useMutation({
     onSuccess: (data) => {
       toast.success(data.message || 'Game joined! Impact incoming.');
       queryClient.invalidateQueries({ queryKey: ['charity'] });
@@ -63,21 +47,17 @@ export default function CharityHub() {
     onError: (err: any) => toast.error(err.message),
   });
 
-  const recordDonation = useMutation({
-    mutationFn: (input: { causeId: string; amountTrump: number; message?: string }) =>
-      trpc.charity.recordDonation.mutate(input),
+  const recordDonation = trpc.charity.recordDonation.useMutation({
     onSuccess: (data) => {
-      toast.success(data.message, { description: `TX Proof: ${data.txProof?.slice(0, 20)}...` });
+      toast.success(data.message, { description: `TX Proof: ${(data as any).txProof?.slice(0, 20)}...` });
       queryClient.invalidateQueries({ queryKey: ['charity'] });
     },
   });
 
-  const mintNFT = useMutation({
-    mutationFn: (input: { causeId: string; storyTitle: string; storyContent: string; coAuthorIds?: string[] }) =>
-      trpc.charity.mintStoryNFT.mutate(input),
+  const mintNFT = trpc.charity.mintStoryNFT.useMutation({
     onSuccess: (data) => {
       toast.success('Legendary Impact Story NFT Minted!', {
-        description: data.nft?.tokenId,
+        description: (data as any).nft?.tokenId,
       });
       setNftTitle('');
       setNftStory('');
@@ -149,7 +129,7 @@ export default function CharityHub() {
           {/* GAMES ARENA - Enhanced with more variety */}
           <TabsContent value="games">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {causes.map((cause) => (
+              {(causes as CharityCause[]).map((cause) => (
                 <motion.div key={cause.id} whileHover={{ scale: 1.02 }} className="h-full">
                   <Card className="bg-zinc-900 border-zinc-800 overflow-hidden h-full flex flex-col">
                     <div className="relative h-48">
@@ -327,7 +307,7 @@ export default function CharityHub() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {agentLogs.map((log, idx) => (
+                  {(agentLogs as any[]).map((log: any, idx: number) => (
                     <div key={idx} className="flex gap-4 p-4 bg-zinc-950 rounded-xl border border-zinc-800">
                       <div className="w-9 h-9 rounded-full bg-cyan-950 flex items-center justify-center flex-shrink-0">
                         {log.agent === 'manus-agent' ? '🤖' : log.agent === 'grok' ? '🦾' : '💬'}
@@ -339,13 +319,13 @@ export default function CharityHub() {
                         </div>
                         <div className="mt-1 text-sm">{log.action}</div>
                         <div className="text-xs text-emerald-400 mt-1">Feature: {log.feature}</div>
-                        {log.impact && <div className="text-xs text-zinc-500 mt-0.5">Impact: {log.impact}</div>
+                        {log.impact && <div className="text-xs text-zinc-500 mt-0.5">Impact: {log.impact}</div>}
                       </div>
                     </div>
                   ))}
                 </div>
                 <p className="text-[10px] text-center mt-6 text-zinc-600">Grok added & integrated Charity + NFT layer • Manus built foundation • ChatGPT next on AI depth or WeChat minis</p>
-              </div>
+              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>

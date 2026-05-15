@@ -1,4 +1,4 @@
-import { router, protectedProcedure } from './_core/trpc';
+import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 export const web3Router = router({
   getTrumpBalance: protectedProcedure.query(() => ({ balance: 2847.5, usdValue: 2420 })),

@@ -1,4 +1,4 @@
-import { router, protectedProcedure } from './_core/trpc';
+import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 export const nftMarketplaceRouter = router({
   listListings: protectedProcedure.query(() => [{ id: 'nft1', title: 'Clean Water Impact Story #42', priceTrump: 150, rarity: 'legendary' }]),

@@ -1,4 +1,4 @@
-import { router, protectedProcedure } from './_core/trpc';
+import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 
 export const notificationsRouter = router({
