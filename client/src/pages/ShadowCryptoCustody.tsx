@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import { Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -23,15 +23,15 @@ export default function ShadowCryptoCustody() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Crypto Custody</h1>
-          <p className="text-sm text-muted-foreground">Institutional-grade crypto custody with multi-sig, HSM, and insurance coverage</p>
+          <p className="text-sm text-muted-foreground">Bank-grade crypto custody with multi-sig, insurance, and regulatory compliance</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Bank-Grade Security</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Institutional Custody</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">2.4B USD</p><p className="text-xs text-muted-foreground">Assets Custodied</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">500M USD</p><p className="text-xs text-muted-foreground">Insurance</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">5-of-7</p><p className="text-xs text-muted-foreground">Signers</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">99.999pct</p><p className="text-xs text-muted-foreground">Uptime</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">8.4B USD</p><p className="text-xs text-muted-foreground">Assets Custodied</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">Full coverage</p><p className="text-xs text-muted-foreground">Insurance</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">5-of-7</p><p className="text-xs text-muted-foreground">Multi-sig</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">SOC2/ISO27001</p><p className="text-xs text-muted-foreground">Compliance</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

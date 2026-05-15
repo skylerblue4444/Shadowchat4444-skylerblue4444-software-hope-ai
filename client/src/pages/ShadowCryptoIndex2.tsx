@@ -23,15 +23,15 @@ export default function ShadowCryptoIndex2() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Crypto Index V2</h1>
-          <p className="text-sm text-muted-foreground">Advanced crypto index funds with AI rebalancing, sector rotation, and tax-loss harvesting</p>
+          <p className="text-sm text-muted-foreground">AI-curated crypto index funds with automatic rebalancing and tax optimization</p>
         </div>
         <Badge className="bg-indigo-600 text-white shrink-0">Diversify Smart</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Indices</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847M USD</p><p className="text-xs text-muted-foreground">Total AUM</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847pct</p><p className="text-xs text-muted-foreground">Best Return</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">AI-Daily</p><p className="text-xs text-muted-foreground">Rebalance</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247</p><p className="text-xs text-muted-foreground">Index Funds</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Assets</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Plus 247pct/yr</p><p className="text-xs text-muted-foreground">Avg Return</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Weekly</p><p className="text-xs text-muted-foreground">Auto-Rebalance</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
