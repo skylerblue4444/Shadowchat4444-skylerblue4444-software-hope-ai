@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Crypto Payment Gateway
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowCryptoPayGateway() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "₿", title: "Bitcoin", desc: "Accept BTC payments", badge: "Classic" },
+    { icon: "🐕", title: "Dogecoin", desc: "Accept DOGE payments", badge: "Fun" },
+    { icon: "🇺🇸", title: "TRUMP", desc: "Accept TRUMP payments", badge: "Patriotic" },
+    { icon: "✦", title: "SKY4444", desc: "Accept SKY4444 payments", badge: "Native" },
+    { icon: "₮", title: "USDT", desc: "Accept stablecoin", badge: "Stable" },
+    { icon: "⚡", title: "Instant", desc: "Payments in 3 seconds", badge: "Fast" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Crypto Payment Gateway</h1>
+        <p className="text-xs text-muted-foreground">Accept BTC · ETH · DOGE · TRUMP · SKY4444 · USDT on your site</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Add crypto payments to any website in 5 minutes.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

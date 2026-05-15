@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Partner Program
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowPartnerProgram() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "🤝", title: "Reseller", desc: "Sell IT services · 30% commission", badge: "Earn" },
+    { icon: "🏷️", title: "White-Label", desc: "Your brand · Our platform", badge: "Custom" },
+    { icon: "✦", title: "SKY4444 Share", desc: "Earn SKY4444 on referrals", badge: "Passive" },
+    { icon: "📊", title: "Partner Portal", desc: "Track sales · Payouts", badge: "Dashboard" },
+    { icon: "🌍", title: "Global", desc: "Partners in 50+ countries", badge: "Worldwide" },
+    { icon: "📞", title: "Apply", desc: "479-406-7123", badge: "Contact" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Partner Program</h1>
+        <p className="text-xs text-muted-foreground">Resell ShadowChat · White-label · Revenue share · SKY4444</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Become a ShadowChat partner. Earn 30% commission on every sale.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

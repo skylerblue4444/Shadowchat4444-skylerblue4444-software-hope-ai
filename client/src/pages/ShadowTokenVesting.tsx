@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Token Vesting
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowTokenVesting() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "👑", title: "Founder", desc: "20% · 4-year vest · 1-year cliff", badge: "Aligned" },
+    { icon: "💰", title: "Investors", desc: "15% · 2-year vest · 6-mo cliff", badge: "Protected" },
+    { icon: "👥", title: "Team", desc: "15% · 3-year vest · 1-year cliff", badge: "Motivated" },
+    { icon: "🌍", title: "Community", desc: "40% · Distributed over 4 years", badge: "Fair" },
+    { icon: "🔒", title: "Treasury", desc: "10% · DAO controlled", badge: "Governed" },
+    { icon: "📊", title: "Schedule", desc: "Full vesting calendar", badge: "Transparent" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Token Vesting</h1>
+        <p className="text-xs text-muted-foreground">SKY4444 vesting schedules · Team · Investors · Community</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Transparent SKY4444 token distribution and vesting schedule.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

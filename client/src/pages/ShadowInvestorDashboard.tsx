@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Investor Dashboard
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowInvestorDashboard() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "💰", title: "MRR", desc: "$252,000/mo projected", badge: "Live" },
+    { icon: "👥", title: "Users", desc: "847 active today", badge: "Growing" },
+    { icon: "✦", title: "SKY4444 Price", desc: "$0.047 · +44.4%", badge: "Hot" },
+    { icon: "📈", title: "Growth Rate", desc: "124% MoM", badge: "Explosive" },
+    { icon: "🌍", title: "Markets", desc: "USA · China · EU", badge: "Global" },
+    { icon: "🏆", title: "Valuation", desc: "$10M+ at seed", badge: "Strong" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Investor Dashboard</h1>
+        <p className="text-xs text-muted-foreground">Live metrics for investors · Revenue · Users · Token · Growth</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Real-time investor metrics. Contact 479-406-7123 to invest.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

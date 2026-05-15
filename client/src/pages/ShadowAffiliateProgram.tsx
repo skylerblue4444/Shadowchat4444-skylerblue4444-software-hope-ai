@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Affiliate Program
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowAffiliateProgram() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "💰", title: "Commission", desc: "20% recurring lifetime", badge: "Best in class" },
+    { icon: "✦", title: "SKY4444 Bonus", desc: "Extra 44 SKY4444 per signup", badge: "Bonus" },
+    { icon: "📊", title: "Dashboard", desc: "Real-time tracking", badge: "Transparent" },
+    { icon: "💳", title: "Payouts", desc: "BTC · ETH · USDT · SKY4444", badge: "Flexible" },
+    { icon: "🔗", title: "Deep Links", desc: "Link to any page", badge: "Smart" },
+    { icon: "📈", title: "Top Earners", desc: "$4,444/mo average", badge: "Proven" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Affiliate Program</h1>
+        <p className="text-xs text-muted-foreground">Earn 20% recurring · Crypto payouts · SKY4444 bonus</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Join the affiliate program. Earn 20% recurring on every referral.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>

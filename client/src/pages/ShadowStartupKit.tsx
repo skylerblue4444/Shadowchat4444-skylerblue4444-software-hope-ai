@@ -1,24 +1,24 @@
 /**
- * ShadowChat — DAO Governance
+ * ShadowChat — Startup Kit
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowDAOGovernance() {
+export default function ShadowStartupKit() {
   const items = [
-    { icon: "🗳️", title: "Vote", desc: "1 SKY4444 = 1 vote", badge: "Democratic" },
-    { icon: "📋", title: "Proposals", desc: "Submit improvement proposals", badge: "Open" },
-    { icon: "💰", title: "Treasury", desc: "4.44M SKY4444 community fund", badge: "Managed" },
-    { icon: "📊", title: "Results", desc: "Transparent on-chain voting", badge: "Public" },
-    { icon: "🏆", title: "Top Voters", desc: "Earn governance rewards", badge: "Incentivized" },
-    { icon: "✦", title: "Quorum", desc: "10% of supply needed", badge: "Fair" }
+    { icon: "📋", title: "Business Plan", desc: "Crypto startup template", badge: "Ready" },
+    { icon: "💰", title: "Tokenomics", desc: "Design your token economy", badge: "Guide" },
+    { icon: "⚖️", title: "Legal Templates", desc: "Terms · Privacy · AML", badge: "Compliant" },
+    { icon: "🔌", title: "API Starter", desc: "Connect to ShadowChat", badge: "Code" },
+    { icon: "📊", title: "Pitch Deck", desc: "Investor presentation", badge: "Template" },
+    { icon: "✦", title: "SKY4444 Grant", desc: "500 SKY4444 for startups", badge: "Free" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">DAO Governance</h1>
-        <p className="text-xs text-muted-foreground">SKY4444 holders vote · Proposals · Treasury · Community</p>
+        <h1 className="text-2xl font-black">Startup Kit</h1>
+        <p className="text-xs text-muted-foreground">Everything you need to launch a crypto startup · Templates · Code · Guides</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowDAOGovernance() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 Integrated</p>
-          <p className="text-xs text-muted-foreground mb-2">SKY4444 holders govern ShadowChat. Your tokens = your voice.</p>
+          <p className="text-xs text-muted-foreground mb-2">Launch your crypto startup with ShadowChat tools and templates.</p>
           <Button size="sm" className="text-xs">Get Started</Button>
         </CardContent>
       </Card>
