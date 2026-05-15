@@ -1,7 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'wouter';
-
-// Existing page imports (assumed from structure)
 import Home from './pages/Home';
 import DashboardLayout from './layouts/DashboardLayout';
 import Trading from './pages/Trading';
@@ -24,15 +22,13 @@ import Notifications from './pages/Notifications';
 import Portfolio from './pages/Portfolio';
 import MarketData from './pages/MarketData';
 import NotFound from './pages/NotFound';
-
-// NEW: Charity Gaming & NFT Storytelling Hub (Grok integrated feature)
 import CharityHub from './pages/CharityHub';
-
+import MiniPrograms from './pages/MiniPrograms';
 export default function App() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/dashboard/*"} component={() => (
+      <Route path="/" component={Home} />
+      <Route path="/dashboard/*" component={() => (
         <DashboardLayout>
           <Switch>
             <Route path="/trading" component={Trading} />
@@ -54,13 +50,13 @@ export default function App() {
             <Route path="/notifications" component={Notifications} />
             <Route path="/portfolio" component={Portfolio} />
             <Route path="/market" component={MarketData} />
-            {/* NEW Charity Route - TRUMP-powered Charity Gaming + NFT Stories */}
             <Route path="/charity" component={CharityHub} />
+            <Route path="/mini-programs" component={MiniPrograms} />
             <Route component={NotFound} />
           </Switch>
         </DashboardLayout>
       )} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
