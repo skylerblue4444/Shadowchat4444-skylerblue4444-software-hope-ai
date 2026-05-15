@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Language Settings
+ * ShadowChat — Latin America Market
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowLanguageSettings() {
+export default function ShadowLatAmMarket() {
   const items = [
-    { icon: "🇺🇸", title: "English", desc: "Full English support", badge: "Default" },
-    { icon: "🇨🇳", title: "Chinese", desc: "Full Mandarin support", badge: "Global" },
-    { icon: "🇪🇸", title: "Spanish", desc: "Full Spanish support", badge: "Large" },
-    { icon: "🇯🇵", title: "Japanese", desc: "Full Japanese support", badge: "Active" },
-    { icon: "🇰🇷", title: "Korean", desc: "Full Korean support", badge: "Crypto" },
-    { icon: "🌍", title: "More", desc: "Arabic French German +4", badge: "Expanding" }
+    { icon: "🇧🇷", title: "Brazil", desc: "BRL trading · Mercado Bitcoin", badge: "Largest" },
+    { icon: "🇲🇽", title: "Mexico", desc: "MXN trading · Bitso", badge: "Growing" },
+    { icon: "🇦🇷", title: "Argentina", desc: "ARS inflation hedge", badge: "Need" },
+    { icon: "💸", title: "Remittance", desc: "Send money home instantly", badge: "Impact" },
+    { icon: "📱", title: "Mobile-First", desc: "Low data usage", badge: "Accessible" },
+    { icon: "✦", title: "SKY4444", desc: "SKY4444 LatAm expansion", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Language Settings</h1>
-        <p className="text-xs text-muted-foreground">ShadowChat in 10 languages · Auto-detect · RTL support</p>
+        <h1 className="text-2xl font-black">Latin America Market</h1>
+        <p className="text-xs text-muted-foreground">BRL MXN ARS trading · Remittance · Financial inclusion</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowLanguageSettings() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">ShadowChat speaks your language.</p>
+          <p className="text-xs text-muted-foreground mb-2">Bringing crypto to 650M people.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

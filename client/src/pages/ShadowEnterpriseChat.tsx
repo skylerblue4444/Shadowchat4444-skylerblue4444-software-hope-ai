@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Language Settings
+ * ShadowChat — Enterprise Chat
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowLanguageSettings() {
+export default function ShadowEnterpriseChat() {
   const items = [
-    { icon: "🇺🇸", title: "English", desc: "Full English support", badge: "Default" },
-    { icon: "🇨🇳", title: "Chinese", desc: "Full Mandarin support", badge: "Global" },
-    { icon: "🇪🇸", title: "Spanish", desc: "Full Spanish support", badge: "Large" },
-    { icon: "🇯🇵", title: "Japanese", desc: "Full Japanese support", badge: "Active" },
-    { icon: "🇰🇷", title: "Korean", desc: "Full Korean support", badge: "Crypto" },
-    { icon: "🌍", title: "More", desc: "Arabic French German +4", badge: "Expanding" }
+    { icon: "🔐", title: "E2E Encrypted", desc: "Military-grade encryption", badge: "Secure" },
+    { icon: "🏢", title: "On-Premise", desc: "Host on your own servers", badge: "Control" },
+    { icon: "📁", title: "File Share", desc: "Secure file sharing", badge: "Convenient" },
+    { icon: "📹", title: "Video Calls", desc: "HD video conferencing", badge: "Connected" },
+    { icon: "🔍", title: "Search", desc: "Search all messages", badge: "Findable" },
+    { icon: "✦", title: "SKY4444", desc: "Crypto team payments", badge: "Unique" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Language Settings</h1>
-        <p className="text-xs text-muted-foreground">ShadowChat in 10 languages · Auto-detect · RTL support</p>
+        <h1 className="text-2xl font-black">Enterprise Chat</h1>
+        <p className="text-xs text-muted-foreground">Secure team messaging · End-to-end encrypted · On-premise</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowLanguageSettings() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">ShadowChat speaks your language.</p>
+          <p className="text-xs text-muted-foreground mb-2">The most secure team chat ever built.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>

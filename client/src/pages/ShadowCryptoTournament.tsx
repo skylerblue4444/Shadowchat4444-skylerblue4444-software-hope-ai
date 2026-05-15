@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Language Settings
+ * ShadowChat — Trading Tournament
  */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function ShadowLanguageSettings() {
+export default function ShadowCryptoTournament() {
   const items = [
-    { icon: "🇺🇸", title: "English", desc: "Full English support", badge: "Default" },
-    { icon: "🇨🇳", title: "Chinese", desc: "Full Mandarin support", badge: "Global" },
-    { icon: "🇪🇸", title: "Spanish", desc: "Full Spanish support", badge: "Large" },
-    { icon: "🇯🇵", title: "Japanese", desc: "Full Japanese support", badge: "Active" },
-    { icon: "🇰🇷", title: "Korean", desc: "Full Korean support", badge: "Crypto" },
-    { icon: "🌍", title: "More", desc: "Arabic French German +4", badge: "Expanding" }
+    { icon: "🏆", title: "Weekly Tourney", desc: "New tournament every week", badge: "Regular" },
+    { icon: "💰", title: "Prize Pool", desc: "Up to 44,444 SKY4444", badge: "Valuable" },
+    { icon: "📊", title: "Leaderboard", desc: "Real-time rankings", badge: "Exciting" },
+    { icon: "⚡", title: "Paper Trading", desc: "Practice mode available", badge: "Safe" },
+    { icon: "🎯", title: "Categories", desc: "Spot futures options", badge: "Varied" },
+    { icon: "✦", title: "SKY4444", desc: "All prizes in SKY4444", badge: "Native" }
   ];
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-black">Language Settings</h1>
-        <p className="text-xs text-muted-foreground">ShadowChat in 10 languages · Auto-detect · RTL support</p>
+        <h1 className="text-2xl font-black">Trading Tournament</h1>
+        <p className="text-xs text-muted-foreground">Weekly trading competitions · SKY4444 prize pool · Glory</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -35,7 +35,7 @@ export default function ShadowLanguageSettings() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground mb-2">ShadowChat speaks your language.</p>
+          <p className="text-xs text-muted-foreground mb-2">Compete. Win. Earn.</p>
           <Button size="sm" className="text-xs">Launch</Button>
         </CardContent>
       </Card>
