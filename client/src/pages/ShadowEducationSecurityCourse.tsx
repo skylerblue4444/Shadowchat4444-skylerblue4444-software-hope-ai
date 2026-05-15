@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Client Testimonials
+ * ShadowChat — Crypto Security Course
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowSkylerBlueTestimonials() {
+export default function ShadowEducationSecurityCourse() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"⭐⭐⭐⭐⭐",title:"5 Stars",desc:"Average client rating",badge:"Excellent"},
-    {icon:"🏢",title:"Business Clients",desc:"SMB and enterprise clients",badge:"Diverse"},
-    {icon:"🏥",title:"Healthcare",desc:"HIPAA-compliant IT solutions",badge:"Specialized"},
-    {icon:"🏫",title:"Education",desc:"School district IT support",badge:"Community"},
-    {icon:"🏛️",title:"Government",desc:"Government IT contracts",badge:"Trusted"},
-    {icon:"📞",title:"Review",desc:"479-406-7123 to leave review",badge:"Feedback"}];
+  const items=[{icon:"🔐",title:"Hardware Wallet",desc:"Ledger Trezor setup guide",badge:"Safe"},
+    {icon:"🔑",title:"Seed Phrase",desc:"Secure seed phrase storage",badge:"Critical"},
+    {icon:"📱",title:"2FA",desc:"Best 2FA practices",badge:"Secure"},
+    {icon:"🎣",title:"Phishing",desc:"Spot phishing attacks",badge:"Aware"},
+    {icon:"🌐",title:"OpSec",desc:"Online security practices",badge:"Private"},
+    {icon:"💰",title:"Earn",desc:"Earn SKY4444 for completing",badge:"Incentive"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Client Testimonials</h1>
-        <p className="text-xs text-muted-foreground">What clients say about Skyler Blue IT Resolutions</p>
+        <h1 className="text-2xl font-black">Crypto Security Course</h1>
+        <p className="text-xs text-muted-foreground">Protect your crypto · Hardware wallets · OpSec · No more hacks</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueTestimonials() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Our clients say it best.</p>
+          <p className="text-xs text-muted-foreground">Never get hacked. Ever.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

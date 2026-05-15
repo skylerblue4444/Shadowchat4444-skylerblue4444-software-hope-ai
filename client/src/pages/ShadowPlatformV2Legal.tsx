@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Client Testimonials
+ * ShadowChat — Legal Center
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowSkylerBlueTestimonials() {
+export default function ShadowPlatformV2Legal() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"⭐⭐⭐⭐⭐",title:"5 Stars",desc:"Average client rating",badge:"Excellent"},
-    {icon:"🏢",title:"Business Clients",desc:"SMB and enterprise clients",badge:"Diverse"},
-    {icon:"🏥",title:"Healthcare",desc:"HIPAA-compliant IT solutions",badge:"Specialized"},
-    {icon:"🏫",title:"Education",desc:"School district IT support",badge:"Community"},
-    {icon:"🏛️",title:"Government",desc:"Government IT contracts",badge:"Trusted"},
-    {icon:"📞",title:"Review",desc:"479-406-7123 to leave review",badge:"Feedback"}];
+  const items=[{icon:"📄",title:"Terms of Service",desc:"Platform terms and conditions",badge:"Required"},
+    {icon:"🔐",title:"Privacy Policy",desc:"How we protect your data",badge:"Important"},
+    {icon:"🍪",title:"Cookie Policy",desc:"Cookie usage policy",badge:"Transparent"},
+    {icon:"🏦",title:"AML Policy",desc:"Anti-money laundering",badge:"Compliant"},
+    {icon:"🆔",title:"KYC Policy",desc:"Know your customer",badge:"Regulated"},
+    {icon:"⚖️",title:"Disclaimers",desc:"Risk and investment disclaimers",badge:"Honest"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Client Testimonials</h1>
-        <p className="text-xs text-muted-foreground">What clients say about Skyler Blue IT Resolutions</p>
+        <h1 className="text-2xl font-black">Legal Center</h1>
+        <p className="text-xs text-muted-foreground">Terms privacy cookies AML KYC · All legal documents</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueTestimonials() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Our clients say it best.</p>
+          <p className="text-xs text-muted-foreground">Everything legal in one place.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
