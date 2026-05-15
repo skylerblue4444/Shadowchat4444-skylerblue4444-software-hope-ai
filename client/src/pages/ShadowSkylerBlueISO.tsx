@@ -16,22 +16,22 @@ const features = [
   "Mobile-first responsive design for all devices",
 ];
 
-export default function ShadowSkylerBlueSDWAN() {
+export default function ShadowSkylerBlueISO() {
   const [active, setActive] = useState(false);
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">SD-WAN V2</h1>
-          <p className="text-sm text-muted-foreground">Next-generation SD-WAN with AI traffic optimization, zero-trust security, and cloud-native architecture</p>
+          <h1 className="text-2xl font-black">ISO 27001</h1>
+          <p className="text-sm text-muted-foreground">ISO 27001 certified IT services with information security management system implementation</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">SD-WAN V2</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">ISO 27001 IT</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">84K</p><p className="text-xs text-muted-foreground">Sites Connected</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">47pct</p><p className="text-xs text-muted-foreground">Bandwidth Savings</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">99.999pct</p><p className="text-xs text-muted-foreground">Uptime</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Zero-trust</p><p className="text-xs text-muted-foreground">Security</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-cyan-400">8247</p><p className="text-xs text-muted-foreground">ISO Clients</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">114 Annex A</p><p className="text-xs text-muted-foreground">Controls</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">ISO 27001:2022</p><p className="text-xs text-muted-foreground">Certification</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Annual</p><p className="text-xs text-muted-foreground">Audit</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowSkylerBlueSDWAN() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">SD-WAN V2 — Activate Now</p>
+        <p className="font-black text-sm mb-1">ISO 27001 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("SD-WAN V2 activated!"); }}
+            onClick={() => { setActive(true); toast.success("ISO 27001 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening SD-WAN V2 docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening ISO 27001 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

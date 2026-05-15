@@ -22,16 +22,16 @@ export default function ShadowCryptoOptions() {
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Options Trading</h1>
-          <p className="text-sm text-muted-foreground">Advanced crypto options trading with calls, puts, Greeks, and volatility surface</p>
+          <h1 className="text-2xl font-black">Crypto Options</h1>
+          <p className="text-sm text-muted-foreground">Professional crypto options trading with puts, calls, spreads, and Greeks analysis</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Hedge Everything</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Options Trading</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">847M USD</p><p className="text-xs text-muted-foreground">Open Interest</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">47</p><p className="text-xs text-muted-foreground">Pairs</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">10x</p><p className="text-xs text-muted-foreground">Max Leverage</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84pct</p><p className="text-xs text-muted-foreground">Implied Vol</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8247</p><p className="text-xs text-muted-foreground">Options Pairs</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">847M USD</p><p className="text-xs text-muted-foreground">Open Interest</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Full suite</p><p className="text-xs text-muted-foreground">Greeks</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Daily/Weekly/Monthly</p><p className="text-xs text-muted-foreground">Expiries</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowCryptoOptions() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Options Trading — Activate Now</p>
+        <p className="font-black text-sm mb-1">Crypto Options — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Options Trading activated!"); }}
+            onClick={() => { setActive(true); toast.success("Crypto Options activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Options Trading docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Crypto Options docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
