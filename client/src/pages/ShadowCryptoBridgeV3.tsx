@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT Services FAQ
+ * ShadowChat — Cross-Chain Bridge V3
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowSkylerBlueITFAQ() {
+export default function ShadowCryptoBridgeV3() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"❓",title:"What is MSP?",desc:"Managed service provider explained",badge:"Educate"},
-    {icon:"💰",title:"How much?",desc:"Pricing and packages",badge:"Transparent"},
-    {icon:"⏰",title:"Response Time",desc:"Our SLA commitments",badge:"Committed"},
-    {icon:"🌍",title:"Service Area",desc:"Arkansas and remote",badge:"Where"},
-    {icon:"🔐",title:"Security",desc:"How we secure your business",badge:"Safe"},
-    {icon:"📞",title:"More Questions",desc:"479-406-7123",badge:"Contact"}];
+  const items=[{icon:"🌉",title:"20+ Chains",desc:"Bridge across all major chains",badge:"Universal"},
+    {icon:"💰",title:"Best Rate",desc:"AI finds best bridge rate",badge:"Optimal"},
+    {icon:"⚡",title:"Fast",desc:"Most bridges complete in 2 min",badge:"Quick"},
+    {icon:"🛡️",title:"Secure",desc:"Audited bridge contracts",badge:"Safe"},
+    {icon:"📊",title:"Track",desc:"Track bridge transactions",badge:"Visible"},
+    {icon:"✦",title:"SKY4444",desc:"Bridge SKY4444 anywhere",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT Services FAQ</h1>
-        <p className="text-xs text-muted-foreground">Common questions about Skyler Blue IT Resolutions</p>
+        <h1 className="text-2xl font-black">Cross-Chain Bridge V3</h1>
+        <p className="text-xs text-muted-foreground">Bridge any token across 20+ chains · Best rates · Fast</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueITFAQ() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Everything you need to know about our IT services.</p>
+          <p className="text-xs text-muted-foreground">Move your crypto anywhere instantly.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

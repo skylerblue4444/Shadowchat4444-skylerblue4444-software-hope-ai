@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT Services FAQ
+ * ShadowChat — AI Content Agent V3
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowSkylerBlueITFAQ() {
+export default function ShadowAIV3ContentAgent() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"❓",title:"What is MSP?",desc:"Managed service provider explained",badge:"Educate"},
-    {icon:"💰",title:"How much?",desc:"Pricing and packages",badge:"Transparent"},
-    {icon:"⏰",title:"Response Time",desc:"Our SLA commitments",badge:"Committed"},
-    {icon:"🌍",title:"Service Area",desc:"Arkansas and remote",badge:"Where"},
-    {icon:"🔐",title:"Security",desc:"How we secure your business",badge:"Safe"},
-    {icon:"📞",title:"More Questions",desc:"479-406-7123",badge:"Contact"}];
+  const items=[{icon:"📝",title:"Auto-Post",desc:"AI generates and posts content",badge:"Automated"},
+    {icon:"🐦",title:"Twitter",desc:"AI tweets for your account",badge:"Social"},
+    {icon:"📧",title:"Newsletter",desc:"AI writes your newsletter",badge:"Written"},
+    {icon:"📊",title:"Analytics",desc:"Track content performance",badge:"Data"},
+    {icon:"🎯",title:"On-Brand",desc:"Matches your voice and style",badge:"Authentic"},
+    {icon:"✦",title:"SKY4444",desc:"Content about SKY4444",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT Services FAQ</h1>
-        <p className="text-xs text-muted-foreground">Common questions about Skyler Blue IT Resolutions</p>
+        <h1 className="text-2xl font-black">AI Content Agent V3</h1>
+        <p className="text-xs text-muted-foreground">Auto-generate crypto content · Posts tweets newsletters</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueITFAQ() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Everything you need to know about our IT services.</p>
+          <p className="text-xs text-muted-foreground">Never run out of content ideas again.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

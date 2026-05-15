@@ -1,24 +1,24 @@
 /**
- * ShadowChat — IT Services FAQ
+ * ShadowChat — Liquidations Dashboard V3
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowSkylerBlueITFAQ() {
+export default function ShadowCryptoLiquidationsV3() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"❓",title:"What is MSP?",desc:"Managed service provider explained",badge:"Educate"},
-    {icon:"💰",title:"How much?",desc:"Pricing and packages",badge:"Transparent"},
-    {icon:"⏰",title:"Response Time",desc:"Our SLA commitments",badge:"Committed"},
-    {icon:"🌍",title:"Service Area",desc:"Arkansas and remote",badge:"Where"},
-    {icon:"🔐",title:"Security",desc:"How we secure your business",badge:"Safe"},
-    {icon:"📞",title:"More Questions",desc:"479-406-7123",badge:"Contact"}];
+  const items=[{icon:"💥",title:"Real-Time",desc:"Live liquidation feed",badge:"Instant"},
+    {icon:"🗺️",title:"Heatmap",desc:"Liquidation level heatmap",badge:"Visual"},
+    {icon:"🌊",title:"Cascades",desc:"Identify cascade risks",badge:"Warning"},
+    {icon:"📊",title:"By Exchange",desc:"Liquidations by exchange",badge:"Breakdown"},
+    {icon:"🔔",title:"Alerts",desc:"Alert on large liquidations",badge:"First"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 liquidation data",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">IT Services FAQ</h1>
-        <p className="text-xs text-muted-foreground">Common questions about Skyler Blue IT Resolutions</p>
+        <h1 className="text-2xl font-black">Liquidations Dashboard V3</h1>
+        <p className="text-xs text-muted-foreground">Real-time liquidations · Heatmap · Cascades · Risk levels</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueITFAQ() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Everything you need to know about our IT services.</p>
+          <p className="text-xs text-muted-foreground">Know where the liquidations are before they happen.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
