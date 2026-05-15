@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowFintechCryptoCard() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"💳",title:"Visa Card",desc:"Accepted at 50M+ merchants",badge:"Universal"},
-    {icon:"💰",title:"5% Cashback",desc:"Earn SKY4444 on every purchase",badge:"Reward"},
+  const items=[{icon:"💳",title:"Visa/MC",desc:"Works anywhere Visa is accepted",badge:"Universal"},
     {icon:"⚡",title:"Instant Convert",desc:"Crypto converts at point of sale",badge:"Seamless"},
-    {icon:"📱",title:"Apple Pay",desc:"Add to Apple Google Pay",badge:"Convenient"},
-    {icon:"🌍",title:"Global",desc:"Works in every country",badge:"Worldwide"},
-    {icon:"✦",title:"SKY4444",desc:"Cashback always in SKY4444",badge:"Native"}];
+    {icon:"💰",title:"Cashback",desc:"Up to 8% cashback in SKY4444",badge:"Reward"},
+    {icon:"🌍",title:"Global",desc:"Use in 200+ countries",badge:"Everywhere"},
+    {icon:"📱",title:"Virtual Card",desc:"Instant virtual card",badge:"Immediate"},
+    {icon:"✦",title:"SKY4444",desc:"8% cashback in SKY4444",badge:"Best"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">Crypto Debit Card</h1>
-        <p className="text-xs text-muted-foreground">Spend crypto anywhere Visa is accepted · 5% cashback in SKY4444</p>
+        <p className="text-xs text-muted-foreground">Spend crypto anywhere · Visa Mastercard · Instant convert</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowFintechCryptoCard() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Spend crypto. Earn SKY4444.</p>
+          <p className="text-xs text-muted-foreground">Spend your crypto everywhere.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

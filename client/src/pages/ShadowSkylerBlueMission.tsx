@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowSkylerBlueMission() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🌍",title:"Democratize",desc:"Crypto for everyone",badge:"Inclusive"},
-    {icon:"💰",title:"Empower",desc:"Financial freedom for all",badge:"Mission"},
-    {icon:"🏠",title:"Local",desc:"Start in Arkansas grow global",badge:"Roots"},
-    {icon:"🔐",title:"Security",desc:"Keep users safe always",badge:"Protect"},
-    {icon:"🤝",title:"Community",desc:"Build together grow together",badge:"Together"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 as the reward",badge:"Native"}];
+  const items=[{icon:"🌍",title:"Democratize",desc:"Crypto for everyone everywhere",badge:"Universal"},
+    {icon:"💪",title:"Empower",desc:"Empower financial freedom",badge:"Purpose"},
+    {icon:"🔐",title:"Secure",desc:"Security first always",badge:"Safe"},
+    {icon:"🤝",title:"Community",desc:"Community-first approach",badge:"People"},
+    {icon:"🙏",title:"Faith",desc:"Built with faith and integrity",badge:"Values"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 is the mission",badge:"Core"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">Our Mission</h1>
-        <p className="text-xs text-muted-foreground">Democratize crypto · Empower everyone · SKY4444 for all</p>
+        <p className="text-xs text-muted-foreground">Democratize crypto · Empower everyone · Build with faith</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueMission() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Crypto should be for everyone. Not just the rich.</p>
+          <p className="text-xs text-muted-foreground">Making crypto accessible to everyone.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

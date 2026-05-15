@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Skyler Blue Story
+ * ShadowChat — The Skyler Blue Story
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -9,16 +9,16 @@ import {Badge} from "@/components/ui/badge";
 export default function ShadowSkylerBlueStory() {
   const [a,sA]=useState<number|null>(null);
   const items=[{icon:"🏠",title:"Built at Home",desc:"Every line coded at home",badge:"Authentic"},
-    {icon:"🌾",title:"Arkansas",desc:"Northwest Arkansas roots",badge:"Local"},
-    {icon:"💰",title:"$1M+ Value",desc:"Million-dollar codebase",badge:"Valuable"},
-    {icon:"🤖",title:"AI + Human",desc:"Human vision AI execution",badge:"Unique"},
-    {icon:"🙏",title:"God Willing",desc:"Faith-driven development",badge:"Inspired"},
-    {icon:"📞",title:"Contact",desc:"479-406-7123",badge:"Personal"}];
+    {icon:"🗺️",title:"Arkansas",desc:"Fayetteville AR to the world",badge:"Origin"},
+    {icon:"🤖",title:"AI-Assisted",desc:"AI helped but Skyler directed",badge:"Smart"},
+    {icon:"💰",title:"$1M+ Value",desc:"Million dollar codebase",badge:"Valuable"},
+    {icon:"🙏",title:"God Willing",desc:"Built with faith and purpose",badge:"Spiritual"},
+    {icon:"📞",title:"Connect",desc:"479-406-7123",badge:"Contact"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Skyler Blue Story</h1>
-        <p className="text-xs text-muted-foreground">Built at home · Arkansas · $1M+ in code · God willing</p>
+        <h1 className="text-2xl font-black">The Skyler Blue Story</h1>
+        <p className="text-xs text-muted-foreground">Built at home in Arkansas · One page at a time · God willing</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowSkylerBlueStory() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">One person. One vision. One million lines.</p>
+          <p className="text-xs text-muted-foreground">One developer. One dream. Built from scratch.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

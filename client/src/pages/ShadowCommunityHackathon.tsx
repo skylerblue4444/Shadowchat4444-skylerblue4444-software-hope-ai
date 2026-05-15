@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Hackathon Hub
+ * ShadowChat — Crypto Hackathon
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowCommunityHackathon() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"💻",title:"Build",desc:"Build apps on ShadowChat",badge:"Create"},
-    {icon:"🏆",title:"Win",desc:"Win SKY4444 prizes",badge:"Reward"},
-    {icon:"📅",title:"Monthly",desc:"Hackathon every month",badge:"Regular"},
-    {icon:"👥",title:"Teams",desc:"Solo or team of 4",badge:"Flexible"},
-    {icon:"🎤",title:"Demo",desc:"Demo to judges and community",badge:"Showcase"},
-    {icon:"✦",title:"SKY4444",desc:"All prizes in SKY4444",badge:"Native"}];
+  const items=[{icon:"🏆",title:"$100K Pool",desc:"Massive prize pool",badge:"Motivating"},
+    {icon:"⏰",title:"Quarterly",desc:"Hackathon every quarter",badge:"Regular"},
+    {icon:"🔨",title:"Build",desc:"Build on SKY4444 ecosystem",badge:"Create"},
+    {icon:"👥",title:"Teams",desc:"Solo or team participation",badge:"Flexible"},
+    {icon:"🌍",title:"Global",desc:"Open to developers worldwide",badge:"Inclusive"},
+    {icon:"✦",title:"SKY4444",desc:"Prizes paid in SKY4444",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Hackathon Hub</h1>
-        <p className="text-xs text-muted-foreground">Build on ShadowChat · Win SKY4444 · Monthly hackathons</p>
+        <h1 className="text-2xl font-black">Crypto Hackathon</h1>
+        <p className="text-xs text-muted-foreground">Build on SKY4444 · Win prizes · $100K prize pool · Quarterly</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowCommunityHackathon() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Build the future. Win SKY4444.</p>
+          <p className="text-xs text-muted-foreground">Build the future of SKY4444.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

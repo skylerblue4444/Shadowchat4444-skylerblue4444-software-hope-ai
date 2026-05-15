@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Crypto Mentorship
+ * ShadowChat — Crypto Mentorship Program
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowCommunityMentorship() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"👨‍🏫",title:"Expert Mentors",desc:"Verified crypto experts",badge:"Quality"},
-    {icon:"💬",title:"1-on-1",desc:"Private mentorship sessions",badge:"Personal"},
-    {icon:"💰",title:"SKY4444",desc:"Pay mentors in SKY4444",badge:"Native"},
-    {icon:"📊",title:"Track Progress",desc:"Track learning progress",badge:"Measurable"},
-    {icon:"🏆",title:"Certify",desc:"Get mentorship certificate",badge:"Credible"},
-    {icon:"📅",title:"Book",desc:"Book a session today",badge:"Easy"}];
+  const items=[{icon:"🎓",title:"Get Mentor",desc:"Match with experienced trader",badge:"Learn"},
+    {icon:"👨‍🏫",title:"Be Mentor",desc:"Teach and earn SKY4444",badge:"Teach"},
+    {icon:"🤝",title:"1-on-1",desc:"Private mentorship sessions",badge:"Personal"},
+    {icon:"📊",title:"Track Progress",desc:"Track learning milestones",badge:"Measure"},
+    {icon:"🏆",title:"Certification",desc:"Mentorship completion cert",badge:"Credible"},
+    {icon:"✦",title:"SKY4444",desc:"Earn SKY4444 for mentoring",badge:"Incentive"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Crypto Mentorship</h1>
-        <p className="text-xs text-muted-foreground">1-on-1 mentorship · Expert mentors · SKY4444 sessions</p>
+        <h1 className="text-2xl font-black">Crypto Mentorship Program</h1>
+        <p className="text-xs text-muted-foreground">Get matched with a crypto mentor · 1-on-1 · SKY4444 rewards</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowCommunityMentorship() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Learn directly from crypto experts.</p>
+          <p className="text-xs text-muted-foreground">Learn from those who've done it.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

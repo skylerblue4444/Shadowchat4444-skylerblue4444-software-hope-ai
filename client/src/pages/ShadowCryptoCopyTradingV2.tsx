@@ -8,11 +8,11 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowCryptoCopyTradingV2() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"👑",title:"Top Traders",desc:"Copy verified profitable traders",badge:"Quality"},
-    {icon:"🤖",title:"Auto-Copy",desc:"Trades copied automatically",badge:"Hands-free"},
-    {icon:"🛡️",title:"Risk Control",desc:"Set max loss limits",badge:"Protected"},
-    {icon:"📊",title:"Performance",desc:"Full trader track record",badge:"Transparent"},
-    {icon:"💰",title:"Profit Share",desc:"Traders earn 20% of profits",badge:"Aligned"},
+  const items=[{icon:"🔄",title:"Auto-Copy",desc:"Automatically copy top traders",badge:"Hands-free"},
+    {icon:"🏆",title:"Top Traders",desc:"Verified top performer list",badge:"Quality"},
+    {icon:"🛡️",title:"Risk Controls",desc:"Set max loss limits",badge:"Safe"},
+    {icon:"📊",title:"Performance",desc:"Track copy trading returns",badge:"Measure"},
+    {icon:"💰",title:"Profit Share",desc:"Traders earn from your profits",badge:"Aligned"},
     {icon:"✦",title:"SKY4444",desc:"Copy SKY4444 traders",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
@@ -35,7 +35,7 @@ export default function ShadowCryptoCopyTradingV2() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Profit from the best traders automatically.</p>
+          <p className="text-xs text-muted-foreground">Copy the best. Beat the market.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

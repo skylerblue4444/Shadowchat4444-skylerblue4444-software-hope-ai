@@ -1,5 +1,5 @@
 /**
- * ShadowChat — RPA Automation
+ * ShadowChat — Robotic Process Automation
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowITAutomationRPA() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🤖",title:"Bots",desc:"Deploy software robots",badge:"Automate"},
-    {icon:"📊",title:"Workflows",desc:"Automate repetitive workflows",badge:"Efficient"},
-    {icon:"💰",title:"Save 80%",desc:"Reduce manual labor costs",badge:"ROI"},
-    {icon:"🔄",title:"24/7",desc:"Bots work around the clock",badge:"Always"},
-    {icon:"📈",title:"Scale",desc:"Scale without hiring",badge:"Growth"},
-    {icon:"📞",title:"Deploy",desc:"479-406-7123 to deploy",badge:"Contact"}];
+  const items=[{icon:"🤖",title:"Automate",desc:"Automate any repetitive task",badge:"Efficient"},
+    {icon:"🚫",title:"No Code",desc:"No coding required",badge:"Accessible"},
+    {icon:"⏰",title:"24/7",desc:"Robots work around the clock",badge:"Always"},
+    {icon:"📊",title:"Analytics",desc:"Track automation performance",badge:"Measure"},
+    {icon:"💰",title:"Save Time",desc:"Average 10 hours saved per week",badge:"ROI"},
+    {icon:"📞",title:"Setup",desc:"479-406-7123 to setup",badge:"Contact"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">RPA Automation</h1>
-        <p className="text-xs text-muted-foreground">Robotic process automation · Reduce manual work · Arkansas</p>
+        <h1 className="text-2xl font-black">Robotic Process Automation</h1>
+        <p className="text-xs text-muted-foreground">Automate repetitive tasks · No code · Arkansas IT</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowITAutomationRPA() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Automate the work. Focus on what matters.</p>
+          <p className="text-xs text-muted-foreground">Let robots do the boring work.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

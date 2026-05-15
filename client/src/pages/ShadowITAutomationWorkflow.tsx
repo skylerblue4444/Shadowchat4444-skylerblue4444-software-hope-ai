@@ -9,16 +9,16 @@ import {Badge} from "@/components/ui/badge";
 export default function ShadowITAutomationWorkflow() {
   const [a,sA]=useState<number|null>(null);
   const items=[{icon:"🔌",title:"Connect Apps",desc:"Connect 500+ business apps",badge:"Wide"},
-    {icon:"🎨",title:"No-Code",desc:"Build workflows visually",badge:"Easy"},
-    {icon:"⚡",title:"Instant",desc:"Workflows trigger instantly",badge:"Fast"},
-    {icon:"📊",title:"Monitor",desc:"Track all workflow runs",badge:"Visible"},
-    {icon:"🔔",title:"Alerts",desc:"Alert on workflow failures",badge:"Reliable"},
+    {icon:"🔄",title:"Automate",desc:"Build automated workflows",badge:"Efficient"},
+    {icon:"🚫",title:"No Code",desc:"Drag and drop workflow builder",badge:"Easy"},
+    {icon:"⚡",title:"Fast",desc:"Workflows run in milliseconds",badge:"Quick"},
+    {icon:"📊",title:"Monitor",desc:"Monitor all running workflows",badge:"Visible"},
     {icon:"📞",title:"Setup",desc:"479-406-7123 to setup",badge:"Contact"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">Workflow Automation</h1>
-        <p className="text-xs text-muted-foreground">Connect all your apps · No-code workflows · Arkansas</p>
+        <p className="text-xs text-muted-foreground">Connect your apps · Automate workflows · Zapier alternative</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowITAutomationWorkflow() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Connect all your apps. Automate everything.</p>
+          <p className="text-xs text-muted-foreground">Connect your business apps automatically.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

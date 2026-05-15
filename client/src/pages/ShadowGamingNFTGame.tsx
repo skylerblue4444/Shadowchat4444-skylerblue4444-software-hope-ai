@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Trading Signals V2
+ * ShadowChat — NFT Game Hub
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowCryptoSignalsV2() {
+export default function ShadowGamingNFTGame() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🤖",title:"AI Signals",desc:"Machine learning signals",badge:"Smart"},
-    {icon:"📊",title:"Technical",desc:"TA-based entry exit signals",badge:"Precise"},
-    {icon:"📰",title:"Fundamental",desc:"News-driven signals",badge:"Informed"},
-    {icon:"😊",title:"Sentiment",desc:"Social sentiment signals",badge:"Pulse"},
-    {icon:"📈",title:"Track Record",desc:"Signal performance history",badge:"Credible"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 trading signals",badge:"Native"}];
+  const items=[{icon:"🎮",title:"P2E Games",desc:"Play-to-earn game directory",badge:"Earn"},
+    {icon:"🧑",title:"NFT Characters",desc:"Own your game characters",badge:"Own"},
+    {icon:"💰",title:"SKY4444 Rewards",desc:"Earn SKY4444 by playing",badge:"Incentive"},
+    {icon:"🏆",title:"Tournaments",desc:"Compete for SKY4444 prizes",badge:"Compete"},
+    {icon:"🎨",title:"Marketplace",desc:"Trade game NFTs",badge:"Market"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 is the game currency",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Trading Signals V2</h1>
-        <p className="text-xs text-muted-foreground">AI-generated signals · Technical fundamental sentiment</p>
+        <h1 className="text-2xl font-black">NFT Game Hub</h1>
+        <p className="text-xs text-muted-foreground">Play-to-earn games · NFT characters · SKY4444 rewards</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowCryptoSignalsV2() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">The signals that actually work.</p>
+          <p className="text-xs text-muted-foreground">Play games. Earn real crypto.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
