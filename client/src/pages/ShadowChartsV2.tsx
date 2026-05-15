@@ -16,22 +16,22 @@ const features = [
   "Mobile-first responsive design for all devices",
 ];
 
-export default function ShadowMetaV2() {
+export default function ShadowChartsV2() {
   const [active, setActive] = useState(false);
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black">Metaverse V3</h1>
-          <p className="text-sm text-muted-foreground">Third-generation metaverse with photorealistic graphics, physics, and persistent economy</p>
+          <h1 className="text-2xl font-black">Charts V2</h1>
+          <p className="text-sm text-muted-foreground">Professional trading charts with 247 indicators, drawing tools, and AI pattern recognition</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Metaverse V3</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Advanced Charts V2</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-pink-400">8247</p><p className="text-xs text-muted-foreground">Virtual Worlds</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Daily Users</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">84M</p><p className="text-xs text-muted-foreground">Land Parcels</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">847M USD/yr</p><p className="text-xs text-muted-foreground">GDP</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">47</p><p className="text-xs text-muted-foreground">Chart Types</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247</p><p className="text-xs text-muted-foreground">Indicators</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">21</p><p className="text-xs text-muted-foreground">Timeframes</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">AI-powered</p><p className="text-xs text-muted-foreground">Pattern Recognition</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,16 +44,16 @@ export default function ShadowMetaV2() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Metaverse V3 — Activate Now</p>
+        <p className="font-black text-sm mb-1">Charts V2 — Activate Now</p>
         <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Metaverse V3 activated!"); }}
+            onClick={() => { setActive(true); toast.success("Charts V2 activated!"); }}
           >
             <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Metaverse V3 docs...")}>
+          <Button variant="outline" onClick={() => toast.info("Opening Charts V2 docs...")}>
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>

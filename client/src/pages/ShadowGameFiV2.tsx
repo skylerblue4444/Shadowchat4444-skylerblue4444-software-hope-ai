@@ -23,15 +23,15 @@ export default function ShadowGameFiV2() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">GameFi V2</h1>
-          <p className="text-sm text-muted-foreground">Advanced GameFi platform with tournaments, guilds, scholarship programs, and NFT gaming</p>
+          <p className="text-sm text-muted-foreground">Next-generation GameFi with AI-generated worlds, player-owned economies, and cross-game assets</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Play to Earn</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">GameFi V2</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">247</p><p className="text-xs text-muted-foreground">Games</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84K</p><p className="text-xs text-muted-foreground">Players</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847K USD</p><p className="text-xs text-muted-foreground">Prize Pool</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">8247</p><p className="text-xs text-muted-foreground">Scholarships</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8247</p><p className="text-xs text-muted-foreground">Games</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Players</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Yes</p><p className="text-xs text-muted-foreground">AI Worlds</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Yes</p><p className="text-xs text-muted-foreground">Cross-Game Assets</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">

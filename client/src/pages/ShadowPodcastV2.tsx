@@ -23,15 +23,15 @@ export default function ShadowPodcastV2() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Podcast V2</h1>
-          <p className="text-sm text-muted-foreground">Advanced podcast platform with listener rewards, NFT episodes, and live audio rooms</p>
+          <p className="text-sm text-muted-foreground">Advanced podcast platform with AI transcription, chapter detection, and monetization</p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Audio Web3</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">Podcast Platform V2</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8247</p><p className="text-xs text-muted-foreground">Shows</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84K</p><p className="text-xs text-muted-foreground">Listeners/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847K</p><p className="text-xs text-muted-foreground">Episodes</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">247K</p><p className="text-xs text-muted-foreground">SKY4444 Earned</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">847K</p><p className="text-xs text-muted-foreground">Podcasts</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4M</p><p className="text-xs text-muted-foreground">Episodes</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">847K</p><p className="text-xs text-muted-foreground">Listeners/Day</p></CardContent></Card>
+        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">84M USD/month</p><p className="text-xs text-muted-foreground">Creator Revenue</p></CardContent></Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
