@@ -315,6 +315,7 @@ export const SHADOW_PAGES = [
   { component: "ShadowCryptoMerchant2", path: "/dashboard/shadow/crypto-merchant2", title: "Crypto Merchant2" },
   { component: "ShadowCryptoMicroPayments", path: "/dashboard/shadow/crypto-micro-payments", title: "Crypto Micro Payments" },
   { component: "ShadowCryptoMiner", path: "/dashboard/shadow/crypto-miner", title: "Crypto Miner" },
+  { component: "ShadowCryptoMinerPro", path: "/dashboard/shadow/crypto-miner-pro", title: "Crypto Miner Pro" },
   { component: "ShadowCryptoMining", path: "/dashboard/shadow/crypto-mining", title: "Crypto Mining" },
   { component: "ShadowCryptoMobile", path: "/dashboard/shadow/crypto-mobile", title: "Crypto Mobile" },
   { component: "ShadowCryptoMobile2", path: "/dashboard/shadow/crypto-mobile2", title: "Crypto Mobile2" },
@@ -776,6 +777,7 @@ export const SHADOW_PAGES = [
   { component: "ShadowLiquidityV2", path: "/dashboard/shadow/liquidity-v2", title: "Liquidity V2" },
   { component: "ShadowLiveV2", path: "/dashboard/shadow/live-v2", title: "Live V2" },
   { component: "ShadowLiveV3", path: "/dashboard/shadow/live-v3", title: "Live V3" },
+  { component: "ShadowLiveWallet", path: "/dashboard/shadow/live-wallet", title: "Live Wallet" },
   { component: "ShadowLlamaAI", path: "/dashboard/shadow/llama-ai", title: "Llama AI" },
   { component: "ShadowLoadBalancer", path: "/dashboard/shadow/load-balancer", title: "Load Balancer" },
   { component: "ShadowLogging", path: "/dashboard/shadow/logging", title: "Logging" },
@@ -1557,4 +1559,4 @@ export const SHADOW_PAGES = [
   { component: "ShadowZoomIntegration", path: "/dashboard/shadow/zoom-integration", title: "Zoom Integration" },
   { component: "ShadowZscalerIntegration", path: "/dashboard/shadow/zscaler-integration", title: "Zscaler Integration" },
 ] as const;
-export const SHADOW_PAGE_COUNT = 1556;
+export const SHADOW_PAGE_COUNT = 1558;

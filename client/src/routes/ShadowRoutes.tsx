@@ -317,6 +317,7 @@ const ShadowCryptoMeanRev = lazy(() => import('../pages/ShadowCryptoMeanRev'));
 const ShadowCryptoMerchant2 = lazy(() => import('../pages/ShadowCryptoMerchant2'));
 const ShadowCryptoMicroPayments = lazy(() => import('../pages/ShadowCryptoMicroPayments'));
 const ShadowCryptoMiner = lazy(() => import('../pages/ShadowCryptoMiner'));
+const ShadowCryptoMinerPro = lazy(() => import('../pages/ShadowCryptoMinerPro'));
 const ShadowCryptoMining = lazy(() => import('../pages/ShadowCryptoMining'));
 const ShadowCryptoMobile = lazy(() => import('../pages/ShadowCryptoMobile'));
 const ShadowCryptoMobile2 = lazy(() => import('../pages/ShadowCryptoMobile2'));
@@ -778,6 +779,7 @@ const ShadowLiquidityMining = lazy(() => import('../pages/ShadowLiquidityMining'
 const ShadowLiquidityV2 = lazy(() => import('../pages/ShadowLiquidityV2'));
 const ShadowLiveV2 = lazy(() => import('../pages/ShadowLiveV2'));
 const ShadowLiveV3 = lazy(() => import('../pages/ShadowLiveV3'));
+const ShadowLiveWallet = lazy(() => import('../pages/ShadowLiveWallet'));
 const ShadowLlamaAI = lazy(() => import('../pages/ShadowLlamaAI'));
 const ShadowLoadBalancer = lazy(() => import('../pages/ShadowLoadBalancer'));
 const ShadowLogging = lazy(() => import('../pages/ShadowLogging'));
@@ -1877,6 +1879,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/crypto-merchant2" component={ShadowCryptoMerchant2} />
       <Route path="/dashboard/shadow/crypto-micro-payments" component={ShadowCryptoMicroPayments} />
       <Route path="/dashboard/shadow/crypto-miner" component={ShadowCryptoMiner} />
+      <Route path="/dashboard/shadow/crypto-miner-pro" component={ShadowCryptoMinerPro} />
       <Route path="/dashboard/shadow/crypto-mining" component={ShadowCryptoMining} />
       <Route path="/dashboard/shadow/crypto-mobile" component={ShadowCryptoMobile} />
       <Route path="/dashboard/shadow/crypto-mobile2" component={ShadowCryptoMobile2} />
@@ -2338,6 +2341,7 @@ export function ShadowRoutes() {
       <Route path="/dashboard/shadow/liquidity-v2" component={ShadowLiquidityV2} />
       <Route path="/dashboard/shadow/live-v2" component={ShadowLiveV2} />
       <Route path="/dashboard/shadow/live-v3" component={ShadowLiveV3} />
+      <Route path="/dashboard/shadow/live-wallet" component={ShadowLiveWallet} />
       <Route path="/dashboard/shadow/llama-ai" component={ShadowLlamaAI} />
       <Route path="/dashboard/shadow/load-balancer" component={ShadowLoadBalancer} />
       <Route path="/dashboard/shadow/logging" component={ShadowLogging} />
