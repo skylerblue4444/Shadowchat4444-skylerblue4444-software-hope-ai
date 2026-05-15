@@ -12,10 +12,10 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
 const VAULT_ASSETS = [
-  { symbol: "BTC", name: "Bitcoin", amount: 2.84, value: 295,845, emoji: "₿", locked: true, coldStorage: true },
-  { symbol: "ETH", name: "Ethereum", amount: 44.4, value: 170,673, emoji: "Ξ", locked: true, coldStorage: false },
-  { symbol: "SKY4444", name: "SkyBlue Token", amount: 444444, value: 53,333, emoji: "⚡", locked: false, coldStorage: false },
-  { symbol: "TRUMP", name: "Trump Token", amount: 2844, value: 80,883, emoji: "🇺🇸", locked: false, coldStorage: false },
+  { symbol: "BTC", name: "Bitcoin", amount: 2.84, value: 295845, emoji: "₿", locked: true, coldStorage: true },
+  { symbol: "ETH", name: "Ethereum", amount: 44.4, value: 170673, emoji: "Ξ", locked: true, coldStorage: false },
+  { symbol: "SKY4444", name: "SkyBlue Token", amount: 444444, value: 53333, emoji: "⚡", locked: false, coldStorage: false },
+  { symbol: "TRUMP", name: "Trump Token", amount: 2844, value: 80883, emoji: "🇺🇸", locked: false, coldStorage: false },
 ];
 
 const MULTISIG_SIGNERS = [

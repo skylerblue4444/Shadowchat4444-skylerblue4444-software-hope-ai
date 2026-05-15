@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 
 const QUICK_STATS = [
   { label: "SKY4444 Price", value: "$0.1244", change: "+44.4%", up: true, emoji: "⚡" },
@@ -59,7 +59,7 @@ const PLATFORM_MODULES = [
 ];
 
 export default function ShadowHub() {
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const [livePrice, setLivePrice] = useState(0.1244);
   const [notifications, setNotifications] = useState(7);
 
@@ -116,7 +116,7 @@ export default function ShadowHub() {
         <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
           {QUICK_ACTIONS.map((action, i) => (
             <motion.button key={action.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-              onClick={() => navigate(action.route)}
+              onClick={() => setLocation(action.route)}
               className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-muted/20 hover:bg-muted/40 transition-colors">
               <div className={`h-10 w-10 rounded-xl ${action.color} flex items-center justify-center text-xl`}>{action.emoji}</div>
               <span className="text-xs font-medium">{action.label}</span>
@@ -175,7 +175,7 @@ export default function ShadowHub() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {PLATFORM_MODULES.map((mod, i) => (
             <motion.div key={mod.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}>
-              <Card className="border-border/50 hover:border-yellow-500/20 transition-all cursor-pointer" onClick={() => navigate(mod.route)}>
+              <Card className="border-border/50 hover:border-yellow-500/20 transition-all cursor-pointer" onClick={() => setLocation(mod.route)}>
                 <CardContent className="pt-3 pb-3">
                   <div className="flex items-start justify-between mb-2">
                     <span className="text-2xl">{mod.emoji}</span>
@@ -202,7 +202,7 @@ export default function ShadowHub() {
               <Progress value={68} className="h-1.5 mt-2" />
               <p className="text-xs text-muted-foreground mt-1">68% sold — $28.4M raised of $44M goal</p>
             </div>
-            <Button size="sm" className="bg-yellow-600 text-white border-0 shrink-0" onClick={() => navigate("/dashboard/ico")}>
+            <Button size="sm" className="bg-yellow-600 text-white border-0 shrink-0" onClick={() => setLocation("/dashboard/ico")}>
               Buy SKY4444
             </Button>
           </div>
