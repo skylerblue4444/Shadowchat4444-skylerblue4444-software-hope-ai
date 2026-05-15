@@ -31,11 +31,16 @@ const CharityHub     = lazy(() => import('./pages/CharityHub'));
 const MiniPrograms   = lazy(() => import('./pages/MiniPrograms'));
 const NFTMarketplace = lazy(() => import('./pages/NFTMarketplace'));
 
-// New pages
+// New platform pages
 const Marketplace    = lazy(() => import('./pages/Marketplace'));
 const Checkout       = lazy(() => import('./pages/Checkout'));
 const LiveStream     = lazy(() => import('./pages/LiveStream'));
 const CommunityBoards = lazy(() => import('./pages/CommunityBoards'));
+const Staking        = lazy(() => import('./pages/Staking'));
+const WalletPage     = lazy(() => import('./pages/Wallet'));
+const Profile        = lazy(() => import('./pages/Profile'));
+const ICOHub         = lazy(() => import('./pages/ICOHub'));
+const ServiceCenter  = lazy(() => import('./pages/ServiceCenter'));
 
 // IT Resolutions
 const ITHome         = lazy(() => import('./pages/ITHome'));
@@ -45,6 +50,15 @@ const ITTalent       = lazy(() => import('./pages/ITTalent'));
 const ITBook         = lazy(() => import('./pages/ITBook'));
 const ITContact      = lazy(() => import('./pages/ITContact'));
 const ITAbout        = lazy(() => import('./pages/ITAbout'));
+
+// Admin Panel
+const AdminDashboard    = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminUsers        = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminCompliance   = lazy(() => import('./pages/admin/AdminCompliance'));
+const AdminModeration   = lazy(() => import('./pages/admin/AdminModeration'));
+const AdminAnalytics    = lazy(() => import('./pages/admin/AdminAnalytics'));
+const AdminSettings     = lazy(() => import('./pages/admin/AdminSettings'));
+const WorldLeaderDashboard = lazy(() => import('./pages/admin/WorldLeaderDashboard'));
 
 // ─── Loading Fallback ─────────────────────────────────────────────────────────
 function PageLoader() {
@@ -64,34 +78,48 @@ function DashboardRoutes() {
     <DashboardLayout>
       <Suspense fallback={<PageLoader />}>
         <Switch>
-          <Route path="/dashboard"            component={Analytics} />
-          <Route path="/dashboard/trading"    component={Trading} />
-          <Route path="/dashboard/copilot"    component={AICopilot} />
-          <Route path="/dashboard/social"     component={SocialFeed} />
-          <Route path="/dashboard/messages"   component={Messaging} />
-          <Route path="/dashboard/analytics"  component={Analytics} />
-          <Route path="/dashboard/leaderboard" component={Leaderboard} />
-          <Route path="/dashboard/onboarding" component={Onboarding} />
-          <Route path="/dashboard/referrals"  component={Referrals} />
-          <Route path="/dashboard/api-vault"  component={APIVault} />
-          <Route path="/dashboard/vault"      component={ColdVault} />
-          <Route path="/dashboard/settings"   component={Settings} />
-          <Route path="/dashboard/dao"        component={DAOGovernance} />
+          {/* Core */}
+          <Route path="/dashboard"               component={Analytics} />
+          <Route path="/dashboard/trading"       component={Trading} />
+          <Route path="/dashboard/copilot"       component={AICopilot} />
+          <Route path="/dashboard/social"        component={SocialFeed} />
+          <Route path="/dashboard/messages"      component={Messaging} />
+          <Route path="/dashboard/analytics"     component={Analytics} />
+          <Route path="/dashboard/leaderboard"   component={Leaderboard} />
+          <Route path="/dashboard/onboarding"    component={Onboarding} />
+          <Route path="/dashboard/referrals"     component={Referrals} />
+          <Route path="/dashboard/api-vault"     component={APIVault} />
+          <Route path="/dashboard/vault"         component={ColdVault} />
+          <Route path="/dashboard/settings"      component={Settings} />
+          <Route path="/dashboard/dao"           component={DAOGovernance} />
           <Route path="/dashboard/quantum-vault" component={QuantumVault} />
-          <Route path="/dashboard/ai-wealth"  component={AIWealth} />
-          <Route path="/dashboard/bridge"     component={CrossChainBridge} />
-          <Route path="/dashboard/achievements" component={Achievements} />
+          <Route path="/dashboard/ai-wealth"     component={AIWealth} />
+          <Route path="/dashboard/bridge"        component={CrossChainBridge} />
+          <Route path="/dashboard/achievements"  component={Achievements} />
           <Route path="/dashboard/notifications" component={Notifications} />
-          <Route path="/dashboard/portfolio"  component={Portfolio} />
-          <Route path="/dashboard/market"     component={MarketData} />
-          <Route path="/dashboard/charity"    component={CharityHub} />
+          <Route path="/dashboard/portfolio"     component={Portfolio} />
+          <Route path="/dashboard/market"        component={MarketData} />
+          <Route path="/dashboard/charity"       component={CharityHub} />
           <Route path="/dashboard/mini-programs" component={MiniPrograms} />
-          <Route path="/dashboard/nft"        component={NFTMarketplace} />
-          {/* New routes */}
-          <Route path="/dashboard/marketplace" component={Marketplace} />
-          <Route path="/dashboard/checkout"   component={Checkout} />
-          <Route path="/dashboard/live"       component={LiveStream} />
-          <Route path="/dashboard/boards"     component={CommunityBoards} />
+          <Route path="/dashboard/nft"           component={NFTMarketplace} />
+          {/* New Platform */}
+          <Route path="/dashboard/marketplace"   component={Marketplace} />
+          <Route path="/dashboard/checkout"      component={Checkout} />
+          <Route path="/dashboard/live"          component={LiveStream} />
+          <Route path="/dashboard/boards"        component={CommunityBoards} />
+          <Route path="/dashboard/staking"       component={Staking} />
+          <Route path="/dashboard/wallet"        component={WalletPage} />
+          <Route path="/dashboard/profile"       component={Profile} />
+          <Route path="/dashboard/ico"           component={ICOHub} />
+          <Route path="/dashboard/service-center" component={ServiceCenter} />
+          {/* Admin */}
+          <Route path="/dashboard/admin"              component={AdminDashboard} />
+          <Route path="/dashboard/admin/users"        component={AdminUsers} />
+          <Route path="/dashboard/admin/compliance"   component={AdminCompliance} />
+          <Route path="/dashboard/admin/moderation"   component={AdminModeration} />
+          <Route path="/dashboard/admin/analytics"    component={AdminAnalytics} />
+          <Route path="/dashboard/admin/settings"     component={AdminSettings} />
+          <Route path="/dashboard/admin/world-leader" component={WorldLeaderDashboard} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>

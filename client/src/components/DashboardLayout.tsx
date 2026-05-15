@@ -119,8 +119,32 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: "ICO & Finance",
+    collapsible: true,
+    items: [
+      { icon: Zap, label: "SKY4444 ICO Hub", path: "/dashboard/ico", badge: "LIVE", badgeColor: "bg-cyan-600" },
+      { icon: Coins, label: "Staking Center", path: "/dashboard/staking", badge: "APY", badgeColor: "bg-green-600" },
+      { icon: Wallet, label: "Wallet", path: "/dashboard/wallet" },
+    ],
+  },
+  {
+    label: "Admin Panel",
+    collapsible: true,
+    items: [
+      { icon: Shield, label: "Admin Dashboard", path: "/dashboard/admin", badge: "ADMIN", badgeColor: "bg-red-600" },
+      { icon: Users, label: "User Management", path: "/dashboard/admin/users" },
+      { icon: Globe, label: "Compliance", path: "/dashboard/admin/compliance" },
+      { icon: Activity, label: "Moderation", path: "/dashboard/admin/moderation" },
+      { icon: BarChart2, label: "Analytics", path: "/dashboard/admin/analytics" },
+      { icon: Settings, label: "Admin Settings", path: "/dashboard/admin/settings" },
+      { icon: Star, label: "World Leader", path: "/dashboard/admin/world-leader", badge: "NEW", badgeColor: "bg-yellow-600" },
+    ],
+  },
+  {
     label: "Account",
     items: [
+      { icon: Users, label: "My Profile", path: "/dashboard/profile" },
+      { icon: MessageSquare, label: "Service Center", path: "/dashboard/service-center" },
       { icon: Settings, label: "Settings", path: "/dashboard/settings" },
     ],
   },
