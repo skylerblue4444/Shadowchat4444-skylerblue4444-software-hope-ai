@@ -61,11 +61,11 @@ export default function ShadowNFTRenting() {
               ) : (
                 <div className="flex gap-2 mt-1">
                   <Button size="sm" className="flex-1 h-7 bg-amber-600 text-white border-0 font-bold text-xs"
-                    onClick={() => { setRented(r2 => new Set([...r2, i])); toast.success("Renting " + r.nft + " for 1 day — " + r.daily + " charged"); }}>
+                    onClick={() => { setRented(r2 => new Set(Array.from(r2).concat([i]))); toast.success("Renting " + r.nft + " for 1 day — " + r.daily + " charged"); }}>
                     <Zap className="h-3 w-3 mr-1" />Rent 1 Day
                   </Button>
                   <Button size="sm" className="flex-1 h-7 bg-purple-600 text-white border-0 font-bold text-xs"
-                    onClick={() => { setRented(r2 => new Set([...r2, i])); toast.success("Renting " + r.nft + " for 1 week — " + r.weekly + " charged"); }}>
+                    onClick={() => { setRented(r2 => new Set(Array.from(r2).concat([i]))); toast.success("Renting " + r.nft + " for 1 week — " + r.weekly + " charged"); }}>
                     Rent 1 Week
                   </Button>
                 </div>

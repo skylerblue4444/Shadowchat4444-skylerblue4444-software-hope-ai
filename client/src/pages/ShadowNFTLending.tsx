@@ -59,7 +59,7 @@ export default function ShadowNFTLending() {
                 <div className="flex items-center gap-1 text-xs text-green-400 font-bold"><CheckCircle className="h-3 w-3" />Loan Active — Repay before {offer.duration}</div>
               ) : (
                 <Button size="sm" className="w-full h-7 bg-violet-600 text-white border-0 font-bold text-xs"
-                  onClick={() => { setBorrowed(b => new Set([...b, i])); toast.success("Loan of " + offer.offer + " approved! NFT locked as collateral."); }}>
+                  onClick={() => { setBorrowed(b => new Set(Array.from(b).concat([i]))); toast.success("Loan of " + offer.offer + " approved! NFT locked as collateral."); }}>
                   <Zap className="h-3 w-3 mr-1" />Borrow {offer.offer}
                 </Button>
               )}

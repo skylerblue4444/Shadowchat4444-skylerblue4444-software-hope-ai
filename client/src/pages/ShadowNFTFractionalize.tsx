@@ -53,7 +53,7 @@ export default function ShadowNFTFractionalize() {
                 {f.owned !== "0" && <span className="flex items-center gap-1 text-lime-400 font-bold"><CheckCircle className="h-3 w-3" />You own: {f.owned}</span>}
               </div>
               <Button size="sm" className="w-full h-7 bg-lime-600 text-white border-0 font-bold text-xs"
-                onClick={() => { setBuying(b => new Set([...b, i])); toast.success("Buying 10 fractions of " + f.nft + " for " + (parseFloat(f.pricePerFrac.replace("$","")) * 10).toFixed(2)); }}>
+                onClick={() => { setBuying(b => new Set(Array.from(b).concat([i]))); toast.success("Buying 10 fractions of " + f.nft + " for " + (parseFloat(f.pricePerFrac.replace("$","")) * 10).toFixed(2)); }}>
                 <Zap className="h-3 w-3 mr-1" />Buy Fractions
               </Button>
             </CardContent>

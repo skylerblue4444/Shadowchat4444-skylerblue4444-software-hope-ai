@@ -60,7 +60,7 @@ export default function ShadowCharityDAO() {
                 <span className="text-xs text-muted-foreground flex items-center gap-1"><Users className="h-3 w-3" />{p.votes} votes</span>
                 {p.status === "active" && !voted.has(p.id) ? (
                   <Button size="sm" className="ml-auto h-7 bg-rose-600 text-white border-0 font-bold text-xs"
-                    onClick={() => { setVoted(v => new Set([...v, p.id])); toast.success("Vote cast for: " + p.title); }}>
+                    onClick={() => { setVoted(v => new Set(Array.from(v).concat([p.id]))); toast.success("Vote cast for: " + p.title); }}>
                     <Vote className="h-3 w-3 mr-1" />Vote For
                   </Button>
                 ) : voted.has(p.id) ? (

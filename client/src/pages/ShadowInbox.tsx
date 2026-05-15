@@ -73,7 +73,7 @@ export default function ShadowInbox() {
                 <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setSelected(null)}>← Back</Button>
                 <div className="flex gap-1">
                   <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={() => { setStarred(prev => { const n = new Set(prev); n.has(selectedMsg.id) ? n.delete(selectedMsg.id) : n.add(selectedMsg.id); return n; }); }}><Star className={`h-3.5 w-3.5 ${starred.has(selectedMsg.id) ? "fill-yellow-400 text-yellow-400" : ""}`} /></Button>
-                  <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={() => { setDeleted(prev => new Set([...prev, selectedMsg.id])); setSelected(null); toast.success("Message deleted"); }}><Trash2 className="h-3.5 w-3.5" /></Button>
+                  <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={() => { setDeleted(prev => new Set(Array.from(prev).concat([selectedMsg.id]))); setSelected(null); toast.success("Message deleted"); }}><Trash2 className="h-3.5 w-3.5" /></Button>
                 </div>
               </div>
               <div>

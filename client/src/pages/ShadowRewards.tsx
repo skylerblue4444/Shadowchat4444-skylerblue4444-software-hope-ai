@@ -48,7 +48,7 @@ export default function ShadowRewards() {
   const xpProgress = nextLevel ? Math.round(((currentXP - currentLevel.xp) / (nextLevel.xp - currentLevel.xp)) * 100) : 100;
 
   const claim = (taskId: number, reward: number) => {
-    setClaimed(prev => new Set([...prev, taskId]));
+    setClaimed(prev => new Set(Array.from(prev).concat([taskId])));
     toast.success(`🎉 Claimed ${reward} SKY4444!`);
   };
 

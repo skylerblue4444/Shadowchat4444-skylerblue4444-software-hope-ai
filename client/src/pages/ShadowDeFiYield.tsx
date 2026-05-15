@@ -31,7 +31,7 @@ export default function ShadowDeFiYield() {
   const deposit = (vault: typeof VAULTS[0]) => {
     const amount = depositAmounts[vault.id];
     if (!amount || parseFloat(amount) <= 0) { toast.error("Enter a valid amount"); return; }
-    setDeposited(prev => new Set([...prev, vault.id]));
+    setDeposited(prev => new Set(Array.from(prev).concat([vault.id])));
     toast.success(`✅ Deposited ${amount} ${vault.token} into ${vault.name}!`);
     setDepositAmounts(prev => ({ ...prev, [vault.id]: "" }));
   };

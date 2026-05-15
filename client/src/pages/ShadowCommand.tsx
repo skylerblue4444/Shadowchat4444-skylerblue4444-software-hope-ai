@@ -120,7 +120,7 @@ export default function ShadowCommand() {
           {[["API Response","12ms","99.99%",99],["Database","Healthy","847K QPS",97],["CDN","Global","47 Nodes",100],["Security","No Threats","24/7 Monitor",100]].map(([s,v,d,p],i)=>(
             <div key={i} className="flex items-center gap-3">
               <div className="w-24 text-xs font-bold shrink-0">{s}</div>
-              <Progress value={p} className="h-1.5 flex-1" />
+              <Progress value={Number(p)} className="h-1.5 flex-1" />
               <div className="text-right shrink-0">
                 <p className="text-xs font-bold text-green-400">{v}</p>
                 <p className="text-xs text-muted-foreground">{d}</p>

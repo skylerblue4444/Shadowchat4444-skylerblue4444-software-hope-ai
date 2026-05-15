@@ -29,7 +29,7 @@ export default function ShadowVesting() {
   const totalLocked = VESTING_SCHEDULES.reduce((sum, s) => sum + (s.total - s.vested), 0);
 
   const claim = (schedule: typeof VESTING_SCHEDULES[0]) => {
-    setClaimed(prev => new Set([...prev, schedule.id]));
+    setClaimed(prev => new Set(Array.from(prev).concat([schedule.id])));
     toast.success(`✅ Claimed ${schedule.claimable.toLocaleString()} SKY4444 from ${schedule.label}!`);
   };
 

@@ -73,7 +73,7 @@ export default function ShadowSocialFi() {
                 <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-green-400 transition-colors">
                   <Share2 className="h-3.5 w-3.5" />Share
                 </button>
-                <button onClick={() => { setTipped(t => new Set([...t, i])); toast.success("Tipped 1 SKY to " + post.user); }}
+                <button onClick={() => { setTipped(t => new Set(Array.from(t).concat([i]))); toast.success("Tipped 1 SKY to " + post.user); }}
                   className={"flex items-center gap-1 text-xs font-bold ml-auto transition-colors " + (tipped.has(i) ? "text-green-400" : "text-muted-foreground hover:text-green-400")}>
                   <Zap className="h-3.5 w-3.5" />{post.tips}
                 </button>
