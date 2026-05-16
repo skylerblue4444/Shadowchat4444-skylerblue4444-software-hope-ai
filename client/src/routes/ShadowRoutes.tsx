@@ -485,6 +485,11 @@ const ShadowCryptoETFTracker=lazy(()=>import("@/pages/ShadowCryptoETFTracker"));
 const ShadowCryptoEarnCenter=lazy(()=>import("@/pages/ShadowCryptoEarnCenter"));
 const ShadowCryptoEco=lazy(()=>import("@/pages/ShadowCryptoEco"));
 const ShadowCryptoEdu2=lazy(()=>import("@/pages/ShadowCryptoEdu2"));
+const ShadowCryptoEduV6Bitcoin=lazy(()=>import("@/pages/ShadowCryptoEduV6Bitcoin"));
+const ShadowCryptoEduV6DeFi=lazy(()=>import("@/pages/ShadowCryptoEduV6DeFi"));
+const ShadowCryptoEduV6Ethereum=lazy(()=>import("@/pages/ShadowCryptoEduV6Ethereum"));
+const ShadowCryptoEduV6NFTs=lazy(()=>import("@/pages/ShadowCryptoEduV6NFTs"));
+const ShadowCryptoEduV6SKY4444=lazy(()=>import("@/pages/ShadowCryptoEduV6SKY4444"));
 const ShadowCryptoEducation=lazy(()=>import("@/pages/ShadowCryptoEducation"));
 const ShadowCryptoEndowment=lazy(()=>import("@/pages/ShadowCryptoEndowment"));
 const ShadowCryptoEstate=lazy(()=>import("@/pages/ShadowCryptoEstate"));
@@ -558,6 +563,11 @@ const ShadowCryptoLendingV3Compound=lazy(()=>import("@/pages/ShadowCryptoLending
 const ShadowCryptoLendingV3Euler=lazy(()=>import("@/pages/ShadowCryptoLendingV3Euler"));
 const ShadowCryptoLendingV3Morpho=lazy(()=>import("@/pages/ShadowCryptoLendingV3Morpho"));
 const ShadowCryptoLendingV3Spark=lazy(()=>import("@/pages/ShadowCryptoLendingV3Spark"));
+const ShadowCryptoLendingV4Institutional=lazy(()=>import("@/pages/ShadowCryptoLendingV4Institutional"));
+const ShadowCryptoLendingV4NFTBacked=lazy(()=>import("@/pages/ShadowCryptoLendingV4NFTBacked"));
+const ShadowCryptoLendingV4P2P=lazy(()=>import("@/pages/ShadowCryptoLendingV4P2P"));
+const ShadowCryptoLendingV4RWABacked=lazy(()=>import("@/pages/ShadowCryptoLendingV4RWABacked"));
+const ShadowCryptoLendingV4Undercollateral=lazy(()=>import("@/pages/ShadowCryptoLendingV4Undercollateral"));
 const ShadowCryptoLiquid=lazy(()=>import("@/pages/ShadowCryptoLiquid"));
 const ShadowCryptoLiquidStaking=lazy(()=>import("@/pages/ShadowCryptoLiquidStaking"));
 const ShadowCryptoLiquidationMap=lazy(()=>import("@/pages/ShadowCryptoLiquidationMap"));
@@ -915,6 +925,11 @@ const ShadowDerivativesV3Perps=lazy(()=>import("@/pages/ShadowDerivativesV3Perps
 const ShadowDerivativesV3Prediction=lazy(()=>import("@/pages/ShadowDerivativesV3Prediction"));
 const ShadowDerivativesV3Structured=lazy(()=>import("@/pages/ShadowDerivativesV3Structured"));
 const ShadowDerivativesV3Variance=lazy(()=>import("@/pages/ShadowDerivativesV3Variance"));
+const ShadowDerivativesV4Correlation=lazy(()=>import("@/pages/ShadowDerivativesV4Correlation"));
+const ShadowDerivativesV4Exotics=lazy(()=>import("@/pages/ShadowDerivativesV4Exotics"));
+const ShadowDerivativesV4Expiry=lazy(()=>import("@/pages/ShadowDerivativesV4Expiry"));
+const ShadowDerivativesV4Perpetuals=lazy(()=>import("@/pages/ShadowDerivativesV4Perpetuals"));
+const ShadowDerivativesV4Volatility=lazy(()=>import("@/pages/ShadowDerivativesV4Volatility"));
 const ShadowDesktopApp=lazy(()=>import("@/pages/ShadowDesktopApp"));
 const ShadowDevOpsV2=lazy(()=>import("@/pages/ShadowDevOpsV2"));
 const ShadowDevPortal=lazy(()=>import("@/pages/ShadowDevPortal"));
@@ -1153,6 +1168,11 @@ const ShadowITAIAutomation=lazy(()=>import("@/pages/ShadowITAIAutomation"));
 const ShadowITAPIGateway=lazy(()=>import("@/pages/ShadowITAPIGateway"));
 const ShadowITAccessControl=lazy(()=>import("@/pages/ShadowITAccessControl"));
 const ShadowITAccounting=lazy(()=>import("@/pages/ShadowITAccounting"));
+const ShadowITArkansasV4Bentonville=lazy(()=>import("@/pages/ShadowITArkansasV4Bentonville"));
+const ShadowITArkansasV4Fayetteville=lazy(()=>import("@/pages/ShadowITArkansasV4Fayetteville"));
+const ShadowITArkansasV4FortSmith=lazy(()=>import("@/pages/ShadowITArkansasV4FortSmith"));
+const ShadowITArkansasV4Rogers=lazy(()=>import("@/pages/ShadowITArkansasV4Rogers"));
+const ShadowITArkansasV4Springdale=lazy(()=>import("@/pages/ShadowITArkansasV4Springdale"));
 const ShadowITAssetMgmt=lazy(()=>import("@/pages/ShadowITAssetMgmt"));
 const ShadowITAssets=lazy(()=>import("@/pages/ShadowITAssets"));
 const ShadowITAudit2=lazy(()=>import("@/pages/ShadowITAudit2"));
@@ -1229,6 +1249,11 @@ const ShadowITCityV8Jacksonville=lazy(()=>import("@/pages/ShadowITCityV8Jacksonv
 const ShadowITCityV8Philadelphia=lazy(()=>import("@/pages/ShadowITCityV8Philadelphia"));
 const ShadowITCityV8SanAntonio=lazy(()=>import("@/pages/ShadowITCityV8SanAntonio"));
 const ShadowITCityV8SanDiego=lazy(()=>import("@/pages/ShadowITCityV8SanDiego"));
+const ShadowITCityV9Austin=lazy(()=>import("@/pages/ShadowITCityV9Austin"));
+const ShadowITCityV9Portland=lazy(()=>import("@/pages/ShadowITCityV9Portland"));
+const ShadowITCityV9Raleigh=lazy(()=>import("@/pages/ShadowITCityV9Raleigh"));
+const ShadowITCityV9SaltLake=lazy(()=>import("@/pages/ShadowITCityV9SaltLake"));
+const ShadowITCityV9Seattle=lazy(()=>import("@/pages/ShadowITCityV9Seattle"));
 const ShadowITCloud3=lazy(()=>import("@/pages/ShadowITCloud3"));
 const ShadowITCloud4=lazy(()=>import("@/pages/ShadowITCloud4"));
 const ShadowITCloudSec=lazy(()=>import("@/pages/ShadowITCloudSec"));
@@ -1241,6 +1266,11 @@ const ShadowITCloudV5MultiCloud=lazy(()=>import("@/pages/ShadowITCloudV5MultiClo
 const ShadowITCompliance=lazy(()=>import("@/pages/ShadowITCompliance"));
 const ShadowITCompliance16=lazy(()=>import("@/pages/ShadowITCompliance16"));
 const ShadowITCompliance2=lazy(()=>import("@/pages/ShadowITCompliance2"));
+const ShadowITComplianceV4CIS=lazy(()=>import("@/pages/ShadowITComplianceV4CIS"));
+const ShadowITComplianceV4CMMC=lazy(()=>import("@/pages/ShadowITComplianceV4CMMC"));
+const ShadowITComplianceV4FedRAMP=lazy(()=>import("@/pages/ShadowITComplianceV4FedRAMP"));
+const ShadowITComplianceV4NIST=lazy(()=>import("@/pages/ShadowITComplianceV4NIST"));
+const ShadowITComplianceV4StateRegs=lazy(()=>import("@/pages/ShadowITComplianceV4StateRegs"));
 const ShadowITConstruction=lazy(()=>import("@/pages/ShadowITConstruction"));
 const ShadowITConsulting=lazy(()=>import("@/pages/ShadowITConsulting"));
 const ShadowITContainerOps=lazy(()=>import("@/pages/ShadowITContainerOps"));
@@ -1308,6 +1338,11 @@ const ShadowITMSPV5Monitoring=lazy(()=>import("@/pages/ShadowITMSPV5Monitoring")
 const ShadowITMSPV5Security=lazy(()=>import("@/pages/ShadowITMSPV5Security"));
 const ShadowITManagedSOC=lazy(()=>import("@/pages/ShadowITManagedSOC"));
 const ShadowITManagedServices=lazy(()=>import("@/pages/ShadowITManagedServices"));
+const ShadowITManagedV6CloudManaged=lazy(()=>import("@/pages/ShadowITManagedV6CloudManaged"));
+const ShadowITManagedV6DataManaged=lazy(()=>import("@/pages/ShadowITManagedV6DataManaged"));
+const ShadowITManagedV6DevOpsManaged=lazy(()=>import("@/pages/ShadowITManagedV6DevOpsManaged"));
+const ShadowITManagedV6NOC=lazy(()=>import("@/pages/ShadowITManagedV6NOC"));
+const ShadowITManagedV6vCISO=lazy(()=>import("@/pages/ShadowITManagedV6vCISO"));
 const ShadowITManufacturing=lazy(()=>import("@/pages/ShadowITManufacturing"));
 const ShadowITMonitorV2=lazy(()=>import("@/pages/ShadowITMonitorV2"));
 const ShadowITNetworkOps=lazy(()=>import("@/pages/ShadowITNetworkOps"));
@@ -1408,6 +1443,11 @@ const ShadowInfraValidatorService=lazy(()=>import("@/pages/ShadowInfraValidatorS
 const ShadowInstagramIntegration=lazy(()=>import("@/pages/ShadowInstagramIntegration"));
 const ShadowInsurance=lazy(()=>import("@/pages/ShadowInsurance"));
 const ShadowInsuranceProtocol=lazy(()=>import("@/pages/ShadowInsuranceProtocol"));
+const ShadowIntegrationV4Make=lazy(()=>import("@/pages/ShadowIntegrationV4Make"));
+const ShadowIntegrationV4N8N=lazy(()=>import("@/pages/ShadowIntegrationV4N8N"));
+const ShadowIntegrationV4SDK=lazy(()=>import("@/pages/ShadowIntegrationV4SDK"));
+const ShadowIntegrationV4Webhooks=lazy(()=>import("@/pages/ShadowIntegrationV4Webhooks"));
+const ShadowIntegrationV4Zapier=lazy(()=>import("@/pages/ShadowIntegrationV4Zapier"));
 const ShadowIntegrationsHub=lazy(()=>import("@/pages/ShadowIntegrationsHub"));
 const ShadowIntentTrading=lazy(()=>import("@/pages/ShadowIntentTrading"));
 const ShadowIntercomIntegration=lazy(()=>import("@/pages/ShadowIntercomIntegration"));
@@ -1858,6 +1898,11 @@ const ShadowSKY4444Investors=lazy(()=>import("@/pages/ShadowSKY4444Investors"));
 const ShadowSKY4444Legal=lazy(()=>import("@/pages/ShadowSKY4444Legal"));
 const ShadowSKY4444Liquidity=lazy(()=>import("@/pages/ShadowSKY4444Liquidity"));
 const ShadowSKY4444MiningPool=lazy(()=>import("@/pages/ShadowSKY4444MiningPool"));
+const ShadowSKY4444MiningV6Calculator=lazy(()=>import("@/pages/ShadowSKY4444MiningV6Calculator"));
+const ShadowSKY4444MiningV6Cloud=lazy(()=>import("@/pages/ShadowSKY4444MiningV6Cloud"));
+const ShadowSKY4444MiningV6Pool=lazy(()=>import("@/pages/ShadowSKY4444MiningV6Pool"));
+const ShadowSKY4444MiningV6Solo=lazy(()=>import("@/pages/ShadowSKY4444MiningV6Solo"));
+const ShadowSKY4444MiningV6Stats=lazy(()=>import("@/pages/ShadowSKY4444MiningV6Stats"));
 const ShadowSKY4444NFTCollection=lazy(()=>import("@/pages/ShadowSKY4444NFTCollection"));
 const ShadowSKY4444Partnerships=lazy(()=>import("@/pages/ShadowSKY4444Partnerships"));
 const ShadowSKY4444Press=lazy(()=>import("@/pages/ShadowSKY4444Press"));
@@ -2362,6 +2407,11 @@ const ShadowSquareIntegration=lazy(()=>import("@/pages/ShadowSquareIntegration")
 const ShadowStabilityAI=lazy(()=>import("@/pages/ShadowStabilityAI"));
 const ShadowStablecoin=lazy(()=>import("@/pages/ShadowStablecoin"));
 const ShadowStablecoinHub=lazy(()=>import("@/pages/ShadowStablecoinHub"));
+const ShadowStablecoinV4DAI=lazy(()=>import("@/pages/ShadowStablecoinV4DAI"));
+const ShadowStablecoinV4FRAX=lazy(()=>import("@/pages/ShadowStablecoinV4FRAX"));
+const ShadowStablecoinV4USDC=lazy(()=>import("@/pages/ShadowStablecoinV4USDC"));
+const ShadowStablecoinV4USDT=lazy(()=>import("@/pages/ShadowStablecoinV4USDT"));
+const ShadowStablecoinV4crvUSD=lazy(()=>import("@/pages/ShadowStablecoinV4crvUSD"));
 const ShadowStablecoinYield=lazy(()=>import("@/pages/ShadowStablecoinYield"));
 const ShadowStacks=lazy(()=>import("@/pages/ShadowStacks"));
 const ShadowStakingPool=lazy(()=>import("@/pages/ShadowStakingPool"));
@@ -3086,6 +3136,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/crypto-earn-center" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEarnCenter/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-eco" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEco/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-edu2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEdu2/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-edu-v6-bitcoin" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEduV6Bitcoin/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-edu-v6-de-fi" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEduV6DeFi/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-edu-v6-ethereum" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEduV6Ethereum/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-edu-v6-n-f-ts" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEduV6NFTs/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-edu-v6-s-k-y4444" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEduV6SKY4444/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-education" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEducation/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-endowment" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEndowment/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-estate" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoEstate/></Suspense>}/>
@@ -3159,6 +3214,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/crypto-lending-v3-euler" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV3Euler/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-lending-v3-morpho" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV3Morpho/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-lending-v3-spark" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV3Spark/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-lending-v4-institutional" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV4Institutional/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-lending-v4-n-f-t-backed" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV4NFTBacked/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-lending-v4-p2-p" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV4P2P/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-lending-v4-r-w-a-backed" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV4RWABacked/></Suspense>}/>
+  <Route path="/dashboard/shadow/crypto-lending-v4-undercollateral" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLendingV4Undercollateral/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-liquid" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLiquid/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-liquid-staking" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLiquidStaking/></Suspense>}/>
   <Route path="/dashboard/shadow/crypto-liquidation-map" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCryptoLiquidationMap/></Suspense>}/>
@@ -3516,6 +3576,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/derivatives-v3-prediction" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV3Prediction/></Suspense>}/>
   <Route path="/dashboard/shadow/derivatives-v3-structured" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV3Structured/></Suspense>}/>
   <Route path="/dashboard/shadow/derivatives-v3-variance" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV3Variance/></Suspense>}/>
+  <Route path="/dashboard/shadow/derivatives-v4-correlation" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV4Correlation/></Suspense>}/>
+  <Route path="/dashboard/shadow/derivatives-v4-exotics" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV4Exotics/></Suspense>}/>
+  <Route path="/dashboard/shadow/derivatives-v4-expiry" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV4Expiry/></Suspense>}/>
+  <Route path="/dashboard/shadow/derivatives-v4-perpetuals" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV4Perpetuals/></Suspense>}/>
+  <Route path="/dashboard/shadow/derivatives-v4-volatility" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDerivativesV4Volatility/></Suspense>}/>
   <Route path="/dashboard/shadow/desktop-app" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDesktopApp/></Suspense>}/>
   <Route path="/dashboard/shadow/dev-ops-v2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDevOpsV2/></Suspense>}/>
   <Route path="/dashboard/shadow/dev-portal" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowDevPortal/></Suspense>}/>
@@ -3754,6 +3819,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/i-t-a-p-i-gateway" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAPIGateway/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-access-control" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAccessControl/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-accounting" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAccounting/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-arkansas-v4-bentonville" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITArkansasV4Bentonville/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-arkansas-v4-fayetteville" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITArkansasV4Fayetteville/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-arkansas-v4-fort-smith" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITArkansasV4FortSmith/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-arkansas-v4-rogers" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITArkansasV4Rogers/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-arkansas-v4-springdale" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITArkansasV4Springdale/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-asset-mgmt" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAssetMgmt/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-assets" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAssets/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-audit2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITAudit2/></Suspense>}/>
@@ -3830,6 +3900,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/i-t-city-v8-philadelphia" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV8Philadelphia/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-city-v8-san-antonio" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV8SanAntonio/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-city-v8-san-diego" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV8SanDiego/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-city-v9-austin" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV9Austin/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-city-v9-portland" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV9Portland/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-city-v9-raleigh" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV9Raleigh/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-city-v9-salt-lake" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV9SaltLake/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-city-v9-seattle" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCityV9Seattle/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-cloud3" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCloud3/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-cloud4" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCloud4/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-cloud-sec" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCloudSec/></Suspense>}/>
@@ -3842,6 +3917,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/i-t-compliance" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCompliance/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-compliance16" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCompliance16/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-compliance2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITCompliance2/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-compliance-v4-c-i-s" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITComplianceV4CIS/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-compliance-v4-c-m-m-c" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITComplianceV4CMMC/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-compliance-v4-fed-r-a-m-p" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITComplianceV4FedRAMP/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-compliance-v4-n-i-s-t" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITComplianceV4NIST/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-compliance-v4-state-regs" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITComplianceV4StateRegs/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-construction" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITConstruction/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-consulting" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITConsulting/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-container-ops" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITContainerOps/></Suspense>}/>
@@ -3909,6 +3989,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/i-t-m-s-p-v5-security" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITMSPV5Security/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-managed-s-o-c" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedSOC/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-managed-services" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedServices/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-managed-v6-cloud-managed" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedV6CloudManaged/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-managed-v6-data-managed" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedV6DataManaged/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-managed-v6-dev-ops-managed" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedV6DevOpsManaged/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-managed-v6-n-o-c" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedV6NOC/></Suspense>}/>
+  <Route path="/dashboard/shadow/i-t-managed-v6v-c-i-s-o" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManagedV6vCISO/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-manufacturing" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITManufacturing/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-monitor-v2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITMonitorV2/></Suspense>}/>
   <Route path="/dashboard/shadow/i-t-network-ops" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowITNetworkOps/></Suspense>}/>
@@ -4009,6 +4094,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/instagram-integration" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowInstagramIntegration/></Suspense>}/>
   <Route path="/dashboard/shadow/insurance" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowInsurance/></Suspense>}/>
   <Route path="/dashboard/shadow/insurance-protocol" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowInsuranceProtocol/></Suspense>}/>
+  <Route path="/dashboard/shadow/integration-v4-make" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationV4Make/></Suspense>}/>
+  <Route path="/dashboard/shadow/integration-v4-n8-n" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationV4N8N/></Suspense>}/>
+  <Route path="/dashboard/shadow/integration-v4-s-d-k" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationV4SDK/></Suspense>}/>
+  <Route path="/dashboard/shadow/integration-v4-webhooks" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationV4Webhooks/></Suspense>}/>
+  <Route path="/dashboard/shadow/integration-v4-zapier" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationV4Zapier/></Suspense>}/>
   <Route path="/dashboard/shadow/integrations-hub" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntegrationsHub/></Suspense>}/>
   <Route path="/dashboard/shadow/intent-trading" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntentTrading/></Suspense>}/>
   <Route path="/dashboard/shadow/intercom-integration" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowIntercomIntegration/></Suspense>}/>
@@ -4459,6 +4549,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/s-k-y4444-legal" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444Legal/></Suspense>}/>
   <Route path="/dashboard/shadow/s-k-y4444-liquidity" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444Liquidity/></Suspense>}/>
   <Route path="/dashboard/shadow/s-k-y4444-mining-pool" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningPool/></Suspense>}/>
+  <Route path="/dashboard/shadow/s-k-y4444-mining-v6-calculator" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningV6Calculator/></Suspense>}/>
+  <Route path="/dashboard/shadow/s-k-y4444-mining-v6-cloud" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningV6Cloud/></Suspense>}/>
+  <Route path="/dashboard/shadow/s-k-y4444-mining-v6-pool" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningV6Pool/></Suspense>}/>
+  <Route path="/dashboard/shadow/s-k-y4444-mining-v6-solo" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningV6Solo/></Suspense>}/>
+  <Route path="/dashboard/shadow/s-k-y4444-mining-v6-stats" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444MiningV6Stats/></Suspense>}/>
   <Route path="/dashboard/shadow/s-k-y4444-n-f-t-collection" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444NFTCollection/></Suspense>}/>
   <Route path="/dashboard/shadow/s-k-y4444-partnerships" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444Partnerships/></Suspense>}/>
   <Route path="/dashboard/shadow/s-k-y4444-press" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowSKY4444Press/></Suspense>}/>
@@ -4963,6 +5058,11 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/stability-a-i" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStabilityAI/></Suspense>}/>
   <Route path="/dashboard/shadow/stablecoin" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoin/></Suspense>}/>
   <Route path="/dashboard/shadow/stablecoin-hub" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinHub/></Suspense>}/>
+  <Route path="/dashboard/shadow/stablecoin-v4-d-a-i" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinV4DAI/></Suspense>}/>
+  <Route path="/dashboard/shadow/stablecoin-v4-f-r-a-x" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinV4FRAX/></Suspense>}/>
+  <Route path="/dashboard/shadow/stablecoin-v4-u-s-d-c" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinV4USDC/></Suspense>}/>
+  <Route path="/dashboard/shadow/stablecoin-v4-u-s-d-t" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinV4USDT/></Suspense>}/>
+  <Route path="/dashboard/shadow/stablecoin-v4crv-u-s-d" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinV4crvUSD/></Suspense>}/>
   <Route path="/dashboard/shadow/stablecoin-yield" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStablecoinYield/></Suspense>}/>
   <Route path="/dashboard/shadow/stacks" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStacks/></Suspense>}/>
   <Route path="/dashboard/shadow/staking-pool" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowStakingPool/></Suspense>}/>
