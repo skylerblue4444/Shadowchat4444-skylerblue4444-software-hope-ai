@@ -1,154 +1,142 @@
+/**
+ * ShadowChat — CryptoDate Social Matchmaking
+ * Crypto people · SKY4444 tipping · AI moderated · 18+ verified
+ * Skyler Blue | 479-406-7123 | skycoin444
+ */
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Shield, Star, Zap, MessageCircle, CheckCircle } from "lucide-react";
-import { toast } from "sonner";
 
-const profiles = [
-  { id: 1, name: "Alex K.", age: 28, gender: "M", role: "DeFi Trader", portfolio: "$84K", coins: ["BTC","ETH","SKY4444"], verified: true, online: true, bio: "Full-time DeFi trader. Looking for someone who understands the grind. SKY4444 HODLer since day one.", match: 94 },
-  { id: 2, name: "Maya R.", age: 26, gender: "F", role: "NFT Artist", portfolio: "$42K", coins: ["ETH","SOL","MATIC"], verified: true, online: true, bio: "NFT creator and crypto investor. Love talking charts, art, and building the future together.", match: 88 },
-  { id: 3, name: "Jordan T.", age: 31, gender: "M", role: "Crypto VC", portfolio: "$420K", coins: ["BTC","BNB","SKY4444"], verified: true, online: false, bio: "Early Bitcoin adopter. Angel investor in 12 Web3 projects. Looking for a partner who thinks long-term.", match: 91 },
-  { id: 4, name: "Priya S.", age: 24, gender: "F", role: "Blockchain Dev", portfolio: "$67K", coins: ["ETH","ARB","OP"], verified: true, online: true, bio: "Solidity developer building the next gen of DeFi. Swipe right if you can talk smart contracts.", match: 86 },
-  { id: 5, name: "Chris M.", age: 29, gender: "M", role: "Day Trader", portfolio: "$31K", coins: ["BTC","DOGE","SKY4444"], verified: false, online: true, bio: "Day trader since 2019. I scream at charts for a living. Looking for someone who gets it.", match: 79 },
-  { id: 6, name: "Zara L.", age: 27, gender: "F", role: "Crypto Influencer", portfolio: "$128K", coins: ["SOL","AVAX","SKY4444"], verified: true, online: true, bio: "200K crypto Twitter followers. Building in public. Looking for a genuine connection in the space.", match: 92 },
+const PROFILES = [
+  { name: "CryptoQueen", age: 26, loc: "Miami, FL", coins: ["BTC","ETH","SKY4444"], bio: "DeFi degen by day, NFT artist by night. Looking for someone who understands the blockchain.", match: 94, verified: true, online: true },
+  { name: "SatoshiGirl", age: 24, loc: "Austin, TX", coins: ["BTC","DOGE","XMR"], bio: "Bitcoin maximalist. Privacy matters. Monero is money.", match: 88, verified: true, online: true },
+  { name: "TrumpTraderGal", age: 29, loc: "Nashville, TN", coins: ["TRUMP","SKY4444","USDT"], bio: "Political crypto trader. TRUMP coin HODLer. Looking for fellow patriots.", match: 91, verified: true, online: false },
+  { name: "DeFiDiva", age: 27, loc: "New York, NY", coins: ["ETH","AAVE","SKY4444"], bio: "Yield farmer. Liquidity provider. Looking for someone who knows what APY means.", match: 85, verified: true, online: true },
 ];
 
-const interests = ["Bitcoin Maxis", "DeFi Degens", "NFT Collectors", "Day Traders", "HODLers", "Web3 Builders", "Crypto Investors", "AI Enthusiasts", "GameFi Players", "DAO Governors"];
-
-const safetyFeatures = [
-  "AI-powered profile verification — no fake accounts",
-  "Heavy content moderation — 24/7 AI + human review",
-  "SKY4444 tip system — send appreciation anonymously",
-  "Encrypted messaging — end-to-end, zero knowledge",
-  "Report & block — instant action, no questions asked",
-  "Age verification required — 18+ only, strictly enforced",
-];
+const TIP_AMOUNTS = [10, 44, 100, 444];
 
 export default function ShadowCryptoDate() {
-  const [liked, setLiked] = useState<number[]>([]);
-  const [filter, setFilter] = useState("All");
+  const [current, setCurrent] = useState(0);
+  const [matches, setMatches] = useState<string[]>([]);
+  const [tipped, setTipped] = useState<Record<string, number>>({});
+  const [tab, setTab] = useState<"discover"|"matches"|"messages">("discover");
 
-  const handleLike = (id: number, name: string) => {
-    setLiked(l => [...l, id]);
-    toast.success(`You liked ${name}! If they like you back, it's a match. 💰`);
+  const profile = PROFILES[current % PROFILES.length];
+
+  const swipe = (like: boolean) => {
+    if (like) setMatches(m => [...m, profile.name]);
+    setCurrent(c => c + 1);
   };
 
-  const filtered = filter === "All" ? profiles : profiles.filter(p => p.gender === filter[0]);
+  const tip = (name: string, amt: number) => {
+    setTipped(t => ({ ...t, [name]: (t[name] || 0) + amt }));
+  };
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-black">CryptoDate</h1>
-          <p className="text-xs text-muted-foreground">Meet crypto enthusiasts, investors, and builders. Heavily moderated. SKY4444 tipping built in.</p>
+    <div className="space-y-4 pb-6">
+      <div className="border-b border-border/40 pb-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-black">💕 CryptoDate</h1>
+            <p className="text-xs text-muted-foreground">Social matchmaking for crypto people · SKY4444 tipping · AI moderated</p>
+          </div>
+          <Badge className="bg-pink-500/20 text-pink-400 border-pink-500/30 text-xs">18+ Verified</Badge>
         </div>
-        <Badge className="bg-pink-600 text-white shrink-0"><Heart className="h-3 w-3 mr-1" />{liked.length} Likes</Badge>
       </div>
 
-      {/* Safety Banner */}
-      <Card className="border-green-500/30 bg-gradient-to-br from-green-900/20 to-emerald-900/20">
-        <CardContent className="py-3 px-4 space-y-2">
-          <p className="font-black text-sm text-green-400 flex items-center gap-2"><Shield className="h-4 w-4" /> Safety First — Heavily Moderated Platform</p>
-          <div className="grid grid-cols-2 gap-1">
-            {safetyFeatures.map((f, i) => (
-              <div key={i} className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-green-400 shrink-0 mt-0.5" />
-                <span className="text-xs text-muted-foreground">{f}</span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Filter */}
-      <div className="flex gap-2">
-        {["All", "Men", "Women"].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${filter === f ? "bg-pink-600 text-white" : "bg-muted/50 text-muted-foreground"}`}>
-            {f}
+      {/* Tabs */}
+      <div className="flex gap-1 bg-muted/50 rounded-lg p-1">
+        {(["discover","matches","messages"] as const).map(t => (
+          <button key={t} onClick={() => setTab(t)}
+            className={`flex-1 text-xs font-bold py-1.5 rounded-md capitalize transition-colors ${tab === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
+            {t}{t === "matches" && matches.length > 0 && <span className="ml-1 bg-pink-500 text-white rounded-full px-1 text-xs">{matches.length}</span>}
           </button>
         ))}
       </div>
 
-      {/* Interests */}
-      <div>
-        <p className="font-black text-xs text-muted-foreground uppercase tracking-wider mb-2">Browse by Interest</p>
-        <div className="flex gap-2 flex-wrap">
-          {interests.map((tag, i) => (
-            <Badge key={i} className="bg-indigo-800 text-indigo-200 text-xs cursor-pointer hover:bg-indigo-700"
-              onClick={() => toast.info(`Filtering by ${tag}...`)}>
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </div>
-
-      {/* Profiles */}
-      <div className="grid grid-cols-2 gap-3">
-        {filtered.map(p => (
-          <Card key={p.id} className={`border-border/50 transition-all ${liked.includes(p.id) ? "border-pink-500/50" : "hover:border-pink-500/30"}`}>
-            <CardContent className="py-3 px-3 space-y-2">
+      {/* Discover */}
+      {tab === "discover" && (
+        <div className="space-y-3">
+          <Card className="border-pink-500/30 bg-gradient-to-br from-pink-500/5 to-purple-500/5">
+            <CardContent className="py-4 space-y-3">
               <div className="flex items-start justify-between">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-pink-600 to-violet-600 flex items-center justify-center font-black text-sm text-white">
-                  {p.name[0]}
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-black text-lg">{profile.name}</p>
+                    {profile.verified && <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">✓ Verified</Badge>}
+                    {profile.online && <span className="w-2 h-2 bg-green-400 rounded-full inline-block" />}
+                  </div>
+                  <p className="text-xs text-muted-foreground">{profile.age} · {profile.loc}</p>
                 </div>
-                <div className="text-right">
-                  {p.online && <Badge className="bg-green-700 text-white text-xs">Online</Badge>}
-                  {p.verified && <p className="text-xs text-blue-400 mt-0.5">✓ Verified</p>}
-                </div>
+                <Badge className="bg-pink-500/20 text-pink-400 border-pink-500/30 font-black">{profile.match}% match</Badge>
               </div>
+              <p className="text-sm text-muted-foreground">{profile.bio}</p>
+              <div className="flex gap-1.5 flex-wrap">
+                {profile.coins.map(c => (
+                  <Badge key={c} className="bg-yellow-500/15 text-yellow-400 border-yellow-500/25 text-xs">{c}</Badge>
+                ))}
+              </div>
+              {/* Tip */}
               <div>
-                <p className="font-black text-xs">{p.name}, {p.age}</p>
-                <p className="text-xs text-muted-foreground">{p.role}</p>
+                <p className="text-xs font-bold mb-1.5">💰 Send SKY4444 Tip</p>
+                <div className="flex gap-1.5">
+                  {TIP_AMOUNTS.map(amt => (
+                    <Button key={amt} size="sm" onClick={() => tip(profile.name, amt)}
+                      className="h-7 text-xs bg-yellow-500/15 hover:bg-yellow-500/25 text-yellow-400 border border-yellow-500/30">
+                      {amt} SKY4444
+                    </Button>
+                  ))}
+                </div>
+                {tipped[profile.name] && <p className="text-xs text-yellow-400 mt-1">✓ Sent {tipped[profile.name]} SKY4444 total</p>}
               </div>
-              <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
-                <span className="text-xs font-bold text-yellow-400">{p.match}% match</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-tight line-clamp-2">{p.bio}</p>
-              <div className="flex gap-1 flex-wrap">
-                {p.coins.map((c, i) => <Badge key={i} className="bg-gray-800 text-gray-300 text-xs">{c}</Badge>)}
-              </div>
-              <p className="text-xs text-green-400 font-bold">Portfolio: {p.portfolio}</p>
-              <div className="grid grid-cols-2 gap-1">
-                <Button
-                  className={`h-7 text-xs font-bold border-0 ${liked.includes(p.id) ? "bg-pink-700" : "bg-pink-600 hover:bg-pink-500"} text-white`}
-                  onClick={() => handleLike(p.id, p.name)}
-                  disabled={liked.includes(p.id)}
-                >
-                  <Heart className="h-3 w-3 mr-1" />{liked.includes(p.id) ? "Liked" : "Like"}
-                </Button>
-                <Button variant="outline" className="h-7 text-xs font-bold"
-                  onClick={() => toast.info(`Opening chat with ${p.name}...`)}>
-                  <MessageCircle className="h-3 w-3 mr-1" /> Chat
-                </Button>
+              <div className="flex gap-2">
+                <Button onClick={() => swipe(false)} variant="outline" className="flex-1 h-10 text-xl border-red-500/30 hover:bg-red-500/10">✕</Button>
+                <Button onClick={() => swipe(true)} className="flex-1 h-10 text-xl bg-pink-500 hover:bg-pink-400 text-white border-0">♥</Button>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
+          <p className="text-center text-xs text-muted-foreground/60">AI moderated · Heavy content filtering · Safe platform</p>
+        </div>
+      )}
 
-      {/* SKY4444 Tip System */}
-      <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-900/20 to-orange-900/20">
-        <CardContent className="py-3 px-4 space-y-2">
-          <p className="font-black text-sm text-yellow-400">💰 SKY4444 Tipping</p>
-          <p className="text-xs text-muted-foreground">Send SKY4444 tips to people you like — anonymously or with a message. Tips go directly to their wallet.</p>
-          <div className="grid grid-cols-3 gap-2">
-            {[10, 44, 100].map(amt => (
-              <Button key={amt} className="h-8 text-xs font-bold bg-yellow-600 hover:bg-yellow-500 text-black border-0"
-                onClick={() => toast.success(`Sent ${amt} SKY4444 tip!`)}>
-                {amt} SKY4444
-              </Button>
-            ))}
-          </div>
+      {/* Matches */}
+      {tab === "matches" && (
+        <div className="space-y-2">
+          {matches.length === 0 ? (
+            <Card className="border-border/40"><CardContent className="py-8 text-center"><p className="text-muted-foreground text-sm">No matches yet — keep swiping!</p></CardContent></Card>
+          ) : matches.map((name, i) => (
+            <Card key={i} className="border-pink-500/30">
+              <CardContent className="py-3 px-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center font-black text-pink-400">{name[0]}</div>
+                  <div><p className="font-black text-sm">{name}</p><p className="text-xs text-green-400">✓ Matched!</p></div>
+                </div>
+                <Button size="sm" className="h-7 text-xs bg-pink-500 hover:bg-pink-400 text-white border-0">Message</Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Messages */}
+      {tab === "messages" && (
+        <Card className="border-border/40">
+          <CardContent className="py-8 text-center">
+            <p className="text-2xl mb-2">💬</p>
+            <p className="font-black text-sm">Messages</p>
+            <p className="text-xs text-muted-foreground mt-1">Match with someone to start messaging. SKY4444 tipping available in chat.</p>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="border-yellow-500/30 bg-yellow-500/5">
+        <CardContent className="py-3 text-center">
+          <p className="font-black text-xs text-yellow-400">✦ Skyler Blue · 479-406-7123 · CryptoDate</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Heavily moderated · Verified profiles · SKY4444 economy</p>
         </CardContent>
       </Card>
-
-      <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-black text-xs">CryptoDate by ShadowChat</p>
-        <p className="text-xs text-muted-foreground">18+ only · AI moderated · SKY4444 powered · Skyler Blue 479-406-7123</p>
-      </div>
     </div>
   );
 }

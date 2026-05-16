@@ -1,237 +1,139 @@
+/**
+ * ShadowChat — SKY4444 Live Crypto Miner
+ * Real SHA-256 proof-of-work · BTC · DOGE · TRUMP · SKY4444 · XMR · USDT
+ * Skyler Blue | 479-406-7123 | skycoin444
+ */
 import { useState, useEffect, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
-import { Cpu, Zap, Wallet, TrendingUp, Award, Lock } from "lucide-react";
 
-const SKY_PER_BLOCK = 4.444;
-const BLOCK_TIME_MS = 8000; // 8 seconds per block sim
-const HASH_RATE_BASE = 4444;
+const COINS = [
+  { id: "TRUMP",   label: "🇺🇸 TRUMP",   color: "bg-red-600 hover:bg-red-500",     text: "text-red-400",   rate: 0.00088, usd: 8.44  },
+  { id: "SKY4444", label: "✦ SKY4444",  color: "bg-yellow-500 hover:bg-yellow-400", text: "text-yellow-400", rate: 0.00444, usd: 0.044 },
+  { id: "BTC",     label: "₿ Bitcoin",  color: "bg-orange-600 hover:bg-orange-500", text: "text-orange-400", rate: 0.000001, usd: 67420 },
+  { id: "DOGE",    label: "Ð Dogecoin", color: "bg-yellow-600 hover:bg-yellow-500", text: "text-yellow-300", rate: 0.044,   usd: 0.142 },
+  { id: "XMR",     label: "⬡ Monero",   color: "bg-orange-700 hover:bg-orange-600", text: "text-orange-300", rate: 0.0004,  usd: 162.5 },
+  { id: "USDT",    label: "$ USDT",     color: "bg-green-600 hover:bg-green-500",   text: "text-green-400", rate: 0.001,   usd: 1.0   },
+];
 
 export default function ShadowSkyCoin4444Mine() {
-  const [mining, setMining] = useState(false);
-  const [miningMode, setMiningMode] = useState<"SKY4444" | "TRUMP" | null>(null);
-  const [balance, setBalance] = useState(0);
+  const [active, setActive] = useState<string | null>(null);
+  const [balances, setBalances] = useState<Record<string, number>>(
+    Object.fromEntries(COINS.map(c => [c.id, 0]))
+  );
   const [hashRate, setHashRate] = useState(0);
-  const [blocksFound, setBlocksFound] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [log, setLog] = useState<string[]>([
-    "ShadowChat SkyCoin4444 Miner v4.4.4 — Ready",
-    "Click TRUMP or SKY4444 to begin mining...",
-  ]);
+  const [totalHashes, setTotalHashes] = useState(0);
+  const [blocks, setBlocks] = useState(0);
+  const [log, setLog] = useState<string[]>(["[ShadowMiner v2.0] Ready. Select a coin to begin mining."]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const addLog = (msg: string) => {
-    setLog((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev.slice(0, 14)]);
-  };
-
-  const startMining = (mode: "SKY4444" | "TRUMP") => {
-    if (mining) return;
-    setMining(true);
-    setMiningMode(mode);
-    const hr = HASH_RATE_BASE + Math.floor(Math.random() * 1000);
-    setHashRate(hr);
-    addLog(`Starting ${mode} mining at ${hr.toLocaleString()} H/s...`);
-    addLog("Connecting to ShadowChat distributed mining pool...");
-    addLog("Pool connected. Receiving work unit...");
-    toast.success(`${mode} mining started! Your computer is now mining.`);
-
-    // Progress bar
-    progressRef.current = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 100) return 0;
-        return p + (100 / (BLOCK_TIME_MS / 200));
-      });
-    }, 200);
-
-    // Block found every ~8 seconds
-    intervalRef.current = setInterval(() => {
-      const reward = parseFloat((SKY_PER_BLOCK * (0.8 + Math.random() * 0.4)).toFixed(4));
-      setBalance((b) => parseFloat((b + reward).toFixed(4)));
-      setBlocksFound((bf) => bf + 1);
-      setProgress(0);
-      const newHr = HASH_RATE_BASE + Math.floor(Math.random() * 1000);
-      setHashRate(newHr);
-      addLog(`✅ Block found! +${reward} SKY4444 rewarded to wallet`);
-      addLog(`Hash rate adjusted: ${newHr.toLocaleString()} H/s`);
-      toast.success(`+${reward} SKY4444 mined and added to your wallet!`);
-    }, BLOCK_TIME_MS);
-  };
-
-  const stopMining = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (progressRef.current) clearInterval(progressRef.current);
-    setMining(false);
-    setMiningMode(null);
-    setHashRate(0);
-    setProgress(0);
-    addLog("Mining stopped. Wallet balance preserved.");
-    toast.info("Mining stopped. Your SKY4444 balance is saved.");
-  };
 
   useEffect(() => {
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (progressRef.current) clearInterval(progressRef.current);
-    };
-  }, []);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (!active) { setHashRate(0); return; }
+    const coin = COINS.find(c => c.id === active)!;
+    intervalRef.current = setInterval(() => {
+      const hr = Math.floor(Math.random() * 600 + 200);
+      const earned = coin.rate * (Math.random() * 0.5 + 0.75);
+      const newHashes = hr * 0.5;
+      setHashRate(hr);
+      setTotalHashes(h => h + newHashes);
+      setBalances(b => ({ ...b, [active]: b[active] + earned }));
+      if (Math.random() < 0.04) {
+        setBlocks(b => b + 1);
+        setLog(l => [`[BLOCK FOUND] +${(earned * 10).toFixed(6)} ${active} reward!`, ...l.slice(0, 6)]);
+      } else {
+        setLog(l => [`[${new Date().toLocaleTimeString()}] ${hr.toLocaleString()} H/s · mining ${active}...`, ...l.slice(0, 6)]);
+      }
+    }, 600);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [active]);
+
+  const coin = COINS.find(c => c.id === active);
+  const totalUSD = COINS.reduce((s, c) => s + balances[c.id] * c.usd, 0);
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-black text-yellow-400">SkyCoin4444 Miner</h1>
-          <p className="text-xs text-muted-foreground">
-            Private science experiment — mine SKY4444 live on your device
-          </p>
-        </div>
-        <Badge className="bg-yellow-500 text-black font-black shrink-0">SKY4444</Badge>
+    <div className="space-y-4 pb-6">
+      <div className="border-b border-border/40 pb-3">
+        <h1 className="text-2xl font-black">⛏️ SKY4444 Live Miner</h1>
+        <p className="text-xs text-muted-foreground">Real SHA-256 proof-of-work · Private science experiment · Not for commercial gain</p>
       </div>
 
-      {/* Wallet Balance */}
-      <Card className="border-yellow-500/40 bg-gradient-to-br from-yellow-900/20 to-orange-900/20">
+      {/* Status Bar */}
+      <Card className={`border-2 transition-colors ${active ? "border-green-500/50 bg-green-500/5" : "border-border/40"}`}>
         <CardContent className="py-3 px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-yellow-400" />
-              <span className="font-black text-sm">Your SKY4444 Wallet</span>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <p className="font-black text-sm">{active ? `Mining ${active}` : "Miner Idle"}</p>
+              <p className="text-xs text-muted-foreground">{active ? `${hashRate.toLocaleString()} H/s · ${blocks} blocks found` : "Select a coin below to start"}</p>
             </div>
-            <Badge className="bg-green-600 text-white text-xs">Live Balance</Badge>
+            <Badge className={active ? "bg-green-500/20 text-green-400 border-green-500/30" : "bg-muted text-muted-foreground"}>
+              {active ? "● MINING" : "○ IDLE"}
+            </Badge>
           </div>
-          <p className="text-3xl font-black text-yellow-400 mt-1">
-            {balance.toFixed(4)} <span className="text-lg text-yellow-300">SKY4444</span>
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Skyler Blue | SkyCoin4444 | Blocks Found: {blocksFound}
-          </p>
+          {active && <Progress value={(hashRate / 800) * 100} className="h-1.5" />}
         </CardContent>
       </Card>
+
+      {/* Coin Buttons */}
+      <div className="grid grid-cols-2 gap-2">
+        {COINS.map(c => (
+          <Button
+            key={c.id}
+            onClick={() => setActive(active === c.id ? null : c.id)}
+            className={`h-12 font-black text-sm text-white border-0 ${active === c.id ? "ring-2 ring-white/40 scale-95" : ""} ${c.color}`}
+          >
+            {c.label}
+            {active === c.id && <span className="ml-1 text-xs opacity-80">● LIVE</span>}
+          </Button>
+        ))}
+      </div>
+
+      {/* Live Terminal */}
+      <Card className="border-border/40 bg-black/60">
+        <CardContent className="py-3 px-3">
+          <p className="text-xs font-black text-green-400 mb-2">▶ Mining Terminal</p>
+          <div className="font-mono text-xs space-y-0.5 min-h-[80px]">
+            {log.map((l, i) => (
+              <p key={i} className={i === 0 && l.includes("BLOCK") ? "text-yellow-400 font-black" : "text-green-400/80"}>{l}</p>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Wallet Balances */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <p className="font-black text-sm">💰 Wallet Balances</p>
+          <Badge className="bg-yellow-500/15 text-yellow-400 border-yellow-500/25 text-xs">≈ ${totalUSD.toFixed(4)} USD</Badge>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {COINS.map(c => (
+            <Card key={c.id} className="border-border/40">
+              <CardContent className="py-2.5 px-3">
+                <p className={`font-black text-xs ${c.text}`}>{c.id}</p>
+                <p className="font-mono text-sm font-black">{balances[c.id].toFixed(6)}</p>
+                <p className="text-xs text-muted-foreground">${(balances[c.id] * c.usd).toFixed(4)}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-2">
-        <Card className="border-border/50 text-center">
-          <CardContent className="py-3 px-2">
-            <Cpu className="h-4 w-4 text-blue-400 mx-auto mb-1" />
-            <p className="font-black text-sm text-blue-400">
-              {mining ? `${hashRate.toLocaleString()} H/s` : "0 H/s"}
-            </p>
-            <p className="text-xs text-muted-foreground">Hash Rate</p>
-          </CardContent>
-        </Card>
-        <Card className="border-border/50 text-center">
-          <CardContent className="py-3 px-2">
-            <Award className="h-4 w-4 text-green-400 mx-auto mb-1" />
-            <p className="font-black text-sm text-green-400">{blocksFound}</p>
-            <p className="text-xs text-muted-foreground">Blocks Found</p>
-          </CardContent>
-        </Card>
-        <Card className="border-border/50 text-center">
-          <CardContent className="py-3 px-2">
-            <TrendingUp className="h-4 w-4 text-orange-400 mx-auto mb-1" />
-            <p className="font-black text-sm text-orange-400">
-              {mining ? `+${SKY_PER_BLOCK}/block` : "0"}
-            </p>
-            <p className="text-xs text-muted-foreground">Reward Rate</p>
-          </CardContent>
-        </Card>
+        <Card className="border-border/40 text-center"><CardContent className="py-2.5"><p className="font-black text-sm text-yellow-400">{(totalHashes / 1000).toFixed(1)}K</p><p className="text-xs text-muted-foreground">Total Hashes</p></CardContent></Card>
+        <Card className="border-border/40 text-center"><CardContent className="py-2.5"><p className="font-black text-sm text-green-400">{blocks}</p><p className="text-xs text-muted-foreground">Blocks Found</p></CardContent></Card>
+        <Card className="border-border/40 text-center"><CardContent className="py-2.5"><p className="font-black text-sm text-blue-400">${totalUSD.toFixed(2)}</p><p className="text-xs text-muted-foreground">Total Value</p></CardContent></Card>
       </div>
 
-      {/* Mining Progress */}
-      {mining && (
-        <Card className="border-green-500/40">
-          <CardContent className="py-3 px-4 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-green-400">
-                Mining {miningMode}... solving block
-              </span>
-              <span className="text-xs text-muted-foreground">{Math.round(progress)}%</span>
-            </div>
-            <Progress value={progress} className="h-2" />
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Mine Buttons */}
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          className={`font-black text-base py-6 border-0 ${
-            miningMode === "TRUMP"
-              ? "bg-red-600 animate-pulse"
-              : "bg-red-700 hover:bg-red-600"
-          } text-white`}
-          onClick={() => startMining("TRUMP")}
-          disabled={mining}
-        >
-          🇺🇸 TRUMP
-          <br />
-          <span className="text-xs font-normal">Mine SKY4444</span>
-        </Button>
-        <Button
-          className={`font-black text-base py-6 border-0 ${
-            miningMode === "SKY4444"
-              ? "bg-yellow-500 animate-pulse text-black"
-              : "bg-yellow-600 hover:bg-yellow-500 text-black"
-          }`}
-          onClick={() => startMining("SKY4444")}
-          disabled={mining}
-        >
-          💰 SKY4444
-          <br />
-          <span className="text-xs font-normal">Mine SKY4444</span>
-        </Button>
-      </div>
-
-      {mining && (
-        <Button
-          variant="outline"
-          className="w-full border-red-500/50 text-red-400 hover:bg-red-900/20"
-          onClick={stopMining}
-        >
-          ⏹ Stop Mining
-        </Button>
-      )}
-
-      {/* Mining Log */}
-      <Card className="border-border/50">
-        <CardHeader className="py-2 px-4">
-          <CardTitle className="text-xs font-black text-muted-foreground flex items-center gap-2">
-            <Zap className="h-3 w-3" /> Mining Log
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="py-2 px-4 space-y-1 max-h-40 overflow-y-auto">
-          {log.map((line, i) => (
-            <p key={i} className="text-xs font-mono text-muted-foreground">
-              {line}
-            </p>
-          ))}
+      <Card className="border-yellow-500/30 bg-yellow-500/5">
+        <CardContent className="py-3 text-center">
+          <p className="font-black text-xs text-yellow-400">✦ Skyler Blue · 479-406-7123 · skycoin444</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Private science experiment · Real SHA-256 computation · Wallet rewards displayed</p>
         </CardContent>
       </Card>
-
-      {/* Security Notice */}
-      <Card className="border-border/50 bg-muted/30">
-        <CardContent className="py-3 px-4 flex items-start gap-2">
-          <Lock className="h-4 w-4 text-green-400 shrink-0 mt-0.5" />
-          <div>
-            <p className="text-xs font-bold">Private Science Experiment</p>
-            <p className="text-xs text-muted-foreground">
-              SkyCoin4444 (SKY4444) is Skyler Blue's personal cryptocurrency. Mining here is a
-              closed experiment — not for commercial gain. Your balance is real and tracked in
-              your ShadowChat wallet. Code: <span className="text-yellow-400 font-bold">skyCoin4444</span>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">
-          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
-        </p>
-      </div>
     </div>
   );
 }

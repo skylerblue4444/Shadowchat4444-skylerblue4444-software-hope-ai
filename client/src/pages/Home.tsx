@@ -33,15 +33,15 @@ const features = [
 ];
 
 const stats = [
-  { label: "Platform Pages", value: "1,578+", icon: Star },
+  { label: "Platform Pages", value: "2,084+", icon: Star },
   { label: "Platform Users", value: "847K+", icon: Users },
   { label: "24H Volume", value: "$12.7B", icon: TrendingUp },
   { label: "Countries", value: "150+", icon: Globe },
 ];
 
 const milestones = [
-  { label: "Pages Built", value: "1,578", color: "text-yellow-400" },
-  { label: "GitHub Commits", value: "542", color: "text-green-400" },
+  { label: "Pages Built", value: "2,084", color: "text-yellow-400" },
+  { label: "GitHub Commits", value: "568", color: "text-green-400" },
   { label: "TS Errors", value: "0", color: "text-blue-400" },
   { label: "Dev Value", value: "$1M+", color: "text-violet-400" },
 ];
@@ -82,7 +82,7 @@ export default function Home() {
       <div className="rounded-2xl bg-gradient-to-br from-indigo-900/70 via-violet-900/70 to-purple-900/70 border border-indigo-500/30 p-6 text-center space-y-3">
         <Badge className="bg-indigo-600/80 text-white">
           <Sparkles className="h-3 w-3 mr-1" />
-          1,578 Pages · World's #1 Web3 Super-App · Built by Skyler Blue
+          2,084 Pages · World's #1 Web3 Super-App · Built by Skyler Blue
         </Badge>
         <h1 className="text-4xl font-black bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
           ShadowChat
@@ -188,7 +188,7 @@ export default function Home() {
           <p className="font-black text-sm text-indigo-400">Built by Skyler Blue — Arkansas</p>
           <p className="text-xs text-muted-foreground">
             Over <strong>$1,000,000 in estimated engineering value</strong> — built at home, one page at a time.
-            1,578 pages, 542 commits, 0 TypeScript errors. Every commit passes automated tests.
+            2,084 pages, 568 commits, 0 TypeScript errors. Every commit passes automated tests.
             Pre-beta for friends, family, and governments.
           </p>
           <div className="flex gap-2 flex-wrap">
@@ -208,7 +208,7 @@ export default function Home() {
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center space-y-1">
         <p className="font-black text-xs">Skyler Blue IT Resolutions</p>
         <p className="text-xs text-muted-foreground">479-406-7123 · skylerblue4444@gmail.com · Arkansas #1 IT Partner</p>
-        <p className="text-xs text-muted-foreground">ShadowChat · SkyCoin4444 · 1,578 Pages · 0 Errors · All on GitHub</p>
+        <p className="text-xs text-muted-foreground">ShadowChat · SkyCoin4444 · 2,084 Pages · 0 Errors · All on GitHub</p>
       </div>
     </div>
   );
