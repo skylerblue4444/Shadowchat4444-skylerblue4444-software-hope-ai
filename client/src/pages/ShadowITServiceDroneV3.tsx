@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Brazil Crypto Market
+ * ShadowChat — Drone Services V3
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowGlobalMarketBrazil() {
+export default function ShadowITServiceDroneV3() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🇧🇷",title:"Brazil",desc:"Brazil crypto market overview",badge:"Regional"},
-    {icon:"💰",title:"BRL Pairs",desc:"Real trading pairs",badge:"Local"},
-    {icon:"📋",title:"Regulations",desc:"Brazil crypto regulations",badge:"Compliant"},
-    {icon:"📊",title:"Market",desc:"Brazil crypto market data",badge:"Informed"},
-    {icon:"🔄",title:"PIX",desc:"PIX instant payment on-ramp",badge:"Access"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 Brazil market",badge:"Native"}];
+  const items=[{icon:"📷",title:"Inspection",desc:"Aerial infrastructure inspection",badge:"Efficient"},
+    {icon:"🗺️",title:"Mapping",desc:"Aerial mapping and surveying",badge:"Precise"},
+    {icon:"🛡️",title:"Security",desc:"Drone security patrol",badge:"Modern"},
+    {icon:"📦",title:"Delivery",desc:"Last-mile drone delivery",badge:"Future"},
+    {icon:"📊",title:"Analytics",desc:"Aerial data analytics",badge:"Insights"},
+    {icon:"📞",title:"Deploy",desc:"479-406-7123 to deploy",badge:"Contact"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Brazil Crypto Market</h1>
-        <p className="text-xs text-muted-foreground">Brazil crypto regulations · BRL trading pairs · PIX on-ramp</p>
+        <h1 className="text-2xl font-black">Drone Services V3</h1>
+        <p className="text-xs text-muted-foreground">Aerial inspection · Mapping · Security · Delivery · Arkansas</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowGlobalMarketBrazil() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Your gateway to Brazil's crypto market.</p>
+          <p className="text-xs text-muted-foreground">Take your business to new heights.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

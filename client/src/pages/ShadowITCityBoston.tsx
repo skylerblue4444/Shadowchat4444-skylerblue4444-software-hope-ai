@@ -1,5 +1,5 @@
 /**
- * ShadowChat — Skyler Blue IT — Boston
+ * ShadowChat — Skyler Blue IT — Boston MA
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -17,7 +17,7 @@ export default function ShadowITCityBoston() {
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Skyler Blue IT — Boston</h1>
+        <h1 className="text-2xl font-black">Skyler Blue IT — Boston MA</h1>
         <p className="text-xs text-muted-foreground">Managed IT services for Boston Massachusetts businesses</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">

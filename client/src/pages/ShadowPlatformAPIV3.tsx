@@ -1,5 +1,5 @@
 /**
- * ShadowChat — API V3 Documentation
+ * ShadowChat — API V3 — GraphQL
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowPlatformAPIV3() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"📚",title:"REST API",desc:"Complete REST API reference",badge:"Complete"},
-    {icon:"⚡",title:"WebSocket",desc:"Real-time WebSocket streams",badge:"Live"},
-    {icon:"🔑",title:"Auth",desc:"API key management",badge:"Secure"},
-    {icon:"📊",title:"Rate Limits",desc:"Rate limit documentation",badge:"Clear"},
-    {icon:"🔌",title:"SDKs",desc:"Python JS Go SDKs",badge:"Developer"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 API endpoints",badge:"Native"}];
+  const items=[{icon:"🔷",title:"GraphQL",desc:"Full GraphQL API",badge:"Modern"},
+    {icon:"🔄",title:"Subscriptions",desc:"Real-time GraphQL subscriptions",badge:"Live"},
+    {icon:"🪝",title:"Webhooks",desc:"Event-driven webhooks",badge:"Automated"},
+    {icon:"📦",title:"SDK",desc:"JavaScript Python SDK",badge:"Developer"},
+    {icon:"📋",title:"Docs",desc:"Complete API documentation",badge:"Documented"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 API access",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">API V3 Documentation</h1>
-        <p className="text-xs text-muted-foreground">Full REST API · WebSocket · Rate limits · Authentication</p>
+        <h1 className="text-2xl font-black">API V3 — GraphQL</h1>
+        <p className="text-xs text-muted-foreground">GraphQL API · Real-time subscriptions · Webhooks · SDK</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowPlatformAPIV3() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Build anything on ShadowChat.</p>
+          <p className="text-xs text-muted-foreground">Build anything on top of ShadowChat.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

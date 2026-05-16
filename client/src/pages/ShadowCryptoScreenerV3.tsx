@@ -1,24 +1,24 @@
 /**
- * ShadowChat — Brazil Crypto Market
+ * ShadowChat — Crypto Screener V3
  * Skyler Blue | 479-406-7123 | skycoin444
  */
 import {useState} from "react";
 import {Card,CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
-export default function ShadowGlobalMarketBrazil() {
+export default function ShadowCryptoScreenerV3() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🇧🇷",title:"Brazil",desc:"Brazil crypto market overview",badge:"Regional"},
-    {icon:"💰",title:"BRL Pairs",desc:"Real trading pairs",badge:"Local"},
-    {icon:"📋",title:"Regulations",desc:"Brazil crypto regulations",badge:"Compliant"},
-    {icon:"📊",title:"Market",desc:"Brazil crypto market data",badge:"Informed"},
-    {icon:"🔄",title:"PIX",desc:"PIX instant payment on-ramp",badge:"Access"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 Brazil market",badge:"Native"}];
+  const items=[{icon:"🔍",title:"20K+ Coins",desc:"Screen all 20000+ cryptocurrencies",badge:"Complete"},
+    {icon:"🤖",title:"AI Rank",desc:"AI-powered coin ranking",badge:"Smart"},
+    {icon:"🔔",title:"Alerts",desc:"Custom price and volume alerts",badge:"Notified"},
+    {icon:"📊",title:"Filters",desc:"50+ filter parameters",badge:"Precise"},
+    {icon:"📈",title:"Charts",desc:"Inline mini charts",badge:"Visual"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 screener priority",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
-        <h1 className="text-2xl font-black">Brazil Crypto Market</h1>
-        <p className="text-xs text-muted-foreground">Brazil crypto regulations · BRL trading pairs · PIX on-ramp</p>
+        <h1 className="text-2xl font-black">Crypto Screener V3</h1>
+        <p className="text-xs text-muted-foreground">Filter 20000+ coins · AI ranking · Custom alerts · Real-time</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowGlobalMarketBrazil() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Your gateway to Brazil's crypto market.</p>
+          <p className="text-xs text-muted-foreground">Find your next 100x before everyone else.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

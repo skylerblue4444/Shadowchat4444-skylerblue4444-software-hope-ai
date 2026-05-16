@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowGlobalMarketNigeria() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🇳🇬",title:"NGN Trading",desc:"Trade in Nigerian Naira",badge:"Local"},
-    {icon:"📱",title:"Mobile Money",desc:"Mobile payment integration",badge:"Popular"},
-    {icon:"🔄",title:"P2P",desc:"Peer-to-peer trading",badge:"Accessible"},
-    {icon:"📊",title:"Binance P2P",desc:"Most used platform",badge:"Reference"},
-    {icon:"🌍",title:"Largest",desc:"Largest crypto market in Africa",badge:"Scale"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 NGN pair",badge:"Native"}];
+  const items=[{icon:"🇳🇬",title:"Nigeria",desc:"Nigeria crypto market overview",badge:"Regional"},
+    {icon:"💰",title:"NGN Pairs",desc:"Naira trading pairs",badge:"Local"},
+    {icon:"🤝",title:"P2P",desc:"Strong P2P crypto market",badge:"Active"},
+    {icon:"📊",title:"Market",desc:"Nigeria crypto market data",badge:"Informed"},
+    {icon:"🔄",title:"On-Ramp",desc:"NGN to crypto on-ramp",badge:"Access"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 Nigeria market",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">Nigeria Crypto Market</h1>
-        <p className="text-xs text-muted-foreground">NGN trading · Mobile money · Largest Africa market · P2P</p>
+        <p className="text-xs text-muted-foreground">Nigeria crypto regulations · NGN trading pairs · P2P market</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowGlobalMarketNigeria() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Crypto for 220 million Nigerians.</p>
+          <p className="text-xs text-muted-foreground">Your gateway to Nigeria's crypto market.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>

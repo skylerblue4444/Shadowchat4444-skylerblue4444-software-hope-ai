@@ -8,17 +8,17 @@ import {Button} from "@/components/ui/button";
 import {Badge} from "@/components/ui/badge";
 export default function ShadowGlobalMarketIndia() {
   const [a,sA]=useState<number|null>(null);
-  const items=[{icon:"🇮🇳",title:"INR Trading",desc:"Trade in Indian Rupees",badge:"Local"},
-    {icon:"📱",title:"UPI",desc:"Unified Payments Interface",badge:"Popular"},
-    {icon:"⚖️",title:"SEBI",desc:"Securities regulator compliant",badge:"Legal"},
-    {icon:"📊",title:"WazirX",desc:"India's largest exchange data",badge:"Reference"},
-    {icon:"🌾",title:"Rural",desc:"Reaching rural India",badge:"Inclusive"},
-    {icon:"✦",title:"SKY4444",desc:"SKY4444 INR pair",badge:"Native"}];
+  const items=[{icon:"🇮🇳",title:"India",desc:"India crypto market overview",badge:"Regional"},
+    {icon:"💰",title:"INR Pairs",desc:"Rupee trading pairs",badge:"Local"},
+    {icon:"📋",title:"Regulations",desc:"India crypto tax and rules",badge:"Compliant"},
+    {icon:"📊",title:"Market",desc:"India crypto market data",badge:"Informed"},
+    {icon:"🔄",title:"UPI",desc:"UPI to crypto on-ramp",badge:"Access"},
+    {icon:"✦",title:"SKY4444",desc:"SKY4444 India market",badge:"Native"}];
   return (
     <div className="space-y-4 pb-6">
       <div className="border-b border-border/40 pb-3">
         <h1 className="text-2xl font-black">India Crypto Market</h1>
-        <p className="text-xs text-muted-foreground">INR trading · UPI payments · SEBI compliance · Growing market</p>
+        <p className="text-xs text-muted-foreground">India crypto regulations · INR trading pairs · UPI on-ramp</p>
       </div>
       <div className="grid grid-cols-2 gap-2.5">
         {items.map((item,i)=>(
@@ -35,7 +35,7 @@ export default function ShadowGlobalMarketIndia() {
       <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
         <CardContent className="py-4 text-center space-y-2">
           <p className="font-black text-sm">✦ SKY4444 · ShadowChat</p>
-          <p className="text-xs text-muted-foreground">Crypto for 1.4 billion Indians.</p>
+          <p className="text-xs text-muted-foreground">Your gateway to India's crypto market.</p>
           <div className="flex gap-2 justify-center">
             <Button size="sm" className="text-xs h-7 bg-yellow-500 hover:bg-yellow-400 text-black font-bold">Launch</Button>
             <Button size="sm" variant="outline" className="text-xs h-7">Details</Button>
