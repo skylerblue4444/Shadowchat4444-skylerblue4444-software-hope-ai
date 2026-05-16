@@ -280,6 +280,16 @@ const ShadowChainlinkOracle=lazy(()=>import("@/pages/ShadowChainlinkOracle"));
 const ShadowChallenges=lazy(()=>import("@/pages/ShadowChallenges"));
 const ShadowChangelog=lazy(()=>import("@/pages/ShadowChangelog"));
 const ShadowChannels=lazy(()=>import("@/pages/ShadowChannels"));
+const ShadowCharityCasinoBlackjack=lazy(()=>import("@/pages/ShadowCharityCasinoBlackjack"));
+const ShadowCharityCasinoCrash=lazy(()=>import("@/pages/ShadowCharityCasinoCrash"));
+const ShadowCharityCasinoDice=lazy(()=>import("@/pages/ShadowCharityCasinoDice"));
+const ShadowCharityCasinoLobby=lazy(()=>import("@/pages/ShadowCharityCasinoLobby"));
+const ShadowCharityCasinoLottery=lazy(()=>import("@/pages/ShadowCharityCasinoLottery"));
+const ShadowCharityCasinoPoker=lazy(()=>import("@/pages/ShadowCharityCasinoPoker"));
+const ShadowCharityCasinoRoulette=lazy(()=>import("@/pages/ShadowCharityCasinoRoulette"));
+const ShadowCharityCasinoSlots=lazy(()=>import("@/pages/ShadowCharityCasinoSlots"));
+const ShadowCharityCasinoSports=lazy(()=>import("@/pages/ShadowCharityCasinoSports"));
+const ShadowCharityCasinoVIP=lazy(()=>import("@/pages/ShadowCharityCasinoVIP"));
 const ShadowCharityDAO=lazy(()=>import("@/pages/ShadowCharityDAO"));
 const ShadowCharityDAO2=lazy(()=>import("@/pages/ShadowCharityDAO2"));
 const ShadowCharityGames2=lazy(()=>import("@/pages/ShadowCharityGames2"));
@@ -1948,6 +1958,26 @@ const ShadowMicroPayments=lazy(()=>import("@/pages/ShadowMicroPayments"));
 const ShadowMicrosoftTeams=lazy(()=>import("@/pages/ShadowMicrosoftTeams"));
 const ShadowMiddleEastMarket=lazy(()=>import("@/pages/ShadowMiddleEastMarket"));
 const ShadowMidjourneyAI=lazy(()=>import("@/pages/ShadowMidjourneyAI"));
+const ShadowMiniProgramAirdrop=lazy(()=>import("@/pages/ShadowMiniProgramAirdrop"));
+const ShadowMiniProgramCalculator=lazy(()=>import("@/pages/ShadowMiniProgramCalculator"));
+const ShadowMiniProgramConverter=lazy(()=>import("@/pages/ShadowMiniProgramConverter"));
+const ShadowMiniProgramDEXAggregator=lazy(()=>import("@/pages/ShadowMiniProgramDEXAggregator"));
+const ShadowMiniProgramDeFiScanner=lazy(()=>import("@/pages/ShadowMiniProgramDeFiScanner"));
+const ShadowMiniProgramGasTracker=lazy(()=>import("@/pages/ShadowMiniProgramGasTracker"));
+const ShadowMiniProgramHashRate=lazy(()=>import("@/pages/ShadowMiniProgramHashRate"));
+const ShadowMiniProgramICOTracker=lazy(()=>import("@/pages/ShadowMiniProgramICOTracker"));
+const ShadowMiniProgramNFTViewer=lazy(()=>import("@/pages/ShadowMiniProgramNFTViewer"));
+const ShadowMiniProgramNews=lazy(()=>import("@/pages/ShadowMiniProgramNews"));
+const ShadowMiniProgramNotes=lazy(()=>import("@/pages/ShadowMiniProgramNotes"));
+const ShadowMiniProgramPortfolio=lazy(()=>import("@/pages/ShadowMiniProgramPortfolio"));
+const ShadowMiniProgramPriceAlert=lazy(()=>import("@/pages/ShadowMiniProgramPriceAlert"));
+const ShadowMiniProgramQRCode=lazy(()=>import("@/pages/ShadowMiniProgramQRCode"));
+const ShadowMiniProgramSentiment=lazy(()=>import("@/pages/ShadowMiniProgramSentiment"));
+const ShadowMiniProgramStakingCalc=lazy(()=>import("@/pages/ShadowMiniProgramStakingCalc"));
+const ShadowMiniProgramTaxEstimator=lazy(()=>import("@/pages/ShadowMiniProgramTaxEstimator"));
+const ShadowMiniProgramTimer=lazy(()=>import("@/pages/ShadowMiniProgramTimer"));
+const ShadowMiniProgramWalletChecker=lazy(()=>import("@/pages/ShadowMiniProgramWalletChecker"));
+const ShadowMiniProgramWhaleWatch=lazy(()=>import("@/pages/ShadowMiniProgramWhaleWatch"));
 const ShadowMint=lazy(()=>import("@/pages/ShadowMint"));
 const ShadowMint2=lazy(()=>import("@/pages/ShadowMint2"));
 const ShadowMistralAI=lazy(()=>import("@/pages/ShadowMistralAI"));
@@ -3296,6 +3326,16 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/challenges" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowChallenges/></Suspense>}/>
   <Route path="/dashboard/shadow/changelog" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowChangelog/></Suspense>}/>
   <Route path="/dashboard/shadow/channels" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowChannels/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-blackjack" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoBlackjack/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-crash" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoCrash/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-dice" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoDice/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-lobby" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoLobby/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-lottery" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoLottery/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-poker" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoPoker/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-roulette" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoRoulette/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-slots" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoSlots/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-sports" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoSports/></Suspense>}/>
+  <Route path="/dashboard/shadow/charity-casino-v-i-p" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityCasinoVIP/></Suspense>}/>
   <Route path="/dashboard/shadow/charity-d-a-o" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityDAO/></Suspense>}/>
   <Route path="/dashboard/shadow/charity-d-a-o2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityDAO2/></Suspense>}/>
   <Route path="/dashboard/shadow/charity-games2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowCharityGames2/></Suspense>}/>
@@ -4964,6 +5004,26 @@ export function ShadowRoutes(){return(<>  <Route path="/dashboard/shadow/a-d-p-i
   <Route path="/dashboard/shadow/microsoft-teams" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMicrosoftTeams/></Suspense>}/>
   <Route path="/dashboard/shadow/middle-east-market" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiddleEastMarket/></Suspense>}/>
   <Route path="/dashboard/shadow/midjourney-a-i" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMidjourneyAI/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-airdrop" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramAirdrop/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-calculator" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramCalculator/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-converter" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramConverter/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-d-e-x-aggregator" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramDEXAggregator/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-de-fi-scanner" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramDeFiScanner/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-gas-tracker" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramGasTracker/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-hash-rate" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramHashRate/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-i-c-o-tracker" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramICOTracker/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-n-f-t-viewer" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramNFTViewer/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-news" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramNews/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-notes" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramNotes/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-portfolio" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramPortfolio/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-price-alert" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramPriceAlert/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-q-r-code" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramQRCode/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-sentiment" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramSentiment/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-staking-calc" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramStakingCalc/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-tax-estimator" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramTaxEstimator/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-timer" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramTimer/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-wallet-checker" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramWalletChecker/></Suspense>}/>
+  <Route path="/dashboard/shadow/mini-program-whale-watch" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMiniProgramWhaleWatch/></Suspense>}/>
   <Route path="/dashboard/shadow/mint" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMint/></Suspense>}/>
   <Route path="/dashboard/shadow/mint2" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMint2/></Suspense>}/>
   <Route path="/dashboard/shadow/mistral-a-i" component={()=><Suspense fallback={<div className="p-4 text-center text-xs">Loading...</div>}><ShadowMistralAI/></Suspense>}/>
