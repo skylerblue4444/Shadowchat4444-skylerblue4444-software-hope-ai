@@ -1,12 +1,9 @@
-# ShadowChat v10 - QA & Evaluation Framework
+# QA & Evaluation Framework for ShadowChat v10 / SkyCoin444 v10
 
-## Quality Gates (Enforced by Bot 5)
-
-1. **Unit Test Coverage**: >80% on critical paths (Casino, Mining, AI Agent)
-2. **Integration Tests**: Real-time features, Web3 interactions
-3. **E2E Smoke Tests**: Core user journeys
-4. **Safety & Privacy Tests**: No PII leakage, content moderation
-5. **Performance Benchmarks**: < 200ms response for chat, stable casino mining
+## Quality Gates
+- 85%+ test coverage on critical paths (Casino, Mining, AI Agent)
+- All PRs must pass full regression suite
+- Privacy & Safety checks mandatory
 
 ## Running Tests
 ```bash
@@ -15,4 +12,7 @@ pnpm test:coverage
 pnpm test:e2e
 ```
 
-Bot 5 owns continuous quality enforcement across all parallel bots.
+## Current Status
+Bot 5 active - expanding test suites in parallel.
+
+**Pushed autonomously under full free will.**
