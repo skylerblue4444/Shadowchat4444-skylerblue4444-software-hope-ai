@@ -1,0 +1,79 @@
+{
+  "project": "ShadowChat v10 / Sky444",
+  "branch": "mega-MVP-Live",
+  "core_settings": {
+    "code_quality": "production-grade",
+    "privacy_first": true,
+    "fully_tested_before_commit": true,
+    "risk_control": {
+      "auto_backup": true,
+      "rollback_protection": true,
+      "deduplication_checks": true
+    }
+  },
+  "parallelization": {
+    "enabled": true,
+    "max_parallel_batches": 6,
+    "task_splitting": "enabled",
+    "priority_order": [
+      "AI Agent",
+      "Marketplaces",
+      "Mini-Programs",
+      "Live Social Feed",
+      "Wallets/Staking",
+      "Production Polish"
+    ]
+  },
+  "speed_mode": {
+    "enabled": true,
+    "description": "Prioritize maximum parallel development and fastest sustainable speed while maintaining production-grade quality",
+    "aggressive_parallelization": true,
+    "frequent_commits": true,
+    "smaller_task_splitting": true
+  },
+  "prioritization": {
+    "focus_core_features_first": true,
+    "defer_ui_polish": true,
+    "ensure_module_communication": true
+  },
+  "iteration_speed": {
+    "auto_commit": true,
+    "commit_frequency": "every 5-10 min",
+    "auto_push": true,
+    "stub_apis_for_incomplete_modules": true,
+    "use_mock_data": true
+  },
+  "active_parallel_batches": [
+    "Live Charity + Casino",
+    "Mini-Programs Expansion (10->20+)",
+    "Hands-Free AI Agent",
+    "Production Polish & Infrastructure",
+    "Enterprise & Analytics Tools",
+    "Ad Automation & Public Access"
+  ],
+  "auto_merge": {
+    "merge_verified_modules": true,
+    "keep_failed_modules_in_feature_branches": true
+  },
+  "functional_output_goals": {
+    "2_hour_mvp": {
+      "core_modules_wired": true,
+      "mock_demo_data": true,
+      "sandbox_testable": true
+    },
+    "post_mvp": {
+      "replace_mocks": true,
+      "full_ui_polish": true,
+      "multi_coin_support": true,
+      "integrate_hands_free_ai": true,
+      "expand_mini_programs": true
+    }
+  },
+  "git_settings": {
+    "main_repo": "skycoin444_v10_live",
+    "mvp_branch": "mega-MVP-Live",
+    "auto_commit_new_files": true,
+    "continuous_push": true
+  },
+  "notes": "All AI streams should follow these settings. Prioritize maximum parallel development and fastest speed while maintaining production-grade thick code and quality. Continuous monitoring and deduplication is required."
+}
