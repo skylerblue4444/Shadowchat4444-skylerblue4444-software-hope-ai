@@ -1,54 +1,61 @@
-// Production-grade Mining Router - Bot 2 Core Technical
-
+// server/routers/mining.ts
 import { z } from "zod";
-import { privateProcedure, router } from "../_core/trpc";
-import { db } from "../../drizzle";
-import { mining_sessions, users } from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
+import { router, protectedProcedure } from "../_core/trpc";
+import { db } from "../db";
+import { miningSessions, users } from "../../drizzle/schema";
+import { eq, and, sql } from "drizzle-orm";
 
 export const miningRouter = router({
-  startMining: privateProcedure
-    .input(z.object({ coin: z.enum(["SKY4444", "TRUMP", "DOGE"]) }))
+  startMining: protectedProcedure
+    .input(z.object({ 
+      coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC"]) 
+    }))
     .mutation(async ({ ctx, input }) => {
-      const session = await db.insert(mining_sessions).values({
+      const [session] = await db.insert(miningSessions).values({
         userId: ctx.user.id,
         coin: input.coin,
-        hashRate: Math.floor(Math.random() * 500) + 100,
+        hashRate: "0",
         blocksFound: 0,
-        balance: 0,
+        balance: "0",
         startedAt: new Date(),
         status: "active",
       }).returning();
-      return { success: true, sessionId: session[0].id, message: "Mining started successfully" };
+
+      return { 
+        success: true, 
+        sessionId: session.id, 
+        message: `Mining started for ${input.coin}` 
+      };
     }),
 
-  recordBlockFound: privateProcedure
-    .input(z.object({ sessionId: z.number() }))
+  recordBlockFound: protectedProcedure
+    .input(z.object({ sessionId: z.number(), coin: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const reward = input.coin === "SKY4444" ? "50" : input.coin === "TRUMP" ? "25" : "15";
+
       await db.transaction(async (tx) => {
-        await tx.update(mining_sessions)
-          .set({ blocksFound: sql`${mining_sessions.blocksFound} + 1` })
-          .where(eq(mining_sessions.id, input.sessionId));
+        await tx.update(miningSessions)
+          .set({ 
+            blocksFound: sql`blocksFound + 1`,
+            balance: sql`balance + ${reward}`
+          })
+          .where(and(
+            eq(miningSessions.id, input.sessionId),
+            eq(miningSessions.userId, ctx.user.id)
+          ));
 
         await tx.update(users)
-          .set({ balance: sql`${users.balance} + 50` })
+          .set({ balance: sql`balance + ${reward}` })
           .where(eq(users.id, ctx.user.id));
       });
-      return { success: true, reward: 50 };
+
+      return { success: true, reward, message: `Block found! +${reward} ${input.coin}` };
     }),
 
-  stopMining: privateProcedure
-    .input(z.object({ sessionId: z.number() }))
-    .mutation(async ({ input }) => {
-      await db.update(mining_sessions)
-        .set({ status: "ended", endedAt: new Date() })
-        .where(eq(mining_sessions.id, input.sessionId));
-      return { success: true };
-    }),
-
-  getStats: privateProcedure.query(async ({ ctx }) => {
-    return await db.query.mining_sessions.findMany({
-      where: eq(mining_sessions.userId, ctx.user.id),
+  getActiveSessions: protectedProcedure.query(async ({ ctx }) => {
+    return await db.query.miningSessions.findMany({
+      where: eq(miningSessions.userId, ctx.user.id),
+      orderBy: (sessions, { desc }) => [desc(sessions.startedAt)],
     });
   }),
 });
