@@ -1,10 +1,10 @@
-**Current Tasks - Honest Build Mode**
-1. Mining router - DONE
-2. Staking router - DONE
-3. Trading + Social persistence - In Progress
-4. Full Web3 + Payments
-5. Real-time WebSocket
+Updated TASKS.md with current progress and responsibility matrix
 
-Recovery complete. Backend progressing.
+## Current Progress
+- Filler Archive: 93%
+- Luxury Pages: 89%
+- Chapter 1: 59%
+- Overall: 65%
 
-**Status:** 70% functional
+## Responsibilities
+See TEAM-12-BOTS.md
