@@ -43,6 +43,7 @@ import { socialRouter } from "./routers/social";
 import { realtimeRouter } from "./routers/realtime";
 import { youtubePuzzlesRouter } from "./routers/youtube-puzzles";
 import { unifiedCryptoRouter } from "./routers/unified-crypto";
+import { quantumIntelligenceRouter } from "./routers/quantum-intelligence";
 
 export const appRouter = router({
   system: systemRouter,
@@ -121,6 +122,7 @@ export const appRouter = router({
   realtime: realtimeRouter,
   youtubePuzzles: youtubePuzzlesRouter,
   unifiedCrypto: unifiedCryptoRouter,
+  quantumIntelligence: quantumIntelligenceRouter,
 });
 
 export type AppRouter = typeof appRouter;
