@@ -41,6 +41,7 @@ import { liveIcoShopRouter } from "./routers/live-ico-shop";
 import { casinoRouter } from "./routers/casino";
 import { socialRouter } from "./routers/social";
 import { realtimeRouter } from "./routers/realtime";
+import { youtubePuzzlesRouter } from "./routers/youtube-puzzles";
 
 export const appRouter = router({
   system: systemRouter,
@@ -117,6 +118,7 @@ export const appRouter = router({
   casino: casinoRouter,
   socialPlatform: socialRouter,
   realtime: realtimeRouter,
+  youtubePuzzles: youtubePuzzlesRouter,
 });
 
 export type AppRouter = typeof appRouter;
