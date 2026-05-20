@@ -42,6 +42,7 @@ import { casinoRouter } from "./routers/casino";
 import { socialRouter } from "./routers/social";
 import { realtimeRouter } from "./routers/realtime";
 import { youtubePuzzlesRouter } from "./routers/youtube-puzzles";
+import { unifiedCryptoRouter } from "./routers/unified-crypto";
 
 export const appRouter = router({
   system: systemRouter,
@@ -119,6 +120,7 @@ export const appRouter = router({
   socialPlatform: socialRouter,
   realtime: realtimeRouter,
   youtubePuzzles: youtubePuzzlesRouter,
+  unifiedCrypto: unifiedCryptoRouter,
 });
 
 export type AppRouter = typeof appRouter;
