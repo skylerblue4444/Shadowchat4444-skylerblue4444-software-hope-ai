@@ -23,6 +23,10 @@ import { nftMarketplaceRouter } from "./routers/nft-marketplace";
 import { web3Router } from "./routers/web3";
 import { miningRouter } from "./routers/mining";
 import { stakingRouter } from "./routers/staking";
+import { aiFeedRouter } from "./routers/ai-feed";
+import { financeRouter } from "./routers/finance";
+import { commerceMarketplaceRouter } from "./routers/commerce-marketplace";
+import { hopeAiRouter } from "./routers/hope-ai";
 
 export const appRouter = router({
   system: systemRouter,
@@ -79,6 +83,10 @@ export const appRouter = router({
   web3: web3Router,
   mining: miningRouter,
   staking: stakingRouter,
+  aiFeed: aiFeedRouter,
+  finance: financeRouter,
+  commerceMarketplace: commerceMarketplaceRouter,
+  hopeAi: hopeAiRouter,
 });
 
 export type AppRouter = typeof appRouter;

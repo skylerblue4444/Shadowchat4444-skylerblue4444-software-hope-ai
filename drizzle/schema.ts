@@ -189,6 +189,110 @@ export const onboardingProgress = mysqlTable("onboardingProgress", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+// AI Trading Signal and Hope AI Command Tables
+export const aiTradingSignals = mysqlTable("aiTradingSignals", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  symbol: varchar("symbol", { length: 20 }).notNull(),
+  action: mysqlEnum("action", ["watch", "buy", "sell", "hold"]).default("watch").notNull(),
+  timeframe: varchar("timeframe", { length: 32 }).default("intraday").notNull(),
+  confidence: int("confidence").default(50).notNull(),
+  riskLevel: mysqlEnum("riskLevel", ["low", "medium", "high"]).default("medium").notNull(),
+  entryPrice: varchar("entryPrice", { length: 50 }),
+  targetPrice: varchar("targetPrice", { length: 50 }),
+  stopLoss: varchar("stopLoss", { length: 50 }),
+  rationale: text("rationale").notNull(),
+  source: varchar("source", { length: 64 }).default("hope-ai-heuristic").notNull(),
+  status: mysqlEnum("status", ["active", "expired", "dismissed", "executed"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const hopeVoiceCommands = mysqlTable("hopeVoiceCommands", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  transcript: text("transcript").notNull(),
+  intent: varchar("intent", { length: 64 }).notNull(),
+  payload: text("payload").notNull(),
+  status: mysqlEnum("status", ["parsed", "confirmed", "executed", "rejected", "failed"]).default("parsed").notNull(),
+  response: text("response"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// Financial Tracking Tables
+export const financialAccounts = mysqlTable("financialAccounts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  provider: varchar("provider", { length: 64 }).default("manual").notNull(),
+  accountName: varchar("accountName", { length: 255 }).notNull(),
+  accountType: mysqlEnum("accountType", ["cash", "bank", "card", "crypto", "investment", "loan", "other"]).default("cash").notNull(),
+  maskedIdentifier: varchar("maskedIdentifier", { length: 64 }),
+  balance: varchar("balance", { length: 50 }).default("0").notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  status: mysqlEnum("status", ["active", "paused", "closed"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const financialEvents = mysqlTable("financialEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  accountId: int("accountId").references(() => financialAccounts.id),
+  eventType: mysqlEnum("eventType", ["income", "expense", "transfer", "trade", "tip", "payment", "adjustment"]).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  category: varchar("category", { length: 80 }).default("general").notNull(),
+  note: text("note"),
+  occurredAt: timestamp("occurredAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// Marketplace and Payment Tables
+export const marketplaceListings = mysqlTable("marketplaceListings", {
+  id: int("id").autoincrement().primaryKey(),
+  sellerId: int("sellerId").notNull().references(() => users.id),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  category: varchar("category", { length: 80 }).default("digital").notNull(),
+  price: varchar("price", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  inventory: int("inventory").default(1).notNull(),
+  status: mysqlEnum("status", ["draft", "active", "sold_out", "paused", "archived"]).default("active").notNull(),
+  imageUrl: text("imageUrl"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const marketplaceOrders = mysqlTable("marketplaceOrders", {
+  id: int("id").autoincrement().primaryKey(),
+  buyerId: int("buyerId").notNull().references(() => users.id),
+  sellerId: int("sellerId").references(() => users.id),
+  listingId: int("listingId").references(() => marketplaceListings.id),
+  quantity: int("quantity").default(1).notNull(),
+  total: varchar("total", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  paymentMethod: varchar("paymentMethod", { length: 64 }).default("stripe").notNull(),
+  status: mysqlEnum("status", ["pending", "paid", "fulfilled", "cancelled", "refunded"]).default("pending").notNull(),
+  metadata: text("metadata"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const paymentRecords = mysqlTable("paymentRecords", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id),
+  orderId: int("orderId").references(() => marketplaceOrders.id),
+  provider: varchar("provider", { length: 64 }).default("stripe").notNull(),
+  providerPaymentId: varchar("providerPaymentId", { length: 255 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  status: mysqlEnum("status", ["created", "requires_payment_method", "processing", "succeeded", "failed", "cancelled", "refunded"]).default("created").notNull(),
+  metadata: text("metadata"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export type Trade = typeof trades.$inferSelect;
 export type Portfolio = typeof portfolios.$inferSelect;
 export type Post = typeof posts.$inferSelect;
@@ -200,3 +304,10 @@ export type Transaction = typeof transactions.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type Referral = typeof referrals.$inferSelect;
 export type Leaderboard = typeof leaderboard.$inferSelect;
+export type AiTradingSignal = typeof aiTradingSignals.$inferSelect;
+export type HopeVoiceCommand = typeof hopeVoiceCommands.$inferSelect;
+export type FinancialAccount = typeof financialAccounts.$inferSelect;
+export type FinancialEvent = typeof financialEvents.$inferSelect;
+export type MarketplaceListing = typeof marketplaceListings.$inferSelect;
+export type MarketplaceOrder = typeof marketplaceOrders.$inferSelect;
+export type PaymentRecord = typeof paymentRecords.$inferSelect;
