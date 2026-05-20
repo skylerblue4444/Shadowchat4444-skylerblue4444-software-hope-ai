@@ -28,6 +28,11 @@ import { financeRouter } from "./routers/finance";
 import { commerceMarketplaceRouter } from "./routers/commerce-marketplace";
 import { hopeAiRouter } from "./routers/hope-ai";
 
+// ─── New Crypto Routers ───────────────────────────────────────────────────────
+import { cryptoPaymentsRouter } from "./routers/crypto-payments";
+import { icoShopRouter } from "./routers/ico-shop";
+import { cryptoInfrastructureRouter } from "./routers/crypto-infrastructure";
+
 export const appRouter = router({
   system: systemRouter,
   auth: router({
@@ -87,6 +92,11 @@ export const appRouter = router({
   finance: financeRouter,
   commerceMarketplace: commerceMarketplaceRouter,
   hopeAi: hopeAiRouter,
+
+  // ─── New Crypto Routers ───────────────────────────────────────────────────
+  cryptoPayments: cryptoPaymentsRouter,
+  icoShop: icoShopRouter,
+  cryptoInfra: cryptoInfrastructureRouter,
 });
 
 export type AppRouter = typeof appRouter;
