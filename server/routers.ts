@@ -35,6 +35,9 @@ import { cryptoInfrastructureRouter } from "./routers/crypto-infrastructure";
 import { ammDexRouter } from "./routers/amm-dex";
 import { daoGovernanceRouter } from "./routers/dao-governance";
 import { aiAnalyticsRouter } from "./routers/ai-analytics";
+import { liveMiningRouter } from "./routers/live-mining";
+import { liveStakingRouter } from "./routers/live-staking";
+import { liveIcoShopRouter } from "./routers/live-ico-shop";
 
 export const appRouter = router({
   system: systemRouter,
@@ -103,6 +106,9 @@ export const appRouter = router({
   ammDex: ammDexRouter,
   daoGov: daoGovernanceRouter,
   aiAnalytics: aiAnalyticsRouter,
+  liveMining: liveMiningRouter,
+  liveStaking: liveStakingRouter,
+  liveIcoShop: liveIcoShopRouter,
 });
 
 export type AppRouter = typeof appRouter;
