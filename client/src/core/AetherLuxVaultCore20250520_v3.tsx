@@ -1,0 +1,1 @@
+// Thick luxury page code here - full TSX with mining, wallet, tip flows
