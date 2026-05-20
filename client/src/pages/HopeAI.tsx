@@ -1,358 +1,264 @@
 import { useMemo, useState } from "react";
+import { useLocation } from "wouter";
+import { ArrowRight, Bot, BrainCircuit, CheckCircle2, Coins, Compass, Cpu, Crown, Gauge, Globe2, Heart, Languages, Mic, MicOff, Navigation, Play, Radio, Rocket, Send, ShieldCheck, Sparkles, ThumbsUp, Volume2, Wallet, Wand2, Zap } from "lucide-react";
+import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { trpc } from "@/lib/trpc";
-import {
-  ArrowRight,
-  Brain,
-  CheckCircle2,
-  Coins,
-  Globe2,
-  HeartHandshake,
-  Loader2,
-  MessageSquareText,
-  Radio,
-  Rocket,
-  ShieldCheck,
-  ShoppingCart,
-  Sparkles,
-  Zap,
-} from "lucide-react";
-import { toast } from "sonner";
 
-type Market = "global" | "usa" | "china";
-type Focus = "founder_story" | "marketplace" | "livestream" | "dating" | "full_platform";
-type QuickAction =
-  | "create_feed_post"
-  | "publish_listing"
-  | "start_stream"
-  | "tip_creator"
-  | "like_post"
-  | "comment_post"
-  | "share_post"
-  | "dating_wave"
-  | "admin_review";
+type Market = "usa" | "china" | "global";
+type QuickAction = "create_feed_post" | "like_post" | "comment_post" | "share_post" | "tip_creator" | "publish_listing" | "start_stream" | "dating_wave" | "admin_review";
+type Coin = "SKY4444" | "TRUMP" | "DOGE" | "USDT" | "BTC" | "MONERO" | "SHADOW";
 
-const MARKET_OPTIONS: Array<{ value: Market; label: string; description: string }> = [
-  { value: "global", label: "Global", description: "One platform story for social commerce, creator monetization, and Hope AI guided operations." },
-  { value: "usa", label: "United States", description: "Founder-led trust, family mission, cybersecurity credibility, and creator commerce readiness." },
-  { value: "china", label: "China-ready", description: "Concise bilingual product copy, mini-program style commerce, privacy, and community-first positioning." },
+type SpeechRecognitionEventLike = { results: ArrayLike<{ 0: { transcript: string } }> };
+type SpeechRecognitionLike = { lang: string; interimResults: boolean; continuous: boolean; start: () => void; stop: () => void; onstart: (() => void) | null; onend: (() => void) | null; onerror: ((event: { error?: string }) => void) | null; onresult: ((event: SpeechRecognitionEventLike) => void) | null };
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+
+declare global {
+  interface Window {
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  }
+}
+
+const marketOptions: Array<{ value: Market; label: string; description: string }> = [
+  { value: "global", label: "Global", description: "Full platform orchestration" },
+  { value: "usa", label: "USA", description: "Trust-first creator commerce" },
+  { value: "china", label: "China-ready", description: "Bilingual mobile-first discovery" },
 ];
 
-const FOCUS_OPTIONS: Array<{ value: Focus; label: string }> = [
-  { value: "full_platform", label: "Full platform boost" },
-  { value: "founder_story", label: "Founder story" },
-  { value: "marketplace", label: "Marketplace" },
-  { value: "livestream", label: "Livestream" },
-  { value: "dating", label: "Dating and community" },
+const coinOptions: Coin[] = ["SKY4444", "SHADOW", "USDT", "TRUMP", "DOGE", "BTC", "MONERO"];
+
+const quickActionCopy: Array<{ action: QuickAction; label: string; icon: typeof Sparkles; needs?: "postId" | "targetUserId" | "amount"; tone: string }> = [
+  { action: "create_feed_post", label: "Post Founder Update", icon: Send, tone: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30" },
+  { action: "publish_listing", label: "Publish Offer", icon: Rocket, tone: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" },
+  { action: "start_stream", label: "Start Build Room", icon: Radio, tone: "bg-red-500/10 text-red-300 border-red-500/30" },
+  { action: "tip_creator", label: "Tip Creator", icon: Coins, needs: "targetUserId", tone: "bg-yellow-500/10 text-yellow-200 border-yellow-500/30" },
+  { action: "like_post", label: "Like Post", icon: ThumbsUp, needs: "postId", tone: "bg-blue-500/10 text-blue-300 border-blue-500/30" },
+  { action: "dating_wave", label: "Dating Wave", icon: Heart, needs: "targetUserId", tone: "bg-pink-500/10 text-pink-300 border-pink-500/30" },
+  { action: "admin_review", label: "Admin Review", icon: ShieldCheck, tone: "bg-violet-500/10 text-violet-300 border-violet-500/30" },
 ];
 
-const QUICK_ACTIONS: Array<{ action: QuickAction; label: string; helper: string; icon: typeof Sparkles; className: string }> = [
-  {
-    action: "create_feed_post",
-    label: "Post founder update",
-    helper: "Publish a Hope AI profile-feed post with bilingual market context.",
-    icon: MessageSquareText,
-    className: "border-cyan-400/30 bg-cyan-400/10 text-cyan-100",
-  },
-  {
-    action: "publish_listing",
-    label: "List Hope service",
-    helper: "Create a seller offer for full-stack, cybersecurity, and AI implementation work.",
-    icon: ShoppingCart,
-    className: "border-amber-400/30 bg-amber-400/10 text-amber-100",
-  },
-  {
-    action: "start_stream",
-    label: "Open build room",
-    helper: "Create a livestream room for demos, community updates, and marketplace launches.",
-    icon: Radio,
-    className: "border-red-400/30 bg-red-400/10 text-red-100",
-  },
-  {
-    action: "tip_creator",
-    label: "Tip creator",
-    helper: "Send a beta-ledger SKY4444 encouragement tip to a selected creator ID.",
-    icon: Coins,
-    className: "border-emerald-400/30 bg-emerald-400/10 text-emerald-100",
-  },
-];
-
-function numberOrUndefined(value: string) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+function formatUsd(value: number | undefined) {
+  return `$${Number(value ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 }
 
 export default function HopeAI() {
-  const utils = trpc.useUtils();
+  const [, navigate] = useLocation();
   const [market, setMarket] = useState<Market>("global");
-  const [focus, setFocus] = useState<Focus>("full_platform");
-  const [intent, setIntent] = useState(
-    "Enhance Hope AI hands-free free-will engineering for U.S. and China-ready social commerce, livestream, marketplace, dating, wallet education, admin trust controls, and founder story growth.",
-  );
-  const [actionText, setActionText] = useState(
-    "Skyler Blue Spillers is building Hope AI to help families, creators, small businesses, and community builders move faster with ethical cybersecurity-aware full-stack software.",
-  );
+  const [intent, setIntent] = useState("Make Hope AI unhinged, hands-free, bilingual, crypto-social, and ready for creator commerce.");
+  const [actionText, setActionText] = useState("Hope AI is shipping voice navigation, creator tips, likes, listings, livestream rooms, dating/community waves, and beta wallet trust controls.");
+  const [voiceText, setVoiceText] = useState("Hope, go to marketplace");
+  const [spokenResponse, setSpokenResponse] = useState("Hope AI voice layer is online. Say: go to marketplace, open livestream, post an update, tip creator, like post, or show wallet.");
+  const [isListening, setIsListening] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [autoNavigate, setAutoNavigate] = useState(true);
+  const [postId, setPostId] = useState("1");
   const [targetUserId, setTargetUserId] = useState("1");
-  const [postId, setPostId] = useState("");
+  const [amount, setAmount] = useState("144");
+  const [coin, setCoin] = useState<Coin>("SKY4444");
+  const [lastRoute, setLastRoute] = useState<string | null>(null);
 
   const mission = trpc.hopeAi.missionControl.useQuery({ market });
+  const aiDev = trpc.hopeAi.aiDevSection.useQuery({ market });
+
+  const speak = (text: string) => {
+    if (muted || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = market === "china" ? "zh-CN" : "en-US";
+    utterance.rate = 0.96;
+    utterance.pitch = 1.04;
+    window.speechSynthesis.speak(utterance);
+  };
+
   const planSprint = trpc.hopeAi.planSprint.useMutation({
-    onSuccess: async (data) => {
-      toast.success(data.resultSummary);
-      await utils.hopeAi.missionControl.invalidate();
+    onSuccess: (data) => {
+      setSpokenResponse(data.resultSummary);
+      speak(data.resultSummary);
+      void mission.refetch();
+      toast.success("Hope AI sprint plan recorded");
     },
     onError: (error) => toast.error(error.message),
   });
+
   const quickAction = trpc.hopeAi.quickAction.useMutation({
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
+      setSpokenResponse(data.resultSummary);
+      speak(data.resultSummary);
+      const result = data.result as { postId?: number; listingId?: number; streamId?: number } | null;
+      if (result?.postId) setPostId(String(result.postId));
+      void mission.refetch();
+      void aiDev.refetch();
       toast.success(data.resultSummary);
-      await utils.hopeAi.missionControl.invalidate();
     },
     onError: (error) => toast.error(error.message),
   });
-  const handsFreeBoost = trpc.hopeAi.runHandsFreeBoost.useMutation({
-    onSuccess: async (data) => {
+
+  const boost = trpc.hopeAi.runHandsFreeBoost.useMutation({
+    onSuccess: (data) => {
+      setSpokenResponse(data.resultSummary);
+      speak(data.resultSummary);
+      void mission.refetch();
+      void aiDev.refetch();
+      toast.success("Hands-free platform boost shipped");
+    },
+    onError: (error) => toast.error(error.message),
+  });
+
+  const voiceCommand = trpc.hopeAi.voiceCommand.useMutation({
+    onSuccess: (data) => {
+      setSpokenResponse(data.spokenResponse);
+      speak(data.spokenResponse);
+      void mission.refetch();
+      void aiDev.refetch();
+      if (data.navigation?.route) {
+        setLastRoute(data.navigation.route);
+        if (autoNavigate) setTimeout(() => navigate(data.navigation.route), 450);
+      }
       toast.success(data.resultSummary);
-      await utils.hopeAi.missionControl.invalidate();
     },
     onError: (error) => toast.error(error.message),
   });
 
   const balances = mission.data?.balances ?? [];
-  const balanceTotal = useMemo(
-    () =>
-      balances.reduce((sum, balance) => {
-        const walletBalance = balance as { availableBalance?: string | number; balance?: string | number };
-        return sum + Number(walletBalance.availableBalance ?? walletBalance.balance ?? 0);
-      }, 0),
-    [balances],
-  );
-  const marketData = mission.data?.market;
-  const latestRuns = mission.data?.latestRuns ?? [];
-  const recommendedActions = mission.data?.recommendedActions ?? [];
+  const walletUsd = useMemo(() => balances.reduce((sum, balance) => sum + Number(balance.usdValue ?? 0), 0), [balances]);
+  const topBalances = balances.slice(0, 4);
+  const navigationTargets = mission.data?.navigationTargets ?? [];
+  const voiceSupported = typeof window !== "undefined" && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+  const numericPostId = Number(postId) > 0 ? Number(postId) : undefined;
+  const numericTargetUserId = Number(targetUserId) > 0 ? Number(targetUserId) : undefined;
+  const numericAmount = Number(amount) > 0 ? Number(amount) : undefined;
 
-  function runPlan() {
-    planSprint.mutate({ intent, market, mode: "hands_free" });
-  }
+  const runVoiceCommand = (command = voiceText) => {
+    const trimmed = command.trim();
+    if (!trimmed) {
+      toast.error("Enter or say a Hope AI command first.");
+      return;
+    }
+    setVoiceText(trimmed);
+    voiceCommand.mutate({ command: trimmed, market, mode: "hands_free", execute: true, content: actionText, postId: numericPostId, targetUserId: numericTargetUserId, amount: numericAmount, coin });
+  };
 
-  function runBoost() {
-    handsFreeBoost.mutate({ market, focus });
-  }
+  const startListening = () => {
+    if (!voiceSupported || typeof window === "undefined") {
+      toast.error("Browser speech recognition is not available here. Type the command and press Run.");
+      return;
+    }
+    const SpeechCtor = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    if (!SpeechCtor) return;
+    const recognition = new SpeechCtor();
+    recognition.lang = market === "china" ? "zh-CN" : "en-US";
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = (event) => {
+      setIsListening(false);
+      toast.error(`Voice capture stopped${event.error ? `: ${event.error}` : "."}`);
+    };
+    recognition.onresult = (event) => {
+      const transcript = event.results[0]?.[0]?.transcript ?? "";
+      setVoiceText(transcript);
+      runVoiceCommand(transcript);
+    };
+    recognition.start();
+  };
 
-  function runQuick(action: QuickAction) {
-    quickAction.mutate({
-      action,
-      market,
-      mode: "hands_free",
-      title:
-        action === "publish_listing"
-          ? "Hope AI Full-Stack Cybersecurity Innovation Package"
-          : action === "start_stream"
-            ? "Hope AI Hands-Free Build Room"
-            : "Hope AI Founder Update",
-      content: actionText,
-      coin: "SKY4444",
-      amount: action === "tip_creator" ? 144 : undefined,
-      targetUserId: action === "tip_creator" || action === "dating_wave" ? numberOrUndefined(targetUserId) : undefined,
-      postId: ["like_post", "comment_post", "share_post"].includes(action) ? numberOrUndefined(postId) : undefined,
-      category: "ai-services",
-      price: "444.00",
-    });
-  }
+  const runQuickAction = (action: QuickAction) => {
+    quickAction.mutate({ action, market, mode: action === "admin_review" ? "admin" : "hands_free", title: action === "publish_listing" ? "Hope AI Full-Stack Cybersecurity Innovation Package" : action === "start_stream" ? "Hope AI Hands-Free Build Room" : "Hope AI Founder Update", content: actionText, postId: numericPostId, targetUserId: numericTargetUserId, amount: action === "tip_creator" ? numericAmount : undefined, coin, category: "ai-services", price: "444.00" });
+  };
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#0f766e,#020617_35%,#09090b_70%)] p-6 text-white">
-      <section className="mx-auto max-w-7xl space-y-6">
-        <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <Card className="overflow-hidden border-cyan-400/20 bg-black/55 text-white shadow-2xl shadow-cyan-500/10">
-            <CardContent className="space-y-6 p-7">
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge className="border-cyan-300/40 bg-cyan-300/10 text-cyan-100">Hope AI Hands-Free</Badge>
-                <Badge className="border-amber-300/40 bg-amber-300/10 text-amber-100">Free-Will Engineering</Badge>
-                <Badge className="border-emerald-300/40 bg-emerald-300/10 text-emerald-100">U.S. + China-ready</Badge>
+    <div className="min-h-screen bg-[#05070d] text-white">
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden rounded-[2rem] border border-cyan-500/20 bg-gradient-to-br from-cyan-950/50 via-slate-950 to-violet-950/50 p-6 shadow-2xl shadow-cyan-950/20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.22),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.18),transparent_35%)]" />
+          <div className="relative grid gap-6 lg:grid-cols-[1.45fr_0.55fr]">
+            <div className="space-y-5">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge className="border-cyan-400/30 bg-cyan-400/10 text-cyan-200">Hope AI Second Sprint</Badge>
+                <Badge className="border-violet-400/30 bg-violet-400/10 text-violet-200">Voice-ready</Badge>
+                <Badge className="border-emerald-400/30 bg-emerald-400/10 text-emerald-200">Beta wallet gated</Badge>
               </div>
-              <div className="space-y-4">
-                <h1 className="max-w-5xl text-4xl font-black tracking-tight md:text-6xl">
-                  Hope AI mission control for founder-led social commerce, creator monetization, and ethical automation.
-                </h1>
-                <p className="max-w-4xl text-base leading-7 text-zinc-300 md:text-lg">
-                  Built for Skyler Blue Spillers and Sky Blue Innovative Information Technology Resolutions, this dashboard turns prior engineering notes into guided actions: publish posts, open livestream rooms, list marketplace services, record beta-ledger tips, and keep trust gates visible while the platform grows.
-                </p>
+              <div>
+                <h1 className="max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">Hope AI Mission Control now drives the whole SkyCoin4444 product hands-free.</h1>
+                <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg">This page is no longer a static AI card. It is a voice-command operator layer for marketplace listings, creator tips, likes, livestream rooms, dating/community waves, bilingual market positioning, admin reviews, and beta crypto-wallet trust logic.</p>
               </div>
-              <div className="grid gap-3 md:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-widest text-zinc-400">Operator</p>
-                  <p className="mt-2 text-xl font-black">{mission.data?.operator.founder ?? "Skyler Blue Spillers"}</p>
-                  <p className="text-xs text-cyan-200">{mission.data?.operator.role ?? "authenticated"} role</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-widest text-zinc-400">Beta wallet visibility</p>
-                  <p className="mt-2 text-xl font-black text-amber-200">{balanceTotal.toLocaleString()} total units</p>
-                  <p className="text-xs text-zinc-400">Across configured ledger coins</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-widest text-zinc-400">Production gates</p>
-                  <p className="mt-2 text-xl font-black text-emerald-200">Securely gated</p>
-                  <p className="text-xs text-zinc-400">External money movement stays provider-configured</p>
-                </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs uppercase tracking-[0.25em] text-slate-400">Wallet visible</p><p className="mt-1 text-2xl font-black text-cyan-200">{formatUsd(walletUsd)}</p></div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs uppercase tracking-[0.25em] text-slate-400">Voice routes</p><p className="mt-1 text-2xl font-black text-violet-200">{navigationTargets.length || 12}</p></div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs uppercase tracking-[0.25em] text-slate-400">Recent runs</p><p className="mt-1 text-2xl font-black text-emerald-200">{mission.data?.latestRuns?.length ?? 0}</p></div>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-amber-400/20 bg-zinc-950/85 text-white">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Globe2 className="h-5 w-5 text-amber-300" /> Market Mode</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <select
-                value={market}
-                onChange={(event) => setMarket(event.target.value as Market)}
-                className="h-11 w-full rounded-xl border border-white/10 bg-black/40 px-3 text-sm text-white outline-none"
-              >
-                {MARKET_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-              </select>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="text-lg font-black">{marketData?.name ?? "Global"}</p>
-                <p className="mt-2 text-sm text-zinc-300">{marketData?.positioning ?? MARKET_OPTIONS.find((option) => option.value === market)?.description}</p>
-              </div>
-              <div className="space-y-2">
-                {(marketData?.guidance ?? []).map((item) => (
-                  <div key={item} className="flex gap-2 rounded-xl bg-emerald-400/10 p-3 text-sm text-emerald-100">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> {item}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <Card className="border-cyan-400/20 bg-zinc-950/85 text-white">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Brain className="h-5 w-5 text-cyan-300" /> Guided Sprint Planner</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Textarea value={intent} onChange={(event) => setIntent(event.target.value)} className="min-h-36 border-white/10 bg-black/40 text-white" />
-              <Button disabled={planSprint.isPending} onClick={runPlan} className="h-12 w-full bg-cyan-400 font-black text-black hover:bg-cyan-300">
-                {planSprint.isPending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Sparkles className="mr-2 h-5 w-5" />} Plan hands-free sprint
-              </Button>
-              <div className="grid gap-3 md:grid-cols-2">
-                {recommendedActions.slice(0, 4).map((action) => (
-                  <div key={action.key} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="font-black text-white">{action.label}</p>
-                    <p className="text-xs text-cyan-200">{action.labelZh}</p>
-                    <p className="mt-2 text-sm text-zinc-400">{action.description}</p>
-                    <p className="mt-3 text-xs text-emerald-200">Confidence {Math.round(action.confidence * 100)}%</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-emerald-400/20 bg-zinc-950/85 text-white">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Rocket className="h-5 w-5 text-emerald-300" /> One-Click Hands-Free Boost</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <select
-                value={focus}
-                onChange={(event) => setFocus(event.target.value as Focus)}
-                className="h-11 w-full rounded-xl border border-white/10 bg-black/40 px-3 text-sm text-white outline-none"
-              >
-                {FOCUS_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-              </select>
-              <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-5">
-                <p className="text-2xl font-black text-emerald-100">Feed + livestream + marketplace in one flow</p>
-                <p className="mt-2 text-sm leading-6 text-emerald-50/80">
-                  The boost creates a Hope AI founder post, schedules a livestream build room, and publishes a service listing using the current market positioning. Every run is saved for audit-style review.
-                </p>
-              </div>
-              <Button disabled={handsFreeBoost.isPending} onClick={runBoost} className="h-12 w-full bg-emerald-400 font-black text-black hover:bg-emerald-300">
-                {handsFreeBoost.isPending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Zap className="mr-2 h-5 w-5" />} Run full boost
-              </Button>
-              <div className="flex gap-2 rounded-xl border border-amber-400/20 bg-amber-400/10 p-3 text-xs text-amber-100">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" /> Beta ledger and database actions are enabled; Stripe, bank, and on-chain movement remain controlled by provider configuration and environment secrets.
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="border-white/10 bg-zinc-950/85 text-white">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-pink-300" /> Quick Actions: Post, Tip, Like, List, Stream</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="grid gap-3 lg:grid-cols-[1fr_0.28fr_0.28fr]">
-              <Textarea value={actionText} onChange={(event) => setActionText(event.target.value)} className="min-h-24 border-white/10 bg-black/40 text-white" />
-              <Input value={targetUserId} onChange={(event) => setTargetUserId(event.target.value)} placeholder="Creator/user ID" className="border-white/10 bg-black/40 text-white" />
-              <Input value={postId} onChange={(event) => setPostId(event.target.value)} placeholder="Post ID" className="border-white/10 bg-black/40 text-white" />
             </div>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {QUICK_ACTIONS.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.action}
-                    type="button"
-                    onClick={() => runQuick(item.action)}
-                    disabled={quickAction.isPending}
-                    className={`rounded-2xl border p-5 text-left transition hover:-translate-y-1 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60 ${item.className}`}
-                  >
-                    <Icon className="mb-4 h-7 w-7" />
-                    <p className="text-lg font-black">{item.label}</p>
-                    <p className="mt-2 text-sm opacity-80">{item.helper}</p>
-                    <span className="mt-4 inline-flex items-center text-xs font-bold uppercase tracking-widest">Run action <ArrowRight className="ml-2 h-3 w-3" /></span>
-                  </button>
-                );
-              })}
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              <Button disabled={quickAction.isPending || !postId} onClick={() => runQuick("like_post")} variant="outline" className="border-white/15 bg-white/5 text-white hover:bg-white/10">Like post</Button>
-              <Button disabled={quickAction.isPending || !postId} onClick={() => runQuick("comment_post")} variant="outline" className="border-white/15 bg-white/5 text-white hover:bg-white/10">Comment post</Button>
-              <Button disabled={quickAction.isPending || !postId} onClick={() => runQuick("share_post")} variant="outline" className="border-white/15 bg-white/5 text-white hover:bg-white/10">Share post</Button>
-            </div>
-          </CardContent>
-        </Card>
+            <Card className="relative border-white/10 bg-black/30 text-white backdrop-blur-xl">
+              <CardHeader><CardTitle className="flex items-center gap-2"><Bot className="h-5 w-5 text-cyan-300" /> Market Brain</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <Select value={market} onValueChange={(value) => setMarket(value as Market)}><SelectTrigger className="border-white/10 bg-white/5 text-white"><SelectValue /></SelectTrigger><SelectContent>{marketOptions.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}</SelectContent></Select>
+                <p className="text-sm leading-6 text-slate-300">{mission.data?.market?.positioning ?? marketOptions.find((item) => item.value === market)?.description}</p>
+                <Button className="w-full border-0 bg-cyan-500 font-black text-black hover:bg-cyan-400" onClick={() => boost.mutate({ market, focus: "full_platform" })} disabled={boost.isPending}><Wand2 className="mr-2 h-4 w-4" /> Run Full Platform Boost</Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card className="border-white/10 bg-zinc-950/85 text-white">
-            <CardHeader><CardTitle>Latest Hope AI Runs</CardTitle></CardHeader>
+        <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <Card className="border-cyan-500/20 bg-slate-950/80 text-white shadow-xl shadow-cyan-950/10">
+            <CardHeader><CardTitle className="flex items-center gap-2"><Mic className="h-5 w-5 text-cyan-300" /> Hope AI Voice + Spoken Navigation</CardTitle></CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-4"><p className="text-sm leading-6 text-cyan-100">{spokenResponse}</p>{lastRoute && <p className="mt-2 text-xs text-slate-400">Last resolved route: <span className="font-mono text-cyan-200">{lastRoute}</span></p>}</div>
+              <div className="space-y-2"><Label htmlFor="voice-command">Say or type a command</Label><div className="flex gap-2"><Input id="voice-command" value={voiceText} onChange={(event) => setVoiceText(event.target.value)} className="border-white/10 bg-white/5 text-white" placeholder="Hope, open livestream studio" /><Button className="bg-cyan-500 text-black hover:bg-cyan-400" onClick={() => runVoiceCommand()} disabled={voiceCommand.isPending}><Play className="h-4 w-4" /></Button></div></div>
+              <div className="grid gap-2 sm:grid-cols-3"><Button variant="outline" className="border-cyan-500/30 bg-cyan-500/10 text-cyan-100 hover:bg-cyan-500/20" onClick={startListening} disabled={isListening || voiceCommand.isPending}>{isListening ? <MicOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}{isListening ? "Listening" : "Listen"}</Button><Button variant="outline" className="border-violet-500/30 bg-violet-500/10 text-violet-100 hover:bg-violet-500/20" onClick={() => { setMuted(!muted); toast.info(!muted ? "Spoken output muted" : "Spoken output enabled"); }}><Volume2 className="mr-2 h-4 w-4" />{muted ? "Muted" : "Voice On"}</Button><Button variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-100 hover:bg-emerald-500/20" onClick={() => setAutoNavigate(!autoNavigate)}><Navigation className="mr-2 h-4 w-4" />{autoNavigate ? "Auto Route" : "Preview"}</Button></div>
+              <div className="grid gap-2 sm:grid-cols-3"><Input value={postId} onChange={(event) => setPostId(event.target.value)} className="border-white/10 bg-white/5 text-white" placeholder="Post ID" /><Input value={targetUserId} onChange={(event) => setTargetUserId(event.target.value)} className="border-white/10 bg-white/5 text-white" placeholder="Target user ID" /><Input value={amount} onChange={(event) => setAmount(event.target.value)} className="border-white/10 bg-white/5 text-white" placeholder="Tip amount" /></div>
+              <Select value={coin} onValueChange={(value) => setCoin(value as Coin)}><SelectTrigger className="border-white/10 bg-white/5 text-white"><SelectValue /></SelectTrigger><SelectContent>{coinOptions.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent></Select>
+            </CardContent>
+          </Card>
+
+          <Card className="border-violet-500/20 bg-slate-950/80 text-white shadow-xl shadow-violet-950/10">
+            <CardHeader><CardTitle className="flex items-center gap-2"><Compass className="h-5 w-5 text-violet-300" /> Hands-free Route Matrix</CardTitle></CardHeader>
+            <CardContent className="grid gap-3 sm:grid-cols-2">
+              {navigationTargets.slice(0, 8).map((target) => <button key={target.key} onClick={() => runVoiceCommand(`open ${target.label}`)} className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-violet-400/40 hover:bg-violet-500/10"><div className="flex items-center justify-between gap-3"><div><p className="font-black text-white">{target.label}</p><p className="text-xs text-violet-200">{target.labelZh}</p></div><ArrowRight className="h-4 w-4 text-slate-500 transition group-hover:translate-x-1 group-hover:text-violet-200" /></div><p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-400">{target.description}</p></button>)}
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <Card className="border-emerald-500/20 bg-slate-950/80 text-white">
+            <CardHeader><CardTitle className="flex items-center gap-2"><Zap className="h-5 w-5 text-emerald-300" /> Tip, Like, Post, List, Stream, Wave</CardTitle></CardHeader>
+            <CardContent className="space-y-4"><Textarea value={actionText} onChange={(event) => setActionText(event.target.value)} className="min-h-28 border-white/10 bg-white/5 text-white" /><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{quickActionCopy.map((item) => { const Icon = item.icon; return <Button key={item.action} variant="outline" className={`h-auto justify-start rounded-2xl border p-4 ${item.tone}`} onClick={() => runQuickAction(item.action)} disabled={quickAction.isPending}><Icon className="mr-3 h-5 w-5" /><span className="text-left"><span className="block font-black">{item.label}</span><span className="block text-xs opacity-75">{item.needs ? `Uses ${item.needs}` : "No extra ID needed"}</span></span></Button>; })}</div></CardContent>
+          </Card>
+
+          <Card className="border-yellow-500/20 bg-slate-950/80 text-white">
+            <CardHeader><CardTitle className="flex items-center gap-2"><Wallet className="h-5 w-5 text-yellow-200" /> Crypto Beta Wallet Logic</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              {mission.isLoading ? <p className="text-sm text-zinc-400">Loading run history...</p> : null}
-              {!mission.isLoading && latestRuns.length === 0 ? <p className="text-sm text-zinc-400">No Hope AI action runs yet. Plan a sprint or run the hands-free boost to create the first record.</p> : null}
-              {latestRuns.map((run) => (
-                <div key={run.id} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <p className="font-black">{run.intent}</p>
-                    <Badge variant="outline" className="border-cyan-400/40 text-cyan-200">{run.status}</Badge>
-                  </div>
-                  <p className="mt-2 text-sm text-zinc-300">{run.resultSummary}</p>
-                  <p className="mt-2 text-xs uppercase tracking-widest text-zinc-500">{run.market} · {run.mode}</p>
-                </div>
-              ))}
+              {topBalances.map((balance) => <div key={balance.coin} className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-3"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-400/10 text-sm font-black text-yellow-200">{balance.icon}</div><div><p className="font-black">{balance.symbol}</p><p className="text-xs text-slate-400">{balance.chain} · {balance.source}</p></div></div><div className="text-right"><p className="font-mono text-sm text-white">{Number(balance.amount).toLocaleString()}</p><p className="text-xs text-emerald-300">{formatUsd(balance.usdValue)}</p></div></div>)}
+              <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-sm leading-6 text-amber-100">Stripe, real crypto transfers, and on-chain movement remain provider-gated. Hope AI can prepare, log, and explain actions, while production money movement requires configured secrets and intentional rollout.</div>
             </CardContent>
           </Card>
+        </section>
 
-          <Card className="border-white/10 bg-zinc-950/85 text-white">
-            <CardHeader><CardTitle>Founder and Engineering Value</CardTitle></CardHeader>
-            <CardContent className="space-y-4 text-sm leading-6 text-zinc-300">
-              <p>
-                Hope AI is positioned around practical resilience: cybersecurity graduate work, information technology education, software development training, ethical-hacker discipline, full-stack operations, community volunteering, family responsibility, and a desire to build a better life through useful software.
-              </p>
-              <p>
-                The mission-control design keeps the platform ambitious without losing accountability. Every hands-free action is visible, every market recommendation is explainable, and every financial or crypto-adjacent action remains beta-ledger-safe until production providers are configured.
-              </p>
-              <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4 text-cyan-100">
-                Brand line: Sky Blue Innovative Information Technology Resolutions builds Hope AI software that turns hard-earned life experience into trustworthy, market-ready technology for creators, families, friends, and community businesses.
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-    </main>
+        <section className="rounded-[2rem] border border-fuchsia-500/20 bg-gradient-to-br from-slate-950 via-fuchsia-950/20 to-slate-950 p-6 text-white">
+          <div className="mb-5 flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><Badge className="mb-3 border-fuchsia-400/30 bg-fuchsia-400/10 text-fuchsia-200"><BrainCircuit className="mr-1 h-3.5 w-3.5" /> AI Development Wow Factor</Badge><h2 className="text-3xl font-black tracking-tight">{aiDev.data?.headline ?? "AI Development Showcase"}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-slate-300">{aiDev.data?.subheadline}</p></div><Button className="border-0 bg-fuchsia-500 font-black text-white hover:bg-fuchsia-400" onClick={() => planSprint.mutate({ intent, market, mode: "guided" })} disabled={planSprint.isPending}><Cpu className="mr-2 h-4 w-4" /> Plan Next Sprint</Button></div>
+          <Textarea value={intent} onChange={(event) => setIntent(event.target.value)} className="mb-5 min-h-24 border-white/10 bg-white/5 text-white" />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{(aiDev.data?.metrics ?? []).map((metric) => <Card key={metric.label} className="border-white/10 bg-white/[0.04] text-white"><CardContent className="p-4"><div className="mb-3 flex items-center gap-2 text-fuchsia-200"><Gauge className="h-4 w-4" /><span className="text-xs uppercase tracking-[0.2em]">{metric.label}</span></div><p className="text-2xl font-black">{metric.value}</p><p className="mt-2 text-sm leading-6 text-slate-400">{metric.detail}</p></CardContent></Card>)}</div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-3"><FeatureList title="Innovation" icon={Sparkles} items={aiDev.data?.innovationHighlights ?? []} /><FeatureList title="Technical Stack" icon={Crown} items={aiDev.data?.technicalStack ?? []} /><FeatureList title="Trust Architecture" icon={ShieldCheck} items={aiDev.data?.safetyArchitecture ?? []} /></div>
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-3"><MiniPanel icon={Languages} title="Bilingual market logic" body="U.S., global, and China-ready copy lives in the orchestration layer so the same Hope AI action can explain its market context." /><MiniPanel icon={Globe2} title="Full-product routing" body="Marketplace, dating, livestream, wallet, admin, analytics, AI tools, and Sky Blue IT surfaces are now commandable from one page." /><MiniPanel icon={CheckCircle2} title="Auditable autonomy" body="Voice and quick actions log planned, completed, and blocked outcomes instead of silently guessing risky money or moderation steps." /></section>
+      </div>
+    </div>
   );
+}
+
+function FeatureList({ title, icon: Icon, items }: { title: string; icon: typeof Sparkles; items: string[] }) {
+  return <Card className="border-white/10 bg-black/20 text-white"><CardHeader className="pb-3"><CardTitle className="flex items-center gap-2 text-base"><Icon className="h-4 w-4 text-fuchsia-200" /> {title}</CardTitle></CardHeader><CardContent className="space-y-3">{items.map((item) => <p key={item} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-sm leading-6 text-slate-300">{item}</p>)}</CardContent></Card>;
+}
+
+function MiniPanel({ icon: Icon, title, body }: { icon: typeof Sparkles; title: string; body: string }) {
+  return <Card className="border-cyan-500/15 bg-slate-950/80 text-white"><CardContent className="p-5"><Icon className="mb-3 h-6 w-6 text-cyan-300" /><p className="text-lg font-black">{title}</p><p className="mt-2 text-sm leading-6 text-slate-400">{body}</p></CardContent></Card>;
 }
