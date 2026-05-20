@@ -139,6 +139,25 @@ export const chatHistory = mysqlTable("chatHistory", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const beginnerPlusBusinessIntents = mysqlTable("beginnerPlusBusinessIntents", {
+  id: int("id").autoincrement().primaryKey(),
+  intentKey: varchar("intentKey", { length: 160 }).notNull().unique(),
+  userId: int("userId").notNull().references(() => users.id),
+  action: mysqlEnum("action", ["publish-guided-post", "review-profile-trust", "build-business-offer", "queue-creator-monetization", "open-partner-path"]).notNull(),
+  note: text("note"),
+  status: mysqlEnum("status", ["queued-for-guided-user-review", "queued-for-business-and-creator-review", "approved", "rejected"]).default("queued-for-guided-user-review").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["none", "queued", "approved", "rejected"]).default("none").notNull(),
+  reviewRequired: int("reviewRequired").default(0).notNull(),
+  actionJson: text("actionJson"),
+  guidanceJson: text("guidanceJson"),
+  guardrailsJson: text("guardrailsJson"),
+  adminNote: text("adminNote"),
+  reviewedById: int("reviewedById").references(() => users.id),
+  reviewedAt: timestamp("reviewedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 // Vault and Staking Tables
 export const vaults = mysqlTable("vaults", {
   id: int("id").autoincrement().primaryKey(),

@@ -5,7 +5,7 @@ import {
   BarChart2, DollarSign, Activity, Lock, Eye, Zap, Crown,
   CheckCircle, XCircle, Clock, ArrowUp, ArrowDown, Server,
   Database, Cpu, Wifi, Bell, Flag, FileText, ChevronRight,
-  RefreshCw, Download, Filter, Search, MoreHorizontal
+  RefreshCw, Download, Filter, Search, MoreHorizontal, Briefcase
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,6 +76,7 @@ export default function AdminDashboard() {
   const utils = trpc.useUtils();
   const [refreshing, setRefreshing] = useState(false);
   const settlementReview = trpc.adminLive.settlementReview.useQuery({ limit: 10 }, { refetchInterval: 30000 });
+  const beginnerPlusBusinessReview = trpc.adminLive.beginnerPlusBusinessReview.useQuery({ limit: 10 }, { refetchInterval: 30000 });
   const updateSettlementReview = trpc.adminLive.updateSettlementReview.useMutation({
     onSuccess: async () => {
       toast.success("Settlement review status updated.");
@@ -83,12 +84,20 @@ export default function AdminDashboard() {
     },
     onError: (error) => toast.error(error.message),
   });
+  const updateBeginnerPlusBusinessReview = trpc.adminLive.updateBeginnerPlusBusinessReview.useMutation({
+    onSuccess: async () => {
+      toast.success("Beginner Plus business review status updated.");
+      await utils.adminLive.beginnerPlusBusinessReview.invalidate();
+    },
+    onError: (error) => toast.error(error.message),
+  });
 
   const pendingSettlementEntries = settlementReview.data?.pendingEntries ?? [];
+  const pendingBusinessIntents = beginnerPlusBusinessReview.data?.pendingIntents ?? [];
 
   const handleRefresh = () => {
     setRefreshing(true);
-    settlementReview.refetch().finally(() => {
+    Promise.all([settlementReview.refetch(), beginnerPlusBusinessReview.refetch()]).finally(() => {
       setRefreshing(false);
       toast.success("Dashboard refreshed");
     });
@@ -227,6 +236,53 @@ export default function AdminDashboard() {
             {!pendingSettlementEntries.length && (
               <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
                 {settlementReview.isLoading ? "Loading settlement entries requiring admin review..." : "No queued settlement entries. Audited mining, staking, casino, wallet, tip, and paper-trading entries will appear here when marked for review."}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Beginner Plus Business Review */}
+      <Card className="border-emerald-500/20 bg-emerald-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <CardTitle className="text-sm font-bold flex items-center gap-2"><Briefcase className="h-4 w-4 text-emerald-300" />Beginner Plus Business Review</CardTitle>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">{beginnerPlusBusinessReview.data?.pendingCount ?? pendingBusinessIntents.length} queued</Badge>
+              <Badge className="border-emerald-500/20 bg-emerald-500/10 text-emerald-300">Creator / profile / partner intents</Badge>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">{beginnerPlusBusinessReview.data?.betaNotice ?? "Loading Beginner Plus creator and business review queue. Publishing, payments, identity claims, monetization, and partner activation stay confirm-first and provider-gated."}</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {pendingBusinessIntents.map((intent: any) => (
+              <div key={intent.id} className="grid gap-3 rounded-xl border border-border/40 bg-background/40 p-3 lg:grid-cols-[1.1fr_0.9fr_0.8fr_auto] lg:items-center">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-semibold capitalize">{intent.action.replace(/-/g, " ")}</span>
+                    <Badge variant="outline">user #{intent.userId}</Badge>
+                    <Badge className="border-amber-500/20 bg-amber-500/10 text-amber-300">review required</Badge>
+                  </div>
+                  <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{intent.note ?? intent.intentKey}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-xs font-bold">{intent.intentKey}</p>
+                  <p className="text-xs text-muted-foreground">{new Date(intent.createdAt).toLocaleString()}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300">{intent.status}</Badge>
+                  <Badge className="border-purple-500/20 bg-purple-500/10 text-purple-300">{intent.reviewStatus}</Badge>
+                </div>
+                <div className="flex gap-2 lg:justify-end">
+                  <Button size="sm" className="bg-green-600 text-white" disabled={updateBeginnerPlusBusinessReview.isPending} onClick={() => updateBeginnerPlusBusinessReview.mutate({ id: intent.id, reviewStatus: "approved", adminNote: "Approved in admin Beginner Plus business review; live provider-gated actions still require separate confirmation." })}><CheckCircle className="mr-1 h-3.5 w-3.5" />Approve</Button>
+                  <Button size="sm" variant="destructive" disabled={updateBeginnerPlusBusinessReview.isPending} onClick={() => updateBeginnerPlusBusinessReview.mutate({ id: intent.id, reviewStatus: "rejected", adminNote: "Rejected in admin Beginner Plus business review; revise offer, trust language, or provider-gated claims before retrying." })}><XCircle className="mr-1 h-3.5 w-3.5" />Reject</Button>
+                </div>
+              </div>
+            ))}
+            {!pendingBusinessIntents.length && (
+              <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
+                {beginnerPlusBusinessReview.isLoading ? "Loading Beginner Plus business intents requiring admin review..." : "No queued Beginner Plus business intents. Creator offers, monetization requests, and partner paths will appear here when users queue review-required guidance actions."}
               </div>
             )}
           </div>

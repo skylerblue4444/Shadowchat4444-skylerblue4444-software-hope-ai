@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { multiCoinService, supportedCoins, type Coin } from "../lib/multi-coin";
+import { beginnerPlusBusinessIntentKey, getRecentBeginnerPlusBusinessIntents, recordBeginnerPlusBusinessIntent, type BeginnerPlusBusinessAction } from "../lib/beginner-plus-business-intents";
 import { protectedProcedure, publicProcedure, router, TRPCError } from "../_core/trpc";
+import { getDb } from "../db";
 
 const fundingRailSchema = z.enum(["stripe", "SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]);
 const icoAllocationSchema = z.enum(["SKY4444", "SHADOW"]);
@@ -592,9 +594,29 @@ export const platformRouter = router({
       };
     }),
 
+  recentBeginnerPlusBusinessIntents: protectedProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(50).default(10) }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          intents: [],
+          persistenceEnabled: false,
+          betaNotice: "Database not configured; Beginner Plus business intent history is unavailable in demo-safe mode.",
+        };
+      }
+
+      const intents = await getRecentBeginnerPlusBusinessIntents(db, ctx.user.id, input?.limit ?? 10);
+      return {
+        intents,
+        persistenceEnabled: true,
+        betaNotice: "Beginner Plus business intents are persisted for user transparency and admin review; live payments, identity verification, monetization, and partner activation remain provider-gated.",
+      };
+    }),
+
   createBeginnerPlusBusinessIntent: protectedProcedure
     .input(z.object({ action: beginnerPlusBusinessActionSchema, acceptBusinessGuidance: z.boolean(), note: z.string().max(500).optional() }))
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       if (!input.acceptBusinessGuidance) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Accept the Beginner Plus business guidance, user-confirmation, privacy, and provider-gated terms before queuing this action." });
       }
@@ -604,13 +626,38 @@ export const platformRouter = router({
         throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown Beginner Plus business action." });
       }
 
+      const status = action.reviewRequired ? "queued-for-business-and-creator-review" : "queued-for-guided-user-review";
+      const intentKey = beginnerPlusBusinessIntentKey(ctx.user.id, action.key as BeginnerPlusBusinessAction);
+      const db = await getDb();
+      const persisted = db
+        ? await recordBeginnerPlusBusinessIntent(db, {
+            intentKey,
+            userId: ctx.user.id,
+            action: action.key as BeginnerPlusBusinessAction,
+            note: input.note ?? null,
+            status,
+            reviewRequired: action.reviewRequired,
+            actionSnapshot: action,
+            guidanceSnapshot: {
+              feedGuidance: beginnerPlusBusinessMode.feedGuidance,
+              profileGuidance: beginnerPlusBusinessMode.profileGuidance,
+              businessThoughtProcess: beginnerPlusBusinessMode.businessThoughtProcess,
+            },
+            guardrails: beginnerPlusBusinessMode.guardrails,
+          })
+        : null;
+
       return {
         success: true,
-        intentId: `BEGINNER-PLUS-${Date.now().toString(36).toUpperCase()}`,
+        intentId: intentKey.replace(/^beginner-plus-business:/, "BEGINNER-PLUS:"),
+        persistedIntentId: persisted?.intent?.id ?? null,
+        persisted: Boolean(persisted?.intent),
+        created: persisted?.created ?? false,
         userId: ctx.user.id,
         action,
         note: input.note ?? null,
-        status: action.reviewRequired ? "queued-for-business-and-creator-review" : "queued-for-guided-user-review",
+        status,
+        reviewStatus: action.reviewRequired ? "queued" : "none",
         reviewRequired: action.reviewRequired,
         feedGuidance: beginnerPlusBusinessMode.feedGuidance,
         profileGuidance: beginnerPlusBusinessMode.profileGuidance,

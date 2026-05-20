@@ -1,6 +1,7 @@
 import { desc, eq, like, or } from "drizzle-orm";
 import { z } from "zod";
 import { adminAuditLogs, datingActions, datingProfiles, escrowTransactions, liveStreams, marketplaceListings, marketplaceOrders, posts, tokenSupplyEvents, transactions, users } from "../../drizzle/schema";
+import { getPendingBeginnerPlusBusinessIntents, updateBeginnerPlusBusinessReviewStatus } from "../lib/beginner-plus-business-intents";
 import { getPendingReviewEntries, updateSettlementReviewStatus } from "../lib/settlement-ledger";
 import { adminProcedure, router, TRPCError } from "../_core/trpc";
 import { getDb } from "../db";
@@ -8,6 +9,7 @@ import { getDb } from "../db";
 const roleSchema = z.enum(["user", "creator", "seller", "moderator", "admin", "god"]);
 const statusSchema = z.enum(["active", "pending", "suspended", "banned"]);
 const settlementReviewStatusSchema = z.enum(["queued", "approved", "rejected"]);
+const beginnerPlusReviewStatusSchema = z.enum(["queued", "approved", "rejected"]);
 
 type AdminPatch = Partial<typeof users.$inferInsert>;
 
@@ -158,5 +160,43 @@ export const adminLiveRouter = router({
       const entry = await updateSettlementReviewStatus(db, input.id, input.reviewStatus, input.adminNote);
       await writeAudit(ctx.user.id, "settlement.review.updated", { settlementLedgerId: input.id, reviewStatus: input.reviewStatus, adminNote: input.adminNote }, entry?.userId);
       return { success: true, entry };
+    }),
+
+  beginnerPlusBusinessReview: adminProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(25) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          pendingIntents: [],
+          pendingCount: 0,
+          betaNotice: "Database not configured; Beginner Plus business review is unavailable in demo-safe mode.",
+        };
+      }
+      const pendingIntents = await getPendingBeginnerPlusBusinessIntents(db, input?.limit ?? 25);
+      return {
+        pendingIntents,
+        pendingCount: pendingIntents.length,
+        betaNotice: "Beginner Plus review covers guided posts, profile trust, offers, creator monetization, and partner paths before any public claim, payment, identity verification, or production monetization is enabled.",
+      };
+    }),
+
+  updateBeginnerPlusBusinessReview: adminProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        reviewStatus: beginnerPlusReviewStatusSchema,
+        adminNote: z.string().max(500).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.reviewStatus === "queued" && !input.adminNote) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "A note is required when returning a Beginner Plus business intent to queued review." });
+      }
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is required for Beginner Plus business review." });
+      const intent = await updateBeginnerPlusBusinessReviewStatus(db, input.id, input.reviewStatus, ctx.user.id, input.adminNote);
+      await writeAudit(ctx.user.id, "beginner_plus_business.review.updated", { beginnerPlusBusinessIntentId: input.id, reviewStatus: input.reviewStatus, adminNote: input.adminNote }, intent?.userId);
+      return { success: true, intent };
     }),
 });

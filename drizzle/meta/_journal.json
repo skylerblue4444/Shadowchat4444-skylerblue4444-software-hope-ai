@@ -22,6 +22,13 @@
       "when": 1779280504814,
       "tag": "0002_settlement_ledger_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1779284200000,
+      "tag": "0003_beginner_plus_business_intents",
+      "breakpoints": true
     }
   ]
 }
