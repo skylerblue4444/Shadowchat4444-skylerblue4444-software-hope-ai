@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, AreaChart, Area, XAxis, YAxis } from "recharts";
+import { trpc } from "@/lib/trpc";
 
 // ICO Phases
 const ICO_PHASES = [
@@ -33,6 +34,10 @@ const TOKENOMICS = [
 ];
 
 const TOTAL_SUPPLY = 4_444_444_444; // 4.444 Billion (SKY4444)
+const PAYMENT_RAILS = ["stripe", "BTC", "DOGE", "TRUMP", "SKY4444", "USDT", "MONERO", "SHADOW"] as const;
+type PaymentRail = (typeof PAYMENT_RAILS)[number];
+const ICO_ALLOCATIONS = ["SKY4444", "SHADOW"] as const;
+type IcoAllocation = (typeof ICO_ALLOCATIONS)[number];
 
 const ROADMAP = [
   { q: "Q1 2024", title: "Foundation", items: ["Smart contract audit", "Website launch", "Whitepaper v1", "Seed round close"], done: true },
@@ -57,8 +62,17 @@ const INVESTORS = [
 
 export default function ICOHub() {
   const [investAmount, setInvestAmount] = useState("");
-  const [selectedCurrency, setSelectedCurrency] = useState("USDC");
+  const [selectedCurrency, setSelectedCurrency] = useState<PaymentRail>("USDT");
+  const [selectedAllocation, setSelectedAllocation] = useState<IcoAllocation>("SKY4444");
   const [timeLeft, setTimeLeft] = useState({ days: 47, hours: 12, mins: 33, secs: 21 });
+
+  const platformOverview = trpc.platform.overview.useQuery();
+  const whitepaper = trpc.platform.whitepaper.useQuery();
+  const funding = trpc.platform.funding.useQuery();
+  const fundingIntent = trpc.platform.createIcoFundingIntent.useMutation({
+    onSuccess: (data) => toast.success(`ICO beta intent ${data.intentId} created; settlement review queued.`),
+    onError: (error) => toast.error(error.message),
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -77,8 +91,17 @@ export default function ICOHub() {
   const currentPhase = ICO_PHASES.find(p => p.status === "active")!;
   const totalRaised = ICO_PHASES.reduce((sum, p) => sum + p.raised, 0);
   const totalTarget = ICO_PHASES.reduce((sum, p) => sum + p.target, 0);
+  const numericInvestAmount = Number.parseFloat(investAmount);
+  const quote = trpc.platform.quoteFundingIntent.useQuery(
+    { usdAmount: Number.isFinite(numericInvestAmount) && numericInvestAmount > 0 ? numericInvestAmount : 1, paymentRail: selectedCurrency, allocationToken: selectedAllocation },
+    { enabled: Number.isFinite(numericInvestAmount) && numericInvestAmount > 0 },
+  );
 
-  const tokensToReceive = investAmount ? (parseFloat(investAmount) / currentPhase.price * 1.15).toLocaleString(undefined, { maximumFractionDigits: 0 }) : "0";
+  const tokensToReceive = quote.data?.estimatedTokens
+    ? quote.data.estimatedTokens.toLocaleString(undefined, { maximumFractionDigits: 0 })
+    : investAmount
+      ? (parseFloat(investAmount) / currentPhase.price * 1.15).toLocaleString(undefined, { maximumFractionDigits: 0 })
+      : "0";
 
   return (
     <div className="space-y-8">
@@ -94,7 +117,7 @@ export default function ICOHub() {
               <h1 className="text-3xl font-black text-white">SKY4444 ICO</h1>
               <p className="text-cyan-300 text-sm">The Future of Decentralized Super-Platforms</p>
             </div>
-            <Badge className="ml-auto bg-green-500/20 text-green-300 border-green-500/30 animate-pulse">🟢 LIVE Pre-Sale</Badge>
+            <Badge className="ml-auto bg-green-500/20 text-green-300 border-green-500/30 animate-pulse">LIVE Beta Pre-Sale</Badge>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -129,21 +152,63 @@ export default function ICOHub() {
           </div>
 
           {/* Buy Widget */}
-          <div className="flex flex-wrap gap-3">
-            <div className="flex-1 min-w-48">
-              <Input placeholder="Amount (USDC/BTC/ETH)" className="bg-white/10 border-white/20 text-white placeholder:text-white/40 h-11" value={investAmount} onChange={e => setInvestAmount(e.target.value)} />
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-3">
+              <div className="flex-1 min-w-48">
+                <Input placeholder="Amount in USD for beta ICO quote" className="bg-white/10 border-white/20 text-white placeholder:text-white/40 h-11" value={investAmount} onChange={e => setInvestAmount(e.target.value)} />
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {PAYMENT_RAILS.map(c => (
+                  <button key={c} onClick={() => setSelectedCurrency(c)} className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${selectedCurrency === c ? "bg-cyan-500 text-black" : "bg-white/10 text-white/70 hover:bg-white/20"}`}>{c}</button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                {ICO_ALLOCATIONS.map(token => (
+                  <button key={token} onClick={() => setSelectedAllocation(token)} className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${selectedAllocation === token ? "bg-purple-500 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"}`}>{token}</button>
+                ))}
+              </div>
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold border-0 h-11 px-6"
+                disabled={!Number.isFinite(numericInvestAmount) || numericInvestAmount <= 0 || fundingIntent.isPending}
+                onClick={() => fundingIntent.mutate({ usdAmount: numericInvestAmount, paymentRail: selectedCurrency, allocationToken: selectedAllocation, acceptBetaTerms: true })}
+              >
+                Create ICO Intent <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
             </div>
-            <div className="flex gap-2">
-              {["USDC", "BTC", "ETH", "TRUMP"].map(c => (
-                <button key={c} onClick={() => setSelectedCurrency(c)} className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${selectedCurrency === c ? "bg-cyan-500 text-black" : "bg-white/10 text-white/70 hover:bg-white/20"}`}>{c}</button>
+            {investAmount && <p className="text-sm text-cyan-300">Estimated allocation: <span className="font-black text-white">{tokensToReceive} {selectedAllocation}</span> through <span className="font-semibold text-white">{selectedCurrency}</span>. Provider settlement remains admin-review gated.</p>}
+          </div>
+        </div>
+      </div>
+
+      {/* Platform Infrastructure */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="border-cyan-500/20 bg-cyan-500/5 lg:col-span-2">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Shield className="h-4 w-4 text-cyan-400" />Platform Infrastructure Coverage</CardTitle></CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {(platformOverview.data?.areas ?? []).map((area) => (
+                <div key={area.key} className="rounded-xl border border-border/40 bg-background/40 p-3">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <p className="text-sm font-bold">{area.label}</p>
+                    <Badge className="text-xs bg-cyan-500/10 text-cyan-300 border-cyan-500/20">{area.status.replace(/_/g, " ")}</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{area.summary}</p>
+                </div>
               ))}
             </div>
-            <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold border-0 h-11 px-6" onClick={() => toast.success(`Buying SKY4444 with ${investAmount || "0"} ${selectedCurrency}`)}>
-              Buy SKY4444 <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
-          </div>
-          {investAmount && <p className="text-sm text-cyan-300 mt-2">You receive: <span className="font-black text-white">{tokensToReceive} SKY4444</span> (+15% pre-sale bonus)</p>}
-        </div>
+          </CardContent>
+        </Card>
+        <Card className="border-purple-500/20 bg-purple-500/5">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Lock className="h-4 w-4 text-purple-400" />Privacy and Freedom</CardTitle></CardHeader>
+          <CardContent className="space-y-2">
+            <p className="text-xs text-muted-foreground">Seven-coin support is available for SKY4444, TRUMP, DOGE, USDT, BTC, MONERO, and SHADOW. Live custody, public gambling, and live trading remain provider-gated by design.</p>
+            <div className="flex flex-wrap gap-1.5">
+              {(platformOverview.data?.supportedCoins ?? ["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]).map((coin) => (
+                <Badge key={coin} variant="outline" className="text-xs">{coin}</Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* ICO Phases */}
@@ -277,25 +342,35 @@ export default function ICOHub() {
       </Card>
 
       {/* Documents */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {[
-          { title: "Whitepaper v2.0", desc: "Full technical documentation, tokenomics, and vision", icon: FileText, color: "text-blue-400" },
-          { title: "Smart Contract Audit", desc: "CertiK audit report — 0 critical vulnerabilities", icon: Shield, color: "text-green-400" },
-          { title: "Legal Opinion", desc: "SEC/CFTC compliance legal opinion by top-tier firm", icon: Award, color: "text-purple-400" },
-        ].map(({ title, desc, icon: Icon, color }) => (
-          <Card key={title} className="border-border/50 hover:border-blue-500/30 transition-colors cursor-pointer" onClick={() => toast.success(`Downloading ${title}`)}>
-            <CardContent className="pt-4">
-              <div className="flex items-start gap-3">
-                <Icon className={`h-8 w-8 ${color} shrink-0`} />
-                <div>
-                  <p className="font-bold text-sm">{title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <Card className="border-blue-500/20 lg:col-span-2">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><FileText className="h-4 w-4 text-blue-400" />{whitepaper.data?.title ?? "SkyCoin4444 Whitepaper"}</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-xs text-muted-foreground">{whitepaper.data?.abstract ?? "Whitepaper data is loading from the platform infrastructure endpoint."}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {(whitepaper.data?.sections ?? []).map((section) => (
+                <div key={section.id} className="rounded-xl border border-border/40 bg-muted/20 p-3">
+                  <p className="text-sm font-bold">{section.heading}</p>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-3">{section.body}</p>
                 </div>
-                <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border-green-500/20">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Wallet className="h-4 w-4 text-green-400" />Funding Rails</CardTitle></CardHeader>
+          <CardContent className="space-y-2">
+            {(funding.data?.paymentRails ?? PAYMENT_RAILS).map((rail) => (
+              <div key={rail} className="flex items-center justify-between rounded-lg bg-muted/20 px-3 py-2">
+                <span className="text-xs font-semibold">{rail}</span>
+                <Badge variant="outline" className="text-xs">available</Badge>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            ))}
+            <Button variant="outline" className="w-full mt-2" onClick={() => toast.success("Whitepaper and funding infrastructure are available in-app through the platform router.") }>
+              Verify Infrastructure <Download className="h-4 w-4 ml-2" />
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

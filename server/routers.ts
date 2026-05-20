@@ -30,6 +30,7 @@ import { skycoinRouter } from "./routers/skycoin";
 import { adminLiveRouter } from "./routers/admin-live";
 import { hopeAiRouter } from "./routers/hope-ai";
 import { gamesRouter } from "./routers/games";
+import { platformRouter } from "./routers/platform";
 
 export const appRouter = router({
   system: systemRouter,
@@ -93,6 +94,7 @@ export const appRouter = router({
   adminLive: adminLiveRouter,
   hopeAi: hopeAiRouter,
   games: gamesRouter,
+  platform: platformRouter,
 });
 
 export type AppRouter = typeof appRouter;

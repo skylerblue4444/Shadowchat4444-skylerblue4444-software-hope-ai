@@ -13,20 +13,23 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const BALANCES = [
-  { symbol: "SKY4444", name: "SkyBlue Token", amount: 44444, usd: 5333.28, emoji: "⚡", color: "text-yellow-400", change: +44.4 },
-  { symbol: "BTC", name: "Bitcoin", amount: 0.0284, usd: 2961.67, emoji: "₿", color: "text-orange-400", change: +2.84 },
-  { symbol: "ETH", name: "Ethereum", amount: 0.84, usd: 3227.28, emoji: "Ξ", color: "text-blue-400", change: +4.24 },
-  { symbol: "DOGE", name: "Dogecoin", amount: 4444, usd: 1262.10, emoji: "🐕", color: "text-yellow-300", change: +8.4 },
-  { symbol: "USD", name: "US Dollar", amount: 284.44, usd: 284.44, emoji: "💵", color: "text-green-400", change: 0 },
+  { symbol: "SKY4444", name: "SkyCoin4444", amount: 44444, usd: 5333.28, emoji: "SKY", color: "text-cyan-400", change: +44.4 },
+  { symbol: "SHADOW", name: "Shadow", amount: 28440, usd: 2275.20, emoji: "SHD", color: "text-purple-400", change: +12.8 },
+  { symbol: "TRUMP", name: "Trump", amount: 1776, usd: 3196.80, emoji: "TRP", color: "text-red-400", change: +7.6 },
+  { symbol: "DOGE", name: "Dogecoin", amount: 4444, usd: 1262.10, emoji: "DOG", color: "text-yellow-300", change: +8.4 },
+  { symbol: "BTC", name: "Bitcoin", amount: 0.0284, usd: 2961.67, emoji: "BTC", color: "text-orange-400", change: +2.84 },
+  { symbol: "MONERO", name: "Monero", amount: 4.44, usd: 755.10, emoji: "XMR", color: "text-orange-300", change: +1.6 },
+  { symbol: "USDT", name: "Tether USD", amount: 284.44, usd: 284.44, emoji: "USD", color: "text-green-400", change: 0 },
 ];
 
 const TRANSACTIONS = [
-  { id: "t1", type: "received", from: "Skyler Blue", amount: 444, symbol: "SKY4444", usd: 53.28, time: "2 min ago", emoji: "⚡", status: "completed" },
-  { id: "t2", type: "sent", to: "CryptoKing", amount: 0.001, symbol: "BTC", usd: 104.28, time: "1 hour ago", emoji: "₿", status: "completed" },
-  { id: "t3", type: "received", from: "GameFi Rewards", amount: 100, symbol: "SKY4444", usd: 12.00, time: "3 hours ago", emoji: "🎮", status: "completed" },
-  { id: "t4", type: "sent", to: "NFT Marketplace", amount: 0.2, symbol: "ETH", usd: 768.40, time: "Yesterday", emoji: "🎨", status: "completed" },
-  { id: "t5", type: "received", from: "Staking Rewards", amount: 284, symbol: "SKY4444", usd: 34.08, time: "2 days ago", emoji: "🌾", status: "completed" },
-  { id: "t6", type: "sent", to: "SkyBlue IT Store", amount: 299, symbol: "USD", usd: 299, time: "3 days ago", emoji: "💻", status: "completed" },
+  { id: "t1", type: "received", from: "Skyler Blue", amount: 444, symbol: "SKY4444", usd: 53.28, time: "2 min ago", emoji: "SKY", status: "completed" },
+  { id: "t2", type: "sent", to: "CryptoKing", amount: 0.001, symbol: "BTC", usd: 104.28, time: "1 hour ago", emoji: "BTC", status: "completed" },
+  { id: "t3", type: "received", from: "ICO Funding", amount: 100, symbol: "SHADOW", usd: 8.00, time: "3 hours ago", emoji: "SHD", status: "completed" },
+  { id: "t4", type: "sent", to: "Seven Coin Wire", amount: 250, symbol: "USDT", usd: 250.00, time: "Yesterday", emoji: "USD", status: "completed" },
+  { id: "t5", type: "received", from: "Staking Rewards", amount: 284, symbol: "TRUMP", usd: 511.20, time: "2 days ago", emoji: "TRP", status: "completed" },
+  { id: "t6", type: "sent", to: "Privacy Vault", amount: 1.2, symbol: "MONERO", usd: 204.00, time: "3 days ago", emoji: "XMR", status: "completed" },
+  { id: "t7", type: "received", from: "Community Rewards", amount: 444, symbol: "DOGE", usd: 126.10, time: "4 days ago", emoji: "DOG", status: "completed" },
 ];
 
 const QUICK_CONTACTS = [
@@ -50,7 +53,7 @@ export default function ShadowPay() {
 
   const handleSend = () => {
     if (!sendAmount || !sendTo) { toast.error("Please fill all fields"); return; }
-    toast.success(`Sent ${sendAmount} ${selectedCoin} to ${sendTo}! ⚡`);
+    toast.success(`Beta send queued for ${sendAmount} ${selectedCoin} to ${sendTo}; settlement review enabled.`);
     setModal(null);
     setSendAmount("");
     setSendTo("");
@@ -64,7 +67,7 @@ export default function ShadowPay() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black flex items-center gap-2"><Zap className="h-6 w-6 text-yellow-400" />ShadowPay</h1>
-          <p className="text-sm text-muted-foreground">Send, receive, and manage your crypto</p>
+          <p className="text-sm text-muted-foreground">Send, receive, and manage SKY4444, TRUMP, DOGE, BTC, MONERO, USDT, and SHADOW</p>
         </div>
         <button className="h-9 w-9 rounded-xl bg-muted flex items-center justify-center text-muted-foreground hover:text-white transition-colors" onClick={() => toast.info("Scan QR code...")}>
           <Scan className="h-5 w-5" />
@@ -211,8 +214,8 @@ export default function ShadowPay() {
                   <h3 className="font-black text-lg mb-4 flex items-center gap-2"><ArrowDownLeft className="h-5 w-5 text-green-400" />Receive Crypto</h3>
                   <div className="text-center space-y-3">
                     <div className="h-40 w-40 mx-auto bg-white rounded-2xl flex items-center justify-center text-6xl">⚡</div>
-                    <p className="font-mono text-xs text-muted-foreground break-all">0xSKY4444...BLUE2025</p>
-                    <Button className="w-full bg-green-600 text-white border-0 font-bold" onClick={() => { navigator.clipboard.writeText("0xSKY4444...BLUE2025"); toast.success("Address copied!"); }}>Copy Address</Button>
+                    <p className="font-mono text-xs text-muted-foreground break-all">0xSKY4444-SHADOW-SEVENCOIN-BETA...BLUE2026</p>
+                    <Button className="w-full bg-green-600 text-white border-0 font-bold" onClick={() => { navigator.clipboard.writeText("0xSKY4444-SHADOW-SEVENCOIN-BETA...BLUE2026"); toast.success("Beta receive address copied."); }}>Copy Address</Button>
                   </div>
                 </>
               )}
@@ -225,8 +228,11 @@ export default function ShadowPay() {
                         <button key={amt} className="p-2 rounded-xl bg-muted border border-border/30 text-sm font-bold hover:border-purple-500/30 transition-colors" onClick={() => toast.success(`Opening payment for ${amt}...`)}>{amt}</button>
                       ))}
                     </div>
-                    <Button className="w-full bg-purple-600 text-white border-0 font-bold" onClick={() => { toast.success("Opening Stripe checkout..."); setModal(null); }}>Buy with Card</Button>
-                    <Button variant="outline" className="w-full" onClick={() => { toast.success("Opening crypto payment..."); setModal(null); }}>Pay with Crypto</Button>
+                    <div className="flex flex-wrap gap-1.5">
+                      {BALANCES.map(b => <Badge key={b.symbol} variant="outline" className="text-xs">{b.symbol}</Badge>)}
+                    </div>
+                    <Button className="w-full bg-purple-600 text-white border-0 font-bold" onClick={() => { toast.success("Opening Stripe test checkout for ICO funding..."); setModal(null); }}>Buy with Stripe Test Card</Button>
+                    <Button variant="outline" className="w-full" onClick={() => { toast.success("Opening seven-coin crypto payment intent..."); setModal(null); }}>Pay with Seven-Coin Crypto</Button>
                   </div>
                 </>
               )}

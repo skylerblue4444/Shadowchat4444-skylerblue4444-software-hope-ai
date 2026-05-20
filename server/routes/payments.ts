@@ -9,6 +9,31 @@ const livePaymentConfirmationsDisabled = !killSwitchOff("LIVE_PAYMENT_CONFIRMATI
 const stripeSecretMode = process.env.STRIPE_SECRET_KEY?.startsWith("sk_live_") ? "live-configured" : process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") ? "test-configured" : "not-configured";
 const stripePublishableMode = process.env.VITE_STRIPE_PUBLISHABLE_KEY?.startsWith("pk_live_") ? "live-configured" : process.env.VITE_STRIPE_PUBLISHABLE_KEY?.startsWith("pk_test_") ? "test-configured" : "not-configured";
 
+const PAYMENT_METHODS = ["stripe", "btc", "doge", "trump", "sky4444", "usdt", "monero", "shadow"] as const;
+type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
+const PAYMENT_ALIASES: Record<string, PaymentMethod> = {
+  card: "stripe",
+  stripe: "stripe",
+  btc: "btc",
+  bitcoin: "btc",
+  doge: "doge",
+  dogecoin: "doge",
+  trump: "trump",
+  sky: "sky4444",
+  sky4444: "sky4444",
+  skycoin4444: "sky4444",
+  usdt: "usdt",
+  tether: "usdt",
+  xmr: "monero",
+  monero: "monero",
+  shadow: "shadow",
+};
+
+function normalizePaymentMethod(currency: string): PaymentMethod | undefined {
+  return PAYMENT_ALIASES[currency.toLowerCase().trim()];
+}
+
 function paymentReadiness() {
   return {
     stripe: {
@@ -21,6 +46,11 @@ function paymentReadiness() {
       publicToken: envEnabled("PLAID_PUBLIC_TOKEN") ? "configured" : "not-configured",
       mode: envEnabled("PLAID_PUBLIC_TOKEN") ? "sandbox-or-provider-ready" : "not-configured",
     },
+    cryptoRails: {
+      supported: PAYMENT_METHODS.filter((method) => method !== "stripe"),
+      betaLedgerRails: ["sky4444", "shadow", "trump"],
+      providerGatedRails: ["btc", "doge", "usdt", "monero"],
+    },
     killSwitches: {
       moneyMovementDisabled: liveMoneyMovementDisabled,
       livePaymentConfirmationsDisabled,
@@ -32,38 +62,49 @@ function paymentReadiness() {
   };
 }
 
-// ─── Crypto exchange rates (would be fetched from CoinGecko in production) ───
-const CRYPTO_RATES: Record<string, number> = {
+// ─── Crypto exchange rates (would be fetched from providers in production) ───
+const CRYPTO_RATES: Record<Exclude<PaymentMethod, "stripe">, number> = {
   btc: 67420,
-  eth: 3180,
   doge: 0.082,
-  xmr: 158.40,
   trump: 0.4821,
-  sky4444: 0.12,
-  usdc: 1.00,
-  usdt: 1.00,
+  sky4444: 0.0444,
+  usdt: 1.0,
+  monero: 158.4,
+  shadow: 0.12,
 };
 
-// ─── Crypto wallet addresses ──────────────────────────────────────────────────
-const WALLET_ADDRESSES: Record<string, string> = {
+// ─── Crypto wallet addresses / beta deposit descriptors ─────────────────────
+const WALLET_ADDRESSES: Record<Exclude<PaymentMethod, "stripe">, string> = {
   btc: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
-  eth: "0x742d35Cc6634C0532925a3b8D4C9C2b4f7E3A1B2",
   doge: "DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L",
-  xmr: "44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A",
   trump: "0x742d35Cc6634C0532925a3b8D4C9C2b4f7E3A1B2",
-  sky4444: "0xSKY4444a3b8D4C9C2b4f7E3A1B2742d35Cc6634C",
-  usdc: "0x742d35Cc6634C0532925a3b8D4C9C2b4f7E3A1B2",
+  sky4444: "beta-ledger:SKY4444:platform-ico-reserve",
+  usdt: "0x742d35Cc6634C0532925a3b8D4C9C2b4f7E3A1B2",
+  monero: "44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A",
+  shadow: "beta-ledger:SHADOW:platform-privacy-reserve",
 };
 
 // ─── Discount rates per payment method ───────────────────────────────────────
-const DISCOUNTS: Record<string, number> = {
-  trump: 0.10,
+const DISCOUNTS: Partial<Record<PaymentMethod, number>> = {
+  trump: 0.1,
   sky4444: 0.15,
+  shadow: 0.08,
 };
+
+const METHOD_DETAILS: Array<{ id: PaymentMethod; label: string; desc: string; fee: string; discount: number; rail: string }> = [
+  { id: "stripe", label: "Credit/Debit Card", desc: "Stripe test-mode or demo intent, no raw secrets exposed", fee: "2.9% + $0.30", discount: 0, rail: "provider-test" },
+  { id: "btc", label: "Bitcoin (BTC)", desc: "Provider-gated BTC quote rail", fee: "0% platform fee", discount: 0, rail: "provider-gated" },
+  { id: "doge", label: "Dogecoin (DOGE)", desc: "Provider-gated DOGE quote rail", fee: "0% platform fee", discount: 0, rail: "provider-gated" },
+  { id: "trump", label: "TRUMP Coin", desc: "Beta-ledger quote rail with 10% discount", fee: "0% platform fee", discount: 0.1, rail: "beta-ledger" },
+  { id: "sky4444", label: "SKY4444 ICO", desc: "SkyCoin4444 ICO rail with 15% discount", fee: "0% platform fee", discount: 0.15, rail: "beta-ledger" },
+  { id: "usdt", label: "Tether USD (USDT)", desc: "Stablecoin provider-gated quote rail", fee: "0% platform fee", discount: 0, rail: "provider-gated" },
+  { id: "monero", label: "Monero (XMR)", desc: "Privacy-oriented provider-gated quote rail", fee: "0% platform fee", discount: 0, rail: "provider-gated" },
+  { id: "shadow", label: "SHADOW Utility", desc: "Shadow privacy utility ICO rail with 8% discount", fee: "0% platform fee", discount: 0.08, rail: "beta-ledger" },
+];
 
 // ─── GET /api/payments/rates ──────────────────────────────────────────────────
 router.get("/rates", (_req: Request, res: Response) => {
-  res.json({ rates: CRYPTO_RATES, updatedAt: new Date().toISOString() });
+  res.json({ rates: CRYPTO_RATES, aliases: PAYMENT_ALIASES, supportedMethods: PAYMENT_METHODS, updatedAt: new Date().toISOString() });
 });
 
 // ─── GET /api/payments/readiness ───────────────────────────────────────────────
@@ -71,48 +112,74 @@ router.get("/readiness", (_req: Request, res: Response) => {
   res.json(paymentReadiness());
 });
 
+// ─── GET /api/payments/funding/infrastructure ─────────────────────────────────
+router.get("/funding/infrastructure", (_req: Request, res: Response) => {
+  res.json({
+    status: "available-test-mode-provider-gated",
+    whitepaper: "/dashboard/ico",
+    icoTokens: ["SKY4444", "SHADOW"],
+    rails: METHOD_DETAILS,
+    guardrails: [
+      "Stripe uses test or demo intent metadata unless live provider configuration and confirmation gates are deliberately enabled.",
+      "BTC, DOGE, USDT, and Monero are quote/provider-gated rails; the app does not claim live custody or irreversible settlement in beta mode.",
+      "SKY4444, SHADOW, and TRUMP beta-ledger credits remain reviewable through the settlement ledger before production launch.",
+    ],
+    readiness: paymentReadiness(),
+  });
+});
+
 // ─── POST /api/payments/crypto/initiate ──────────────────────────────────────
 router.post("/crypto/initiate", (req: Request, res: Response) => {
   const { currency, amountUSD } = req.body;
   if (!currency || !amountUSD) return res.status(400).json({ error: "currency and amountUSD required" });
 
-  const rate = CRYPTO_RATES[currency.toLowerCase()];
-  if (!rate) return res.status(400).json({ error: `Unsupported currency: ${currency}` });
+  const method = normalizePaymentMethod(String(currency));
+  if (!method || method === "stripe") return res.status(400).json({ error: `Unsupported crypto currency: ${currency}` });
 
-  const discount = DISCOUNTS[currency.toLowerCase()] ?? 0;
-  const discountedUSD = amountUSD * (1 - discount);
+  const rate = CRYPTO_RATES[method];
+  const discount = DISCOUNTS[method] ?? 0;
+  const numericUsd = Number(amountUSD);
+  if (!Number.isFinite(numericUsd) || numericUsd <= 0) return res.status(400).json({ error: "amountUSD must be a positive number" });
+
+  const discountedUSD = numericUsd * (1 - discount);
   const cryptoAmount = discountedUSD / rate;
-  const address = WALLET_ADDRESSES[currency.toLowerCase()];
+  const address = WALLET_ADDRESSES[method];
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
   const paymentId = `PAY-${Date.now().toString(36).toUpperCase()}`;
+  const rail = METHOD_DETAILS.find((item) => item.id === method)?.rail ?? "provider-gated";
 
   res.json({
     paymentId,
-    currency: currency.toUpperCase(),
+    currency: method.toUpperCase(),
     address,
     cryptoAmount: parseFloat(cryptoAmount.toFixed(8)),
     amountUSD: parseFloat(discountedUSD.toFixed(2)),
-    originalAmountUSD: amountUSD,
+    originalAmountUSD: numericUsd,
     discountApplied: discount,
-    discountSaved: parseFloat((amountUSD * discount).toFixed(2)),
+    discountSaved: parseFloat((numericUsd * discount).toFixed(2)),
     expiresAt,
-    qrData: `${currency.toLowerCase()}:${address}?amount=${cryptoAmount.toFixed(8)}`,
+    qrData: `${method}:${address}?amount=${cryptoAmount.toFixed(8)}`,
+    rail,
     mode: liveMoneyMovementDisabled ? "quote-only-kill-switch" : "provider-ready-confirmation-gated",
     liveMoneyMovementDisabled,
+    settlementReview: rail === "beta-ledger" ? "admin-review-queued-after-credit" : "provider-verification-required",
   });
 });
 
 // ─── POST /api/payments/crypto/verify ────────────────────────────────────────
 router.post("/crypto/verify", (req: Request, res: Response) => {
-  const { paymentId, txHash } = req.body;
-  // Provider-gated beta verification: never claims irreversible live settlement while the kill switch is on.
+  const { paymentId, txHash, currency } = req.body;
+  const method = currency ? normalizePaymentMethod(String(currency)) : undefined;
+
   res.json({
     paymentId,
+    currency: method?.toUpperCase(),
     txHash: txHash ?? `0x${Math.random().toString(16).slice(2)}`,
     status: liveMoneyMovementDisabled ? "test_confirmed_kill_switch" : "provider_verification_required",
     confirmations: liveMoneyMovementDisabled ? 0 : 3,
     confirmedAt: new Date().toISOString(),
     liveMoneyMovementDisabled,
+    settlementReview: method && ["sky4444", "shadow", "trump"].includes(method) ? "queued" : "provider-review-required",
   });
 });
 
@@ -132,7 +199,7 @@ router.post("/stripe/create-intent", async (req: Request, res: Response) => {
     status: "requires_payment_method",
     providerMode,
     liveMoneyMovementDisabled,
-    metadata,
+    metadata: { ...metadata, infrastructure: "skycoin4444-ico-funding", rawSecretsExposed: false },
   });
 });
 
@@ -149,6 +216,7 @@ router.post("/stripe/confirm", (req: Request, res: Response) => {
     receiptUrl: `https://pay.stripe.com/receipts/test/${paymentIntentId}`,
     providerMode: readiness.stripe.usableMode,
     livePaymentConfirmationsDisabled,
+    settlementReview: "queued-if-ico-allocation-created",
   });
 });
 
@@ -156,15 +224,7 @@ router.post("/stripe/confirm", (req: Request, res: Response) => {
 router.get("/methods", (_req: Request, res: Response) => {
   res.json({
     readiness: paymentReadiness(),
-    methods: [
-      { id: "stripe", label: "Credit/Debit Card", desc: "Visa, Mastercard, Amex", fee: "2.9% + $0.30", discount: 0 },
-      { id: "btc", label: "Bitcoin (BTC)", desc: "0% fees, 15 min confirm", fee: "0%", discount: 0 },
-      { id: "doge", label: "Dogecoin (DOGE)", desc: "Fast & fun payments", fee: "0%", discount: 0 },
-      { id: "xmr", label: "Monero (XMR)", desc: "Private & untraceable", fee: "0%", discount: 0 },
-      { id: "trump", label: "TRUMP Coin", desc: "10% discount!", fee: "0%", discount: 0.10 },
-      { id: "sky4444", label: "SKY4444 ICO", desc: "15% discount!", fee: "0%", discount: 0.15 },
-      { id: "usdc", label: "USDC", desc: "Stable & instant", fee: "0%", discount: 0 },
-    ],
+    methods: METHOD_DETAILS,
   });
 });
 
