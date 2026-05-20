@@ -38,6 +38,9 @@ import { aiAnalyticsRouter } from "./routers/ai-analytics";
 import { liveMiningRouter } from "./routers/live-mining";
 import { liveStakingRouter } from "./routers/live-staking";
 import { liveIcoShopRouter } from "./routers/live-ico-shop";
+import { casinoRouter } from "./routers/casino";
+import { socialRouter } from "./routers/social";
+import { realtimeRouter } from "./routers/realtime";
 
 export const appRouter = router({
   system: systemRouter,
@@ -109,6 +112,11 @@ export const appRouter = router({
   liveMining: liveMiningRouter,
   liveStaking: liveStakingRouter,
   liveIcoShop: liveIcoShopRouter,
+
+  // ─── Platform Features: Casino, Social, Real-time ───────────────────────
+  casino: casinoRouter,
+  socialPlatform: socialRouter,
+  realtime: realtimeRouter,
 });
 
 export type AppRouter = typeof appRouter;
