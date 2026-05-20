@@ -136,12 +136,26 @@ export const transactions = mysqlTable("transactions", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id),
   toUserId: int("toUserId").references(() => users.id),
-  type: mysqlEnum("type", ["transfer", "swap", "mining", "staking", "tip", "airdrop", "reward"]).notNull(),
+  type: mysqlEnum("type", ["transfer", "swap", "mining", "staking", "tip", "airdrop", "reward", "fee", "burn", "charity", "escrow"]).notNull(),
   token: varchar("token", { length: 20 }).notNull(),
   amount: varchar("amount", { length: 50 }).notNull(),
   status: mysqlEnum("status", ["pending", "complete", "failed"]).default("complete").notNull(),
   memo: varchar("memo", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const escrowTransactions = mysqlTable("escrowTransactions", {
+  id: int("id").autoincrement().primaryKey(),
+  buyerId: int("buyerId").notNull().references(() => users.id),
+  sellerId: int("sellerId").references(() => users.id),
+  token: varchar("token", { length: 20 }).notNull().default("SKY4444"),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  platformFee: varchar("platformFee", { length: 50 }).notNull().default("0"),
+  charityAmount: varchar("charityAmount", { length: 50 }).notNull().default("0"),
+  status: mysqlEnum("status", ["held", "released", "refunded", "disputed", "cancelled"]).default("held").notNull(),
+  memo: varchar("memo", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
 // API Keys Table
@@ -197,6 +211,7 @@ export type Vault = typeof vaults.$inferSelect;
 export type StakingPosition = typeof stakingPositions.$inferSelect;
 export type MiningSession = typeof miningSessions.$inferSelect;
 export type Transaction = typeof transactions.$inferSelect;
+export type EscrowTransaction = typeof escrowTransactions.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type Referral = typeof referrals.$inferSelect;
 export type Leaderboard = typeof leaderboard.$inferSelect;

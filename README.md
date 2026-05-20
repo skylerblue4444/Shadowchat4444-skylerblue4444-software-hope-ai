@@ -27,7 +27,7 @@ The current beta emphasizes practical launch readiness. The frontend route surfa
 | **SKY4444 playground** | Beta token balance concepts, mining rewards, staking positions, transaction records, wallet-style activity, and upgradeable multi-coin support. |
 | **Mining lab** | Authenticated mining session start, stop, history, statistics, and beta reward claim logic backed by database models. |
 | **Staking / yield** | Pool listing, staking position creation, lock-period metadata, APY display, and database-backed staking transaction records. |
-| **Wallet and transactions** | Database schema support for transfers, swaps, mining, staking, tips, airdrops, and rewards. |
+| **Wallet and transactions** | Functional database-backed beta wallet surface for multi-coin balances, recent ledger activity, transfers, creator tips, swaps, escrow holds, mining, staking, airdrops, and rewards. |
 | **Social and creator routes** | Social feed, messages, livestream beta, dating lounge, creator tools, community boards, watch party, and media routes. |
 | **Crypto marketplace routes** | Trading, portfolio, token swap, NFT marketplace/creator/analytics, DAO, charity, and checkout-oriented beta pages. |
 | **Admin and operations** | Admin dashboard routes, moderation, analytics, compliance surfaces, user management, world-leader/admin concepts, and service center routes. |
@@ -43,9 +43,9 @@ The priority product direction is to make the beta **database-persistent first**
 | **SKY4444 supply and rewards** | Formalize tokenomics, reward distribution, mint/burn accounting, halving schedules if needed, and database records that can later map to smart-contract events. |
 | **Mining reward claiming** | Keep current beta claims persistent, add anti-abuse controls, reward caps, audit logs, and eventual chain adapter boundaries. |
 | **Staking / yield** | Continue APY logic, lock periods, accrued rewards, unstake flows, and transparent reward history before any real-money deployment. |
-| **Tipping with platform fee** | Model a 15% platform fee, charity split, and burn accounting through transaction records before connecting live payment or chain transfers. |
+| **Tipping with platform fee** | Creator tipping now records a 15% platform fee with charity split and burn accounting through beta transaction rows before any live payment or chain transfer is connected. |
 | **Multi-coin support** | Keep SKY4444 primary while supporting DOGE, TRUMP, USDT, BTC, ETH, USDC, and future asset records through a clean wallet service layer. |
-| **Escrow-ready mechanics** | Extend transaction states for marketplace, P2P, creator tipping, and dispute-ready flows. |
+| **Escrow-ready mechanics** | Escrow hold records now exist for marketplace and P2P beta flows, with a service boundary ready for future release, refund, and dispute workflows. |
 | **Admin/God Mode controls** | Harden role-based access, audit logs, regional controls, and safe operational boundaries. |
 
 ## Repository Cleanup Completed
@@ -85,9 +85,10 @@ client/
 server/
   _core/                            # Express/tRPC application core
   routers.ts                        # Root API router
+  routers/web3.ts                   # Wallet, tipping, swap, and escrow beta API
   routers/mining.ts                 # Beta mining API
   routers/staking.ts                # Beta staking API
-  lib/multi-coin.ts                 # Multi-coin beta wallet service
+  lib/multi-coin.ts                 # Multi-coin beta wallet, fee, tip, swap, and escrow service
   lib/multi-coin-engine.ts          # Compatibility wrapper for wallet service
 drizzle/
   schema.ts                         # Database schema source of truth
@@ -114,7 +115,7 @@ The app is designed for a MySQL-compatible database through Drizzle. Configure t
 pnpm run db:push
 ```
 
-The beta schema includes users, trades, portfolios, holdings, posts, messages, chat history, vaults, staking positions, mining sessions, transactions, API keys, referrals, leaderboard records, and onboarding progress.
+The beta schema includes users, trades, portfolios, holdings, posts, messages, chat history, vaults, staking positions, mining sessions, wallet balances, transaction ledger rows, fee/burn/charity transaction categories, escrow-ready states, API keys, referrals, leaderboard records, and onboarding progress.
 
 ## Quality Checks
 
@@ -125,7 +126,7 @@ pnpm run check
 pnpm run build
 ```
 
-The latest cleanup pass validated both commands successfully after removing generated filler pages and replacing placeholder casino, dating, and livestream pages with functional beta components.
+The latest cleanup and continuation pass validated both commands successfully after removing generated filler pages, replacing placeholder casino, dating, and livestream pages with functional beta components, and adding database-backed wallet, tip, swap, and escrow APIs plus the connected wallet UI.
 
 ## Production Launch Notes
 
@@ -144,11 +145,12 @@ Before a public or revenue-generating launch, complete the following hardening s
 
 | Milestone | Target Outcome |
 |---|---|
-| **M1: Persistent beta wallet** | Create complete wallet balance APIs, transaction summaries, and dashboard balance cards for every supported beta coin. |
+| **M1: Persistent beta wallet** | **Substantially advanced.** Wallet summary APIs, multi-coin balance records, recent transactions, and connected wallet UI are now in place for the beta ledger. |
 | **M2: Reward accounting** | Add deterministic mining/staking accrual calculations, caps, claim cooldowns, and admin review tools. |
-| **M3: Tipping and charity split** | Implement social tipping with 15% fee accounting, charity split records, burn ledger, and creator receipts. |
-| **M4: Admin audit layer** | Add role-protected admin audit logs for claims, tips, staking, payments, moderation, and manual adjustments. |
-| **M5: On-chain readiness** | Add token contract interfaces, deployment plan, chain adapter boundaries, and testnet-only integration before mainnet. |
+| **M3: Tipping and charity split** | **Substantially advanced.** Social tipping now records platform fee, charity split, burn ledger, creator receipt, and payer debit records. |
+| **M4: Escrow workflow** | **Started.** Escrow hold records can now be created; future work should add release, refund, dispute, and admin review flows. |
+| **M5: Admin audit layer** | Add role-protected admin audit logs for claims, tips, staking, payments, moderation, and manual adjustments. |
+| **M6: On-chain readiness** | Add token contract interfaces, deployment plan, chain adapter boundaries, and testnet-only integration before mainnet. |
 
 ## Important Beta Disclaimer
 
