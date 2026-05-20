@@ -1,3 +1,4 @@
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { trpc } from '../lib/trpc';
@@ -99,6 +100,7 @@ export default function CharityHub() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
+      <SafeCryptoCompliancePanel focus="charity" compact />
         {/* Header with LIVE TRUMP Balance */}
         <div className="flex items-center justify-between mb-8">
           <div>

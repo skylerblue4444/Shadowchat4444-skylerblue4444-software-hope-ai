@@ -1,3 +1,4 @@
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -82,6 +83,7 @@ export default function ICOHub() {
 
   return (
     <div className="space-y-8">
+      <SafeCryptoCompliancePanel focus="ico" compact />
       {/* Hero Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-950 via-blue-950 to-purple-950 border border-cyan-500/20 p-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.15),transparent_50%)]" />

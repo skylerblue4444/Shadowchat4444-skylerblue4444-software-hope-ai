@@ -1,3 +1,4 @@
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,13 +14,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const ASSETS = [
-  { symbol: "TRUMP", name: "TRUMP Token", balance: 12450.5, usdValue: 291.34, change24h: +8.42, icon: "🇺🇸", color: "text-red-400", chain: "ETH" },
-  { symbol: "SKY4444", name: "SkyBlue Token", balance: 85000, usdValue: 2125.00, change24h: +15.21, icon: "⚡", color: "text-cyan-400", chain: "ETH" },
+  { symbol: "TRUMP", name: "TRUMP Token", balance: 12450.5, usdValue: 291.34, change24h: +8.42, icon: "TR", color: "text-red-400", chain: "ETH" },
+  { symbol: "SKY4444", name: "SkyCoin444 Token", balance: 85000, usdValue: 2125.00, change24h: +15.21, icon: "SK", color: "text-cyan-400", chain: "ETH" },
   { symbol: "BTC", name: "Bitcoin", balance: 0.00842, usdValue: 842.10, change24h: +2.14, icon: "₿", color: "text-yellow-400", chain: "BTC" },
   { symbol: "ETH", name: "Ethereum", balance: 1.245, usdValue: 4231.50, change24h: -1.23, icon: "Ξ", color: "text-blue-400", chain: "ETH" },
-  { symbol: "DOGE", name: "Dogecoin", balance: 15420, usdValue: 2313.00, change24h: +5.67, icon: "🐕", color: "text-yellow-300", chain: "DOGE" },
-  { symbol: "XMR", name: "Monero", balance: 4.21, usdValue: 631.50, change24h: -0.89, icon: "🔒", color: "text-orange-400", chain: "XMR" },
-  { symbol: "USDC", name: "USD Coin", balance: 2840.00, usdValue: 2840.00, change24h: 0.00, icon: "💵", color: "text-green-400", chain: "ETH" },
+  { symbol: "DOGE", name: "Dogecoin", balance: 15420, usdValue: 2313.00, change24h: +5.67, icon: "DG", color: "text-yellow-300", chain: "DOGE" },
+  { symbol: "XMR", name: "Monero", balance: 4.21, usdValue: 631.50, change24h: -0.89, icon: "XM", color: "text-orange-400", chain: "XMR" },
+  { symbol: "USDT", name: "Tether", balance: 2840.00, usdValue: 2840.00, change24h: 0.00, icon: "US", color: "text-green-400", chain: "ETH" },
+  { symbol: "SHADOW", name: "Shadow Coin", balance: 4444, usdValue: 444.40, change24h: +4.44, icon: "SH", color: "text-purple-400", chain: "SHADOW" },
 ];
 
 const TRANSACTIONS = [
@@ -51,6 +53,7 @@ export default function WalletPage() {
 
   return (
     <div className="space-y-6">
+      <SafeCryptoCompliancePanel focus="wallet" compact />
       {/* Wallet Card */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/20 p-6">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.1),transparent_50%)]" />

@@ -1,3 +1,4 @@
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -176,6 +177,7 @@ export default function Casino() {
 
   if (!selectedGame) return (
     <div className="space-y-5">
+      <SafeCryptoCompliancePanel focus="casino" compact />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black flex items-center gap-2"><Dice1 className="h-6 w-6 text-yellow-400" />ShadowCasino</h1>
