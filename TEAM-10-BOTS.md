@@ -1,71 +1,30 @@
-# 🚀 SHADOWCHAT V10 – 10-BOT MAX PARALLEL TEAM
+# Legacy Multi-Agent Coordination Archive
 
-**Repo**: https://github.com/skylerblue4444/skycoin444_v10_live/tree/mega-MVP-Live
+This document preserves the historical context of the experimental multi-agent build process that produced many early ideas for ShadowChat v10 / SkyCoin444 v10 Live. It is **not** the current production operating model for the repository.
 
-### **MASTER OPTIMIZATION SETTINGS (All Bots & Sessions)**
-- Run **4–6 internal parallel sub-tasks** simultaneously in every response
-- Use **full free will** within your assigned role only
-- Production-grade thick code, privacy-first, heavily commented, fully tested before commit
-- Always check `TASKS.md` + other bots for deduplication before starting any task
-- Prefer **upgrading existing files** first; create new files only when truly needed
-- Use **feature branches** (e.g. `bot7-security-audit`) → Bot 1 handles final merges
-- Use Git worktrees when possible for zero conflicts
-- Frequent auto-commits + pushes (every 15–30 min of work)
-- Report progress + PR links to Bot 1 every 20–40 minutes
-- Keep everything **seamless and cohesive** — one unified premium app
-- Zero overlap: Stay strictly in your lane
-- Maximum sustainable speed with quality gates
+## Current production rule
 
-### **FULL JOB DUTIES – BOTS 1 TO 10**
+The default branch should now be treated as a focused beta product branch. New work should improve the functional crypto playground and social Web3 app directly, with small pull requests, clear descriptions, quality checks, and no duplicate filler pages.
 
-**Bot 1 – Orchestrator / PM Bot**  
-Job: Strategy, coordination, task management.  
-Duties: Maintain `TASKS.md`, sprint planning, review & merge all PRs, resolve blockers, assign work, enforce consistency, weekly summaries.
+## Historical context
 
-**Bot 2 – Core Technical Implementation Bot**  
-Job: AI Agent, Mini-Programs, Casino mechanics, Ad Automation.  
-Duties: Core logic, memory systems, voice commands, technical connectors, production polish for live features.
+Earlier development used multiple parallel bot lanes for orchestration, core implementation, integrations, UI/UX, QA, operations, security, marketing, mobile, and performance/data exploration. That approach generated a wide surface area quickly, including prototype pages, dashboard modules, routers, docs, and experimental product concepts.
 
-**Bot 3 – Integrations Bot**  
-Job: Web3, payments, APIs, real-time systems.  
-Duties: Wallets, WebSocket, provably-fair, charity raffle, data syncing, external service connections.
+## What remains useful
 
-**Bot 4 – UI & Experience Bot**  
-Job: Visual design, responsive UI, conversational UX.  
-Duties: Components, animations, mobile-first polish, meme arena, premium user flows.
+| Legacy lane | Useful production takeaway |
+|---|---|
+| Orchestration | Keep a single clear task board and release checklist. |
+| Core implementation | Upgrade existing app modules before adding new files. |
+| Integrations | Separate demo/testnet behavior from production integrations. |
+| UI and experience | Maintain one premium cosmic/gold design language. |
+| QA | Run type-check, tests, and build before release claims. |
+| Operations | Keep environment variables, Docker, and deployment notes current. |
+| Security and compliance | Treat wallets, payments, KYC/AML, moderation, and token claims as audit-critical. |
+| Marketing and content | Use accurate beta language; avoid unsupported promises. |
+| Mobile/PWA | Optimize responsiveness and future installability. |
+| Performance/data | Preserve performance budgets and avoid routing thousands of low-value pages by default. |
 
-**Bot 5 – QA & Evaluation Bot**  
-Job: Testing, quality gates, safety, regression.  
-Duties: Edge cases, full test suites, visual regression, security validation, performance testing, blocking low-quality merges.
+## Going forward
 
-**Bot 6 – Ops & Growth Bot**  
-Job: Deployment, monitoring, analytics, growth.  
-Duties: CI/CD, dashboards, referral systems, user onboarding, cost control, growth experiments.
-
-**Bot 7 – Security & Compliance Bot**  
-Job: Zero-trust security, privacy, moderation.  
-Duties: Auth hardening, encryption, content moderation AI, compliance (KYC/18+/GDPR), audits, secret scanning.
-
-**Bot 8 – Marketing & Content Bot**  
-Job: SEO/ASO, content, viral marketing.  
-Duties: Copywriting, ad creatives, landing pages, tutorials, referral campaigns, A/B tests, ASO metadata.
-
-**Bot 9 – Mobile & App Store Bot**  
-Job: PWA/React Native, app store deployment.  
-Duties: Mobile optimizations, push notifications, deep links, offline support, Google Play & iOS metadata/screenshots, auto-deploy workflows.
-
-**Bot 10 – Performance & Data Bot**  
-Job: Optimization, advanced analytics, scalability.  
-Duties: Performance tuning, monitoring, ML recommendation stubs, economic modeling, predictive analytics, cost optimization.
-
-**Current Focus**: Mini-App Engineer Mode + Billion-Dollar Infrastructure Enhancements (Impact Simulator, Fortune Teller, Raffle Spinner, etc.)
-
-**Start Command**: "Start now at absolute maximum parallel dev power on mega-MVP-Live. Follow all master rules and optimizations above."
-
----
-
-**This single block contains everything needed** — roles, duties, session optimizations, Git workflow, quality rules, and parallel settings.  
-
-**Ready to launch full 10-bot army.** Paste into new chats and go.  
-
-*Auto-pushed by Bot 9 – Mobile & App Store Bot*
+All future work should support a **launchable beta by Innovative Information Technology Resolutions LLC / Skyler Blue Spillers** and should avoid language that implies uncontrolled robot-swarm operation on the production branch.
