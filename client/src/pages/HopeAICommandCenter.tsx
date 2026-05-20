@@ -1,6 +1,19 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Mic, MicOff, Navigation, ShieldCheck, Sparkles, TrendingUp, WalletCards } from 'lucide-react';
+import {
+  Brain,
+  Compass,
+  Lightbulb,
+  Mic,
+  MicOff,
+  Navigation,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  WalletCards,
+  Wand2,
+} from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 
 type BrowserSpeechRecognitionEvent = {
@@ -19,8 +32,26 @@ type BrowserSpeechRecognition = {
   stop: () => void;
 };
 
+type DisplayCard = {
+  title: string;
+  body: string;
+  action?: string;
+  path?: string;
+};
+
 type ParsedCommand = {
-  intent: 'navigate' | 'trade_prepare' | 'tip_prepare' | 'market_scan' | 'portfolio_summary' | 'payment_prepare' | 'unknown';
+  intent:
+    | 'navigate'
+    | 'trade_prepare'
+    | 'tip_prepare'
+    | 'market_scan'
+    | 'portfolio_summary'
+    | 'payment_prepare'
+    | 'explain'
+    | 'beginner_mode'
+    | 'hands_free_mode'
+    | 'workflow_guide'
+    | 'unknown';
   payload: {
     raw: string;
     path?: string;
@@ -31,17 +62,45 @@ type ParsedCommand = {
     recipientId?: number;
     tipAmount?: number;
     message?: string;
+    currency?: string;
+    confidence?: number;
+    topic?: string;
+    mode?: 'beginner' | 'pro' | 'guardian';
+    actionLabel?: string;
+    safetyLevel?: 'safe' | 'confirm' | 'blocked';
   };
   requiresConfirmation: boolean;
   spokenResponse: string;
+  displayTitle?: string;
+  displayCards?: DisplayCard[];
 };
+
+type AssistantMode = 'beginner' | 'pro' | 'guardian';
+
+type TimelineEvent = {
+  role: 'user' | 'hope';
+  text: string;
+  detail?: string;
+};
+
+const QUICK_COMMANDS = [
+  'Hope beginner mode',
+  'What can I do?',
+  'Make it hands free',
+  'Scan Bitcoin',
+  'Teach me trading',
+  'Open wallet',
+  'Summarize my money',
+  'Open marketplace',
+  'Prepare buy one SKY',
+];
 
 function speak(text: string) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.96;
-  utterance.pitch = 1.02;
+  utterance.rate = 0.94;
+  utterance.pitch = 1.04;
   window.speechSynthesis.speak(utterance);
 }
 
@@ -54,12 +113,43 @@ function getSpeechRecognition() {
   return browserWindow.SpeechRecognition ?? browserWindow.webkitSpeechRecognition ?? null;
 }
 
+function modeLabel(mode: AssistantMode) {
+  if (mode === 'beginner') return 'Beginner mode';
+  if (mode === 'pro') return 'Pro mode';
+  return 'Guardian mode';
+}
+
+function modeDescription(mode: AssistantMode) {
+  if (mode === 'beginner') return 'Simple words, starter actions, and step-by-step coaching.';
+  if (mode === 'pro') return 'Faster command handling for experienced users.';
+  return 'Hands-free control with confirmation gates for money and trading actions.';
+}
+
 export default function HopeAICommandCenter() {
   const [, setLocation] = useLocation();
   const [isListening, setIsListening] = useState(false);
+  const [autoListen, setAutoListen] = useState(false);
+  const [assistantMode, setAssistantMode] = useState<AssistantMode>('guardian');
   const [transcript, setTranscript] = useState('');
-  const [lastResponse, setLastResponse] = useState('Hope AI is ready. Say: Hope, scan Bitcoin, open trading, buy one SKY, or tip user 2 five.');
+  const [lastResponse, setLastResponse] = useState('Hope AI is ready. Say: Hope beginner mode, what can I do, scan Bitcoin, open wallet, or teach me trading.');
   const [pendingCommand, setPendingCommand] = useState<ParsedCommand | null>(null);
+  const [displayCards, setDisplayCards] = useState<DisplayCard[]>([
+    {
+      title: 'Start hands-free',
+      body: 'Tap the mic and speak naturally. Hope AI can navigate, explain, scan markets, prepare trades, and prepare tips.',
+      action: 'Try: Hope beginner mode',
+      path: '/dashboard/hope-ai',
+    },
+    {
+      title: 'Beginner safe mode',
+      body: 'Hope uses simple language and asks for confirmation before any money, trade, payment, or account-impacting record.',
+      action: 'Try: What can I do?',
+      path: '/dashboard/hope-ai',
+    },
+  ]);
+  const [timeline, setTimeline] = useState<TimelineEvent[]>([
+    { role: 'hope', text: 'Hope AI online.', detail: 'Voice-first command center with safe execution gates.' },
+  ]);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
 
   const parseVoice = trpc.hopeAi.parseVoice.useMutation();
@@ -68,44 +158,97 @@ export default function HopeAICommandCenter() {
   const signals = trpc.aiFeed.latest.useQuery({ limit: 5 });
   const financeSummary = trpc.finance.summary.useQuery();
   const commands = trpc.hopeAi.recentCommands.useQuery({ limit: 5 });
+  const catalog = trpc.hopeAi.actionCatalog.useQuery();
 
   const supported = useMemo(() => Boolean(getSpeechRecognition()), []);
+  const groupedCatalog = useMemo(() => {
+    const items = catalog.data ?? [];
+    return items.reduce<Record<string, typeof items>>((groups, item) => {
+      const key = item.category;
+      groups[key] = groups[key] ?? [];
+      groups[key].push(item);
+      return groups;
+    }, {});
+  }, [catalog.data]);
+
+  const addTimeline = (event: TimelineEvent) => {
+    setTimeline((current) => [event, ...current].slice(0, 10));
+  };
+
+  const applyAssistantMode = (mode?: AssistantMode) => {
+    if (!mode) return;
+    setAssistantMode(mode);
+  };
+
+  const executeParsedCommand = async (parsed: ParsedCommand, confirmed: boolean) => {
+    const result = await executeCommand.mutateAsync({
+      intent: parsed.intent,
+      payload: parsed.payload,
+      confirmed,
+      displayCards: parsed.displayCards,
+    });
+
+    const response = result.spokenResponse ?? parsed.spokenResponse ?? 'Done.';
+    setLastResponse(response);
+    speak(response);
+    addTimeline({ role: 'hope', text: response, detail: parsed.displayTitle ?? parsed.intent.replace('_', ' ') });
+    setDisplayCards((result.displayCards as DisplayCard[] | undefined) ?? parsed.displayCards ?? displayCards);
+    applyAssistantMode(parsed.payload.mode);
+
+    if ('path' in result && result.path) {
+      setLocation(result.path);
+    }
+
+    if (parsed.intent === 'market_scan' && parsed.payload.symbol) {
+      await generateSignal.mutateAsync({ symbol: parsed.payload.symbol, timeframe: 'intraday' });
+      await signals.refetch();
+    }
+
+    await Promise.all([commands.refetch(), financeSummary.refetch()]);
+  };
 
   const processCommand = async (spokenText: string) => {
     const normalized = spokenText.trim();
     if (!normalized) return;
-    setTranscript(normalized);
 
+    setTranscript(normalized);
+    addTimeline({ role: 'user', text: normalized });
     const lowered = normalized.toLowerCase();
-    if (pendingCommand && /\b(confirm|yes|execute|send it|place it)\b/.test(lowered)) {
-      const result = await executeCommand.mutateAsync({
-        intent: pendingCommand.intent,
-        payload: pendingCommand.payload,
-        confirmed: true,
-      });
-      const response = result.spokenResponse ?? 'Confirmed.';
+
+    if (pendingCommand && /\b(cancel|stop|never mind|clear)\b/.test(lowered)) {
+      const response = 'Canceled. I cleared the pending command.';
+      setPendingCommand(null);
       setLastResponse(response);
       speak(response);
+      addTimeline({ role: 'hope', text: response, detail: 'Pending action canceled' });
+      return;
+    }
+
+    if (pendingCommand && /\b(confirm|yes|execute|send it|place it|confirm trade|confirm tip|confirm payment)\b/.test(lowered)) {
+      await executeParsedCommand(pendingCommand, true);
       setPendingCommand(null);
-      if ('path' in result && result.path) setLocation(result.path);
-      await Promise.all([signals.refetch(), commands.refetch(), financeSummary.refetch()]);
       return;
     }
 
-    const parsed = await parseVoice.mutateAsync({ transcript: normalized });
-    setLastResponse(parsed.spokenResponse);
-    speak(parsed.spokenResponse);
+    try {
+      const parsed = await parseVoice.mutateAsync({ transcript: normalized });
+      setLastResponse(parsed.spokenResponse);
+      setDisplayCards(parsed.displayCards ?? []);
+      applyAssistantMode(parsed.payload.mode);
+      speak(parsed.spokenResponse);
+      addTimeline({ role: 'hope', text: parsed.spokenResponse, detail: parsed.displayTitle ?? parsed.intent.replace('_', ' ') });
 
-    if (parsed.requiresConfirmation) {
-      setPendingCommand(parsed);
-      return;
-    }
+      if (parsed.requiresConfirmation) {
+        setPendingCommand(parsed);
+        return;
+      }
 
-    const result = await executeCommand.mutateAsync({ intent: parsed.intent, payload: parsed.payload, confirmed: false });
-    if ('path' in result && result.path) setLocation(result.path);
-    if (parsed.intent === 'market_scan' && parsed.payload.symbol) {
-      await generateSignal.mutateAsync({ symbol: parsed.payload.symbol, timeframe: 'intraday' });
-      await signals.refetch();
+      await executeParsedCommand(parsed, false);
+    } catch (error) {
+      const response = error instanceof Error ? error.message : 'Hope AI could not process that command.';
+      setLastResponse(response);
+      speak(response);
+      addTimeline({ role: 'hope', text: response, detail: 'Command error' });
     }
   };
 
@@ -123,7 +266,12 @@ export default function HopeAICommandCenter() {
     recognition.interimResults = false;
     recognition.lang = 'en-US';
     recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
+    recognition.onend = () => {
+      setIsListening(false);
+      if (autoListen) {
+        window.setTimeout(() => startListening(), 650);
+      }
+    };
     recognition.onerror = () => {
       setIsListening(false);
       const response = 'I could not hear clearly. Please try again.';
@@ -153,28 +301,51 @@ export default function HopeAICommandCenter() {
     await processCommand(command);
   };
 
+  const toggleAutoListen = () => {
+    setAutoListen((enabled) => !enabled);
+    const response = autoListen
+      ? 'Continuous hands-free listening is off.'
+      : 'Continuous hands-free listening is on. I will keep listening after each command until you turn it off.';
+    setLastResponse(response);
+    speak(response);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#164e63_0,#020617_32%,#020617_100%)] text-slate-100 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        <section className="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950/30 p-6 md:p-8 shadow-2xl shadow-cyan-950/30">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <section className="relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-slate-900/95 via-slate-950 to-cyan-950/40 p-6 md:p-8 shadow-2xl shadow-cyan-950/30">
+          <div className="absolute right-[-8rem] top-[-8rem] h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+          <div className="absolute bottom-[-10rem] left-[-8rem] h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 px-3 py-1 text-xs uppercase tracking-[0.3em] text-cyan-200">
-                <Sparkles className="h-4 w-4" /> Hope AI Voice Upgrade
+                <Sparkles className="h-4 w-4" /> Hope AI Hands-Free OS
               </div>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight">Hands-free trading, tipping, navigation, and money management.</h1>
+              <h1 className="text-3xl md:text-6xl font-black tracking-tight">Beginner-friendly voice control for everything.</h1>
               <p className="max-w-3xl text-slate-300 leading-7">
-                Speak naturally to Hope AI. Safe actions such as navigation execute immediately, while trade and tip commands are staged first and require spoken confirmation before the backend records anything.
+                Speak naturally and let Hope AI navigate, explain, scan, coach, and prepare actions. Safe operations run instantly; trades, tips, payments, and account-impacting records require clear confirmation.
               </p>
+              <div className="flex flex-wrap gap-3">
+                <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">{modeLabel(assistantMode)}</span>
+                <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-100">{modeDescription(assistantMode)}</span>
+              </div>
             </div>
-            <button
-              onClick={isListening ? stopListening : startListening}
-              className={`flex h-28 w-28 items-center justify-center rounded-full border text-white transition ${isListening ? 'border-red-300 bg-red-500/30 shadow-lg shadow-red-500/30' : 'border-cyan-300 bg-cyan-500/20 shadow-lg shadow-cyan-500/20'}`}
-            >
-              {isListening ? <MicOff className="h-12 w-12" /> : <Mic className="h-12 w-12" />}
-            </button>
+            <div className="flex flex-col items-center gap-4">
+              <button
+                onClick={isListening ? stopListening : startListening}
+                className={`flex h-32 w-32 items-center justify-center rounded-full border text-white transition ${isListening ? 'border-red-300 bg-red-500/30 shadow-lg shadow-red-500/30 animate-pulse' : 'border-cyan-300 bg-cyan-500/20 shadow-lg shadow-cyan-500/20 hover:scale-105'}`}
+              >
+                {isListening ? <MicOff className="h-14 w-14" /> : <Mic className="h-14 w-14" />}
+              </button>
+              <button
+                onClick={toggleAutoListen}
+                className={`rounded-xl px-4 py-2 text-sm font-bold transition ${autoListen ? 'bg-emerald-400 text-slate-950' : 'border border-white/10 bg-white/5 text-slate-200 hover:bg-white/10'}`}
+              >
+                {autoListen ? 'Continuous listening on' : 'Enable continuous listening'}
+              </button>
+            </div>
           </div>
-          {!supported && <p className="mt-4 rounded-xl border border-amber-400/30 bg-amber-500/10 p-3 text-sm text-amber-100">Browser speech recognition is unavailable here. Typed commands still work.</p>}
+          {!supported && <p className="relative mt-4 rounded-xl border border-amber-400/30 bg-amber-500/10 p-3 text-sm text-amber-100">Browser speech recognition is unavailable here. Typed commands still work.</p>}
         </section>
 
         <section className="grid gap-4 lg:grid-cols-3">
@@ -187,7 +358,7 @@ export default function HopeAICommandCenter() {
             <p className="mt-3 min-h-16 text-lg text-slate-200">{lastResponse}</p>
             {pendingCommand && (
               <div className="mt-4 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-amber-100">
-                Pending confirmation for <strong>{pendingCommand.intent.replace('_', ' ')}</strong>. Say or type <strong>confirm</strong> to continue.
+                Pending confirmation for <strong>{pendingCommand.intent.replace('_', ' ')}</strong>. Say or type <strong>confirm</strong> to continue, or <strong>cancel</strong> to clear it.
               </div>
             )}
           </div>
@@ -196,11 +367,40 @@ export default function HopeAICommandCenter() {
         <form onSubmit={handleTypedCommand} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900/70 p-4 md:flex-row">
           <input
             name="command"
-            placeholder="Type a command, e.g. Hope scan Bitcoin, open marketplace, buy 2 SKY at 1.25, tip user 2 five"
+            placeholder="Type a command, e.g. Hope beginner mode, scan Bitcoin, teach me trading, open marketplace, prepare buy 2 SKY"
             className="min-h-12 flex-1 rounded-xl border border-white/10 bg-slate-950 px-4 text-slate-100 outline-none focus:border-cyan-300"
           />
           <button className="rounded-xl bg-cyan-400 px-6 py-3 font-bold text-slate-950 hover:bg-cyan-300">Send to Hope</button>
         </form>
+
+        <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+          <div className="flex items-center gap-2 text-fuchsia-200"><Wand2 className="h-5 w-5" /> Instant voice shortcuts</div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {QUICK_COMMANDS.map((command) => (
+              <button
+                key={command}
+                onClick={() => void processCommand(command)}
+                className="rounded-full border border-white/10 bg-slate-950/70 px-4 py-2 text-sm text-slate-200 hover:border-cyan-300/60 hover:text-cyan-100"
+              >
+                {command}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-3">
+          {displayCards.map((card) => (
+            <button
+              key={`${card.title}-${card.body}`}
+              onClick={() => card.path && setLocation(card.path)}
+              className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-left transition hover:border-cyan-300/50 hover:bg-white/[0.07]"
+            >
+              <div className="flex items-center gap-2 text-cyan-200"><Lightbulb className="h-5 w-5" /> {card.title}</div>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{card.body}</p>
+              {card.action && <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-200">{card.action}</p>}
+            </button>
+          ))}
+        </section>
 
         <section className="grid gap-4 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
@@ -222,6 +422,47 @@ export default function HopeAICommandCenter() {
                   </div>
                   <p className="mt-2 text-sm text-slate-300">Confidence {signal.confidence}% · Risk {signal.riskLevel}</p>
                   <p className="mt-2 line-clamp-3 text-xs text-slate-400">{signal.rationale}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+            <div className="flex items-center gap-2 text-cyan-200"><Compass className="h-5 w-5" /> App-wide route launcher</div>
+            <div className="mt-4 space-y-4">
+              {Object.entries(groupedCatalog).map(([category, items]) => (
+                <div key={category}>
+                  <h3 className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">{category}</h3>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {items.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => setLocation(item.path)}
+                        className="rounded-xl border border-white/10 bg-slate-950/70 p-3 text-left hover:border-cyan-300/50"
+                      >
+                        <strong className="text-sm text-white">{item.label}</strong>
+                        <p className="mt-1 line-clamp-2 text-xs text-slate-400">{item.beginnerTip}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+            <div className="flex items-center gap-2 text-fuchsia-200"><Brain className="h-5 w-5" /> Live assistant timeline</div>
+            <div className="mt-4 space-y-3">
+              {timeline.map((event, index) => (
+                <div key={`${event.role}-${index}-${event.text}`} className={`rounded-xl border p-3 ${event.role === 'hope' ? 'border-cyan-300/20 bg-cyan-400/5' : 'border-white/10 bg-slate-950/70'}`}>
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                    {event.role === 'hope' ? <Rocket className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
+                    {event.role}
+                  </div>
+                  <p className="mt-2 text-sm text-slate-200">{event.text}</p>
+                  {event.detail && <p className="mt-1 text-xs text-slate-500">{event.detail}</p>}
                 </div>
               ))}
             </div>
