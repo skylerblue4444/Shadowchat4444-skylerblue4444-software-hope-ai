@@ -38,6 +38,8 @@ const PAYMENT_RAILS = ["stripe", "BTC", "DOGE", "TRUMP", "SKY4444", "USDT", "MON
 type PaymentRail = (typeof PAYMENT_RAILS)[number];
 const ICO_ALLOCATIONS = ["SKY4444", "SHADOW"] as const;
 type IcoAllocation = (typeof ICO_ALLOCATIONS)[number];
+const UPGRADE_TRACKS = ["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"] as const;
+type UpgradeTrack = (typeof UPGRADE_TRACKS)[number];
 
 const ROADMAP = [
   { q: "Q1 2024", title: "Foundation", items: ["Smart contract audit", "Website launch", "Whitepaper v1", "Seed round close"], done: true },
@@ -64,13 +66,19 @@ export default function ICOHub() {
   const [investAmount, setInvestAmount] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState<PaymentRail>("USDT");
   const [selectedAllocation, setSelectedAllocation] = useState<IcoAllocation>("SKY4444");
+  const [selectedUpgradeTrack, setSelectedUpgradeTrack] = useState<UpgradeTrack>("privacy-hardening");
   const [timeLeft, setTimeLeft] = useState({ days: 47, hours: 12, mins: 33, secs: 21 });
 
   const platformOverview = trpc.platform.overview.useQuery();
   const whitepaper = trpc.platform.whitepaper.useQuery();
   const funding = trpc.platform.funding.useQuery();
+  const freeWillEnhancement = trpc.platform.freeWillEnhancement.useQuery();
   const fundingIntent = trpc.platform.createIcoFundingIntent.useMutation({
     onSuccess: (data) => toast.success(`ICO beta intent ${data.intentId} created; settlement review queued.`),
+    onError: (error) => toast.error(error.message),
+  });
+  const upgradeIntent = trpc.platform.createUpgradeEnhancementIntent.useMutation({
+    onSuccess: (data) => toast.success(`Free-will upgrade intent ${data.intentId} queued for ${data.track.label}.`),
     onError: (error) => toast.error(error.message),
   });
 
@@ -207,6 +215,63 @@ export default function ICOHub() {
                 <Badge key={coin} variant="outline" className="text-xs">{coin}</Badge>
               ))}
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Free-Will Upgrade Enhancement */}
+      <div id="free-will-upgrade" className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="border-emerald-500/20 bg-emerald-500/5 lg:col-span-2">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Unlock className="h-4 w-4 text-emerald-400" />Free-Will Upgrade Enhancement Layer</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">{freeWillEnhancement.data?.mission ?? "User agency, confirmation boundaries, privacy posture, and reversible beta infrastructure are being wired into the platform."}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {(freeWillEnhancement.data?.controlPlane ?? []).map((control) => (
+                <div key={control.key} className="rounded-xl border border-border/40 bg-background/40 p-3">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <p className="text-sm font-bold">{control.label}</p>
+                    <Badge variant="outline" className="text-xs">{control.status.replace(/-/g, " ")}</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{control.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3">
+              <p className="text-xs font-bold text-emerald-300 mb-2">User-agency guardrails</p>
+              <div className="space-y-1.5">
+                {(freeWillEnhancement.data?.guardrails ?? []).slice(0, 4).map((guardrail) => (
+                  <p key={guardrail} className="text-xs text-muted-foreground flex gap-2"><CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />{guardrail}</p>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border-yellow-500/20 bg-yellow-500/5">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Star className="h-4 w-4 text-yellow-400" />Next Upgrade Intent</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-xs text-muted-foreground">Choose the next infrastructure enhancement to queue for product review. AI and money actions remain user-confirmed and provider-gated.</p>
+            <div className="space-y-2">
+              {(freeWillEnhancement.data?.upgradeTracks ?? []).map((track) => (
+                <button
+                  key={track.key}
+                  onClick={() => setSelectedUpgradeTrack(track.key as UpgradeTrack)}
+                  className={`w-full text-left rounded-xl border p-3 transition-colors ${selectedUpgradeTrack === track.key ? "border-yellow-500/40 bg-yellow-500/10" : "border-border/40 bg-background/40 hover:border-yellow-500/30"}`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-bold">{track.label}</p>
+                    <Badge className="text-xs bg-yellow-500/10 text-yellow-300 border-yellow-500/20">{track.priority}</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{track.nextStep}</p>
+                </button>
+              ))}
+            </div>
+            <Button
+              className="w-full bg-gradient-to-r from-yellow-500 to-emerald-500 text-black font-bold border-0"
+              disabled={upgradeIntent.isPending}
+              onClick={() => upgradeIntent.mutate({ upgradeTrack: selectedUpgradeTrack, acceptUserAgencyTerms: true })}
+            >
+              Queue Free-Will Upgrade
+            </Button>
           </CardContent>
         </Card>
       </div>

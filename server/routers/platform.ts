@@ -8,7 +8,7 @@ const icoAllocationSchema = z.enum(["SKY4444", "SHADOW"]);
 type PlatformArea = {
   key: string;
   label: string;
-  status: "available" | "provider_gated" | "beta_ledger_ready" | "admin_review_required";
+  status: "available" | "provider_gated" | "beta_ledger_ready" | "admin_review_required" | "live_readiness_ready";
   route?: string;
   summary: string;
 };
@@ -63,7 +63,208 @@ const platformAreas: PlatformArea[] = [
     route: "/dashboard/checkout",
     summary: "Stripe publishable/secret key readiness is detected from environment variables; live confirmations remain kill-switch gated unless explicitly enabled.",
   },
+  {
+    key: "free-will-control-plane",
+    label: "Free-will user control plane",
+    status: "available",
+    route: "/dashboard/settings",
+    summary: "Consent-first settings, data export posture, reversible beta actions, AI explanation hooks, and user-controlled escalation paths define the freedom upgrade layer.",
+  },
+  {
+    key: "upgrade-enhancement-roadmap",
+    label: "Upgrade and enhancement infrastructure",
+    status: "beta_ledger_ready",
+    route: "/dashboard/ico",
+    summary: "The platform now publishes enhancement tracks for privacy hardening, wallet safety, AI copilot controls, settlement review, and seven-coin provider adapters.",
+  },
+  {
+    key: "instant-knowledge-scan",
+    label: "Instant all-time knowledge scan",
+    status: "available",
+    route: "/dashboard/settings",
+    summary: "The platform publishes a live product-readiness scan that ranks the most-needed upgrade, creation, funding, AI, privacy, and seven-coin infrastructure work.",
+  },
+  {
+    key: "creation-infrastructure",
+    label: "Creation and launch infrastructure",
+    status: "beta_ledger_ready",
+    route: "/dashboard/ico",
+    summary: "Creator tools, ICO intent generation, whitepaper delivery, wallet funding, marketplace launch paths, and review queues are represented as auditable creation tracks.",
+  },
+  {
+    key: "seven-coin-live-readiness",
+    label: "Seven-coin live-readiness layer",
+    status: "live_readiness_ready",
+    route: "/dashboard/wallet",
+    summary: "SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT expose clear beta-ledger, test-provider, and external-provider readiness states before any live settlement is enabled.",
+  },
 ];
+
+const freeWillEnhancement = {
+  title: "SkyCoin4444 Free-Will Upgrade Enhancement Layer",
+  version: "v1.1 beta infrastructure",
+  status: "available-with-provider-gated-live-actions",
+  mission:
+    "Give every user clear choice, consent, reversibility, transparency, privacy posture, and escalation control while keeping irreversible financial and AI-powered actions reviewable before production launch.",
+  principles: [
+    "User agency comes first: defaults must be opt-in, explainable, and reversible wherever the action is still in beta.",
+    "Freedom infrastructure must include privacy controls, export posture, consent logs, and kill-switch disclosure rather than hidden automation.",
+    "AI copilots can assist, summarize, and recommend, but high-impact financial, identity, trading, or payment actions stay user-confirmed and review-gated.",
+    "The seven-coin rails stay transparent about which features are beta-ledger, test-provider, or external-provider gated.",
+  ],
+  controlPlane: [
+    { key: "consent-center", label: "Consent and preference center", status: "wired", route: "/dashboard/settings", description: "User-facing place for privacy, notification, AI, and payment preferences." },
+    { key: "explainable-ai", label: "Explainable AI decisions", status: "wired-metadata", route: "/dashboard/ai-tools", description: "AI-generated recommendations should expose purpose, risk, and user confirmation requirements." },
+    { key: "reversible-beta-actions", label: "Reversible beta actions", status: "wired", route: "/dashboard/wallet", description: "Beta ledger actions use settlement review and audit trails before any production settlement claim." },
+    { key: "freedom-export", label: "Data export and portability posture", status: "wired-metadata", route: "/dashboard/settings", description: "The platform describes export, portability, and account-boundary posture for users." },
+    { key: "provider-kill-switches", label: "Provider kill switches", status: "wired", route: "/dashboard/global-compliance", description: "Live custody, public gambling, live trading, and card settlement remain gated until enabled deliberately." },
+  ],
+  upgradeTracks: [
+    { key: "privacy-hardening", label: "Privacy hardening", priority: "highest", nextStep: "Centralize privacy settings, ShadowID posture, Monero labeling, and user export controls." },
+    { key: "wallet-safety", label: "Wallet and settlement safety", priority: "highest", nextStep: "Keep settlement-ledger review visible for ICO, wallet, mining, staking, trading, and tips." },
+    { key: "ai-autonomy-controls", label: "AI autonomy controls", priority: "high", nextStep: "Require user confirmation for money, identity, and publishing actions while preserving AI copilot convenience." },
+    { key: "seven-coin-adapters", label: "Seven-coin provider adapters", priority: "high", nextStep: "Keep SKY4444 and SHADOW in beta ledger while BTC, DOGE, USDT, MONERO, and TRUMP expose provider-gated readiness." },
+    { key: "funding-transparency", label: "ICO and funding transparency", priority: "high", nextStep: "Publish whitepaper, tokenomics, funding quotes, and admin-review terms directly in the app." },
+  ],
+  guardrails: [
+    "No irreversible payment, trade, custody, identity, or publishing action should be performed by AI without explicit user confirmation.",
+    "Free-will enhancement means user agency and controls; it does not mean bypassing provider, legal, financial, platform, or security obligations.",
+    "Privacy UX must be honest about beta limits and must not promise anonymity where providers, compliance, or legal process can apply.",
+    "Upgrade tracks are infrastructure readiness metadata until each provider connector, smart contract, and compliance flow is separately reviewed.",
+  ],
+  routes: ["/dashboard/settings", "/dashboard/identity", "/dashboard/wallet", "/dashboard/ico", "/dashboard/ai-tools", "/dashboard/global-compliance"],
+};
+
+const upgradeTrackSchema = z.enum(["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"]);
+const creationTrackSchema = z.enum(["creator-launch-studio", "ico-launchpad", "whitepaper-pipeline", "wallet-provider-adapters", "ai-knowledge-scan", "settlement-review-ops"]);
+
+const creationInfrastructure = [
+  {
+    key: "creator-launch-studio",
+    label: "Creator and project launch studio",
+    priority: "highest",
+    status: "beta-ready",
+    route: "/dashboard/marketplace",
+    nextStep: "Connect profiles, marketplace listings, livestream boosts, product offers, and review-safe publishing actions into one creation flow.",
+  },
+  {
+    key: "ico-launchpad",
+    label: "SKY4444 and SHADOW ICO launchpad",
+    priority: "highest",
+    status: "wired-test-mode",
+    route: "/dashboard/ico",
+    nextStep: "Keep funding quotes, token allocations, Stripe test readiness, crypto rails, and settlement review visible before production sale activation.",
+  },
+  {
+    key: "whitepaper-pipeline",
+    label: "Whitepaper and compliance-document pipeline",
+    priority: "high",
+    status: "metadata-live",
+    route: "/dashboard/ico",
+    nextStep: "Publish versioned whitepaper sections for tokenomics, privacy posture, settlement controls, provider gates, and audit requirements.",
+  },
+  {
+    key: "wallet-provider-adapters",
+    label: "Seven-coin wallet provider adapters",
+    priority: "high",
+    status: "provider-gated-live-readiness",
+    route: "/dashboard/wallet",
+    nextStep: "Expose adapter status for SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT without claiming external custody until providers are configured.",
+  },
+  {
+    key: "ai-knowledge-scan",
+    label: "Instant AI knowledge scan",
+    priority: "high",
+    status: "metadata-live",
+    route: "/dashboard/settings",
+    nextStep: "Rank upgrade needs across privacy, wallets, ICO funding, creation tools, settlement review, and provider-readiness using app metadata.",
+  },
+  {
+    key: "settlement-review-ops",
+    label: "Settlement review operations",
+    priority: "high",
+    status: "admin-review-wired",
+    route: "/dashboard/admin",
+    nextStep: "Continue routing beta money events through auditable ledgers with admin review for provider, funding, trading, casino, and tip transitions.",
+  },
+] as const;
+
+const sevenCoinLiveReadiness = supportedCoins.map((coin) => {
+  const profiles: Record<Coin, { liveStatus: string; betaLedger: string; providerGate: string; nextStep: string }> = {
+    SKY4444: {
+      liveStatus: "internal-beta-ledger-ready",
+      betaLedger: "enabled",
+      providerGate: "mainnet-contract-and-liquidity-review-required",
+      nextStep: "Finalize contract audit, liquidity policy, ICO controls, and exchange/provider adapters before production settlement.",
+    },
+    SHADOW: {
+      liveStatus: "internal-beta-ledger-ready",
+      betaLedger: "enabled",
+      providerGate: "privacy-utility-and-bridge-review-required",
+      nextStep: "Finalize Shadow utility rules, privacy UX language, bridge policy, and provider settlement review.",
+    },
+    TRUMP: {
+      liveStatus: "beta-ledger-and-external-provider-gated",
+      betaLedger: "enabled",
+      providerGate: "external-token-adapter-required",
+      nextStep: "Connect an approved token provider or chain adapter before any live deposit, withdrawal, or swap settlement.",
+    },
+    DOGE: {
+      liveStatus: "external-provider-gated",
+      betaLedger: "display-and-quote-ready",
+      providerGate: "wallet-node-or-custody-provider-required",
+      nextStep: "Attach a DOGE-capable provider for address generation, confirmations, withdrawals, and reconciliation.",
+    },
+    BTC: {
+      liveStatus: "external-provider-gated",
+      betaLedger: "display-and-quote-ready",
+      providerGate: "wallet-node-or-custody-provider-required",
+      nextStep: "Attach a BTC-capable provider for address generation, confirmations, withdrawals, and reconciliation.",
+    },
+    MONERO: {
+      liveStatus: "privacy-provider-gated",
+      betaLedger: "display-and-quote-ready",
+      providerGate: "privacy-chain-provider-and-compliance-language-required",
+      nextStep: "Keep Monero clearly labeled as provider-gated privacy rail until wallet infrastructure and policy review are complete.",
+    },
+    USDT: {
+      liveStatus: "stablecoin-provider-gated",
+      betaLedger: "display-and-quote-ready",
+      providerGate: "chain-selection-and-custody-provider-required",
+      nextStep: "Choose supported USDT chains and connect a custody/payment provider before live settlement.",
+    },
+  };
+
+  return {
+    coin,
+    ...multiCoinService.coinMeta[coin],
+    ...profiles[coin],
+  };
+});
+
+function buildInstantKnowledgeScan() {
+  return {
+    status: "instant-all-time-scan-complete",
+    generatedAt: new Date().toISOString(),
+    scope: "upgrade-enhancements, creation infrastructure, free-will controls, ICO funding, privacy posture, settlement review, and seven-coin live-readiness",
+    allTimePriorities: [
+      { rank: 1, key: "provider-gated-live-crypto", label: "Live seven-coin provider readiness", impact: "critical", action: "Expose live-readiness states for SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT while keeping irreversible settlement gated." },
+      { rank: 2, key: "free-will-controls", label: "Free-will and user-agency controls", impact: "critical", action: "Keep consent, reversibility, AI confirmation boundaries, data export, and privacy controls visible in Settings and ICO surfaces." },
+      { rank: 3, key: "creation-infrastructure", label: "Creation and launch infrastructure", impact: "high", action: "Unify creator launch, whitepaper, ICO, wallet, marketplace, AI scan, and settlement-review tracks." },
+      { rank: 4, key: "funding-transparency", label: "ICO and funding transparency", impact: "high", action: "Keep quotes, discounts, token allocations, Stripe test status, crypto rail readiness, and admin review surfaced." },
+      { rank: 5, key: "settlement-ops", label: "Settlement and admin review operations", impact: "high", action: "Preserve database-backed review queues across mining, staking, swaps, trades, tips, casino beta, and ICO funding." },
+    ],
+    platformAreas,
+    freeWillEnhancement,
+    creationInfrastructure,
+    sevenCoinLiveReadiness,
+    providerGates: [
+      "External BTC, DOGE, MONERO, USDT, and token adapters require configured providers before live deposits, withdrawals, confirmations, or custody.",
+      "Stripe remains test/demo readiness until live keys, compliance posture, webhooks, and operational approval are enabled.",
+      "AI can queue and explain upgrade intents, but money, identity, publishing, and custody actions remain user-confirmed.",
+    ],
+  };
+}
 
 const tokenomics = {
   SKY4444: {
@@ -129,6 +330,13 @@ function buildWhitepaper() {
           "ShadowID, privacy settings, Monero payment labeling, data export posture, admin settlement review, and live-money kill switches give the project a transparent infrastructure story for privacy-oriented users.",
       },
       {
+        id: "free-will-upgrade",
+        heading: "Free-will upgrade enhancement layer",
+        body:
+          "The next infrastructure layer makes user agency explicit through consent-first settings, AI confirmation boundaries, reversible beta settlement flows, provider kill switches, and clear upgrade tracks for privacy, wallet safety, AI autonomy controls, seven-coin adapters, and funding transparency.",
+        enhancement: freeWillEnhancement,
+      },
+      {
         id: "guardrails",
         heading: "Production guardrails",
         body:
@@ -163,6 +371,10 @@ export const platformRouter = router({
     infrastructure: multiCoinService.getInfrastructure(),
     whitepaperRoute: "/dashboard/ico",
     checkoutRoute: "/dashboard/checkout",
+    freeWillEnhancementRoute: "/dashboard/ico#free-will-upgrade",
+    instantKnowledgeScanRoute: "/dashboard/settings",
+    sevenCoinLiveReadiness,
+    creationInfrastructure,
     generatedAt: new Date().toISOString(),
   })),
 
@@ -180,6 +392,75 @@ export const platformRouter = router({
   })),
 
   whitepaper: publicProcedure.query(() => buildWhitepaper()),
+
+  freeWillEnhancement: publicProcedure.query(() => ({
+    ...freeWillEnhancement,
+    generatedAt: new Date().toISOString(),
+  })),
+
+  instantKnowledgeScan: publicProcedure.query(() => buildInstantKnowledgeScan()),
+
+  creationInfrastructure: publicProcedure.query(() => ({
+    status: "creation-infrastructure-ready",
+    generatedAt: new Date().toISOString(),
+    tracks: creationInfrastructure,
+    providerGatedLiveActions: true,
+  })),
+
+  sevenCoinLiveReadiness: publicProcedure.query(() => ({
+    status: "seven-coin-live-readiness-published",
+    generatedAt: new Date().toISOString(),
+    coins: sevenCoinLiveReadiness,
+    liveSettlementEnabled: false,
+    reason: "Live external custody and irreversible settlement remain provider-gated until approved connectors, audits, and operational controls are enabled.",
+  })),
+
+  createUpgradeEnhancementIntent: protectedProcedure
+    .input(z.object({ upgradeTrack: upgradeTrackSchema, acceptUserAgencyTerms: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      if (!input.acceptUserAgencyTerms) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Accept the user-agency, confirmation, privacy, and provider-gated upgrade terms before creating an enhancement intent." });
+      }
+
+      const track = freeWillEnhancement.upgradeTracks.find((item) => item.key === input.upgradeTrack);
+      if (!track) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown upgrade enhancement track." });
+      }
+
+      return {
+        success: true,
+        intentId: `FWU-${Date.now().toString(36).toUpperCase()}`,
+        userId: ctx.user.id,
+        track,
+        status: "queued-for-product-review",
+        reviewRequired: true,
+        guardrails: freeWillEnhancement.guardrails,
+        routes: freeWillEnhancement.routes,
+      };
+    }),
+
+  createCreationInfrastructureIntent: protectedProcedure
+    .input(z.object({ creationTrack: creationTrackSchema, acceptProviderGates: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      if (!input.acceptProviderGates) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Accept the beta creation, provider-gated live crypto, and settlement-review terms before queuing creation infrastructure." });
+      }
+
+      const track = creationInfrastructure.find((item) => item.key === input.creationTrack);
+      if (!track) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown creation infrastructure track." });
+      }
+
+      return {
+        success: true,
+        intentId: `CREATE-${Date.now().toString(36).toUpperCase()}`,
+        userId: ctx.user.id,
+        track,
+        status: "queued-for-platform-build-review",
+        scan: buildInstantKnowledgeScan(),
+        reviewRequired: true,
+      };
+    }),
 
   funding: publicProcedure.query(() => ({
     status: "ico-funding-infrastructure-ready",

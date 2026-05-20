@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 const SECTIONS = [
   { id: "account", label: "Account", icon: User },
   { id: "security", label: "Security", icon: Shield },
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "privacy", label: "Privacy", icon: Eye },
+  { id: "free-will", label: "Free-Will Upgrade", icon: Shield },
   { id: "appearance", label: "Appearance", icon: Palette },
   { id: "language", label: "Language & Region", icon: Globe },
   { id: "hope-ai", label: "Hope AI Controls", icon: Bot },
@@ -22,6 +24,10 @@ const SECTIONS = [
 
 const LANGUAGES = ["English", "中文 (Chinese)", "Español", "Français", "Deutsch", "日本語", "한국어", "Русский", "العربية", "हिन्दी"];
 const THEMES = ["Dark", "Light", "Midnight", "Cyber", "ShadowBlue", "TRUMP Red"];
+const UPGRADE_TRACKS = ["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"] as const;
+const CREATION_TRACKS = ["creator-launch-studio", "ico-launchpad", "whitepaper-pipeline", "wallet-provider-adapters", "ai-knowledge-scan", "settlement-review-ops"] as const;
+type UpgradeTrack = (typeof UPGRADE_TRACKS)[number];
+type CreationTrack = (typeof CREATION_TRACKS)[number];
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return (
@@ -38,7 +44,21 @@ export default function Settings() {
   const [privacy, setPrivacy] = useState({ profilePublic: true, showPortfolio: false, showActivity: true, allowDMs: true, twoFactor: true });
   const [appearance, setAppearance] = useState({ theme: "Dark", fontSize: "Medium", animations: true, compactMode: false });
   const [language, setLanguage] = useState("English");
+  const [selectedUpgradeTrack, setSelectedUpgradeTrack] = useState<UpgradeTrack>("privacy-hardening");
+  const [selectedCreationTrack, setSelectedCreationTrack] = useState<CreationTrack>("ai-knowledge-scan");
   const [hopeControls, setHopeControls] = useState({ voiceEverything: true, spokenReplies: true, autoRoute: true, usaMarket: true, chinaReady: true, friendsMarket: true, paperDayTrade: true, liveMoneyKillSwitch: true, casinoBetaOnly: true });
+  const freeWillEnhancement = trpc.platform.freeWillEnhancement.useQuery();
+  const instantKnowledgeScan = trpc.platform.instantKnowledgeScan.useQuery();
+  const creationInfrastructure = trpc.platform.creationInfrastructure.useQuery();
+  const sevenCoinReadiness = trpc.platform.sevenCoinLiveReadiness.useQuery();
+  const upgradeIntent = trpc.platform.createUpgradeEnhancementIntent.useMutation({
+    onSuccess: (data) => toast.success(`Free-will upgrade intent ${data.intentId} queued for ${data.track.label}.`),
+    onError: (error) => toast.error(error.message),
+  });
+  const creationIntent = trpc.platform.createCreationInfrastructureIntent.useMutation({
+    onSuccess: (data) => toast.success(`Creation infrastructure intent ${data.intentId} queued for ${data.track.label}.`),
+    onError: (error) => toast.error(error.message),
+  });
 
   return (
     <div className="space-y-5">
@@ -176,6 +196,87 @@ export default function Settings() {
                 </Button>
               </CardContent>
             </Card>
+          )}
+
+          {activeSection === "free-will" && (
+            <div className="space-y-4">
+              <Card className="border-emerald-500/30 bg-emerald-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Shield className="h-4 w-4 text-emerald-400" />Free-Will User Control Plane</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground">{freeWillEnhancement.data?.mission ?? "User agency, privacy posture, reversible beta actions, and confirmation boundaries are wired as first-class platform infrastructure."}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {(freeWillEnhancement.data?.controlPlane ?? []).map((control) => (
+                      <div key={control.key} className="rounded-xl border border-border/40 bg-background/40 p-3">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <p className="text-sm font-bold">{control.label}</p>
+                          <Badge variant="outline" className="text-xs">{control.status.replace(/-/g, " ")}</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground">{control.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-blue-500/25 bg-blue-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Bot className="h-4 w-4 text-blue-400" />Instant All-Time Knowledge Scan</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-xs text-muted-foreground">{instantKnowledgeScan.data?.scope ?? "Scanning upgrade enhancements, creation infrastructure, free-will controls, ICO funding, settlement review, and seven-coin live-readiness."}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(instantKnowledgeScan.data?.allTimePriorities ?? []).map((priority) => (
+                      <div key={priority.key} className="rounded-xl border border-blue-500/20 bg-background/40 p-3">
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">#{priority.rank} {priority.label}</p><Badge className="text-xs bg-blue-500/10 text-blue-300 border-blue-500/20">{priority.impact}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{priority.action}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-yellow-500/20 bg-yellow-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Zap className="h-4 w-4 text-yellow-400" />Upgrade Enhancement Queue</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(freeWillEnhancement.data?.upgradeTracks ?? []).map((track) => (
+                      <button key={track.key} onClick={() => setSelectedUpgradeTrack(track.key as UpgradeTrack)} className={`text-left rounded-xl border p-3 transition-colors ${selectedUpgradeTrack === track.key ? "border-yellow-500/40 bg-yellow-500/10" : "border-border/40 bg-background/40 hover:border-yellow-500/30"}`}>
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{track.label}</p><Badge className="text-xs bg-yellow-500/10 text-yellow-300 border-yellow-500/20">{track.priority}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{track.nextStep}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 space-y-1.5">
+                    {(freeWillEnhancement.data?.guardrails ?? []).slice(0, 4).map((guardrail) => <p key={guardrail} className="text-xs text-red-100/80">• {guardrail}</p>)}
+                  </div>
+                  <Button className="w-full bg-gradient-to-r from-yellow-500 to-emerald-500 text-black font-bold border-0" disabled={upgradeIntent.isPending} onClick={() => upgradeIntent.mutate({ upgradeTrack: selectedUpgradeTrack, acceptUserAgencyTerms: true })}>Queue Free-Will Upgrade Enhancement</Button>
+                </CardContent>
+              </Card>
+              <Card className="border-purple-500/25 bg-purple-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Palette className="h-4 w-4 text-purple-300" />Creation Infrastructure Queue</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(creationInfrastructure.data?.tracks ?? []).map((track) => (
+                      <button key={track.key} onClick={() => setSelectedCreationTrack(track.key as CreationTrack)} className={`text-left rounded-xl border p-3 transition-colors ${selectedCreationTrack === track.key ? "border-purple-400/50 bg-purple-500/10" : "border-border/40 bg-background/40 hover:border-purple-400/30"}`}>
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{track.label}</p><Badge className="text-xs bg-purple-500/10 text-purple-200 border-purple-500/20">{track.status}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{track.nextStep}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <Button variant="outline" className="w-full border-purple-400/30 bg-purple-500/10 text-purple-100" disabled={creationIntent.isPending} onClick={() => creationIntent.mutate({ creationTrack: selectedCreationTrack, acceptProviderGates: true })}>Queue Creation Infrastructure Build</Button>
+                </CardContent>
+              </Card>
+              <Card className="border-cyan-500/25 bg-cyan-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><CreditCard className="h-4 w-4 text-cyan-300" />Seven-Coin Live Readiness</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-xs text-muted-foreground">{sevenCoinReadiness.data?.reason ?? "Live external settlement stays provider-gated while the UI exposes readiness for every requested rail."}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(sevenCoinReadiness.data?.coins ?? []).map((coin) => (
+                      <div key={coin.coin} className="rounded-xl border border-cyan-500/20 bg-background/40 p-3">
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-black">{coin.coin}</p><Badge className="text-xs bg-cyan-500/10 text-cyan-200 border-cyan-500/20">{coin.liveStatus.replace(/-/g, " ")}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{coin.nextStep}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           )}
 
           {activeSection === "appearance" && (
