@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { escrowTransactions, holdings, transactions, users } from "../../drizzle/schema";
+import { escrowTransactions, holdings, tokenSupplyEvents, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
 
 export const supportedCoins = ["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"] as const;
@@ -7,6 +7,7 @@ export type Coin = (typeof supportedCoins)[number];
 
 type ActorContext = { user: { id: number } };
 type TransactionKind = "transfer" | "tip" | "swap" | "escrow";
+type ContractAction = "mine" | "buy" | "trade" | "swap" | "store" | "burn" | "tip" | "pay" | "escrow";
 
 export const PLATFORM_FEE_RATE = 0.15;
 export const CHARITY_SPLIT_RATE = 0.04;
@@ -229,6 +230,119 @@ export const multiCoinService = {
     });
 
     return { success: true, fromCoin, toCoin, amount: toLedgerAmount(normalized), received: toLedgerAmount(quotedToAmount), slippage };
+  },
+
+  getInfrastructure() {
+    return {
+      status: "beta-ledger-ready",
+      supportedActions: ["mine", "buy", "trade", "swap", "store", "burn", "tip", "pay", "escrow", "contract-adapter"] as ContractAction[],
+      supportedCoins,
+      feeModel: {
+        platformFeeRate: PLATFORM_FEE_RATE,
+        charitySplitRate: CHARITY_SPLIT_RATE,
+        burnSplitRate: BURN_SPLIT_RATE,
+      },
+      contractAdapters: [
+        { chain: "Beta Ledger", actions: ["mine", "tip", "pay", "burn", "escrow", "store"], status: "database-simulated" },
+        { chain: "EVM", actions: ["swap", "pay", "escrow", "token-burn"], status: "adapter-boundary" },
+        { chain: "Bitcoin", actions: ["pay", "store", "vault"], status: "provider-gated" },
+        { chain: "Monero", actions: ["privacy-pay", "private-store"], status: "provider-gated" },
+      ],
+      guardrails: "Real custody, bank-card onramp, withdrawals, and deployed smart contracts must be connected through approved providers before production.",
+    };
+  },
+
+  async mine(ctx: ActorContext, coin: Coin = "SKY4444", power = 1, memo = "Beta mining reward") {
+    assertSupportedCoin(coin);
+    const normalizedPower = Math.min(Math.max(power || 1, 0.1), 250);
+    const reward = Number((0.0444 * normalizedPower).toFixed(8));
+    const db = await getDb();
+    if (!db) throw new Error("Database is not configured for beta mining rewards.");
+
+    await db.transaction(async (tx) => {
+      await adjustCoinBalance(tx, ctx.user.id, coin, reward);
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "mining", token: coin, amount: toLedgerAmount(reward), status: "complete", memo });
+      await tx.insert(tokenSupplyEvents).values({ actorId: ctx.user.id, token: coin, eventType: "mint", amount: toLedgerAmount(reward), memo: `Mining emission: ${memo}` });
+    });
+
+    return { success: true, action: "mine" as const, coin, reward: toLedgerAmount(reward), power: normalizedPower, memo };
+  },
+
+  async buy(ctx: ActorContext, coin: Coin, fiatAmountUsd: number, provider = "beta-onramp", memo = "Beta buy/onramp credit") {
+    assertSupportedCoin(coin);
+    const normalizedUsd = normalizeAmount(fiatAmountUsd);
+    const credited = Number((normalizedUsd / coinMeta[coin].usd).toFixed(8));
+    const db = await getDb();
+    if (!db) throw new Error("Database is not configured for beta buy/onramp credits.");
+
+    await db.transaction(async (tx) => {
+      await adjustCoinBalance(tx, ctx.user.id, coin, credited);
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "airdrop", token: coin, amount: toLedgerAmount(credited), status: "complete", memo: `${memo} via ${provider}; fiat settlement is provider-gated.` });
+    });
+
+    return { success: true, action: "buy" as const, coin, fiatAmountUsd: toLedgerAmount(normalizedUsd), credited: toLedgerAmount(credited), provider };
+  },
+
+  async trade(ctx: ActorContext, fromCoin: Coin, toCoin: Coin, amount: number, orderType: "market" | "limit" = "market", limitPriceUsd?: number) {
+    const swap = await this.swap(ctx, fromCoin, toCoin, amount, orderType === "limit" ? 1 : 0.5);
+    return { ...swap, action: "trade" as const, orderType, limitPriceUsd, route: `${fromCoin}/${toCoin} ${orderType} trade through beta liquidity router` };
+  },
+
+  async store(ctx: ActorContext, coin: Coin, amount: number, vaultLabel = "Sky Vault storage") {
+    assertSupportedCoin(coin);
+    const normalized = normalizeAmount(amount);
+    const db = await getDb();
+    if (!db) throw new Error("Database is not configured for beta store/vault actions.");
+
+    await db.transaction(async (tx) => {
+      await adjustCoinBalance(tx, ctx.user.id, coin, -normalized);
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "staking", token: coin, amount: toLedgerAmount(normalized), status: "complete", memo: `Stored in ${vaultLabel}; vault-release workflow is provider-gated.` });
+    });
+
+    return { success: true, action: "store" as const, coin, amount: toLedgerAmount(normalized), vaultLabel, status: "stored" };
+  },
+
+  async burn(ctx: ActorContext, coin: Coin, amount: number, memo = "Founder-requested token burn") {
+    assertSupportedCoin(coin);
+    const normalized = normalizeAmount(amount);
+    const db = await getDb();
+    if (!db) throw new Error("Database is not configured for beta burn actions.");
+
+    await db.transaction(async (tx) => {
+      await adjustCoinBalance(tx, ctx.user.id, coin, -normalized);
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "burn", token: coin, amount: toLedgerAmount(normalized), status: "complete", memo });
+      await tx.insert(tokenSupplyEvents).values({ actorId: ctx.user.id, token: coin, eventType: "burn", amount: toLedgerAmount(normalized), memo });
+    });
+
+    return { success: true, action: "burn" as const, coin, amount: toLedgerAmount(normalized), memo };
+  },
+
+  async pay(ctx: ActorContext, coin: Coin, amount: number, recipientId?: number, recipientAddress?: string, memo = "Beta crypto payment") {
+    return this.transfer(ctx, coin, amount, recipientId, recipientAddress, "transfer").then((result) => ({ ...result, action: "pay" as const, memo, paymentRail: recipientId ? "internal-ledger" : "external-address-pending" }));
+  },
+
+  getSmartContractPlan(action: ContractAction, coin: Coin = "SKY4444") {
+    assertSupportedCoin(coin);
+    const chain = coinMeta[coin].chain;
+    const needsProvider = !["SKY4444", "SHADOW", "TRUMP"].includes(coin);
+    return {
+      action,
+      coin,
+      chain,
+      adapterStatus: needsProvider ? "provider-gated" : "beta-ledger-ready",
+      entrypoints: {
+        mine: "mintReward(address user,uint256 power,string memo)",
+        buy: "creditOnramp(address user,uint256 usdAmount,uint256 tokenAmount,string provider)",
+        trade: "routeTrade(address user,address from,address to,uint256 amount,uint256 minOut)",
+        swap: "swapExactTokensForTokens(uint256 amountIn,uint256 minOut,address[] path,address to)",
+        store: "lockInVault(address user,address token,uint256 amount,string label)",
+        burn: "burnFrom(address user,uint256 amount,string memo)",
+        tip: "creatorTip(address from,address creator,uint256 amount,string memo)",
+        pay: "pay(address from,address to,uint256 amount,string memo)",
+        escrow: "createEscrow(address buyer,address seller,uint256 amount,bytes32 orderHash)",
+      },
+      audit: "Every adapter call should mirror into transactions and tokenSupplyEvents before production signing is enabled.",
+    };
   },
 
   async createEscrow(ctx: ActorContext, sellerId: number | undefined, coin: Coin, amount: number, memo?: string) {
