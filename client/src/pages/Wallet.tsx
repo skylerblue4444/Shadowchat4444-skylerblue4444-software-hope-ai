@@ -135,6 +135,7 @@ export default function WalletPage() {
 
   const balances = wallet.data?.balances ?? [];
   const transactions = wallet.data?.transactions ?? [];
+  const settlementHistory = wallet.data?.settlementHistory ?? [];
   const totalUSD = wallet.data?.totalUsdValue ?? 0;
   const selectedBalance = useMemo(() => balances.find((item) => item.coin === sendAsset), [balances, sendAsset]);
   const walletAddress = "beta:sky4444:wallet:user-session";
@@ -382,6 +383,41 @@ export default function WalletPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="border-blue-500/20 bg-blue-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle className="flex items-center gap-2 text-sm font-bold"><Shield className="h-4 w-4 text-blue-300" /> Settlement Audit History</CardTitle>
+            <Badge variant="outline">Idempotent beta ledger</Badge>
+          </div>
+          <p className="text-xs text-muted-foreground">Every financial flow is mirrored into a shared settlement ledger with source, provider, status, and admin-review metadata. Live withdrawals and provider settlement remain gated.</p>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y divide-border/30">
+            {settlementHistory.map((entry: any) => (
+              <div key={entry.id} className="grid gap-3 px-4 py-3 hover:bg-muted/20 md:grid-cols-[1.2fr_0.9fr_0.9fr_1fr] md:items-center">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm font-semibold capitalize">{entry.source} settlement</p>
+                    <Badge className={entry.direction === "credit" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" : entry.direction === "debit" ? "border-red-500/30 bg-red-500/10 text-red-300" : "border-slate-500/30 bg-slate-500/10 text-slate-300"}>{entry.direction}</Badge>
+                  </div>
+                  <p className="truncate text-xs text-muted-foreground">{entry.memo ?? entry.idempotencyKey}</p>
+                </div>
+                <div className="font-mono text-sm font-bold">{entry.amount} {entry.token}</div>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <Badge variant="outline">{entry.providerStatus}</Badge>
+                  <Badge variant="outline">{entry.settlementStatus}</Badge>
+                </div>
+                <div className="flex flex-col gap-1 text-xs text-muted-foreground md:text-right">
+                  <span>Review: <span className="font-semibold text-foreground">{entry.reviewStatus}</span></span>
+                  <span>{new Date(entry.createdAt).toLocaleString()}</span>
+                </div>
+              </div>
+            ))}
+            {!settlementHistory.length && <div className="px-4 py-8 text-center text-sm text-muted-foreground">No settlement audit entries yet. New mining, staking, casino, tip, trading, and wallet flows will appear here.</div>}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="border-border/50">
         <CardHeader className="pb-2">

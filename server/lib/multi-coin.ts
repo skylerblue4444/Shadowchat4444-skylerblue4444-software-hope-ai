@@ -1,6 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import { escrowTransactions, holdings, tokenSupplyEvents, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
+import { getRecentSettlementEntries, recordSettlementEntry, settlementKey } from "./settlement-ledger";
 
 export const supportedCoins = ["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"] as const;
 export type Coin = (typeof supportedCoins)[number];
@@ -38,6 +39,10 @@ function normalizeAmount(amount: number) {
 
 function toLedgerAmount(amount: number) {
   return normalizeAmount(amount).toString();
+}
+
+function operationSettlementKey(action: string, userId: number, coin: string, amount: number | string, memo?: string) {
+  return settlementKey(action, userId, coin, amount, memo, Date.now(), Math.random().toString(36).slice(2, 10));
 }
 
 async function getHoldingAmount(tx: any, userId: number, coin: Coin) {
@@ -142,6 +147,12 @@ export const multiCoinService = {
       .limit(Math.min(Math.max(limit, 1), 100));
   },
 
+  async getSettlementHistory(userId: number, limit = 25) {
+    const db = await getDb();
+    if (!db) return [];
+    return getRecentSettlementEntries(db, userId, limit);
+  },
+
   async transfer(ctx: ActorContext, coin: Coin, amount: number, recipientId?: number, recipientAddress?: string, kind: TransactionKind = "transfer") {
     assertSupportedCoin(coin);
     const normalized = normalizeAmount(amount);
@@ -154,6 +165,7 @@ export const multiCoinService = {
       await adjustCoinBalance(tx, ctx.user.id, coin, -normalized);
       if (recipientId) await adjustCoinBalance(tx, recipientId, coin, normalized);
 
+      const memo = recipientAddress ? `Beta transfer to external address ${recipientAddress}` : `Beta ${kind} transfer`;
       await tx.insert(transactions).values({
         userId: ctx.user.id,
         toUserId: recipientId,
@@ -161,8 +173,35 @@ export const multiCoinService = {
         token: coin,
         amount: toLedgerAmount(normalized),
         status: recipientId ? "complete" : "pending",
-        memo: recipientAddress ? `Beta transfer to external address ${recipientAddress}` : `Beta ${kind} transfer`,
+        memo,
       });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey(kind, ctx.user.id, coin, normalized, `${recipientId ?? recipientAddress ?? "external"}`),
+        userId: ctx.user.id,
+        counterpartyUserId: recipientId,
+        source: kind === "tip" ? "tip" : kind === "escrow" ? "escrow" : "wallet",
+        direction: "debit",
+        token: coin,
+        amount: normalized,
+        providerStatus: recipientId ? "beta_ledger" : "provider_gated",
+        settlementStatus: recipientId ? "recorded" : "provider_pending",
+        reviewStatus: recipientId ? "none" : "queued",
+        memo,
+        audit: { action: "transfer", kind, recipientId, externalRecipient: Boolean(recipientAddress), moneyMovementKillSwitch: !recipientId },
+      });
+      if (recipientId) {
+        await recordSettlementEntry(tx, {
+          idempotencyKey: operationSettlementKey(`${kind}-credit`, recipientId, coin, normalized, `${ctx.user.id}`),
+          userId: recipientId,
+          counterpartyUserId: ctx.user.id,
+          source: kind === "tip" ? "tip" : kind === "escrow" ? "escrow" : "wallet",
+          direction: "credit",
+          token: coin,
+          amount: normalized,
+          memo,
+          audit: { action: "transfer-credit", kind, senderId: ctx.user.id },
+        });
+      }
 
       return { success: true, coin, amount: toLedgerAmount(normalized), recipientId, recipientAddress, status: recipientId ? "complete" : "pending" };
     });
@@ -191,6 +230,28 @@ export const multiCoinService = {
         { userId: ctx.user.id, type: "charity", token: coin, amount: toLedgerAmount(charityAmount), status: "complete", memo: "Charity split accounting from platform fee" },
         { userId: ctx.user.id, type: "burn", token: coin, amount: toLedgerAmount(burnAmount), status: "complete", memo: "Burn reserve accounting from platform fee" },
       ]);
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("tip-debit", ctx.user.id, coin, normalized, `${recipientId}:${memo}`),
+        userId: ctx.user.id,
+        counterpartyUserId: recipientId,
+        source: "tip",
+        direction: "debit",
+        token: coin,
+        amount: normalized,
+        memo,
+        audit: { action: "creator-tip", recipientAmount, platformFee, charityAmount, burnAmount },
+      });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("tip-credit", recipientId, coin, recipientAmount, `${ctx.user.id}:${memo}`),
+        userId: recipientId,
+        counterpartyUserId: ctx.user.id,
+        source: "tip",
+        direction: "credit",
+        token: coin,
+        amount: recipientAmount,
+        memo,
+        audit: { action: "creator-tip-credit", grossAmount: normalized, platformFee },
+      });
     });
 
     return {
@@ -219,13 +280,25 @@ export const multiCoinService = {
     await db.transaction(async (tx) => {
       await adjustCoinBalance(tx, ctx.user.id, fromCoin, -normalized);
       await adjustCoinBalance(tx, ctx.user.id, toCoin, quotedToAmount);
+      const memo = `Beta swap received ${toLedgerAmount(quotedToAmount)} ${toCoin} with ${slippage}% slippage guard`;
       await tx.insert(transactions).values({
         userId: ctx.user.id,
         type: "swap",
         token: `${fromCoin}/${toCoin}`,
         amount: toLedgerAmount(normalized),
         status: "complete",
-        memo: `Beta swap received ${toLedgerAmount(quotedToAmount)} ${toCoin} with ${slippage}% slippage guard`,
+        memo,
+      });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("swap", ctx.user.id, `${fromCoin}-${toCoin}`, normalized, `${quotedToAmount}:${slippage}`),
+        userId: ctx.user.id,
+        source: "trading",
+        direction: "neutral",
+        token: `${fromCoin}/${toCoin}`,
+        amount: normalized,
+        providerStatus: "paper",
+        memo,
+        audit: { action: "swap", fromCoin, toCoin, debited: normalized, credited: quotedToAmount, slippage },
       });
     });
 
@@ -262,6 +335,16 @@ export const multiCoinService = {
     await db.transaction(async (tx) => {
       await adjustCoinBalance(tx, ctx.user.id, coin, reward);
       await tx.insert(transactions).values({ userId: ctx.user.id, type: "mining", token: coin, amount: toLedgerAmount(reward), status: "complete", memo });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("mining", ctx.user.id, coin, reward, `${normalizedPower}:${memo}`),
+        userId: ctx.user.id,
+        source: "mining",
+        direction: "credit",
+        token: coin,
+        amount: reward,
+        memo,
+        audit: { action: "mining-reward", power: normalizedPower, emission: true },
+      });
       await tx.insert(tokenSupplyEvents).values({ actorId: ctx.user.id, token: coin, eventType: "mint", amount: toLedgerAmount(reward), memo: `Mining emission: ${memo}` });
     });
 
@@ -277,7 +360,22 @@ export const multiCoinService = {
 
     await db.transaction(async (tx) => {
       await adjustCoinBalance(tx, ctx.user.id, coin, credited);
-      await tx.insert(transactions).values({ userId: ctx.user.id, type: "airdrop", token: coin, amount: toLedgerAmount(credited), status: "complete", memo: `${memo} via ${provider}; fiat settlement is provider-gated.` });
+      const transactionMemo = `${memo} via ${provider}; fiat settlement is provider-gated.`;
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "airdrop", token: coin, amount: toLedgerAmount(credited), status: "complete", memo: transactionMemo });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("buy-onramp", ctx.user.id, coin, credited, `${provider}:${normalizedUsd}`),
+        userId: ctx.user.id,
+        source: "payment",
+        direction: "credit",
+        token: coin,
+        amount: credited,
+        provider,
+        providerStatus: provider.includes("test") || provider.includes("beta") ? "test_mode" : "provider_gated",
+        settlementStatus: "provider_pending",
+        reviewStatus: "queued",
+        memo: transactionMemo,
+        audit: { action: "buy-onramp", fiatAmountUsd: normalizedUsd, provider, irreversibleMoneyMovement: false },
+      });
     });
 
     return { success: true, action: "buy" as const, coin, fiatAmountUsd: toLedgerAmount(normalizedUsd), credited: toLedgerAmount(credited), provider };
@@ -296,7 +394,21 @@ export const multiCoinService = {
 
     await db.transaction(async (tx) => {
       await adjustCoinBalance(tx, ctx.user.id, coin, -normalized);
-      await tx.insert(transactions).values({ userId: ctx.user.id, type: "staking", token: coin, amount: toLedgerAmount(normalized), status: "complete", memo: `Stored in ${vaultLabel}; vault-release workflow is provider-gated.` });
+      const memo = `Stored in ${vaultLabel}; vault-release workflow is provider-gated.`;
+      await tx.insert(transactions).values({ userId: ctx.user.id, type: "staking", token: coin, amount: toLedgerAmount(normalized), status: "complete", memo });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("store", ctx.user.id, coin, normalized, vaultLabel),
+        userId: ctx.user.id,
+        source: "staking",
+        direction: "debit",
+        token: coin,
+        amount: normalized,
+        providerStatus: "provider_gated",
+        settlementStatus: "provider_pending",
+        reviewStatus: "queued",
+        memo,
+        audit: { action: "store-vault", vaultLabel, releaseProviderGated: true },
+      });
     });
 
     return { success: true, action: "store" as const, coin, amount: toLedgerAmount(normalized), vaultLabel, status: "stored" };
@@ -311,6 +423,19 @@ export const multiCoinService = {
     await db.transaction(async (tx) => {
       await adjustCoinBalance(tx, ctx.user.id, coin, -normalized);
       await tx.insert(transactions).values({ userId: ctx.user.id, type: "burn", token: coin, amount: toLedgerAmount(normalized), status: "complete", memo });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("burn", ctx.user.id, coin, normalized, memo),
+        userId: ctx.user.id,
+        source: "wallet",
+        direction: "debit",
+        token: coin,
+        amount: normalized,
+        providerStatus: "review_required",
+        settlementStatus: "pending_review",
+        reviewStatus: "queued",
+        memo,
+        audit: { action: "burn", supplyMutation: true, adminReviewRecommended: true },
+      });
       await tx.insert(tokenSupplyEvents).values({ actorId: ctx.user.id, token: coin, eventType: "burn", amount: toLedgerAmount(normalized), memo });
     });
 
@@ -374,6 +499,20 @@ export const multiCoinService = {
         charityAmount: toLedgerAmount(charityAmount),
         status: "held",
         memo,
+      });
+      await recordSettlementEntry(tx, {
+        idempotencyKey: operationSettlementKey("escrow-hold", ctx.user.id, coin, normalized, `${sellerId ?? "open"}:${memo ?? ""}`),
+        userId: ctx.user.id,
+        counterpartyUserId: sellerId,
+        source: "escrow",
+        direction: "debit",
+        token: coin,
+        amount: normalized,
+        providerStatus: "beta_ledger",
+        settlementStatus: "pending_review",
+        reviewStatus: "queued",
+        memo: memo ?? "Beta escrow hold",
+        audit: { action: "escrow-hold", sellerId, platformFee, charityAmount, releaseRequiresReview: true },
       });
       return tx.select().from(escrowTransactions).where(eq(escrowTransactions.buyerId, ctx.user.id)).orderBy(desc(escrowTransactions.createdAt)).limit(1);
     });

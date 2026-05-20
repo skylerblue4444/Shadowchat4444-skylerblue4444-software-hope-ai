@@ -1,7 +1,9 @@
 import crypto from "node:crypto";
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { getDb } from "../db";
 import { multiCoinService, supportedCoins, type Coin } from "../lib/multi-coin";
+import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 
 const gameSchema = z.enum(["blackjack", "roulette", "slots", "crash", "dice"]);
 const actionSchema = z.enum(["deal", "hit", "stand", "spin", "roll", "double", "cashout"]);
@@ -175,6 +177,35 @@ export const gamesRouter = router({
       if (session.status !== "open") return { success: false, error: "Session already settled.", audit: session.audit };
       const result = settleGame(session, input.action, input.params);
       const walletReward = result.reward > 0 ? await multiCoinService.mine(ctx, session.coin, Math.min(25, Math.max(1, result.reward)), `Beta ${session.game} reward for session ${session.id}`) : null;
+      const db = await getDb();
+      if (db) {
+        await db.transaction(async (tx) => {
+          await recordSettlementEntry(tx, {
+            idempotencyKey: settlementKey("casino", ctx.user.id, session.id, input.action, result.nonce),
+            userId: ctx.user.id,
+            source: "casino",
+            direction: result.reward > 0 ? "credit" : "neutral",
+            token: session.coin,
+            amount: result.reward > 0 ? result.reward : session.wager,
+            providerStatus: "beta_ledger",
+            settlementStatus: "recorded",
+            reviewStatus: "none",
+            memo: `Beta ${session.game} ${input.action} round settled with ${result.reward} ${session.coin} reward`,
+            audit: {
+              router: "games.playRound",
+              sessionId: session.id,
+              game: session.game,
+              action: input.action,
+              wager: session.wager,
+              rewardMultiplier: result.rewardMultiplier,
+              outcome: result.outcome,
+              serverSeedHash: session.serverSeedHash,
+              walletReward,
+              providerGate: "casino session is beta entertainment; no external gambling rail executed",
+            },
+          });
+        });
+      }
       return { success: true, game: session.game, coin: session.coin, wager: session.wager, ...result, walletReward, reveal: { serverSeed: session.serverSeed, serverSeedHash: session.serverSeedHash, verifyHash: sha256(session.serverSeed) }, audit: session.audit };
     }),
 

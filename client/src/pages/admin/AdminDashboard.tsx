@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import {
   LineChart, Line, AreaChart, Area, BarChart, Bar,
@@ -72,11 +73,25 @@ const SEVERITY_COLORS: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
+  const utils = trpc.useUtils();
   const [refreshing, setRefreshing] = useState(false);
+  const settlementReview = trpc.adminLive.settlementReview.useQuery({ limit: 10 }, { refetchInterval: 30000 });
+  const updateSettlementReview = trpc.adminLive.updateSettlementReview.useMutation({
+    onSuccess: async () => {
+      toast.success("Settlement review status updated.");
+      await utils.adminLive.settlementReview.invalidate();
+    },
+    onError: (error) => toast.error(error.message),
+  });
+
+  const pendingSettlementEntries = settlementReview.data?.pendingEntries ?? [];
 
   const handleRefresh = () => {
     setRefreshing(true);
-    setTimeout(() => { setRefreshing(false); toast.success("Dashboard refreshed"); }, 1200);
+    settlementReview.refetch().finally(() => {
+      setRefreshing(false);
+      toast.success("Dashboard refreshed");
+    });
   };
 
   return (
@@ -170,6 +185,53 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Settlement Review */}
+      <Card className="border-blue-500/20 bg-blue-500/5">
+        <CardHeader className="pb-2">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <CardTitle className="text-sm font-bold flex items-center gap-2"><Database className="h-4 w-4 text-blue-300" />Settlement Ledger Review</CardTitle>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">{settlementReview.data?.pendingCount ?? pendingSettlementEntries.length} queued</Badge>
+              <Badge className="border-amber-500/20 bg-amber-500/10 text-amber-300">Beta ledger / provider-gated</Badge>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">{settlementReview.data?.betaNotice ?? "Loading settlement review queue. Live money movement, provider settlement, casino gambling, and trading live orders remain kill-switch protected."}</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {pendingSettlementEntries.map((entry: any) => (
+              <div key={entry.id} className="grid gap-3 rounded-xl border border-border/40 bg-background/40 p-3 lg:grid-cols-[1.1fr_0.9fr_0.8fr_auto] lg:items-center">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-semibold capitalize">{entry.source} · {entry.direction}</span>
+                    <Badge variant="outline">user #{entry.userId}</Badge>
+                    {entry.counterpartyUserId && <Badge variant="outline">counterparty #{entry.counterpartyUserId}</Badge>}
+                  </div>
+                  <p className="mt-1 truncate text-xs text-muted-foreground">{entry.memo ?? entry.idempotencyKey}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-sm font-bold">{entry.amount} {entry.token}</p>
+                  <p className="text-xs text-muted-foreground">{new Date(entry.createdAt).toLocaleString()}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300">{entry.providerStatus}</Badge>
+                  <Badge className="border-purple-500/20 bg-purple-500/10 text-purple-300">{entry.settlementStatus}</Badge>
+                </div>
+                <div className="flex gap-2 lg:justify-end">
+                  <Button size="sm" className="bg-green-600 text-white" disabled={updateSettlementReview.isPending} onClick={() => updateSettlementReview.mutate({ id: entry.id, reviewStatus: "approved", adminNote: "Approved in admin settlement review." })}><CheckCircle className="mr-1 h-3.5 w-3.5" />Approve</Button>
+                  <Button size="sm" variant="destructive" disabled={updateSettlementReview.isPending} onClick={() => updateSettlementReview.mutate({ id: entry.id, reviewStatus: "rejected", adminNote: "Rejected in admin settlement review; provider settlement remains blocked." })}><XCircle className="mr-1 h-3.5 w-3.5" />Reject</Button>
+                </div>
+              </div>
+            ))}
+            {!pendingSettlementEntries.length && (
+              <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
+                {settlementReview.isLoading ? "Loading settlement entries requiring admin review..." : "No queued settlement entries. Audited mining, staking, casino, wallet, tip, and paper-trading entries will appear here when marked for review."}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Content Flags + System Health */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

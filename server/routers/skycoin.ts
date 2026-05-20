@@ -4,6 +4,7 @@ import { holdings, tokenSupplyEvents, transactions, users } from "../../drizzle/
 import { adminProcedure, protectedProcedure, router, TRPCError } from "../_core/trpc";
 import { getDb } from "../db";
 import { multiCoinService, supportedCoins } from "../lib/multi-coin";
+import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 
 const coinSchema = z.enum(supportedCoins);
 const betaRewards: Record<(typeof supportedCoins)[number], number> = {
@@ -33,13 +34,33 @@ async function creditBetaBalance(userId: number, coin: (typeof supportedCoins)[n
       }
     }
 
-    await tx.insert(transactions).values({
+    const [transaction] = await tx.insert(transactions).values({
       userId,
       type: "reward",
       token: coin,
       amount: amountText,
       status: "complete",
       memo,
+    }).$returningId();
+
+    await recordSettlementEntry(tx, {
+      idempotencyKey: settlementKey("skycoin-reward", userId, coin, amountText, memo),
+      transactionId: transaction.id,
+      userId,
+      source: "wallet",
+      direction: "credit",
+      token: coin,
+      amount: amountText,
+      providerStatus: "beta_ledger",
+      settlementStatus: "recorded",
+      reviewStatus: "none",
+      memo,
+      audit: {
+        router: "skycoin.claimBetaReward",
+        rewardType: "beta-feature-claim",
+        supplyEvent: "airdrop",
+        providerGate: "internal beta ledger only; no withdrawal or external payment rail executed",
+      },
     });
 
     await tx.insert(tokenSupplyEvents).values({

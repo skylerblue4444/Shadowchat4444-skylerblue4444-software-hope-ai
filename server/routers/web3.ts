@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, router, TRPCError } from "../_core/trpc";
+import { getDb } from "../db";
+import { getRecentSettlementEntries } from "../lib/settlement-ledger";
 import { multiCoinService, supportedCoins } from "../lib/multi-coin";
 
 const coinSchema = z.enum(supportedCoins);
@@ -29,7 +31,9 @@ export const web3Router = router({
     try {
       const balances = await multiCoinService.getBalances(ctx.user.id);
       const transactions = await multiCoinService.getRecentTransactions(ctx.user.id, 25);
-      return { ...summarizeBalances(balances), transactions, infrastructure: multiCoinService.getInfrastructure() };
+      const db = await getDb();
+      const settlementHistory = db ? await getRecentSettlementEntries(db, ctx.user.id, 25) : [];
+      return { ...summarizeBalances(balances), transactions, settlementHistory, infrastructure: multiCoinService.getInfrastructure() };
     } catch (error) {
       throw toClientError(error, "Unable to load beta wallet summary.");
     }

@@ -189,6 +189,26 @@ export const transactions = mysqlTable("transactions", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const settlementLedger = mysqlTable("settlementLedger", {
+  id: int("id").autoincrement().primaryKey(),
+  idempotencyKey: varchar("idempotencyKey", { length: 160 }).notNull().unique(),
+  transactionId: int("transactionId").references(() => transactions.id),
+  userId: int("userId").notNull().references(() => users.id),
+  counterpartyUserId: int("counterpartyUserId").references(() => users.id),
+  source: mysqlEnum("source", ["mining", "staking", "casino", "tip", "trading", "wallet", "payment", "escrow", "admin"]).notNull(),
+  direction: mysqlEnum("direction", ["credit", "debit", "neutral"]).notNull(),
+  token: varchar("token", { length: 20 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  provider: varchar("provider", { length: 80 }).default("beta-ledger").notNull(),
+  providerStatus: mysqlEnum("providerStatus", ["beta_ledger", "paper", "test_mode", "provider_gated", "disabled", "review_required"]).default("beta_ledger").notNull(),
+  settlementStatus: mysqlEnum("settlementStatus", ["recorded", "pending_review", "approved", "rejected", "voided", "provider_pending"]).default("recorded").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["none", "queued", "approved", "rejected"]).default("none").notNull(),
+  memo: varchar("memo", { length: 255 }),
+  auditJson: text("auditJson"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export const marketplaceListings = mysqlTable("marketplaceListings", {
   id: int("id").autoincrement().primaryKey(),
   sellerId: int("sellerId").notNull().references(() => users.id),
@@ -336,6 +356,7 @@ export type Vault = typeof vaults.$inferSelect;
 export type StakingPosition = typeof stakingPositions.$inferSelect;
 export type MiningSession = typeof miningSessions.$inferSelect;
 export type Transaction = typeof transactions.$inferSelect;
+export type SettlementLedgerEntry = typeof settlementLedger.$inferSelect;
 export type EscrowTransaction = typeof escrowTransactions.$inferSelect;
 export type DatingProfile = typeof datingProfiles.$inferSelect;
 export type DatingAction = typeof datingActions.$inferSelect;

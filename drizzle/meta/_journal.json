@@ -15,6 +15,13 @@
       "when": 1777335123663,
       "tag": "0001_sparkling_robbie_robertson",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1779280504814,
+      "tag": "0002_settlement_ledger_hardening",
+      "breakpoints": true
     }
   ]
 }

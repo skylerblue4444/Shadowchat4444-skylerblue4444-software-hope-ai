@@ -1,11 +1,13 @@
 import { desc, eq, like, or } from "drizzle-orm";
 import { z } from "zod";
 import { adminAuditLogs, datingActions, datingProfiles, escrowTransactions, liveStreams, marketplaceListings, marketplaceOrders, posts, tokenSupplyEvents, transactions, users } from "../../drizzle/schema";
+import { getPendingReviewEntries, updateSettlementReviewStatus } from "../lib/settlement-ledger";
 import { adminProcedure, router, TRPCError } from "../_core/trpc";
 import { getDb } from "../db";
 
 const roleSchema = z.enum(["user", "creator", "seller", "moderator", "admin", "god"]);
 const statusSchema = z.enum(["active", "pending", "suspended", "banned"]);
+const settlementReviewStatusSchema = z.enum(["queued", "approved", "rejected"]);
 
 type AdminPatch = Partial<typeof users.$inferInsert>;
 
@@ -119,4 +121,42 @@ export const adminLiveRouter = router({
     if (!db) return [];
     return db.select().from(adminAuditLogs).orderBy(desc(adminAuditLogs.createdAt)).limit(100);
   }),
+
+  settlementReview: adminProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(25) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          pendingEntries: [],
+          pendingCount: 0,
+          betaNotice: "Database not configured; settlement review is unavailable in demo-safe mode.",
+        };
+      }
+      const pendingEntries = await getPendingReviewEntries(db, input?.limit ?? 25);
+      return {
+        pendingEntries,
+        pendingCount: pendingEntries.length,
+        betaNotice: "Settlement review covers beta ledger, paper trade, provider-gated, and test-mode entries before any real-world money movement is enabled.",
+      };
+    }),
+
+  updateSettlementReview: adminProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        reviewStatus: settlementReviewStatusSchema,
+        adminNote: z.string().max(500).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.reviewStatus === "queued" && !input.adminNote) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "A note is required when returning a settlement entry to queued review." });
+      }
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is required for settlement review." });
+      const entry = await updateSettlementReviewStatus(db, input.id, input.reviewStatus, input.adminNote);
+      await writeAudit(ctx.user.id, "settlement.review.updated", { settlementLedgerId: input.id, reviewStatus: input.reviewStatus, adminNote: input.adminNote }, entry?.userId);
+      return { success: true, entry };
+    }),
 });
