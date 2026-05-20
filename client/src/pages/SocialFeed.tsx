@@ -169,6 +169,20 @@ export default function SocialFeed() {
   const [posts, setPosts] = useState(MOCK_POSTS);
   const [activeTab, setActiveTab] = useState<"for-you" | "following" | "trending">("for-you");
   const [postVisibility, setPostVisibility] = useState<"public" | "followers">("public");
+  const { data: beginnerPlus } = trpc.platform.beginnerPlusBusinessMode.useQuery();
+  const beginnerPlusIntent = trpc.platform.createBeginnerPlusBusinessIntent.useMutation({
+    onSuccess: (result) => toast.success(`Beginner Plus queued: ${result.action.label}`),
+    onError: (error) => toast.error(error.message),
+  });
+
+  const handleBeginnerPlusReview = () => {
+    if (!content.trim()) { toast.error("Write a draft before opening Beginner Plus review."); return; }
+    beginnerPlusIntent.mutate({
+      action: "publish-guided-post",
+      acceptBusinessGuidance: true,
+      note: content.slice(0, 500),
+    });
+  };
 
   const handlePost = () => {
     if (!content.trim()) { toast.error("Write something first!"); return; }
@@ -209,9 +223,14 @@ export default function SocialFeed() {
                       {postVisibility === "public" ? "Public" : "Followers"}
                     </button>
                   </div>
-                  <Button size="sm" className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 h-8" onClick={handlePost} disabled={!content.trim()}>
-                    <Send className="h-3.5 w-3.5 mr-1.5" />Post
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" variant="outline" className="h-8 text-xs" onClick={handleBeginnerPlusReview} disabled={!content.trim() || beginnerPlusIntent.isPending}>
+                      <Star className="h-3.5 w-3.5 mr-1.5" />Beginner Plus
+                    </Button>
+                    <Button size="sm" className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 h-8" onClick={handlePost} disabled={!content.trim()}>
+                      <Send className="h-3.5 w-3.5 mr-1.5" />Post
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -257,6 +276,30 @@ export default function SocialFeed() {
           </CardContent>
         </Card>
 
+        {/* Beginner Plus Business Guidance */}
+        <Card className="border-blue-500/20 bg-gradient-to-br from-blue-950/30 to-cyan-950/10">
+          <CardContent className="pt-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Award className="h-4 w-4 text-blue-400" />
+              <span className="font-bold text-sm">Beginner Plus business mode</span>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              {beginnerPlus?.plainLanguagePromise ?? "Guided business posting, creator proof, privacy reminders, and user-confirmed publishing are loading."}
+            </p>
+            <div className="space-y-2 mb-3">
+              {(beginnerPlus?.feedGuidance ?? []).slice(0, 3).map((item: { key: string; label: string; description: string }) => (
+                <div key={item.key} className="rounded-lg border border-blue-500/10 bg-blue-500/5 p-2">
+                  <p className="text-xs font-semibold text-blue-300">{item.label}</p>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+            <Button size="sm" variant="outline" className="w-full h-8 text-xs" onClick={handleBeginnerPlusReview} disabled={!content.trim() || beginnerPlusIntent.isPending}>
+              <Star className="h-3.5 w-3.5 mr-1.5" />Queue guided post review
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Who to Follow */}
         <Card className="border-border/50">
           <CardContent className="pt-4">
@@ -276,6 +319,24 @@ export default function SocialFeed() {
                     </div>
                   </div>
                   <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => toast.success(`Following ${user.name}!`)}>Follow</Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Beginner Plus Thought Process */}
+        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-950/20 to-blue-950/10">
+          <CardContent className="pt-4">
+            <h3 className="font-bold text-sm mb-3 flex items-center gap-2"><Globe className="h-4 w-4 text-purple-400" />Business thought process</h3>
+            <div className="space-y-2">
+              {(beginnerPlus?.businessThoughtProcess ?? []).slice(0, 5).map((step: { step: number; title: string; prompt: string }) => (
+                <div key={step.step} className="flex gap-2">
+                  <Badge variant="outline" className="h-5 min-w-5 justify-center text-[10px]">{step.step}</Badge>
+                  <div>
+                    <p className="text-xs font-semibold">{step.title}</p>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed">{step.prompt}</p>
+                  </div>
                 </div>
               ))}
             </div>

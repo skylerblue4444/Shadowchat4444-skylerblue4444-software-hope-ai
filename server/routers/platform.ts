@@ -99,6 +99,13 @@ const platformAreas: PlatformArea[] = [
     summary: "Creator tools, ICO intent generation, whitepaper delivery, wallet funding, marketplace launch paths, and review queues are represented as auditable creation tracks.",
   },
   {
+    key: "beginner-plus-business-mode",
+    label: "Beginner Plus business free-will mode",
+    status: "available",
+    route: "/dashboard/profile",
+    summary: "Feed and Profile now expose business-friendly free-will guidance for creators, founders, partners, and new users who need plain-language growth, consent, privacy, and funding guardrails.",
+  },
+  {
     key: "seven-coin-live-readiness",
     label: "Seven-coin live-readiness layer",
     status: "live_readiness_ready",
@@ -145,6 +152,7 @@ const freeWillEnhancement = {
 const upgradeTrackSchema = z.enum(["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"]);
 const creationTrackSchema = z.enum(["creator-launch-studio", "ico-launchpad", "whitepaper-pipeline", "wallet-provider-adapters", "ai-knowledge-scan", "settlement-review-ops"]);
 const beginnerFreeWillActionSchema = z.enum(["learn-basics", "review-safe-defaults", "enable-guided-confirmations", "open-privacy-checkup", "queue-first-upgrade"]);
+const beginnerPlusBusinessActionSchema = z.enum(["publish-guided-post", "review-profile-trust", "build-business-offer", "queue-creator-monetization", "open-partner-path"]);
 
 const beginnerFreeWillMode = {
   title: "Beginner Mode: Free-Will Enhancement Guide",
@@ -181,6 +189,51 @@ const beginnerFreeWillMode = {
     "Queue upgrades as review intents instead of bypassing provider gates or compliance checks.",
   ],
   upgradePath: ["Beginner Mode", "Guided Mode", "Advanced Review Mode", "Provider-Approved Live Mode"],
+} as const;
+
+const beginnerPlusBusinessMode = {
+  title: "Beginner Plus: Business Free-Will Enhancement Mode",
+  version: "v1.3 feed-profile beta",
+  status: "feed-profile-guidance-ready",
+  audience: "creators, founders, small-business users, partners, ICO community members, and beginners ready for practical business guidance without losing user agency",
+  plainLanguagePromise:
+    "Beginner Plus translates growth, posting, profile trust, offers, partner paths, creator monetization, and seven-coin readiness into guided choices that the user can accept, skip, revise, or queue for review.",
+  businessPrinciples: [
+    "Users own the decision: the app can suggest copy, offers, and next steps, but publishing, payments, identity claims, and monetization remain confirm-first.",
+    "Business growth guidance must be honest about beta ledgers, provider-gated crypto rails, Stripe test posture, and review queues.",
+    "Profile trust should be built with clear disclosures, verification posture, portfolio context, and privacy boundaries rather than forced oversharing.",
+    "Feed prompts should encourage useful creator and business posts while reminding users not to publish private, financial, or legal claims they have not reviewed.",
+  ],
+  feedGuidance: [
+    { key: "guided-compose", label: "Guided business post composer", route: "/dashboard/social", description: "Prompts users to choose audience, purpose, disclosure, and confirmation before publishing business or crypto content." },
+    { key: "creator-proof", label: "Creator proof and offer clarity", route: "/dashboard/social", description: "Encourages posts that explain the offer, evidence, risk boundaries, and next action without promising guaranteed financial results." },
+    { key: "community-safety", label: "Community safety reminders", route: "/dashboard/social", description: "Highlights privacy, scam-awareness, and review-first rules for posts involving payments, ICOs, or seven-coin rails." },
+  ],
+  profileGuidance: [
+    { key: "trust-profile", label: "Trust profile checklist", route: "/dashboard/profile", description: "Helps users present identity, projects, wallet-readiness, creator badges, and business links with clear verification and privacy posture." },
+    { key: "business-readiness", label: "Business readiness scorecard", route: "/dashboard/profile", description: "Summarizes free-will controls, profile trust, feed readiness, partner path, creator monetization, and seven-coin disclosure status." },
+    { key: "monetization-review", label: "Creator monetization review", route: "/dashboard/profile", description: "Queues offers, tips, ICO promotion, marketplace listings, and partner proposals for review before production monetization." },
+  ],
+  businessThoughtProcess: [
+    { step: 1, title: "Clarify the user's goal", prompt: "Is the user trying to learn, publish, sell, fund, partner, or monetize?" },
+    { step: 2, title: "Choose the safest path", prompt: "Can the action stay as a draft, beta-ledger event, or reviewed intent before any live-money or public claim?" },
+    { step: 3, title: "Explain tradeoffs", prompt: "Show privacy, trust, payment, provider-gate, and reputational implications in plain language." },
+    { step: 4, title: "Ask for consent", prompt: "Require explicit confirmation before publishing, funding, accepting payment, or claiming verification." },
+    { step: 5, title: "Measure and improve", prompt: "Use feed engagement, profile trust, partner readiness, and settlement review status to guide the next upgrade." },
+  ],
+  beginnerPlusActions: [
+    { key: "publish-guided-post", label: "Draft or publish a guided business post", route: "/dashboard/social", reviewRequired: false },
+    { key: "review-profile-trust", label: "Review profile trust and privacy posture", route: "/dashboard/profile", reviewRequired: false },
+    { key: "build-business-offer", label: "Build a clear creator or business offer", route: "/dashboard/profile", reviewRequired: true },
+    { key: "queue-creator-monetization", label: "Queue creator monetization review", route: "/dashboard/profile", reviewRequired: true },
+    { key: "open-partner-path", label: "Open partner and business growth path", route: "/dashboard/partner", reviewRequired: true },
+  ],
+  guardrails: [
+    "Beginner Plus can guide business decisions, but it must not auto-publish, auto-charge, auto-invest, or auto-verify without user confirmation.",
+    "Financial, ICO, trading, tipping, and seven-coin claims must disclose beta-ledger and provider-gated status until production providers are approved.",
+    "Business copy must avoid guaranteed profit, guaranteed investment returns, or unsupported legal/compliance claims.",
+    "Profile trust signals are product UX indicators unless a separate identity, partner, or compliance provider verifies them.",
+  ],
 } as const;
 
 const creationInfrastructure = [
@@ -296,13 +349,15 @@ function buildInstantKnowledgeScan() {
       { rank: 1, key: "provider-gated-live-crypto", label: "Live seven-coin provider readiness", impact: "critical", action: "Expose live-readiness states for SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT while keeping irreversible settlement gated." },
       { rank: 2, key: "free-will-controls", label: "Free-will and user-agency controls", impact: "critical", action: "Keep consent, reversibility, AI confirmation boundaries, data export, and privacy controls visible in Settings and ICO surfaces." },
       { rank: 3, key: "beginner-free-will-mode", label: "Beginner Mode for free-will enhancements", impact: "critical", action: "Make free-will controls understandable through plain-language explainers, safe defaults, guided confirmations, privacy checkups, and reviewed upgrade intents." },
-      { rank: 4, key: "creation-infrastructure", label: "Creation and launch infrastructure", impact: "high", action: "Unify creator launch, whitepaper, ICO, wallet, marketplace, AI scan, and settlement-review tracks." },
-      { rank: 5, key: "funding-transparency", label: "ICO and funding transparency", impact: "high", action: "Keep quotes, discounts, token allocations, Stripe test status, crypto rail readiness, and admin review surfaced." },
-      { rank: 6, key: "settlement-ops", label: "Settlement and admin review operations", impact: "high", action: "Preserve database-backed review queues across mining, staking, swaps, trades, tips, casino beta, and ICO funding." },
+      { rank: 4, key: "beginner-plus-business-mode", label: "Beginner Plus business guidance", impact: "high", action: "Wire Feed and Profile with business-safe prompts, trust profile checks, creator monetization review, and user-confirmed publishing guidance." },
+      { rank: 5, key: "creation-infrastructure", label: "Creation and launch infrastructure", impact: "high", action: "Unify creator launch, whitepaper, ICO, wallet, marketplace, AI scan, and settlement-review tracks." },
+      { rank: 6, key: "funding-transparency", label: "ICO and funding transparency", impact: "high", action: "Keep quotes, discounts, token allocations, Stripe test status, crypto rail readiness, and admin review surfaced." },
+      { rank: 7, key: "settlement-ops", label: "Settlement and admin review operations", impact: "high", action: "Preserve database-backed review queues across mining, staking, swaps, trades, tips, casino beta, and ICO funding." },
     ],
     platformAreas,
     freeWillEnhancement,
     beginnerFreeWillMode,
+    beginnerPlusBusinessMode,
     creationInfrastructure,
     sevenCoinLiveReadiness,
     providerGates: [
@@ -391,6 +446,13 @@ function buildWhitepaper() {
         beginnerMode: beginnerFreeWillMode,
       },
       {
+        id: "beginner-plus-business-mode",
+        heading: "Beginner Plus business free-will mode",
+        body:
+          "Beginner Plus extends guided autonomy into Feed and Profile business workflows so creators, founders, and partners can draft posts, strengthen trust, queue monetization, and understand provider-gated payment boundaries before public or live-money actions.",
+        beginnerPlus: beginnerPlusBusinessMode,
+      },
+      {
         id: "guardrails",
         heading: "Production guardrails",
         body:
@@ -427,8 +489,10 @@ export const platformRouter = router({
     checkoutRoute: "/dashboard/checkout",
     freeWillEnhancementRoute: "/dashboard/ico#free-will-upgrade",
     beginnerFreeWillRoute: "/dashboard/settings",
+    beginnerPlusBusinessRoute: "/dashboard/profile",
     instantKnowledgeScanRoute: "/dashboard/settings",
     sevenCoinLiveReadiness,
+    beginnerPlusBusinessMode,
     creationInfrastructure,
     generatedAt: new Date().toISOString(),
   })),
@@ -455,6 +519,11 @@ export const platformRouter = router({
 
   beginnerFreeWillMode: publicProcedure.query(() => ({
     ...beginnerFreeWillMode,
+    generatedAt: new Date().toISOString(),
+  })),
+
+  beginnerPlusBusinessMode: publicProcedure.query(() => ({
+    ...beginnerPlusBusinessMode,
     generatedAt: new Date().toISOString(),
   })),
 
@@ -520,6 +589,32 @@ export const platformRouter = router({
         safeDefaults: beginnerFreeWillMode.safeDefaults,
         nextMode: input.action === "queue-first-upgrade" ? "guided-upgrade-review" : "beginner-guided-learning",
         reviewRequired: input.action === "queue-first-upgrade",
+      };
+    }),
+
+  createBeginnerPlusBusinessIntent: protectedProcedure
+    .input(z.object({ action: beginnerPlusBusinessActionSchema, acceptBusinessGuidance: z.boolean(), note: z.string().max(500).optional() }))
+    .mutation(({ ctx, input }) => {
+      if (!input.acceptBusinessGuidance) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Accept the Beginner Plus business guidance, user-confirmation, privacy, and provider-gated terms before queuing this action." });
+      }
+
+      const action = beginnerPlusBusinessMode.beginnerPlusActions.find((item) => item.key === input.action);
+      if (!action) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown Beginner Plus business action." });
+      }
+
+      return {
+        success: true,
+        intentId: `BEGINNER-PLUS-${Date.now().toString(36).toUpperCase()}`,
+        userId: ctx.user.id,
+        action,
+        note: input.note ?? null,
+        status: action.reviewRequired ? "queued-for-business-and-creator-review" : "queued-for-guided-user-review",
+        reviewRequired: action.reviewRequired,
+        feedGuidance: beginnerPlusBusinessMode.feedGuidance,
+        profileGuidance: beginnerPlusBusinessMode.profileGuidance,
+        guardrails: beginnerPlusBusinessMode.guardrails,
       };
     }),
 

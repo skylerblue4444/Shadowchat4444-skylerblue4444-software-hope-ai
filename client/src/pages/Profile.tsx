@@ -45,6 +45,19 @@ export default function Profile() {
   const { data: user } = trpc.auth.me.useQuery();
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"activity" | "badges" | "nfts" | "stats">("activity");
+  const { data: beginnerPlus } = trpc.platform.beginnerPlusBusinessMode.useQuery();
+  const beginnerPlusIntent = trpc.platform.createBeginnerPlusBusinessIntent.useMutation({
+    onSuccess: (result) => toast.success(`Beginner Plus queued: ${result.action.label}`),
+    onError: (error) => toast.error(error.message),
+  });
+
+  const queueBeginnerPlusAction = (action: "review-profile-trust" | "build-business-offer" | "queue-creator-monetization", note: string) => {
+    beginnerPlusIntent.mutate({
+      action,
+      acceptBusinessGuidance: true,
+      note,
+    });
+  };
 
   const copyAddress = () => {
     navigator.clipboard.writeText("0xSKY4444...ABCD");
@@ -126,6 +139,65 @@ export default function Profile() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Beginner Plus Business Free-Will Profile Guidance */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="lg:col-span-2 border-blue-500/20 bg-gradient-to-br from-blue-950/25 to-cyan-950/10">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Shield className="h-4 w-4 text-blue-400" />
+              Beginner Plus profile trust mode
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {beginnerPlus?.plainLanguagePromise ?? "Beginner Plus helps business users strengthen profile trust, explain offers clearly, protect privacy, and keep publishing or monetization actions user-confirmed."}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {(beginnerPlus?.profileGuidance ?? []).map((item: { key: string; label: string; description: string }) => (
+                <div key={item.key} className="rounded-xl border border-blue-500/10 bg-blue-500/5 p-3">
+                  <p className="text-sm font-semibold text-blue-300">{item.label}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-1">{item.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <Button variant="outline" className="justify-start" disabled={beginnerPlusIntent.isPending} onClick={() => queueBeginnerPlusAction("review-profile-trust", "Profile user requested Beginner Plus trust and privacy review.")}>
+                <CheckCircle className="h-4 w-4 mr-2 text-green-400" />Review trust
+              </Button>
+              <Button variant="outline" className="justify-start" disabled={beginnerPlusIntent.isPending} onClick={() => queueBeginnerPlusAction("build-business-offer", "Profile user requested a clear business offer draft with provider-gated payment disclosures.")}>
+                <BarChart2 className="h-4 w-4 mr-2 text-cyan-400" />Build offer
+              </Button>
+              <Button variant="outline" className="justify-start" disabled={beginnerPlusIntent.isPending} onClick={() => queueBeginnerPlusAction("queue-creator-monetization", "Profile user requested creator monetization review before live payment activation.")}>
+                <Coins className="h-4 w-4 mr-2 text-yellow-400" />Monetization review
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-950/20 to-blue-950/10">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Globe className="h-4 w-4 text-purple-400" />
+              Business thought process
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {(beginnerPlus?.businessThoughtProcess ?? []).slice(0, 4).map((step: { step: number; title: string; prompt: string }) => (
+              <div key={step.step} className="flex gap-2">
+                <Badge variant="outline" className="h-6 min-w-6 justify-center text-[10px]">{step.step}</Badge>
+                <div>
+                  <p className="text-xs font-semibold">{step.title}</p>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{step.prompt}</p>
+                </div>
+              </div>
+            ))}
+            <div className="rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-3 text-xs text-yellow-200 leading-relaxed">
+              Live-money, identity verification, and creator monetization remain review-first and provider-gated until production providers are approved.
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Tabs */}
