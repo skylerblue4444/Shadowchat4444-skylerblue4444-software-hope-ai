@@ -1,5 +1,4 @@
 import React, { Suspense, lazy } from 'react';
-import { ShadowRoutes } from './routes/ShadowRoutes';
 import { Switch, Route } from 'wouter';
 import { Toaster } from 'sonner';
 import DashboardLayout from './components/DashboardLayout';
@@ -38,6 +37,10 @@ const Checkout       = lazy(() => import('./pages/Checkout'));
 const LiveStream     = lazy(() => import('./pages/LiveStream'));
 const CommunityBoards = lazy(() => import('./pages/CommunityBoards'));
 const Staking        = lazy(() => import('./pages/Staking'));
+const MiningDashboard = lazy(() => import('./pages/mining/SkyLuxMiningDashboard'));
+const PolishedCasino = lazy(() => import('./pages/Polished_Casino'));
+const PolishedDating = lazy(() => import('./pages/Polished_Dating'));
+const PolishedLiveStream = lazy(() => import('./pages/Polished_LiveStream'));
 const WalletPage     = lazy(() => import('./pages/Wallet'));
 const Profile        = lazy(() => import('./pages/Profile'));
 const ICOHub         = lazy(() => import('./pages/ICOHub'));
@@ -163,6 +166,7 @@ function DashboardRoutes() {
           <Route path="/dashboard/quantum-vault"    component={QuantumVault} />
           <Route path="/dashboard/api-vault"        component={APIVault} />
           <Route path="/dashboard/staking"          component={Staking} />
+          <Route path="/dashboard/mining"           component={MiningDashboard} />
           <Route path="/dashboard/pay"              component={ShadowPay} />
 
           {/* ICO & Launchpad */}
@@ -180,7 +184,8 @@ function DashboardRoutes() {
           <Route path="/dashboard/metaverse"        component={MetaverseHub} />
           <Route path="/dashboard/virtual-land"     component={VirtualLand} />
           <Route path="/dashboard/avatar"           component={AvatarBuilder} />
-          <Route path="/dashboard/games"            component={GameCenter} />
+          <Route path="/dashboard/game-center"     component={GameCenter} />
+          <Route path="/dashboard/casino"          component={PolishedCasino} />
 
           {/* Social & Community */}
           <Route path="/dashboard/social"           component={ShadowSocial} />
@@ -196,6 +201,8 @@ function DashboardRoutes() {
           {/* Media & Content */}
           <Route path="/dashboard/tv"               component={ShadowTV} />
           <Route path="/dashboard/live"             component={LiveStream} />
+          <Route path="/dashboard/live-polished"    component={PolishedLiveStream} />
+
           <Route path="/dashboard/video"            component={VideoFeed} />
           <Route path="/dashboard/watch-party"      component={WatchParty} />
           <Route path="/dashboard/podcast"          component={Podcast} />
@@ -238,6 +245,8 @@ function DashboardRoutes() {
           {/* Analytics & Profile */}
           <Route path="/dashboard/analytics"        component={Analytics} />
           <Route path="/dashboard/profile"          component={Profile} />
+          <Route path="/dashboard/dating"           component={PolishedDating} />
+
           <Route path="/dashboard/settings"         component={Settings} />
           <Route path="/dashboard/onboarding"       component={Onboarding} />
 
@@ -269,8 +278,6 @@ function DashboardRoutes() {
           <Route path="/dashboard/admin/settings"       component={AdminSettings} />
           <Route path="/dashboard/admin/world-leader"   component={WorldLeaderDashboard} />
 
-          {/* ─── All 1481 Shadow pages auto-routed under /dashboard/shadow/* ─── */}
-          <ShadowRoutes />
           <Route component={NotFound} />
         </Switch>
       </Suspense>

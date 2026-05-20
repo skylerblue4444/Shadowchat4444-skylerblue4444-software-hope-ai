@@ -17,6 +17,8 @@ export const users = mysqlTable("users", {
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  /** Demo beta balance used by playground mining, staking, tips, and testnet-style flows. */
+  balance: varchar("balance", { length: 50 }).default("10000").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -105,6 +107,43 @@ export const vaults = mysqlTable("vaults", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+export const stakingPositions = mysqlTable("stakingPositions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  token: varchar("token", { length: 20 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  apy: varchar("apy", { length: 10 }).notNull(),
+  lockedUntil: timestamp("lockedUntil").notNull(),
+  status: mysqlEnum("status", ["active", "complete", "cancelled"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const miningSessions = mysqlTable("miningSessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  coin: varchar("coin", { length: 20 }).notNull(),
+  hashRate: varchar("hashRate", { length: 50 }).notNull().default("0"),
+  blocksFound: int("blocksFound").default(0).notNull(),
+  balance: varchar("balance", { length: 50 }).notNull().default("0"),
+  status: mysqlEnum("status", ["active", "paused", "ended"]).default("active").notNull(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const transactions = mysqlTable("transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  toUserId: int("toUserId").references(() => users.id),
+  type: mysqlEnum("type", ["transfer", "swap", "mining", "staking", "tip", "airdrop", "reward"]).notNull(),
+  token: varchar("token", { length: 20 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  status: mysqlEnum("status", ["pending", "complete", "failed"]).default("complete").notNull(),
+  memo: varchar("memo", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 // API Keys Table
 export const apiKeys = mysqlTable("apiKeys", {
   id: int("id").autoincrement().primaryKey(),
@@ -155,6 +194,9 @@ export type Portfolio = typeof portfolios.$inferSelect;
 export type Post = typeof posts.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type Vault = typeof vaults.$inferSelect;
+export type StakingPosition = typeof stakingPositions.$inferSelect;
+export type MiningSession = typeof miningSessions.$inferSelect;
+export type Transaction = typeof transactions.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type Referral = typeof referrals.$inferSelect;
 export type Leaderboard = typeof leaderboard.$inferSelect;

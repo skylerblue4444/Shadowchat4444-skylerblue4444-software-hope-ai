@@ -21,6 +21,8 @@ import { notificationsRouter } from "./routers/notifications";
 import { daoRouter } from "./routers/dao";
 import { nftMarketplaceRouter } from "./routers/nft-marketplace";
 import { web3Router } from "./routers/web3";
+import { miningRouter } from "./routers/mining";
+import { stakingRouter } from "./routers/staking";
 
 export const appRouter = router({
   system: systemRouter,
@@ -75,6 +77,8 @@ export const appRouter = router({
   dao: daoRouter,
   nftMarketplace: nftMarketplaceRouter,
   web3: web3Router,
+  mining: miningRouter,
+  staking: stakingRouter,
 });
 
 export type AppRouter = typeof appRouter;

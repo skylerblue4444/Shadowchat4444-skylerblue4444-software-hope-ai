@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Play, Square, Zap, Globe, TrendingUp, Award, Users } from 'lucide-react';
+import { Play, Square, Zap, Globe, ShieldCheck } from 'lucide-react';
 
 export default function SkyLuxMiningDashboard() {
   const [isMining, setIsMining] = useState(false);
@@ -44,8 +44,8 @@ export default function SkyLuxMiningDashboard() {
     return () => clearInterval(interval);
   }, [isMining]);
 
-  const blocks = stats.data?.[0]?.blocksFound || 0;
-  const balance = stats.data?.[0]?.balance || 0;
+  const blocks = stats.data?.[0]?.blocksFound ?? 0;
+  const balance = Number(stats.data?.[0]?.balance ?? 0);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
@@ -55,9 +55,9 @@ export default function SkyLuxMiningDashboard() {
         <div className="flex justify-between items-end mb-16">
           <div>
             <h1 className="text-7xl font-bold tracking-[-4px] bg-gradient-to-r from-amber-300 to-yellow-400 bg-clip-text text-transparent">SKYLUX MINER</h1>
-            <p className="text-3xl text-amber-400">Global Network • Real Rewards</p>
+            <p className="text-3xl text-amber-400">Beta Mining Playground • Demo/Testnet Rewards</p>
           </div>
-          <Badge className="px-10 py-4 text-xl border-amber-400">LIVE • {globalMiners} MINERS</Badge>
+          <Badge className="px-10 py-4 text-xl border-amber-400">BETA • {globalMiners} SIMULATED MINERS</Badge>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -81,7 +81,7 @@ export default function SkyLuxMiningDashboard() {
                   </div>
                   <div>
                     <div className="text-6xl font-mono text-amber-400">{balance.toFixed(2)}</div>
-                    <div className="text-xl">SKY Earned</div>
+                    <div className="text-xl">Demo SKY Earned</div>
                   </div>
                   <div>
                     <div className="text-6xl font-mono">{hashRate}</div>
@@ -96,7 +96,11 @@ export default function SkyLuxMiningDashboard() {
             <CardContent className="p-16">
               <Globe className="h-20 w-20 mx-auto text-amber-400 mb-8" />
               <div className="text-5xl font-semibold text-center mb-4">Global Impact</div>
-              <div className="text-6xl text-amber-400 text-center">87,420 SKY Donated</div>
+              <div className="text-6xl text-amber-400 text-center">87,420 SKY Demo Donated</div>
+              <div className="mt-8 flex items-center justify-center gap-2 text-sm text-zinc-300">
+                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                Beta mode: no real mining or investment promise.
+              </div>
               <Button className="w-full mt-12 py-10 text-2xl bg-amber-400 hover:bg-amber-500 text-black">View Charity Map</Button>
             </CardContent>
           </Card>
