@@ -85,6 +85,7 @@ const AIImageGen     = lazy(() => import('./pages/AIImageGen'));
 const Spaces         = lazy(() => import('./pages/Spaces'));
 const NFTAnalytics   = lazy(() => import('./pages/NFTAnalytics'));
 const AIChat         = lazy(() => import('./pages/AIChat'));
+const HopeAI         = lazy(() => import('./pages/HopeAI'));
 const SkyBlueITDashboard = lazy(() => import('./pages/SkyBlueITDashboard'));
 const ShadowChatMessaging = lazy(() => import('./pages/ShadowChatMessaging'));
 const Launchpad      = lazy(() => import('./pages/Launchpad'));
@@ -214,6 +215,7 @@ function DashboardRoutes() {
           <Route path="/dashboard/ai"               component={AIToolsHub} />
           <Route path="/dashboard/copilot"          component={AICopilot} />
           <Route path="/dashboard/ai-chat"          component={AIChat} />
+          <Route path="/dashboard/hope-ai"          component={HopeAI} />
           <Route path="/dashboard/ai-image"         component={AIImageGen} />
           <Route path="/dashboard/ai-wealth"        component={AIWealth} />
 

@@ -59,6 +59,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Platform",
     items: [
       { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+      { icon: Brain, label: "Hope AI", path: "/dashboard/hope-ai", badge: "HANDS-FREE", badgeColor: "bg-cyan-600" },
       { icon: Bell, label: "Notifications", path: "/dashboard/notifications", badge: "3", badgeColor: "bg-red-500" },
       { icon: Activity, label: "Analytics", path: "/dashboard/analytics" },
     ],
