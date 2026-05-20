@@ -48,6 +48,18 @@ function formatUsd(value: number | undefined) {
   return `$${Number(value ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 }
 
+function readinessTone(stage: string) {
+  if (stage.includes("live_db")) return "border-emerald-400/30 bg-emerald-400/10 text-emerald-200";
+  if (stage.includes("db_backed")) return "border-lime-400/30 bg-lime-400/10 text-lime-200";
+  if (stage.includes("gated")) return "border-amber-400/30 bg-amber-400/10 text-amber-200";
+  if (stage.includes("adapter") || stage.includes("not_mainnet")) return "border-red-400/30 bg-red-400/10 text-red-200";
+  return "border-slate-400/30 bg-slate-400/10 text-slate-200";
+}
+
+function readinessLabel(stage: string) {
+  return stage.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 export default function HopeAI() {
   const [, navigate] = useLocation();
   const [market, setMarket] = useState<Market>("global");
@@ -66,6 +78,7 @@ export default function HopeAI() {
 
   const mission = trpc.hopeAi.missionControl.useQuery({ market });
   const aiDev = trpc.hopeAi.aiDevSection.useQuery({ market });
+  const productionReadiness = trpc.hopeAi.productionReadiness.useQuery();
 
   const speak = (text: string) => {
     if (muted || typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -95,6 +108,7 @@ export default function HopeAI() {
       if (result?.postId) setPostId(String(result.postId));
       void mission.refetch();
       void aiDev.refetch();
+      void productionReadiness.refetch();
       toast.success(data.resultSummary);
     },
     onError: (error) => toast.error(error.message),
@@ -106,6 +120,7 @@ export default function HopeAI() {
       speak(data.resultSummary);
       void mission.refetch();
       void aiDev.refetch();
+      void productionReadiness.refetch();
       toast.success("Hands-free platform boost shipped");
     },
     onError: (error) => toast.error(error.message),
@@ -117,6 +132,7 @@ export default function HopeAI() {
       speak(data.spokenResponse);
       void mission.refetch();
       void aiDev.refetch();
+      void productionReadiness.refetch();
       if (data.navigation?.route) {
         setLastRoute(data.navigation.route);
         if (autoNavigate) setTimeout(() => navigate(data.navigation.route), 450);
@@ -130,6 +146,11 @@ export default function HopeAI() {
   const walletUsd = useMemo(() => balances.reduce((sum, balance) => sum + Number(balance.usdValue ?? 0), 0), [balances]);
   const topBalances = balances.slice(0, 4);
   const navigationTargets = mission.data?.navigationTargets ?? [];
+  const readiness = productionReadiness.data ?? mission.data?.productionReadiness;
+  const readinessAreas = readiness?.allAreas ?? [];
+  const liveAreas = readiness?.liveDbBackedAreas ?? [];
+  const prepAreas = readiness?.prepStageAreas ?? [];
+  const nextPersistenceTargets = readiness?.nextPersistenceTargets ?? [];
   const voiceSupported = typeof window !== "undefined" && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
   const numericPostId = Number(postId) > 0 ? Number(postId) : undefined;
   const numericTargetUserId = Number(targetUserId) > 0 ? Number(targetUserId) : undefined;
@@ -240,6 +261,32 @@ export default function HopeAI() {
               <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-sm leading-6 text-amber-100">Stripe, real crypto transfers, and on-chain movement remain provider-gated. Hope AI can prepare, log, and explain actions, while production money movement requires configured secrets and intentional rollout.</div>
             </CardContent>
           </Card>
+        </section>
+
+        <section className="rounded-[2rem] border border-emerald-500/20 bg-gradient-to-br from-slate-950 via-emerald-950/20 to-slate-950 p-6 text-white">
+          <div className="mb-5 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+            <div>
+              <Badge className="mb-3 border-emerald-400/30 bg-emerald-400/10 text-emerald-200"><ShieldCheck className="mr-1 h-3.5 w-3.5" /> Production Readiness</Badge>
+              <h2 className="text-3xl font-black tracking-tight">Live persistence map, not mainnet hype.</h2>
+              <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-300">Hope AI now exposes a backend truth map that separates DB-backed platform actions from beta-ledger flows, partial persistence, provider-gated money movement, and adapter-ready wallet-contract work.</p>
+            </div>
+            <Button className="border-0 bg-emerald-500 font-black text-black hover:bg-emerald-400" onClick={() => runVoiceCommand("show production readiness and mainnet status")} disabled={voiceCommand.isPending}><Gauge className="mr-2 h-4 w-4" /> Ask Hope Readiness</Button>
+          </div>
+          <div className="mb-5 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl border border-red-400/25 bg-red-400/10 p-4"><p className="text-xs uppercase tracking-[0.25em] text-red-200">Mainnet</p><p className="mt-1 text-lg font-black text-white">NOT DEPLOYED</p></div>
+            <div className="rounded-2xl border border-amber-400/25 bg-amber-400/10 p-4"><p className="text-xs uppercase tracking-[0.25em] text-amber-200">Wallet Connect</p><p className="mt-1 text-lg font-black text-white">Adapter Ready</p><p className="text-xs text-amber-100">not mainnet</p></div>
+            <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-4"><p className="text-xs uppercase tracking-[0.25em] text-emerald-200">Live / DB-backed</p><p className="mt-1 text-2xl font-black text-white">{liveAreas.length}</p></div>
+            <div className="rounded-2xl border border-violet-400/25 bg-violet-400/10 p-4"><p className="text-xs uppercase tracking-[0.25em] text-violet-200">Prep / gated</p><p className="mt-1 text-2xl font-black text-white">{prepAreas.length}</p></div>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid gap-3 md:grid-cols-2">
+              {readinessAreas.map((area) => <Card key={area.area} className="border-white/10 bg-black/20 text-white"><CardContent className="p-4"><div className="mb-3 flex flex-wrap items-center justify-between gap-2"><p className="font-black">{area.area}</p><Badge className={readinessTone(area.stage)}>{readinessLabel(area.stage)}</Badge></div><p className="text-sm leading-6 text-slate-300">{area.userPromise}</p><p className="mt-3 text-xs leading-5 text-slate-500">Persistence: {area.persistence}</p><div className="mt-3 flex flex-wrap gap-2">{area.controls.slice(0, 4).map((control) => <span key={control} className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-slate-300">{control}</span>)}</div></CardContent></Card>)}
+            </div>
+            <Card className="border-amber-400/20 bg-amber-400/5 text-white">
+              <CardHeader><CardTitle className="flex items-center gap-2"><Rocket className="h-5 w-5 text-amber-200" /> Next persistence targets</CardTitle></CardHeader>
+              <CardContent className="space-y-3">{nextPersistenceTargets.map((target) => <div key={target} className="rounded-2xl border border-amber-400/20 bg-black/20 p-3 text-sm leading-6 text-amber-50">{target}</div>)}<div className="rounded-2xl border border-red-400/20 bg-red-400/5 p-3 text-sm leading-6 text-red-100">Real money movement stays behind provider configuration and environment secrets. Hope AI may plan and log adapter work, but this UI does not claim mainnet deployment.</div></CardContent>
+            </Card>
+          </div>
         </section>
 
         <section className="rounded-[2rem] border border-fuchsia-500/20 bg-gradient-to-br from-slate-950 via-fuchsia-950/20 to-slate-950 p-6 text-white">

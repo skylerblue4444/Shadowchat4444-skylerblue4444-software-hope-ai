@@ -111,6 +111,34 @@ const defaultPlan: PlannedAction[] = [
   { key: "protect_trust", label: "Run trust and safety checklist", labelZh: "执行信任与安全检查清单", description: "Keep live money movement, payment processing, and external transfers behind secure provider configuration.", confidence: 0.97 },
 ];
 
+const productionReadinessMatrix = [
+  { area: "Hope AI command center", stage: "live_db_backed", controls: ["voiceCommand", "quickAction", "runHandsFreeBoost", "missionControl"], persistence: "hopeAiActionRuns plus feed, livestream, marketplace, and interaction tables", userPromise: "Hope AI can plan, route, log, and execute safe platform actions from authenticated user context." },
+  { area: "Mining", stage: "db_backed_needs_full_wallet_settlement", controls: ["mining.startMining", "mining.stopMining", "mining.recordBlockFound", "web3.mineBlock"], persistence: "mining session and web3 beta-ledger records", userPromise: "Mining state can be tracked now; next sprint must connect every mining reward into final wallet settlement and audit views." },
+  { area: "Staking", stage: "db_backed_partial_flow", controls: ["staking.listPools", "staking.stake"], persistence: "staking pool/user stake records", userPromise: "Stake creation is available; unstake, reward accrual, and payout ledgers remain the next production gap." },
+  { area: "Trading and swaps", stage: "beta_ledger_live_onchain_gated", controls: ["web3.tradeCoin", "web3.executeSwap", "web3.swapQuote", "web3.executeUniversalCryptoAction"], persistence: "multi-coin beta ledger and transaction metadata", userPromise: "Internal beta exchange logic is callable; external liquidity and mainnet settlement stay disabled until providers/contracts are configured." },
+  { area: "Payments, tips, burns, escrow", stage: "beta_ledger_live_onchain_gated", controls: ["web3.payWithCoin", "web3.tipCreator", "web3.burnCoin", "web3.createEscrowHold"], persistence: "multi-coin ledger movements plus marketplace/social records where applicable", userPromise: "Creator and commerce crypto actions can run in the beta ledger; real chain/payment processor release needs deployment keys and compliance review." },
+  { area: "Wallet connect and token contracts", stage: "adapter_ready_not_mainnet", controls: ["web3.smartContractPlan", "wallet UI routing", "contract adapter boundary"], persistence: "configuration and planning payloads only", userPromise: "Hope AI must label these as prepared adapters, not deployed mainnet contracts." },
+  { area: "Marketplace, feed, stream, games", stage: "live_db_backed_beta", controls: ["marketplaceLive", "liveSocial", "games"], persistence: "listings, orders, posts, streams, game sessions/audit payloads", userPromise: "First-user content, creator commerce, streaming, and beta games are active platform modules with beta safety labels." },
+] as const;
+
+function buildProductionReadiness() {
+  return {
+    generatedAt: new Date().toISOString(),
+    truthLabel: "production-control-map",
+    mainnetDeployment: "not_deployed",
+    walletConnect: "adapter_ready_not_connected_to_mainnet",
+    liveDbBackedAreas: productionReadinessMatrix.filter((item) => item.stage.includes("live_db") || item.stage.includes("db_backed")),
+    prepStageAreas: productionReadinessMatrix.filter((item) => item.stage.includes("adapter") || item.stage.includes("gated") || item.stage.includes("partial")),
+    allAreas: productionReadinessMatrix,
+    nextPersistenceTargets: [
+      "Finish mining reward settlement into wallet transaction history for every mining flow.",
+      "Finish staking unstake, reward accrual, compounding, and payout ledger entries.",
+      "Add durable trade orders, fills, slippage records, and admin risk controls instead of only instant beta swaps.",
+      "Connect wallet-connect UI to a provider-gated contract adapter without claiming mainnet release.",
+    ],
+  };
+}
+
 function summarizeIntent(intent: string, market: Market) {
   const trimmed = intent.trim().replace(/\s+/g, " ").slice(0, 160);
   return trimmed || `Hope AI hands-free ${marketCopy[market].name} growth sprint`;
@@ -275,7 +303,8 @@ export const hopeAiRouter = router({
       navigationTargets,
       voiceExamples: ["Hope, go to marketplace", "Open livestream studio", "Post a Hope AI founder update", "Tip creator 144 SKY4444", "Like post 1", "带我去市场"],
       recommendedActions: buildPlan("hands-free Hope AI sprint", market, "hands_free"),
-      productionGate: { liveMoneyMovement: "provider_config_required", stripe: "test_mode_or_env_secret_required", cryptoTransfers: "beta_ledger_enabled_real_onchain_gated" },
+      productionReadiness: buildProductionReadiness(),
+      productionGate: { liveMoneyMovement: "provider_config_required", stripe: "test_mode_or_env_secret_required", cryptoTransfers: "beta_ledger_enabled_real_onchain_gated", mainnetDeployment: "not_deployed", walletConnect: "adapter_ready_not_mainnet" },
     };
   }),
 
@@ -296,6 +325,7 @@ export const hopeAiRouter = router({
         { label: "Recorded Hope AI runs", value: `${latestRuns.length}`, detail: "Recent planned, completed, and blocked automations are retained for audit-style review." },
         { label: "Wallet visibility", value: `$${walletUsdTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}`, detail: "Estimated beta-ledger value across the currently configured account balances." },
         { label: "Market stance", value: marketCopy[market].zhName, detail: marketCopy[market].positioning },
+        { label: "Production truth map", value: `${productionReadinessMatrix.length} areas`, detail: "Hope AI now labels DB-backed, beta-ledger, partial, provider-gated, and not-mainnet features separately so operators do not confuse prep-stage work with deployment." },
       ],
       innovationHighlights: [
         "Natural-language voice commands map to product routes or safe quick actions instead of leaving users stranded in static dashboards.",
@@ -305,16 +335,25 @@ export const hopeAiRouter = router({
       ],
       technicalStack: ["Vite + React + TypeScript mission-control frontend", "tRPC protected procedures with authenticated user context", "Drizzle ORM persistence for audit runs, marketplace listings, live streams, feed interactions, and dating actions", "Multi-coin beta ledger service with SKY4444 and SHADOW support", "Provider-gated Stripe/on-chain production controls for responsible rollout"],
       safetyArchitecture: ["Real-money movement stays behind provider configuration and environment secrets.", "On-chain transfers remain disabled until a production blockchain provider is intentionally configured.", "Admin review actions require admin or god-mode role checks.", "Voice commands that lack required IDs return a clear blocked state instead of guessing unsafe targets."],
-      nextBuildMoves: ["Wire browser Web Speech API input and SpeechSynthesis output to voiceCommand.", "Add a route-launch panel that calls navigationIntent and lets users jump to marketplace, dating, livestream, wallet, and admin.", "Surface AI development metrics as a founder-grade showcase section for investors, partners, and operators."],
+            nextBuildMoves: buildProductionReadiness().nextPersistenceTargets,
+      productionReadiness: buildProductionReadiness(),
     };
   }),
-
+  productionReadiness: protectedProcedure.query(async () => {
+    return buildProductionReadiness();
+  }),
   navigationIntent: protectedProcedure.input(z.object({ command: z.string().min(1).max(500), market: marketSchema.default("global") })).query(async ({ input }) => {
     const navigation = resolveNavigationIntent(input.command) ?? resolveNavigationIntent("hope ai");
     return { success: true, market: marketCopy[input.market], navigation, spokenResponse: navigation?.spokenResponse ?? "Opening Hope AI Mission Control.", allTargets: navigationTargets };
   }),
 
   voiceCommand: protectedProcedure.input(z.object({ command: z.string().min(1).max(1200), market: marketSchema.default("global"), mode: modeSchema.default("hands_free"), execute: z.boolean().default(true), content: z.string().max(4000).optional(), postId: z.number().int().positive().optional(), targetUserId: z.number().int().positive().optional(), listingId: z.number().int().positive().optional(), amount: z.number().positive().max(1_000_000).optional(), coin: coinSchema.default("SKY4444") })).mutation(async ({ ctx, input }) => {
+    const readiness = buildProductionReadiness();
+    if (/readiness|production|mainnet|wallet connect|wallet-connect|contract|persistent|persistence|live db|staking|mining|trading/i.test(input.command)) {
+      const resultSummary = "Hope AI production-control map returned: DB-backed flows are separated from beta-ledger, partial, provider-gated, and not-mainnet areas.";
+      const actionRunId = await recordAction({ userId: ctx.user.id, mode: input.mode, market: input.market, intent: input.command, status: "completed", actions: [{ action: "production_readiness", result: readiness }], resultSummary, nextSteps: readiness.nextPersistenceTargets });
+      return { success: true, intentType: "production_readiness" as const, needsInput: false, actionRunId, navigation: null, action: null, resultSummary, result: readiness, spokenResponse: "Production readiness opened. Mainnet is not deployed; wallet connect is adapter-ready; mining, staking, and trading persistence remain the next backend targets." };
+    }
     const navigation = resolveNavigationIntent(input.command);
     const action = inferQuickAction(input.command);
     const commandLooksNavigational = /\b(go|open|navigate|show|take me|bring me|launch|switch|route)\b/i.test(input.command) || /打开|前往|进入|导航/.test(input.command);
