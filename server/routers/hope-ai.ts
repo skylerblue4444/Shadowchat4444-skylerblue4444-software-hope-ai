@@ -3,7 +3,7 @@ import { eq, desc } from "drizzle-orm";
 import { router, protectedProcedure, TRPCError } from "../_core/trpc";
 import { getDb, createTrade, sendMessage } from "../db";
 import { hopeVoiceCommands } from "../../drizzle/schema";
-import { generateTradingSignal, HOPE_ACTION_CATALOG, parseHopeCommand } from "../services/hope-ai";
+import { getProactiveSuggestions, generateTradingSignal, HOPE_ACTION_CATALOG, parseHopeCommand, planCommandChain, planMission } from "../services/hope-ai";
 
 const intentSchema = z.enum([
   "navigate",
@@ -16,6 +16,9 @@ const intentSchema = z.enum([
   "beginner_mode",
   "hands_free_mode",
   "workflow_guide",
+  "mission_plan",
+  "command_chain",
+  "proactive_suggest",
   "unknown",
 ]);
 
@@ -42,6 +45,10 @@ const commandPayloadSchema = z.object({
   mode: z.enum(["beginner", "pro", "guardian"]).optional(),
   actionLabel: z.string().optional(),
   safetyLevel: z.enum(["safe", "confirm", "blocked"]).optional(),
+  goal: z.string().optional(),
+  missionId: z.string().optional(),
+  chainCommands: z.array(z.string()).optional(),
+  plannedStepCount: z.number().optional(),
 });
 
 export const hopeAiRouter = router({
@@ -79,6 +86,57 @@ export const hopeAiRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { intent, payload, confirmed } = input;
       const db = await getDb();
+
+      if (intent === "mission_plan") {
+        const mission = planMission(payload.goal ?? payload.raw, payload.mode ?? "guardian");
+        return {
+          status: "executed" as const,
+          action: "mission_plan" as const,
+          mission,
+          path: "/dashboard/hope-ai",
+          spokenResponse: `${mission.summary} Mission board is ready with ${mission.steps.length} steps. I will pause at every confirmation gate.`,
+          displayCards: input.displayCards ?? mission.steps.map((missionStep) => ({
+            title: missionStep.title,
+            body: missionStep.description,
+            action: missionStep.voicePrompt,
+            path: missionStep.path,
+          })),
+        };
+      }
+
+      if (intent === "command_chain") {
+        const chain = planCommandChain(payload.raw);
+        return {
+          status: "executed" as const,
+          action: "command_chain_staged" as const,
+          mission: chain,
+          path: "/dashboard/hope-ai",
+          spokenResponse: `Command chain staged with ${chain.steps.length} steps. Safe steps can continue hands-free; risky steps remain locked behind confirmation.`,
+          displayCards: input.displayCards ?? chain.steps.map((chainStep) => ({
+            title: chainStep.title,
+            body: chainStep.description,
+            action: chainStep.voicePrompt,
+            path: chainStep.path,
+          })),
+        };
+      }
+
+      if (intent === "proactive_suggest") {
+        const suggestions = getProactiveSuggestions({ currentPath: payload.path, mode: payload.mode });
+        return {
+          status: "executed" as const,
+          action: "proactive_suggestions" as const,
+          suggestions,
+          path: payload.path ?? "/dashboard/hope-ai",
+          spokenResponse: "I found safe next-step suggestions. Choose one and I can turn it into a mission.",
+          displayCards: input.displayCards ?? suggestions.map((suggestion) => ({
+            title: suggestion.title,
+            body: suggestion.body,
+            action: `Say: ${suggestion.command}`,
+            path: suggestion.path,
+          })),
+        };
+      }
 
       if (["beginner_mode", "hands_free_mode", "workflow_guide", "explain"].includes(intent)) {
         return {
@@ -235,6 +293,60 @@ export const hopeAiRouter = router({
         spokenResponse: "I could not execute that command yet. Try beginner mode for guided examples.",
         displayCards: input.displayCards ?? [],
       };
+    }),
+
+
+  planMission: protectedProcedure
+    .input(z.object({
+      goal: z.string().min(1).max(1200),
+      mode: z.enum(["beginner", "pro", "guardian"]).default("guardian"),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const mission = planMission(input.goal, input.mode);
+      const db = await getDb();
+
+      if (db) {
+        await db.insert(hopeVoiceCommands).values({
+          userId: ctx.user.id,
+          transcript: input.goal,
+          intent: "mission_plan",
+          payload: JSON.stringify({ missionId: mission.id, goal: mission.goal, plannedStepCount: mission.steps.length }),
+          status: "parsed",
+          response: mission.summary,
+        });
+      }
+
+      return mission;
+    }),
+
+  planCommandChain: protectedProcedure
+    .input(z.object({ transcript: z.string().min(1).max(1200) }))
+    .mutation(async ({ ctx, input }) => {
+      const chain = planCommandChain(input.transcript);
+      const db = await getDb();
+
+      if (db) {
+        await db.insert(hopeVoiceCommands).values({
+          userId: ctx.user.id,
+          transcript: input.transcript,
+          intent: "command_chain",
+          payload: JSON.stringify({ missionId: chain.id, goal: chain.goal, plannedStepCount: chain.steps.length }),
+          status: "parsed",
+          response: chain.summary,
+        });
+      }
+
+      return chain;
+    }),
+
+  getProactiveSuggestions: protectedProcedure
+    .input(z.object({
+      currentPath: z.string().optional(),
+      mode: z.enum(["beginner", "pro", "guardian"]).optional(),
+      recentIntent: intentSchema.optional(),
+    }).optional())
+    .query(({ input }) => {
+      return getProactiveSuggestions(input ?? {});
     }),
 
   recentCommands: protectedProcedure

@@ -9,6 +9,9 @@ export type HopeIntent =
   | "beginner_mode"
   | "hands_free_mode"
   | "workflow_guide"
+  | "mission_plan"
+  | "command_chain"
+  | "proactive_suggest"
   | "unknown";
 
 export type HopeMode = "beginner" | "pro" | "guardian";
@@ -28,6 +31,10 @@ export type HopeCommandPayload = {
   mode?: HopeMode;
   actionLabel?: string;
   safetyLevel?: "safe" | "confirm" | "blocked";
+  goal?: string;
+  missionId?: string;
+  chainCommands?: string[];
+  plannedStepCount?: number;
   raw: string;
 };
 
@@ -43,6 +50,39 @@ export type ParsedHopeCommand = {
     action?: string;
     path?: string;
   }>;
+};
+
+export type HopeMissionStep = {
+  id: string;
+  title: string;
+  description: string;
+  intent: HopeIntent;
+  path?: string;
+  safetyLevel: "safe" | "confirm" | "blocked";
+  requiresConfirmation: boolean;
+  voicePrompt: string;
+  status: "queued" | "ready" | "needs_confirmation";
+};
+
+export type HopeMissionPlan = {
+  id: string;
+  goal: string;
+  summary: string;
+  mode: HopeMode;
+  estimatedMinutes: number;
+  safetyNotice: string;
+  steps: HopeMissionStep[];
+  suggestedVoiceCommands: string[];
+};
+
+export type HopeProactiveSuggestion = {
+  id: string;
+  title: string;
+  body: string;
+  command: string;
+  path?: string;
+  priority: "low" | "medium" | "high";
+  safetyLevel: "safe" | "confirm" | "blocked";
 };
 
 export type HopeActionCatalogItem = {
@@ -201,6 +241,56 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     beginnerTip: "Use settings to adjust your account. Hope will not change sensitive settings without confirmation.",
     examples: ["Open settings", "Go to profile", "Show security"],
   },
+  {
+    id: "ico",
+    label: "SKY4444 ICO Hub",
+    aliases: ["ico", "fundraise", "fundraising", "invest", "token sale", "coin launch", "raise capital"],
+    path: "/dashboard/ico",
+    description: "ICO readiness hub with fundraising planning, disclosures, allocation tracking, and admin review workflows.",
+    category: "builder",
+    beginnerTip: "Use the ICO hub to prepare compliant fundraising materials. Hope will never promise returns or bypass legal review.",
+    examples: ["Open ICO hub", "Plan my token launch", "Help me prepare fundraising"],
+  },
+  {
+    id: "casino",
+    label: "Charity Casino Playground",
+    aliases: ["casino", "game", "games", "charity casino", "slots", "blackjack"],
+    path: "/dashboard/casino",
+    description: "Entertainment-only casino layer designed for charity-directed proceeds, disclosures, limits, and auditability.",
+    category: "community",
+    beginnerTip: "Casino workflows must remain charity-only, jurisdiction-aware, and admin controlled.",
+    examples: ["Open charity casino", "Explain casino rules", "Show charity safeguards"],
+  },
+  {
+    id: "charity",
+    label: "Charity Hub",
+    aliases: ["charity", "donation", "donations", "nonprofit", "give", "impact"],
+    path: "/dashboard/charity",
+    description: "Charity destination, impact reporting, and donation workflow center.",
+    category: "community",
+    beginnerTip: "Use the charity hub to review where proceeds go before any campaign or game is enabled.",
+    examples: ["Open charity hub", "Show donation impact", "Plan charity flow"],
+  },
+  {
+    id: "compliance",
+    label: "Compliance Center",
+    aliases: ["compliance", "kyc", "aml", "legal", "risk controls", "admin compliance"],
+    path: "/dashboard/admin/compliance",
+    description: "Admin compliance center for disclosures, review queues, and safety controls.",
+    category: "safety",
+    beginnerTip: "Use compliance controls before launching fundraising, payments, crypto, or casino features.",
+    examples: ["Open compliance", "Review legal checklist", "Show risk controls"],
+  },
+  {
+    id: "api-vault",
+    label: "API Vault",
+    aliases: ["api vault", "keys", "integrations", "secrets", "environment variables"],
+    path: "/dashboard/api-vault",
+    description: "Integration vault for connector status and environment-variable based configuration.",
+    category: "safety",
+    beginnerTip: "Secrets belong in environment variables only. Hope can explain configuration without exposing keys.",
+    examples: ["Open API vault", "Explain Stripe setup", "Show integration status"],
+  },
 ];
 
 const SYMBOL_ALIASES: Record<string, string> = {
@@ -218,6 +308,11 @@ const SYMBOL_ALIASES: Record<string, string> = {
   solana: "SOL",
   usdt: "USDT",
   tether: "USDT",
+  monero: "XMR",
+  xmr: "XMR",
+  shadow: "SHADOW",
+  "shadow coin": "SHADOW",
+  shadowcoin: "SHADOW",
 };
 
 function firstNumber(text: string): string | undefined {
@@ -235,6 +330,163 @@ function extractSymbol(text: string): string {
 
 function findCatalogItem(text: string): HopeActionCatalogItem | undefined {
   return HOPE_ACTION_CATALOG.find((item) => item.aliases.some((alias) => new RegExp(`\\b${alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(text)));
+}
+
+
+function missionId(goal: string): string {
+  const slug = goal.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 36) || "mission";
+  return `hope-${slug}-${Date.now().toString(36)}`;
+}
+
+function step(
+  id: string,
+  title: string,
+  description: string,
+  intent: HopeIntent,
+  path: string | undefined,
+  safetyLevel: "safe" | "confirm" | "blocked",
+  voicePrompt: string,
+): HopeMissionStep {
+  return {
+    id,
+    title,
+    description,
+    intent,
+    path,
+    safetyLevel,
+    requiresConfirmation: safetyLevel !== "safe",
+    voicePrompt,
+    status: safetyLevel === "safe" ? "ready" : "needs_confirmation",
+  };
+}
+
+export function planMission(goal: string, mode: HopeMode = "guardian"): HopeMissionPlan {
+  const normalized = goal.trim() || "Build a safe SkyCoin444 action plan";
+  const text = normalized.toLowerCase();
+  const id = missionId(normalized);
+  let summary = "Hope will turn your plain-English goal into a safe, voice-first app workflow.";
+  let steps: HopeMissionStep[] = [];
+
+  if (/(ico|fundrais|token sale|coin launch|raise capital|investment|investor)/.test(text)) {
+    summary = "Prepare a compliant crypto fundraising workflow with disclosures, allocation planning, payment readiness, and admin review before launch.";
+    steps = [
+      step("ico-brief", "Open ICO command center", "Review SKY4444 and project fundraising status, rounds, contribution flow, and disclosure checklist.", "navigate", "/dashboard/ico", "safe", "Say open ICO hub."),
+      step("coin-map", "Map project coins", "Review BTC, USDT, TRUMP, Monero, SKY4444, and Shadow Coin infrastructure so the fundraise has clear asset context.", "navigate", "/dashboard/wallet", "safe", "Say open wallet."),
+      step("compliance-review", "Run compliance gate", "Confirm disclosures, admin approval, KYC/AML workflow, jurisdiction notes, and no-profit-guarantee language.", "navigate", "/dashboard/admin/compliance", "confirm", "Say confirm compliance review when ready."),
+      step("payment-readiness", "Check Stripe and contribution readiness", "Verify payment rails are configured through environment variables and that final charges remain user-confirmed.", "payment_prepare", "/dashboard/pay", "confirm", "Say confirm payment workflow only when ready."),
+    ];
+  } else if (/(casino|game|games|charity casino|slots|blackjack)/.test(text)) {
+    summary = "Prepare the casino layer as charity-only entertainment with destination controls, limits, disclosures, and audit logs.";
+    steps = [
+      step("charity-destination", "Choose charity destination", "Open the charity hub and verify the current beneficiary before any game flow is enabled.", "navigate", "/dashboard/charity", "safe", "Say open charity hub."),
+      step("casino-guardrails", "Review casino guardrails", "Open the casino playground with charity-only copy, no real-money gambling promises, and responsible-use controls.", "navigate", "/dashboard/casino", "safe", "Say open charity casino."),
+      step("admin-audit", "Enable admin audit review", "Route activity through compliance review and audit logs before public release.", "navigate", "/dashboard/admin/compliance", "confirm", "Say confirm compliance review when ready."),
+    ];
+  } else if (/(privacy|security|protect|safe|lock|audit|keys|secret)/.test(text)) {
+    summary = "Secure the account and platform by reviewing settings, API vault configuration, compliance controls, and privacy-safe data workflows.";
+    steps = [
+      step("settings", "Open account security", "Review profile, sessions, and account security preferences.", "navigate", "/dashboard/settings", "safe", "Say open settings."),
+      step("api-vault", "Check API vault", "Verify integrations are configured through environment variables without exposing secret values.", "navigate", "/dashboard/api-vault", "safe", "Say open API vault."),
+      step("compliance", "Review compliance controls", "Inspect admin risk controls and audit logs for payment, ICO, and casino workflows.", "navigate", "/dashboard/admin/compliance", "confirm", "Say confirm compliance review when ready."),
+    ];
+  } else if (/(portfolio|money|budget|cash flow|net worth|wealth|finance)/.test(text)) {
+    summary = "Build a voice-guided money cockpit: portfolio summary, wallet review, market scan, and optional draft trade preparation with confirmation gates.";
+    const symbol = extractSymbol(normalized);
+    steps = [
+      step("portfolio", "Open portfolio", "Review net worth, holdings, and finance snapshot.", "portfolio_summary", "/dashboard/portfolio", "safe", "Say summarize my money."),
+      step("wallet", "Review wallet", "Check balances and funding context before making decisions.", "navigate", "/dashboard/wallet", "safe", "Say open wallet."),
+      step("market-scan", `Scan ${symbol}`, `Generate an informational ${symbol} signal with confidence and risk context.`, "market_scan", "/dashboard/market", "safe", `Say scan ${symbol}.`),
+      step("trade-draft", "Prepare only if confirmed", "If you choose to act, Hope can prepare a draft trade record but never executes silently.", "trade_prepare", "/dashboard/trading", "confirm", "Say prepare trade, then confirm only after review."),
+    ];
+  } else if (/(marketplace|shop|store|sell|commerce|product|listing)/.test(text)) {
+    summary = "Build a creator-commerce workflow with marketplace navigation, payment readiness, and voice-guided listing preparation.";
+    steps = [
+      step("marketplace", "Open marketplace", "Review listings, products, and commerce tools.", "navigate", "/dashboard/marketplace", "safe", "Say open marketplace."),
+      step("payments", "Prepare checkout safely", "Review Stripe-backed payment flow without completing a charge automatically.", "payment_prepare", "/dashboard/pay", "confirm", "Say confirm payment workflow when ready."),
+      step("messages", "Coordinate with buyers", "Open messages to prepare buyer communication. Posting remains user-confirmed.", "navigate", "/dashboard/messages", "safe", "Say open messages."),
+    ];
+  } else {
+    const item = findCatalogItem(normalized);
+    summary = item ? `Navigate to ${item.label}, explain the workflow, and suggest the safest next action.` : summary;
+    steps = [
+      step("understand", "Understand the goal", "Hope translates your plain-English request into a route, explanation, or safe preparation workflow.", "explain", item?.path ?? "/dashboard/hope-ai", "safe", "Say explain this."),
+      step("open-best-route", item ? `Open ${item.label}` : "Open Hope AI", item?.description ?? "Use the Hope AI command center as the control cockpit.", "navigate", item?.path ?? "/dashboard/hope-ai", "safe", item ? `Say open ${item.label}.` : "Say open Hope AI."),
+      step("next-best-action", "Suggest next best action", "Hope proposes the next safe step and pauses for confirmation on money, trading, account, or admin changes.", "proactive_suggest", item?.path ?? "/dashboard/hope-ai", "safe", "Say what should I do next."),
+    ];
+  }
+
+  return {
+    id,
+    goal: normalized,
+    summary,
+    mode,
+    estimatedMinutes: Math.max(2, steps.length * 3),
+    safetyNotice: "Hope can navigate, explain, scan, and prepare workflows hands-free. Money, trading, account-changing, admin, payment, ICO, and casino-impacting actions pause for explicit confirmation.",
+    steps,
+    suggestedVoiceCommands: [
+      "Start mission",
+      "Read the next step",
+      "Open the recommended page",
+      "What is risky here?",
+      "Pause mission",
+    ],
+  };
+}
+
+function splitCommandChain(raw: string): string[] {
+  return raw
+    .replace(/\bthen\b/gi, " and then ")
+    .split(/\s+(?:and then|then|after that|next)\s+/i)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 2)
+    .slice(0, 6);
+}
+
+export function planCommandChain(raw: string): HopeMissionPlan {
+  const commands = splitCommandChain(raw);
+  const safeCommands = commands.length >= 2 ? commands : [raw];
+  const steps = safeCommands.map((command, index) => {
+    const parsed = parseHopeCommand(command);
+    return step(
+      `chain-${index + 1}`,
+      parsed.displayTitle ?? `Step ${index + 1}`,
+      parsed.spokenResponse,
+      parsed.intent,
+      parsed.payload.path,
+      parsed.payload.safetyLevel ?? (parsed.requiresConfirmation ? "confirm" : "safe"),
+      `Say: ${command}`,
+    );
+  });
+
+  return {
+    id: missionId(raw),
+    goal: raw,
+    summary: "Hope converted your multi-part request into a safe command chain. Safe navigation and explanations can continue hands-free; risky actions stop at confirmation gates.",
+    mode: "guardian",
+    estimatedMinutes: Math.max(2, steps.length * 2),
+    safetyNotice: "Command chains never bypass confirmation. Any payment, trade, tip, admin, ICO, or casino-impacting step pauses before execution.",
+    steps,
+    suggestedVoiceCommands: ["Run safe steps", "Read chain", "Skip risky step", "Pause chain"],
+  };
+}
+
+export function getProactiveSuggestions(input: { currentPath?: string; mode?: HopeMode; recentIntent?: HopeIntent } = {}): HopeProactiveSuggestion[] {
+  const path = input.currentPath ?? "/dashboard/hope-ai";
+  const suggestions: HopeProactiveSuggestion[] = [
+    { id: "mission", title: "Turn this into a mission", body: "Say a goal and Hope will build a step-by-step plan with confirmation gates.", command: "Plan a mission for my next goal", path: "/dashboard/hope-ai", priority: "high", safetyLevel: "safe" },
+    { id: "safety", title: "Review the risky parts", body: "Hope can explain what requires confirmation before you continue.", command: "What is risky here?", path, priority: "medium", safetyLevel: "safe" },
+    { id: "beginner", title: "Beginner free-will mode", body: "Speak naturally. Hope will infer the best page, explanation, scan, or draft workflow.", command: "Hope beginner mode", path: "/dashboard/hope-ai", priority: input.mode === "beginner" ? "low" : "medium", safetyLevel: "safe" },
+  ];
+
+  if (/ico/.test(path)) {
+    suggestions.unshift({ id: "ico-compliance", title: "ICO compliance gate", body: "Before fundraising, review disclosures, allocation logic, and admin approval.", command: "Plan my compliant ICO launch", path: "/dashboard/admin/compliance", priority: "high", safetyLevel: "confirm" });
+  } else if (/casino/.test(path)) {
+    suggestions.unshift({ id: "casino-charity", title: "Charity-only casino check", body: "Verify beneficiary, limits, and audit controls before enabling game workflows.", command: "Plan charity casino safeguards", path: "/dashboard/charity", priority: "high", safetyLevel: "confirm" });
+  } else if (/wallet|portfolio|market|trading/.test(path)) {
+    suggestions.unshift({ id: "money-scan", title: "Build money mission", body: "Review wallet, scan a coin, and prepare a safe next step without executing trades silently.", command: "Plan a money mission for Bitcoin", path: "/dashboard/portfolio", priority: "high", safetyLevel: "safe" });
+  }
+
+  return suggestions.slice(0, 5);
 }
 
 function beginnerCards(): ParsedHopeCommand["displayCards"] {
@@ -331,6 +583,57 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
         { title: "Research", body: "Say scan Bitcoin, analyze Ethereum, or explain DeFi.", path: "/dashboard/market" },
         { title: "Prepare", body: "Say prepare buy one SKY or prepare a tip, then confirm only when ready.", path: "/dashboard/trading" },
       ],
+    };
+  }
+
+  if (/(mission|autonomous|plan my|build a plan|make a plan|launch plan|roadmap|strategy|step by step|free will mission)/.test(text)) {
+    const mission = planMission(raw, /(beginner|simple|new user)/.test(text) ? "beginner" : "guardian");
+    return {
+      intent: "mission_plan",
+      payload: { raw, goal: mission.goal, missionId: mission.id, plannedStepCount: mission.steps.length, safetyLevel: "safe" },
+      requiresConfirmation: false,
+      displayTitle: "Mission plan ready",
+      spokenResponse: `${mission.summary} I built ${mission.steps.length} steps and will pause at every confirmation gate.`,
+      displayCards: mission.steps.slice(0, 4).map((missionStep) => ({
+        title: missionStep.title,
+        body: missionStep.description,
+        action: missionStep.voicePrompt,
+        path: missionStep.path,
+      })),
+    };
+  }
+
+  if (/(and then|after that|next open|chain|run these)/.test(text)) {
+    const chain = planCommandChain(raw);
+    return {
+      intent: "command_chain",
+      payload: { raw, goal: chain.goal, missionId: chain.id, chainCommands: splitCommandChain(raw), plannedStepCount: chain.steps.length, safetyLevel: chain.steps.some((chainStep) => chainStep.requiresConfirmation) ? "confirm" : "safe" },
+      requiresConfirmation: false,
+      displayTitle: "Command chain staged",
+      spokenResponse: `I staged ${chain.steps.length} commands. Safe steps can run hands-free, and risky steps will stop for confirmation.`,
+      displayCards: chain.steps.map((chainStep) => ({
+        title: chainStep.title,
+        body: chainStep.description,
+        action: chainStep.voicePrompt,
+        path: chainStep.path,
+      })),
+    };
+  }
+
+  if (/(suggest|recommend|proactive|what should i do next|next best)/.test(text)) {
+    const suggestions = getProactiveSuggestions({ mode: /(beginner|simple)/.test(text) ? "beginner" : "guardian" });
+    return {
+      intent: "proactive_suggest",
+      payload: { raw, topic: "proactive_suggestions", safetyLevel: "safe" },
+      requiresConfirmation: false,
+      displayTitle: "Hope AI suggestions",
+      spokenResponse: "I found a few safe next moves. I can turn any of them into a mission when you ask.",
+      displayCards: suggestions.map((suggestion) => ({
+        title: suggestion.title,
+        body: suggestion.body,
+        action: `Say: ${suggestion.command}`,
+        path: suggestion.path,
+      })),
     };
   }
 

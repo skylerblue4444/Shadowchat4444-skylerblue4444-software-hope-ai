@@ -31,6 +31,9 @@ type ParsedCommand = {
     | 'beginner_mode'
     | 'hands_free_mode'
     | 'workflow_guide'
+    | 'mission_plan'
+    | 'command_chain'
+    | 'proactive_suggest'
     | 'unknown';
   payload: {
     raw: string;
@@ -48,6 +51,10 @@ type ParsedCommand = {
     mode?: 'beginner' | 'pro' | 'guardian';
     actionLabel?: string;
     safetyLevel?: 'safe' | 'confirm' | 'blocked';
+    goal?: string;
+    missionId?: string;
+    chainCommands?: string[];
+    plannedStepCount?: number;
   };
   requiresConfirmation: boolean;
   spokenResponse: string;
@@ -60,7 +67,7 @@ type TimelineEntry = {
   text: string;
 };
 
-const QUICK_COMMANDS = ['Hope beginner mode', 'Open wallet', 'Scan Bitcoin', 'Teach me trading', 'Open marketplace'];
+const QUICK_COMMANDS = ['Hope beginner mode', 'Plan my ICO launch', 'Plan charity casino safeguards', 'Open wallet', 'Scan Bitcoin', 'Open compliance'];
 
 function getSpeechRecognition() {
   if (typeof window === 'undefined') return null;
@@ -193,7 +200,7 @@ export default function HopeAIGlobalVoiceDock() {
                 <div className="flex items-center gap-2 text-sm font-bold text-cyan-100">
                   <Sparkles className="h-4 w-4" /> Hope AI global voice
                 </div>
-                <p className="mt-1 text-xs leading-5 text-slate-300">Hands-free beginner mode for navigation, coaching, scans, and safe action preparation.</p>
+                <p className="mt-1 text-xs leading-5 text-slate-300">Hands-free beginner mode for navigation, mission planning, command chains, scans, and safe action preparation.</p>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2 text-slate-300 hover:bg-white/10 hover:text-white" aria-label="Close Hope AI voice dock">
                 <X className="h-4 w-4" />

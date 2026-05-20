@@ -51,6 +51,9 @@ type ParsedCommand = {
     | 'beginner_mode'
     | 'hands_free_mode'
     | 'workflow_guide'
+    | 'mission_plan'
+    | 'command_chain'
+    | 'proactive_suggest'
     | 'unknown';
   payload: {
     raw: string;
@@ -68,6 +71,10 @@ type ParsedCommand = {
     mode?: 'beginner' | 'pro' | 'guardian';
     actionLabel?: string;
     safetyLevel?: 'safe' | 'confirm' | 'blocked';
+    goal?: string;
+    missionId?: string;
+    chainCommands?: string[];
+    plannedStepCount?: number;
   };
   requiresConfirmation: boolean;
   spokenResponse: string;
@@ -76,6 +83,39 @@ type ParsedCommand = {
 };
 
 type AssistantMode = 'beginner' | 'pro' | 'guardian';
+
+type MissionStep = {
+  id: string;
+  title: string;
+  description: string;
+  intent: ParsedCommand['intent'];
+  path?: string;
+  safetyLevel: 'safe' | 'confirm' | 'blocked';
+  requiresConfirmation: boolean;
+  voicePrompt: string;
+  status: 'queued' | 'ready' | 'needs_confirmation';
+};
+
+type MissionPlan = {
+  id: string;
+  goal: string;
+  summary: string;
+  mode: AssistantMode;
+  estimatedMinutes: number;
+  safetyNotice: string;
+  steps: MissionStep[];
+  suggestedVoiceCommands: string[];
+};
+
+type ProactiveSuggestion = {
+  id: string;
+  title: string;
+  body: string;
+  command: string;
+  path?: string;
+  priority: 'low' | 'medium' | 'high';
+  safetyLevel: 'safe' | 'confirm' | 'blocked';
+};
 
 type TimelineEvent = {
   role: 'user' | 'hope';
@@ -92,7 +132,10 @@ const QUICK_COMMANDS = [
   'Open wallet',
   'Summarize my money',
   'Open marketplace',
-  'Prepare buy one SKY',
+  'Plan my ICO launch',
+  'Plan charity casino safeguards',
+  'Plan a money mission for Bitcoin',
+  'Open compliance',
 ];
 
 function speak(text: string) {
@@ -129,6 +172,7 @@ export default function HopeAICommandCenter() {
   const [, setLocation] = useLocation();
   const [isListening, setIsListening] = useState(false);
   const [autoListen, setAutoListen] = useState(false);
+  const [autonomousMode, setAutonomousMode] = useState(false);
   const [assistantMode, setAssistantMode] = useState<AssistantMode>('guardian');
   const [transcript, setTranscript] = useState('');
   const [lastResponse, setLastResponse] = useState('Hope AI is ready. Say: Hope beginner mode, what can I do, scan Bitcoin, open wallet, or teach me trading.');
@@ -150,6 +194,8 @@ export default function HopeAICommandCenter() {
   const [timeline, setTimeline] = useState<TimelineEvent[]>([
     { role: 'hope', text: 'Hope AI online.', detail: 'Voice-first command center with safe execution gates.' },
   ]);
+  const [missionBoard, setMissionBoard] = useState<MissionPlan | null>(null);
+  const [suggestionCards, setSuggestionCards] = useState<ProactiveSuggestion[]>([]);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
 
   const parseVoice = trpc.hopeAi.parseVoice.useMutation();
@@ -159,6 +205,7 @@ export default function HopeAICommandCenter() {
   const financeSummary = trpc.finance.summary.useQuery();
   const commands = trpc.hopeAi.recentCommands.useQuery({ limit: 5 });
   const catalog = trpc.hopeAi.actionCatalog.useQuery();
+  const proactiveSuggestions = trpc.hopeAi.getProactiveSuggestions.useQuery({ currentPath: '/dashboard/hope-ai', mode: assistantMode });
 
   const supported = useMemo(() => Boolean(getSpeechRecognition()), []);
   const groupedCatalog = useMemo(() => {
@@ -187,6 +234,10 @@ export default function HopeAICommandCenter() {
       confirmed,
       displayCards: parsed.displayCards,
     });
+
+    const resultAny = result as any;
+    if (resultAny.mission) setMissionBoard(resultAny.mission as MissionPlan);
+    if (resultAny.suggestions) setSuggestionCards(resultAny.suggestions as ProactiveSuggestion[]);
 
     const response = result.spokenResponse ?? parsed.spokenResponse ?? 'Done.';
     setLastResponse(response);
@@ -234,6 +285,28 @@ export default function HopeAICommandCenter() {
       const parsed = await parseVoice.mutateAsync({ transcript: normalized });
       setLastResponse(parsed.spokenResponse);
       setDisplayCards(parsed.displayCards ?? []);
+      if (parsed.intent === 'mission_plan') {
+        setMissionBoard({
+          id: parsed.payload.missionId ?? `local-${Date.now()}`,
+          goal: parsed.payload.goal ?? normalized,
+          summary: parsed.spokenResponse,
+          mode: parsed.payload.mode ?? assistantMode,
+          estimatedMinutes: Math.max(2, (parsed.payload.plannedStepCount ?? parsed.displayCards?.length ?? 1) * 3),
+          safetyNotice: 'Hope can keep moving through safe steps hands-free, but money, trading, payment, admin, ICO, and casino-impacting steps require confirmation.',
+          steps: (parsed.displayCards ?? []).map((card, index) => ({
+            id: `${parsed.payload.missionId ?? 'mission'}-${index}`,
+            title: card.title,
+            description: card.body,
+            intent: 'navigate',
+            path: card.path,
+            safetyLevel: /confirm|payment|trade|admin|compliance/i.test(`${card.title} ${card.body}`) ? 'confirm' : 'safe',
+            requiresConfirmation: /confirm|payment|trade|admin|compliance/i.test(`${card.title} ${card.body}`),
+            voicePrompt: card.action ?? 'Say next step.',
+            status: /confirm|payment|trade|admin|compliance/i.test(`${card.title} ${card.body}`) ? 'needs_confirmation' : 'ready',
+          })),
+          suggestedVoiceCommands: ['Start mission', 'Read next step', 'Open recommended page', 'Pause mission'],
+        });
+      }
       applyAssistantMode(parsed.payload.mode);
       speak(parsed.spokenResponse);
       addTimeline({ role: 'hope', text: parsed.spokenResponse, detail: parsed.displayTitle ?? parsed.intent.replace('_', ' ') });
@@ -328,6 +401,9 @@ export default function HopeAICommandCenter() {
               <div className="flex flex-wrap gap-3">
                 <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">{modeLabel(assistantMode)}</span>
                 <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-100">{modeDescription(assistantMode)}</span>
+                <span className={`rounded-full border px-3 py-1 text-sm ${autonomousMode ? 'border-fuchsia-300/40 bg-fuchsia-400/15 text-fuchsia-100' : 'border-white/10 bg-white/5 text-slate-300'}`}>
+                  {autonomousMode ? 'Autonomous mission assist on' : 'Autonomous mission assist standby'}
+                </span>
               </div>
             </div>
             <div className="flex flex-col items-center gap-4">
@@ -342,6 +418,19 @@ export default function HopeAICommandCenter() {
                 className={`rounded-xl px-4 py-2 text-sm font-bold transition ${autoListen ? 'bg-emerald-400 text-slate-950' : 'border border-white/10 bg-white/5 text-slate-200 hover:bg-white/10'}`}
               >
                 {autoListen ? 'Continuous listening on' : 'Enable continuous listening'}
+              </button>
+              <button
+                onClick={() => {
+                  setAutonomousMode((value) => !value);
+                  const response = autonomousMode
+                    ? 'Autonomous mission assist is standing by.'
+                    : 'Autonomous mission assist is on. I will plan safe next steps and pause at confirmation gates.';
+                  setLastResponse(response);
+                  speak(response);
+                }}
+                className={`rounded-xl px-4 py-2 text-sm font-bold transition ${autonomousMode ? 'bg-fuchsia-400 text-slate-950' : 'border border-fuchsia-300/20 bg-fuchsia-400/10 text-fuchsia-100 hover:bg-fuchsia-400/15'}`}
+              >
+                {autonomousMode ? 'Mission assist on' : 'Enable mission assist'}
               </button>
             </div>
           </div>
@@ -385,6 +474,54 @@ export default function HopeAICommandCenter() {
                 {command}
               </button>
             ))}
+          </div>
+        </section>
+
+
+        <section className="grid gap-4 lg:grid-cols-5">
+          <div className="rounded-2xl border border-fuchsia-300/20 bg-fuchsia-400/[0.06] p-5 lg:col-span-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2 text-fuchsia-200"><Rocket className="h-5 w-5" /> Mission Board</div>
+                <h2 className="mt-2 text-2xl font-black text-white">{missionBoard?.goal ?? 'No mission staged yet'}</h2>
+              </div>
+              <button onClick={() => void processCommand('Plan a mission for my next SkyCoin444 goal')} className="rounded-xl bg-fuchsia-400 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-fuchsia-300">
+                Auto-plan mission
+              </button>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              {missionBoard?.summary ?? 'Say “plan my ICO launch,” “plan charity casino safeguards,” or “plan a money mission for Bitcoin.” Hope will create a safe step sequence and stop at confirmation gates.'}
+            </p>
+            {missionBoard && <p className="mt-2 text-xs uppercase tracking-[0.22em] text-fuchsia-200">Estimated {missionBoard.estimatedMinutes} minutes · {missionBoard.steps.length} steps</p>}
+            <div className="mt-4 space-y-3">
+              {(missionBoard?.steps ?? []).map((missionStep, index) => (
+                <button key={missionStep.id} onClick={() => missionStep.path && setLocation(missionStep.path)} className="w-full rounded-xl border border-white/10 bg-slate-950/70 p-4 text-left hover:border-fuchsia-300/50">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <strong className="text-white">{index + 1}. {missionStep.title}</strong>
+                    <span className={`rounded-full px-2 py-1 text-[0.65rem] uppercase tracking-[0.18em] ${missionStep.requiresConfirmation ? 'bg-amber-400/15 text-amber-100' : 'bg-emerald-400/15 text-emerald-100'}`}>{missionStep.requiresConfirmation ? 'confirmation gate' : 'safe step'}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">{missionStep.description}</p>
+                  <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">{missionStep.voicePrompt}</p>
+                </button>
+              ))}
+              {!missionBoard && <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4 text-sm text-slate-300">Mission planner is ready. It can chain navigation, explanations, scans, payment prep, ICO review, privacy review, and charity-casino controls while preserving safety gates.</div>}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-400/[0.05] p-5 lg:col-span-2">
+            <div className="flex items-center gap-2 text-cyan-200"><Sparkles className="h-5 w-5" /> Proactive Suggestions</div>
+            <div className="mt-4 space-y-3">
+              {(suggestionCards.length ? suggestionCards : ((proactiveSuggestions.data ?? []) as ProactiveSuggestion[])).map((suggestion) => (
+                <button key={suggestion.id} onClick={() => void processCommand(suggestion.command)} className="w-full rounded-xl border border-white/10 bg-slate-950/70 p-4 text-left hover:border-cyan-300/50">
+                  <div className="flex items-center justify-between gap-2">
+                    <strong className="text-white">{suggestion.title}</strong>
+                    <span className={`rounded-full px-2 py-1 text-[0.65rem] uppercase ${suggestion.safetyLevel === 'confirm' ? 'bg-amber-400/15 text-amber-100' : 'bg-emerald-400/15 text-emerald-100'}`}>{suggestion.safetyLevel}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">{suggestion.body}</p>
+                  <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Say: {suggestion.command}</p>
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
