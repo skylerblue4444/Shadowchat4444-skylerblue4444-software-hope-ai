@@ -26,8 +26,10 @@ const LANGUAGES = ["English", "中文 (Chinese)", "Español", "Français", "Deut
 const THEMES = ["Dark", "Light", "Midnight", "Cyber", "ShadowBlue", "TRUMP Red"];
 const UPGRADE_TRACKS = ["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"] as const;
 const CREATION_TRACKS = ["creator-launch-studio", "ico-launchpad", "whitepaper-pipeline", "wallet-provider-adapters", "ai-knowledge-scan", "settlement-review-ops"] as const;
+const BEGINNER_FREE_WILL_ACTIONS = ["learn-basics", "review-safe-defaults", "enable-guided-confirmations", "open-privacy-checkup", "queue-first-upgrade"] as const;
 type UpgradeTrack = (typeof UPGRADE_TRACKS)[number];
 type CreationTrack = (typeof CREATION_TRACKS)[number];
+type BeginnerFreeWillAction = (typeof BEGINNER_FREE_WILL_ACTIONS)[number];
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return (
@@ -46,13 +48,19 @@ export default function Settings() {
   const [language, setLanguage] = useState("English");
   const [selectedUpgradeTrack, setSelectedUpgradeTrack] = useState<UpgradeTrack>("privacy-hardening");
   const [selectedCreationTrack, setSelectedCreationTrack] = useState<CreationTrack>("ai-knowledge-scan");
+  const [selectedBeginnerAction, setSelectedBeginnerAction] = useState<BeginnerFreeWillAction>("learn-basics");
   const [hopeControls, setHopeControls] = useState({ voiceEverything: true, spokenReplies: true, autoRoute: true, usaMarket: true, chinaReady: true, friendsMarket: true, paperDayTrade: true, liveMoneyKillSwitch: true, casinoBetaOnly: true });
   const freeWillEnhancement = trpc.platform.freeWillEnhancement.useQuery();
+  const beginnerFreeWillMode = trpc.platform.beginnerFreeWillMode.useQuery();
   const instantKnowledgeScan = trpc.platform.instantKnowledgeScan.useQuery();
   const creationInfrastructure = trpc.platform.creationInfrastructure.useQuery();
   const sevenCoinReadiness = trpc.platform.sevenCoinLiveReadiness.useQuery();
   const upgradeIntent = trpc.platform.createUpgradeEnhancementIntent.useMutation({
     onSuccess: (data) => toast.success(`Free-will upgrade intent ${data.intentId} queued for ${data.track.label}.`),
+    onError: (error) => toast.error(error.message),
+  });
+  const beginnerIntent = trpc.platform.createBeginnerFreeWillIntent.useMutation({
+    onSuccess: (data) => toast.success(`Beginner free-will step ${data.intentId} queued: ${data.step.title}.`),
     onError: (error) => toast.error(error.message),
   });
   const creationIntent = trpc.platform.createCreationInfrastructureIntent.useMutation({
@@ -215,6 +223,44 @@ export default function Settings() {
                       </div>
                     ))}
                   </div>
+                </CardContent>
+              </Card>
+              <Card className="border-lime-500/25 bg-lime-500/5">
+                <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Eye className="h-4 w-4 text-lime-300" />Beginner Mode: Free-Will Guide</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="rounded-xl border border-lime-500/20 bg-background/40 p-3">
+                    <p className="text-sm font-bold">{beginnerFreeWillMode.data?.title ?? "Beginner Mode: Free-Will Enhancement Guide"}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{beginnerFreeWillMode.data?.plainLanguagePromise ?? "Plain-language controls explain consent, privacy, AI boundaries, provider gates, and reviewable beta actions before advanced features are used."}</p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {(beginnerFreeWillMode.data?.upgradePath ?? ["Beginner Mode", "Guided Mode", "Advanced Review Mode", "Provider-Approved Live Mode"]).map((mode) => <Badge key={mode} className="text-xs bg-lime-500/10 text-lime-200 border-lime-500/20">{mode}</Badge>)}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(beginnerFreeWillMode.data?.safeDefaults ?? []).map((item) => (
+                      <div key={item.key} className="rounded-xl border border-lime-500/20 bg-background/40 p-3">
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{item.label}</p><Badge className="text-xs bg-emerald-500/10 text-emerald-200 border-emerald-500/20">{item.enabled ? "on" : "off"}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{item.explanation}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-wide text-lime-200">Guided beginner steps</p>
+                    {(beginnerFreeWillMode.data?.guidedSteps ?? []).map((step) => (
+                      <button key={step.key} onClick={() => setSelectedBeginnerAction(step.key as BeginnerFreeWillAction)} className={`w-full text-left rounded-xl border p-3 transition-colors ${selectedBeginnerAction === step.key ? "border-lime-400/50 bg-lime-500/10" : "border-border/40 bg-background/40 hover:border-lime-400/30"}`}>
+                        <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">Step {step.step}: {step.title}</p><Badge variant="outline" className="text-xs">{step.route}</Badge></div>
+                        <p className="text-xs text-muted-foreground mt-1">{step.action}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {(beginnerFreeWillMode.data?.explainers ?? []).map((item) => (
+                      <div key={item.term} className="rounded-xl border border-border/40 bg-background/40 p-3">
+                        <p className="text-xs font-bold text-lime-100">{item.term}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{item.meaning}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <Button className="w-full bg-gradient-to-r from-lime-500 to-emerald-500 text-black font-bold border-0" disabled={beginnerIntent.isPending} onClick={() => beginnerIntent.mutate({ action: selectedBeginnerAction, acceptBeginnerGuidance: true })}>Queue Beginner Free-Will Step</Button>
                 </CardContent>
               </Card>
               <Card className="border-blue-500/25 bg-blue-500/5">

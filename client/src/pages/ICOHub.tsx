@@ -39,7 +39,9 @@ type PaymentRail = (typeof PAYMENT_RAILS)[number];
 const ICO_ALLOCATIONS = ["SKY4444", "SHADOW"] as const;
 type IcoAllocation = (typeof ICO_ALLOCATIONS)[number];
 const UPGRADE_TRACKS = ["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"] as const;
+const BEGINNER_FREE_WILL_ACTIONS = ["learn-basics", "review-safe-defaults", "enable-guided-confirmations", "open-privacy-checkup", "queue-first-upgrade"] as const;
 type UpgradeTrack = (typeof UPGRADE_TRACKS)[number];
+type BeginnerFreeWillAction = (typeof BEGINNER_FREE_WILL_ACTIONS)[number];
 
 const ROADMAP = [
   { q: "Q1 2024", title: "Foundation", items: ["Smart contract audit", "Website launch", "Whitepaper v1", "Seed round close"], done: true },
@@ -67,18 +69,24 @@ export default function ICOHub() {
   const [selectedCurrency, setSelectedCurrency] = useState<PaymentRail>("USDT");
   const [selectedAllocation, setSelectedAllocation] = useState<IcoAllocation>("SKY4444");
   const [selectedUpgradeTrack, setSelectedUpgradeTrack] = useState<UpgradeTrack>("privacy-hardening");
+  const [selectedBeginnerAction, setSelectedBeginnerAction] = useState<BeginnerFreeWillAction>("learn-basics");
   const [timeLeft, setTimeLeft] = useState({ days: 47, hours: 12, mins: 33, secs: 21 });
 
   const platformOverview = trpc.platform.overview.useQuery();
   const whitepaper = trpc.platform.whitepaper.useQuery();
   const funding = trpc.platform.funding.useQuery();
   const freeWillEnhancement = trpc.platform.freeWillEnhancement.useQuery();
+  const beginnerFreeWillMode = trpc.platform.beginnerFreeWillMode.useQuery();
   const fundingIntent = trpc.platform.createIcoFundingIntent.useMutation({
     onSuccess: (data) => toast.success(`ICO beta intent ${data.intentId} created; settlement review queued.`),
     onError: (error) => toast.error(error.message),
   });
   const upgradeIntent = trpc.platform.createUpgradeEnhancementIntent.useMutation({
     onSuccess: (data) => toast.success(`Free-will upgrade intent ${data.intentId} queued for ${data.track.label}.`),
+    onError: (error) => toast.error(error.message),
+  });
+  const beginnerIntent = trpc.platform.createBeginnerFreeWillIntent.useMutation({
+    onSuccess: (data) => toast.success(`Beginner free-will step ${data.intentId} queued: ${data.step.title}.`),
     onError: (error) => toast.error(error.message),
   });
 
@@ -272,6 +280,37 @@ export default function ICOHub() {
             >
               Queue Free-Will Upgrade
             </Button>
+          </CardContent>
+        </Card>
+        <Card className="border-lime-500/20 bg-lime-500/5 lg:col-span-3">
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-bold flex items-center gap-2"><Shield className="h-4 w-4 text-lime-300" />Beginner Mode Free-Will Guide</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              <div className="rounded-xl border border-lime-500/20 bg-background/40 p-3 lg:col-span-1">
+                <p className="text-sm font-bold">{beginnerFreeWillMode.data?.title ?? "Beginner Mode: Free-Will Enhancement Guide"}</p>
+                <p className="text-xs text-muted-foreground mt-1">{beginnerFreeWillMode.data?.plainLanguagePromise ?? "Plain-language, consent-first steps explain every AI, privacy, crypto, and upgrade control before advanced features are used."}</p>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {(beginnerFreeWillMode.data?.upgradePath ?? ["Beginner Mode", "Guided Mode", "Advanced Review Mode", "Provider-Approved Live Mode"]).map((mode) => <Badge key={mode} variant="outline" className="text-xs border-lime-500/30 text-lime-200">{mode}</Badge>)}
+                </div>
+              </div>
+              <div className="space-y-2 lg:col-span-2">
+                {(beginnerFreeWillMode.data?.guidedSteps ?? []).map((step) => (
+                  <button key={step.key} onClick={() => setSelectedBeginnerAction(step.key as BeginnerFreeWillAction)} className={`w-full text-left rounded-xl border p-3 transition-colors ${selectedBeginnerAction === step.key ? "border-lime-400/50 bg-lime-500/10" : "border-border/40 bg-background/40 hover:border-lime-400/30"}`}>
+                    <div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">Step {step.step}: {step.title}</p><Badge className="text-xs bg-lime-500/10 text-lime-200 border-lime-500/20">{step.route}</Badge></div>
+                    <p className="text-xs text-muted-foreground mt-1">{step.action}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {(beginnerFreeWillMode.data?.safeDefaults ?? []).slice(0, 4).map((item) => (
+                <div key={item.key} className="rounded-xl border border-border/40 bg-background/40 p-3">
+                  <div className="flex items-center justify-between gap-2"><p className="text-xs font-bold text-lime-100">{item.label}</p><Badge className="text-xs bg-emerald-500/10 text-emerald-200 border-emerald-500/20">{item.enabled ? "safe default on" : "off"}</Badge></div>
+                  <p className="text-xs text-muted-foreground mt-1">{item.explanation}</p>
+                </div>
+              ))}
+            </div>
+            <Button className="w-full bg-gradient-to-r from-lime-500 to-emerald-500 text-black font-bold border-0" disabled={beginnerIntent.isPending} onClick={() => beginnerIntent.mutate({ action: selectedBeginnerAction, acceptBeginnerGuidance: true })}>Queue Beginner Free-Will Step</Button>
           </CardContent>
         </Card>
       </div>

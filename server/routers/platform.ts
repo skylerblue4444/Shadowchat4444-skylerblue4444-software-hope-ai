@@ -85,6 +85,13 @@ const platformAreas: PlatformArea[] = [
     summary: "The platform publishes a live product-readiness scan that ranks the most-needed upgrade, creation, funding, AI, privacy, and seven-coin infrastructure work.",
   },
   {
+    key: "beginner-free-will-mode",
+    label: "Beginner Mode for free-will controls",
+    status: "available",
+    route: "/dashboard/settings",
+    summary: "A guided, plain-language free-will mode explains user choices, safe defaults, confirmation checkpoints, privacy boundaries, and reversible beta actions before users queue upgrades.",
+  },
+  {
     key: "creation-infrastructure",
     label: "Creation and launch infrastructure",
     status: "beta_ledger_ready",
@@ -137,6 +144,44 @@ const freeWillEnhancement = {
 
 const upgradeTrackSchema = z.enum(["privacy-hardening", "wallet-safety", "ai-autonomy-controls", "seven-coin-adapters", "funding-transparency"]);
 const creationTrackSchema = z.enum(["creator-launch-studio", "ico-launchpad", "whitepaper-pipeline", "wallet-provider-adapters", "ai-knowledge-scan", "settlement-review-ops"]);
+const beginnerFreeWillActionSchema = z.enum(["learn-basics", "review-safe-defaults", "enable-guided-confirmations", "open-privacy-checkup", "queue-first-upgrade"]);
+
+const beginnerFreeWillMode = {
+  title: "Beginner Mode: Free-Will Enhancement Guide",
+  version: "v1.2 guided beta",
+  status: "guided-controls-ready",
+  audience: "new users, non-technical users, and users who want safe defaults before enabling advanced AI, wallet, privacy, or seven-coin infrastructure",
+  plainLanguagePromise:
+    "The app explains what each control does, what remains provider-gated, what can be reversed in beta, and when the user must confirm before AI or money-related actions continue.",
+  safeDefaults: [
+    { key: "ai-confirmation-first", label: "AI asks before high-impact actions", enabled: true, explanation: "Money, identity, trading, publishing, custody, and admin-review actions stay confirm-first instead of auto-executing." },
+    { key: "beta-ledger-reversibility", label: "Beta actions stay reviewable", enabled: true, explanation: "In-app beta ledger events expose settlement review and audit trails before any live-money provider claim is made." },
+    { key: "privacy-plain-language", label: "Privacy labels use plain language", enabled: true, explanation: "Users see what is private, what is account-bound, and what depends on external providers or compliance obligations." },
+    { key: "seven-coin-provider-gates", label: "Live crypto stays provider-gated", enabled: true, explanation: "SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT show readiness without enabling irreversible live custody by default." },
+    { key: "beginner-to-advanced-path", label: "Beginner users can graduate to advanced controls", enabled: true, explanation: "Guided mode teaches each control before users queue advanced upgrade or creation infrastructure intents." },
+  ],
+  guidedSteps: [
+    { step: 1, key: "learn-basics", title: "Learn the free-will basics", action: "Read the simple explanation for consent, privacy, AI boundaries, wallet review, and provider gates.", route: "/dashboard/settings" },
+    { step: 2, key: "review-safe-defaults", title: "Review safe defaults", action: "Confirm that guided confirmations, reviewable beta ledgers, and provider gates remain on.", route: "/dashboard/settings" },
+    { step: 3, key: "enable-guided-confirmations", title: "Use guided confirmations", action: "Keep AI recommendations helpful while requiring explicit user approval for high-impact actions.", route: "/dashboard/ai-tools" },
+    { step: 4, key: "open-privacy-checkup", title: "Open the privacy checkup", action: "Review account, ShadowID, Monero-labeling, data export, and provider-bound privacy boundaries.", route: "/dashboard/settings" },
+    { step: 5, key: "queue-first-upgrade", title: "Queue the first upgrade", action: "Queue a reviewed enhancement intent only after understanding beginner-mode terms.", route: "/dashboard/ico#free-will-upgrade" },
+  ],
+  explainers: [
+    { term: "Free-will controls", meaning: "Product controls that preserve user choice, confirmation, consent, reversibility, and clear explanations." },
+    { term: "Provider-gated", meaning: "A feature is visible for planning or beta use, but live external settlement waits for approved payment, custody, chain, or compliance providers." },
+    { term: "Beta ledger", meaning: "An internal app ledger for testing balances and review flows; it is not the same as irreversible external on-chain settlement." },
+    { term: "Guided confirmation", meaning: "The app or AI can recommend a next step, but the user confirms before high-impact actions proceed." },
+  ],
+  beginnerChecklist: [
+    "Understand that live crypto custody and withdrawals are not enabled just because a coin is visible.",
+    "Keep AI in guided mode for money, identity, trading, casino, custody, and public publishing decisions.",
+    "Review privacy wording before relying on ShadowID, Monero-labeled rails, or external providers.",
+    "Use settlement history and admin review queues to understand beta money movements.",
+    "Queue upgrades as review intents instead of bypassing provider gates or compliance checks.",
+  ],
+  upgradePath: ["Beginner Mode", "Guided Mode", "Advanced Review Mode", "Provider-Approved Live Mode"],
+} as const;
 
 const creationInfrastructure = [
   {
@@ -250,12 +295,14 @@ function buildInstantKnowledgeScan() {
     allTimePriorities: [
       { rank: 1, key: "provider-gated-live-crypto", label: "Live seven-coin provider readiness", impact: "critical", action: "Expose live-readiness states for SKY4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT while keeping irreversible settlement gated." },
       { rank: 2, key: "free-will-controls", label: "Free-will and user-agency controls", impact: "critical", action: "Keep consent, reversibility, AI confirmation boundaries, data export, and privacy controls visible in Settings and ICO surfaces." },
-      { rank: 3, key: "creation-infrastructure", label: "Creation and launch infrastructure", impact: "high", action: "Unify creator launch, whitepaper, ICO, wallet, marketplace, AI scan, and settlement-review tracks." },
-      { rank: 4, key: "funding-transparency", label: "ICO and funding transparency", impact: "high", action: "Keep quotes, discounts, token allocations, Stripe test status, crypto rail readiness, and admin review surfaced." },
-      { rank: 5, key: "settlement-ops", label: "Settlement and admin review operations", impact: "high", action: "Preserve database-backed review queues across mining, staking, swaps, trades, tips, casino beta, and ICO funding." },
+      { rank: 3, key: "beginner-free-will-mode", label: "Beginner Mode for free-will enhancements", impact: "critical", action: "Make free-will controls understandable through plain-language explainers, safe defaults, guided confirmations, privacy checkups, and reviewed upgrade intents." },
+      { rank: 4, key: "creation-infrastructure", label: "Creation and launch infrastructure", impact: "high", action: "Unify creator launch, whitepaper, ICO, wallet, marketplace, AI scan, and settlement-review tracks." },
+      { rank: 5, key: "funding-transparency", label: "ICO and funding transparency", impact: "high", action: "Keep quotes, discounts, token allocations, Stripe test status, crypto rail readiness, and admin review surfaced." },
+      { rank: 6, key: "settlement-ops", label: "Settlement and admin review operations", impact: "high", action: "Preserve database-backed review queues across mining, staking, swaps, trades, tips, casino beta, and ICO funding." },
     ],
     platformAreas,
     freeWillEnhancement,
+    beginnerFreeWillMode,
     creationInfrastructure,
     sevenCoinLiveReadiness,
     providerGates: [
@@ -337,6 +384,13 @@ function buildWhitepaper() {
         enhancement: freeWillEnhancement,
       },
       {
+        id: "beginner-free-will-mode",
+        heading: "Beginner Mode for free-will enhancements",
+        body:
+          "Beginner Mode translates autonomy, consent, AI boundaries, privacy, beta-ledger review, and provider-gated live crypto into plain-language steps so new users can make informed choices before using advanced controls.",
+        beginnerMode: beginnerFreeWillMode,
+      },
+      {
         id: "guardrails",
         heading: "Production guardrails",
         body:
@@ -372,6 +426,7 @@ export const platformRouter = router({
     whitepaperRoute: "/dashboard/ico",
     checkoutRoute: "/dashboard/checkout",
     freeWillEnhancementRoute: "/dashboard/ico#free-will-upgrade",
+    beginnerFreeWillRoute: "/dashboard/settings",
     instantKnowledgeScanRoute: "/dashboard/settings",
     sevenCoinLiveReadiness,
     creationInfrastructure,
@@ -395,6 +450,11 @@ export const platformRouter = router({
 
   freeWillEnhancement: publicProcedure.query(() => ({
     ...freeWillEnhancement,
+    generatedAt: new Date().toISOString(),
+  })),
+
+  beginnerFreeWillMode: publicProcedure.query(() => ({
+    ...beginnerFreeWillMode,
     generatedAt: new Date().toISOString(),
   })),
 
@@ -436,6 +496,30 @@ export const platformRouter = router({
         reviewRequired: true,
         guardrails: freeWillEnhancement.guardrails,
         routes: freeWillEnhancement.routes,
+      };
+    }),
+
+  createBeginnerFreeWillIntent: protectedProcedure
+    .input(z.object({ action: beginnerFreeWillActionSchema, acceptBeginnerGuidance: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      if (!input.acceptBeginnerGuidance) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Accept the beginner-mode guidance, safe-default, confirmation, and provider-gated terms before queuing this free-will step." });
+      }
+
+      const step = beginnerFreeWillMode.guidedSteps.find((item) => item.key === input.action);
+      if (!step) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown beginner free-will action." });
+      }
+
+      return {
+        success: true,
+        intentId: `BEGINNER-FW-${Date.now().toString(36).toUpperCase()}`,
+        userId: ctx.user.id,
+        step,
+        status: "queued-for-guided-user-review",
+        safeDefaults: beginnerFreeWillMode.safeDefaults,
+        nextMode: input.action === "queue-first-upgrade" ? "guided-upgrade-review" : "beginner-guided-learning",
+        reviewRequired: input.action === "queue-first-upgrade",
       };
     }),
 
