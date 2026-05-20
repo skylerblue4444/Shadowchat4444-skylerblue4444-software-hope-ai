@@ -29,6 +29,13 @@
       "when": 1779284200000,
       "tag": "0003_beginner_plus_business_intents",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1779290500000,
+      "tag": "0004_supplier_marketplace_powerhouse",
+      "breakpoints": true
     }
   ]
 }

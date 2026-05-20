@@ -4,6 +4,16 @@ import { marketplaceListings, marketplaceOrders } from "../../drizzle/schema";
 import { adminProcedure, protectedProcedure, publicProcedure, router, TRPCError } from "../_core/trpc";
 import { getDb } from "../db";
 import { multiCoinService, supportedCoins, type Coin } from "../lib/multi-coin";
+import {
+  createSupplierOrderRequest,
+  getSupplierProviderStatus,
+  importSupplierCatalogRows,
+  listSupplierCatalog,
+  listSupplierOrderRequests,
+  supplierProviders,
+  syncSupplierProviderCatalog,
+  updateSupplierOrderRequestStatus,
+} from "../lib/supplier-marketplace";
 
 const coinSchema = z.enum(supportedCoins);
 
@@ -116,6 +126,116 @@ const demoListings = [
 ] as const;
 
 export const marketplaceLiveRouter = router({
+  supplierProviderStatus: publicProcedure.query(async () => getSupplierProviderStatus()),
+
+  listSupplierCatalog: publicProcedure
+    .input(
+      z
+        .object({
+          search: z.string().max(120).optional(),
+          category: z.string().max(80).optional(),
+          limit: z.number().int().min(1).max(100).default(48),
+        })
+        .optional(),
+    )
+    .query(async ({ input }) => listSupplierCatalog(input)),
+
+  adminImportSupplierCatalog: adminProcedure
+    .input(
+      z.object({
+        rows: z.array(
+          z.object({
+            provider: z.enum(supplierProviders).default("admin_import"),
+            externalId: z.string().max(180).optional(),
+            title: z.string().min(3).max(220),
+            description: z.string().max(5000).optional(),
+            category: z.string().max(80).optional(),
+            supplierName: z.string().max(180).optional(),
+            supplierCountry: z.string().max(80).optional(),
+            sourceUrl: z.string().url().optional().or(z.literal("")),
+            imageUrls: z.array(z.string().url()).max(12).optional(),
+            reviewSummary: z.union([z.record(z.string(), z.unknown()), z.array(z.record(z.string(), z.unknown()))]).optional(),
+            specs: z.record(z.string(), z.unknown()).optional(),
+            price: z.number().positive(),
+            compareAtPrice: z.number().positive().optional(),
+            currency: z.string().max(12).default("USD"),
+            serviceFee: z.number().min(0).default(44),
+            marginPercent: z.number().min(0).max(95).default(18),
+            rating: z.number().min(0).max(5).optional(),
+            reviewCount: z.number().int().min(0).default(0),
+            soldCount: z.number().int().min(0).default(0),
+            minOrder: z.number().int().min(1).default(1),
+            shippingSummary: z.string().max(180).optional(),
+            shippingDays: z.string().max(80).optional(),
+            providerStatus: z.enum(["live_api", "admin_import", "curated_seed", "needs_review", "paused", "removed"]).default("admin_import"),
+            reviewStatus: z.enum(["queued", "approved", "rejected"]).default("approved"),
+          }),
+        ).min(1).max(100),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        return await importSupplierCatalogRows(ctx.user.id, input.rows.map((row) => ({ ...row, sourceUrl: row.sourceUrl || undefined })));
+      } catch (error) {
+        throw new TRPCError({ code: "PRECONDITION_FAILED", message: error instanceof Error ? error.message : "Supplier catalog import failed." });
+      }
+    }),
+
+  adminSyncSupplierProvider: adminProcedure
+    .input(z.object({ provider: z.enum(["dhgate", "alibaba"]), query: z.string().min(2).max(120).default("popular products") }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        return await syncSupplierProviderCatalog(input.provider, input.query, ctx.user.id);
+      } catch (error) {
+        throw new TRPCError({ code: "PRECONDITION_FAILED", message: error instanceof Error ? error.message : "Supplier API sync failed." });
+      }
+    }),
+
+  createSupplierOrderRequest: protectedProcedure
+    .input(
+      z.object({
+        items: z.array(
+          z.object({
+            catalogItemId: z.number().int().positive().optional(),
+            title: z.string().min(2).max(220),
+            provider: z.enum(["dhgate", "alibaba", "admin_import", "private_supplier", "mixed"]).optional(),
+            price: z.number().min(0),
+            quantity: z.number().int().min(1).max(500),
+            imageUrl: z.string().url().optional().or(z.literal("")),
+            supplierName: z.string().max(180).optional(),
+          }),
+        ).min(1).max(50),
+        serviceFee: z.number().min(0).default(44),
+        shippingName: z.string().max(180).optional(),
+        shippingAddress: z.string().max(2000).optional(),
+        buyerNote: z.string().max(2000).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        return await createSupplierOrderRequest(ctx.user.id, { ...input, items: input.items.map((item) => ({ ...item, imageUrl: item.imageUrl || undefined })) });
+      } catch (error) {
+        throw new TRPCError({ code: "PRECONDITION_FAILED", message: error instanceof Error ? error.message : "Supplier order request failed." });
+      }
+    }),
+
+  mySupplierOrderRequests: protectedProcedure.query(async ({ ctx }) => listSupplierOrderRequests({ userId: ctx.user.id, limit: 25 })),
+
+  adminSupplierOrderRequests: adminProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(50) }).optional())
+    .query(async ({ input }) => listSupplierOrderRequests({ limit: input?.limit ?? 50 })),
+
+  adminUpdateSupplierOrderRequest: adminProcedure
+    .input(
+      z.object({
+        orderId: z.number().int().positive(),
+        orderStatus: z.enum(["queued", "admin_review", "approved", "provider_submitted", "fulfilled", "rejected", "cancelled"]),
+        paymentStatus: z.enum(["not_charged", "quote_sent", "held", "paid", "refunded"]).optional(),
+        adminNote: z.string().max(2000).optional(),
+      }),
+    )
+    .mutation(async ({ input }) => updateSupplierOrderRequestStatus(input)),
+
   listListings: publicProcedure
     .input(
       z
