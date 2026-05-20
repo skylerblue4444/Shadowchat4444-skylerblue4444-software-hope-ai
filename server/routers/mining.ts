@@ -1,4 +1,4 @@
-// server/routers/mining.ts
+// Production Grade Mining Router
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { db } from "../db";
@@ -7,9 +7,7 @@ import { eq, and, sql } from "drizzle-orm";
 
 export const miningRouter = router({
   startMining: protectedProcedure
-    .input(z.object({ 
-      coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC"]) 
-    }))
+    .input(z.object({ coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO"]) }))
     .mutation(async ({ ctx, input }) => {
       const [session] = await db.insert(miningSessions).values({
         userId: ctx.user.id,
@@ -21,23 +19,19 @@ export const miningRouter = router({
         status: "active",
       }).returning();
 
-      return { 
-        success: true, 
-        sessionId: session.id, 
-        message: `Mining started for ${input.coin}` 
-      };
+      return { success: true, sessionId: session.id };
     }),
 
   recordBlockFound: protectedProcedure
     .input(z.object({ sessionId: z.number(), coin: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const reward = input.coin === "SKY4444" ? "50" : input.coin === "TRUMP" ? "25" : "15";
+      const reward = input.coin === "SKY4444" ? "50" : "25";
 
       await db.transaction(async (tx) => {
         await tx.update(miningSessions)
           .set({ 
             blocksFound: sql`blocksFound + 1`,
-            balance: sql`balance + ${reward}`
+            balance: sql`balance + ${reward}` 
           })
           .where(and(
             eq(miningSessions.id, input.sessionId),
@@ -49,13 +43,6 @@ export const miningRouter = router({
           .where(eq(users.id, ctx.user.id));
       });
 
-      return { success: true, reward, message: `Block found! +${reward} ${input.coin}` };
+      return { success: true, reward };
     }),
-
-  getActiveSessions: protectedProcedure.query(async ({ ctx }) => {
-    return await db.query.miningSessions.findMany({
-      where: eq(miningSessions.userId, ctx.user.id),
-      orderBy: (sessions, { desc }) => [desc(sessions.startedAt)],
-    });
-  }),
 });
