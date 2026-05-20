@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wallet,
@@ -27,6 +27,14 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 type Modal = "send" | "receive" | "tip" | "swap" | "escrow" | null;
+
+type PaymentReadiness = {
+  stripe?: { secretKey?: string; publishableKey?: string; usableMode?: string; rawSecretsExposed?: boolean };
+  plaid?: { publicToken?: string; mode?: string };
+  killSwitches?: Record<string, boolean>;
+  labels?: string[];
+  generatedAt?: string;
+};
 
 const TX_ICONS: Record<string, typeof ArrowUpRight> = {
   transfer: ArrowUpRight,
@@ -74,8 +82,24 @@ export default function WalletPage() {
   const [recipientId, setRecipientId] = useState("");
   const [swapToAsset, setSwapToAsset] = useState("USDT");
   const [memo, setMemo] = useState("");
+  const [paymentReadiness, setPaymentReadiness] = useState<PaymentReadiness | null>(null);
 
   const wallet = trpc.web3.getWalletSummary.useQuery(undefined, { refetchInterval: 30000 });
+
+  useEffect(() => {
+    let mounted = true;
+    fetch("/api/payments/readiness")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: PaymentReadiness | null) => {
+        if (mounted) setPaymentReadiness(data);
+      })
+      .catch(() => {
+        if (mounted) setPaymentReadiness(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
   const sendCoin = trpc.web3.sendCoin.useMutation({
     onSuccess: async () => {
       toast.success("Beta wallet transfer recorded.");
@@ -215,6 +239,24 @@ export default function WalletPage() {
         </div>
       </div>
 
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card className="border-emerald-500/20 bg-emerald-500/5 md:col-span-2">
+          <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm font-bold"><Shield className="h-4 w-4 text-emerald-300" /> Provider Readiness</CardTitle></CardHeader>
+          <CardContent className="grid gap-3 text-xs text-muted-foreground sm:grid-cols-2">
+            <div className="rounded-xl border border-border/50 p-3"><p className="mb-1 font-semibold text-foreground">Stripe</p><p>Secret: {paymentReadiness?.stripe?.secretKey ?? "checking"}</p><p>Publishable: {paymentReadiness?.stripe?.publishableKey ?? "checking"}</p><Badge variant="outline" className="mt-2">{paymentReadiness?.stripe?.usableMode ?? "provider-gated"}</Badge></div>
+            <div className="rounded-xl border border-border/50 p-3"><p className="mb-1 font-semibold text-foreground">Plaid / banking</p><p>Token: {paymentReadiness?.plaid?.publicToken ?? "checking"}</p><p>Mode: {paymentReadiness?.plaid?.mode ?? "provider-gated"}</p><Badge variant="outline" className="mt-2">No raw secrets displayed</Badge></div>
+          </CardContent>
+        </Card>
+        <Card className="border-amber-500/20 bg-amber-500/5 md:col-span-2">
+          <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm font-bold"><LockKeyhole className="h-4 w-4 text-amber-300" /> Money Kill Switches</CardTitle></CardHeader>
+          <CardContent className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+            {Object.entries(paymentReadiness?.killSwitches ?? { moneyMovementDisabled: true, livePaymentConfirmationsDisabled: true, casinoPublicGamblingDisabled: true, tradingLiveOrdersDisabled: true }).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between rounded-xl border border-border/50 p-2"><span>{key}</span><Badge className={value ? "border-red-500/30 bg-red-500/10 text-red-300" : "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"}>{value ? "ON" : "OFF"}</Badge></div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+
       <AnimatePresence>
         {activeModal && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
@@ -336,6 +378,7 @@ export default function WalletPage() {
             <div className="rounded-xl border border-border/50 p-3"><Shield className="mb-2 h-4 w-4 text-cyan-300" /> Balances and transaction records persist through the backend ledger when the database is configured.</div>
             <div className="rounded-xl border border-border/50 p-3"><HeartHandshake className="mb-2 h-4 w-4 text-pink-300" /> Creator tips, 15% platform fee, charity split, and burn accounting are recorded as auditable transaction rows.</div>
             <div className="rounded-xl border border-border/50 p-3"><LockKeyhole className="mb-2 h-4 w-4 text-indigo-300" /> Escrow holds are modeled for future marketplace and P2P releases, refunds, and dispute workflows.</div>
+            <div className="rounded-xl border border-border/50 p-3"><Shield className="mb-2 h-4 w-4 text-emerald-300" /> Stripe/Plaid readiness is checked at runtime through environment flags. Raw keys never render in the browser.</div>
           </CardContent>
         </Card>
       </div>

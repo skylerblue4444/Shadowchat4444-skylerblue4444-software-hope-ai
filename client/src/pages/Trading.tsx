@@ -113,6 +113,20 @@ export default function Trading() {
 
   return (
     <div className="space-y-4">
+      <Card className="border-amber-500/30 bg-amber-500/5">
+        <CardContent className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="border-cyan-500/30 bg-cyan-500/10 text-cyan-300">Hope AI voice-addressable</Badge>
+              <Badge className="border-amber-500/30 bg-amber-500/10 text-amber-300">Paper / beta trade ledger</Badge>
+              <Badge className="border-red-500/30 bg-red-500/10 text-red-300">Live broker kill switch on</Badge>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">This terminal is wired to the backend order mutation for audited beta orders. External broker execution, live settlement, leverage, and real money movement remain provider-gated until intentionally configured.</p>
+          </div>
+          <Button variant="outline" className="border-cyan-500/30 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20" onClick={() => toast.info("Hope AI can open and narrate this terminal; live broker execution remains behind provider and kill-switch checks.")}>Hands-free status</Button>
+        </CardContent>
+      </Card>
+
       {/* Market Ticker */}
       <div className="flex gap-3 overflow-x-auto pb-1">
         {MARKET_TICKER.map((m) => (
@@ -235,8 +249,9 @@ export default function Trading() {
         {/* Order Panel */}
         <div className="xl:col-span-1">
           <Card className="border-border/50 sticky top-4">
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Place Order</CardTitle></CardHeader>
+            <CardHeader className="pb-3"><CardTitle className="flex items-center justify-between gap-2 text-sm">Place Order <Badge className="border-amber-500/30 bg-amber-500/10 text-amber-300">Paper</Badge></CardTitle></CardHeader>
             <CardContent className="space-y-4">
+              <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-xs leading-5 text-amber-200">Orders submitted here are beta/paper orders through the app backend. Live broker routing is disabled by default and must pass provider, risk, and kill-switch checks before any real execution.</div>
               <div className="grid grid-cols-2 gap-1 p-1 bg-muted rounded-lg">
                 <button onClick={() => setOrderType("buy")} className={`py-2 rounded-md text-sm font-semibold transition-colors ${orderType === "buy" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"}`}>Buy</button>
                 <button onClick={() => setOrderType("sell")} className={`py-2 rounded-md text-sm font-semibold transition-colors ${orderType === "sell" ? "bg-red-600 text-white" : "text-muted-foreground hover:text-foreground"}`}>Sell</button>
@@ -278,9 +293,9 @@ export default function Trading() {
                 <span className="font-bold font-mono">{total} USDC</span>
               </div>
               <Button className={`w-full font-semibold ${orderType === "buy" ? "bg-green-600 hover:bg-green-700 text-white border-0" : "bg-red-600 hover:bg-red-700 text-white border-0"}`} onClick={handleOrder} disabled={createOrder.isPending}>
-                {createOrder.isPending ? "Processing..." : `${orderType === "buy" ? "Buy" : "Sell"} ${pair.split("/")[0]}`}
+                {createOrder.isPending ? "Processing paper order..." : `${orderType === "buy" ? "Buy" : "Sell"} ${pair.split("/")[0]} Paper`}
               </Button>
-              <p className="text-xs text-muted-foreground text-center">Trading involves risk. Only invest what you can afford to lose.</p>
+              <p className="text-xs text-muted-foreground text-center">Trading involves risk. This build keeps live execution provider-gated and labels current activity as beta/paper order flow.</p>
             </CardContent>
           </Card>
         </div>

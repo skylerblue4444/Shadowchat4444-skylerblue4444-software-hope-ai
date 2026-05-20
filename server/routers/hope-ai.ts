@@ -14,7 +14,7 @@ import { getDb } from "../db";
 import { multiCoinService, supportedCoins, type Coin } from "../lib/multi-coin";
 
 const marketSchema = z.enum(["usa", "china", "global"]);
-const modeSchema = z.enum(["hands_free", "guided", "admin", "market", "companion"]);
+const modeSchema = z.enum(["hands_free", "guided", "admin", "market", "companion", "unhinged"]);
 const coinSchema = z.enum(supportedCoins);
 const quickActionSchema = z.enum([
   "create_feed_post",
@@ -102,6 +102,12 @@ const navigationTargets: NavigationTarget[] = [
   { key: "skyblue_it", label: "Sky Blue IT Dashboard", labelZh: "Sky Blue IT 控制台", route: "/dashboard/it-dashboard", section: "security", aliases: ["sky blue", "it dashboard", "cybersecurity", "service center", "client portal", "information technology", "网络安全", "信息技术"], description: "Open the founder-led IT services dashboard for cybersecurity and full-stack service delivery." },
   { key: "shadow_pay", label: "Shadow Pay", labelZh: "Shadow Pay 支付", route: "/dashboard/pay", section: "wallet", aliases: ["pay", "shadow pay", "payment", "stripe", "checkout", "支付", "付款"], description: "Open payment and checkout surfaces while keeping live money movement behind provider configuration." },
   { key: "ico", label: "SKYCOIN4444 ICO Hub", labelZh: "SKYCOIN4444 ICO 中心", route: "/dashboard/ico", section: "wallet", aliases: ["ico", "launch", "token sale", "sky4444", "skycoin4444 ico", "代币", "发行"], description: "Open SKYCOIN4444 launch education and beta economy surfaces." },
+  { key: "casino", label: "ShadowCasino Beta Playground", labelZh: "ShadowCasino 测试游乐场", route: "/dashboard/casino", section: "commerce", aliases: ["casino", "shadow casino", "slots", "roulette", "blackjack", "dice", "crash", "games", "赌场", "游戏"], description: "Open the beta casino/game playground with wallet-gated labels, audited sessions, and no public regulated gambling claim." },
+  { key: "game_center", label: "Game Center", labelZh: "游戏中心", route: "/dashboard/game-center", section: "commerce", aliases: ["game center", "arcade", "tournaments", "leaderboard", "play games", "游戏中心", "排行榜"], description: "Open the broader game center for playable demos, tournaments, leaderboard context, and future creator game surfaces." },
+  { key: "settings", label: "Settings", labelZh: "设置", route: "/dashboard/settings", section: "admin", aliases: ["settings", "preferences", "controls", "hands free settings", "kill switches", "disable live", "设置", "控制"], description: "Open account and platform settings for voice preferences, provider labels, safety toggles, and user controls." },
+  { key: "trading", label: "Trading Terminal", labelZh: "交易终端", route: "/dashboard/trading", section: "wallet", aliases: ["trading", "day trade", "day trading", "trade terminal", "paper trade", "spot trading", "买卖", "交易"], description: "Open trading surfaces with paper/live-provider labels and kill-switch gating for real order placement." },
+  { key: "futures", label: "Futures Lab", labelZh: "合约实验室", route: "/dashboard/futures", section: "wallet", aliases: ["futures", "leverage", "perps", "perpetuals", "margin", "合约", "杠杆"], description: "Open futures-style analytics and beta controls while keeping real leverage orders provider-gated." },
+  { key: "copy_trading", label: "Copy Trading", labelZh: "跟单交易", route: "/dashboard/copy-trading", section: "wallet", aliases: ["copy trading", "copy traders", "follow traders", "mirror trades", "friends market trading", "跟单"], description: "Open social/copy trading discovery with paper-trade and provider-gated execution labels." },
 ];
 
 const defaultPlan: PlannedAction[] = [
@@ -142,6 +148,43 @@ function buildProductionReadiness() {
 function summarizeIntent(intent: string, market: Market) {
   const trimmed = intent.trim().replace(/\s+/g, " ").slice(0, 160);
   return trimmed || `Hope AI hands-free ${marketCopy[market].name} growth sprint`;
+}
+
+function voiceModeProfile(mode: Mode) {
+  const profiles: Record<Mode, { label: string; intensity: string; guardrail: string; spokenPrefix: string }> = {
+    hands_free: { label: "Hands-free", intensity: "steady operator", guardrail: "Execute only supported logged actions.", spokenPrefix: "Hope AI hands-free mode" },
+    guided: { label: "Guided", intensity: "step-by-step planner", guardrail: "Plan first, then ask for execution context.", spokenPrefix: "Hope AI guided mode" },
+    admin: { label: "Admin", intensity: "review and control", guardrail: "Admin-only actions require role authorization.", spokenPrefix: "Hope AI admin mode" },
+    market: { label: "Market", intensity: "growth and localization", guardrail: "Keep market claims honest and beta-labeled.", spokenPrefix: "Hope AI market mode" },
+    companion: { label: "Companion", intensity: "supportive co-pilot", guardrail: "Keep community, dating, and creator actions respectful.", spokenPrefix: "Hope AI companion mode" },
+    unhinged: { label: "Unhinged", intensity: "high-energy full-platform command stack", guardrail: "Move fast across routes and beta actions, but never fake mainnet, payments, gambling compliance, or external transfers.", spokenPrefix: "Hope AI unhinged mode" },
+  };
+  return profiles[mode];
+}
+
+function buildVoiceEverythingPayload(mode: Mode, market: Market) {
+  const profile = voiceModeProfile(mode);
+  return {
+    mode: profile,
+    market: marketCopy[market],
+    commandCoverage: ["route_everything", "speak_everything", "quick_actions", "production_readiness", "casino_beta_games", "wallet_beta_status", "creator_commerce", "admin_reviews", "usa_china_market_switching", "friends_market", "settings_controls", "hands_free_day_trade"],
+    safeBoundaries: ["No mainnet claim until contracts/providers are actually deployed.", "No public regulated gambling claim; casino remains beta entertainment with audited sessions.", "No irreversible payments or external crypto transfers without provider configuration and operator confirmation.", "Day-trade and futures commands open paper/provider-gated terminals until a live broker/provider is intentionally configured.", "Missing post/user IDs stay blocked instead of guessed."],
+    nextVoiceCommands: ["Hope, open casino", "Hope, play slots beta", "Hope, open friends market", "Hope, open settings", "Hope, open day trading", "Hope, show production readiness", "Hope, run full platform boost", "Hope, open game center"],
+    controls: buildMarketControlReadiness(market),
+  };
+}
+
+function buildMarketControlReadiness(market: Market) {
+  return [
+    { key: "usa_market", label: "USA market", status: market === "usa" ? "active_context" : "voice_selectable", route: "/dashboard/hope-ai", voice: "Hope, switch to USA market", promise: "Trust-first creator commerce, community discovery, and beta wallet disclosures." },
+    { key: "china_ready_market", label: "China-ready market", status: market === "china" ? "active_context" : "voice_selectable", route: "/dashboard/hope-ai", voice: "Hope, switch to China market", promise: "Bilingual mobile-first copy, market guidance, and creator storefront positioning." },
+    { key: "friends_market", label: "Friends-market / dating", status: "db_backed_beta", route: "/dashboard/dating", voice: "Hope, open friends market", promise: "Respectful dating, friend discovery, community waves, and creator-collaboration routing." },
+    { key: "settings", label: "Settings and hands-free preferences", status: "local_ui_ready", route: "/dashboard/settings", voice: "Hope, open settings", promise: "User preferences, language, privacy, and control surfaces are route-ready; deeper persistence remains a later settings sprint." },
+    { key: "hands_free", label: "Hands-free command layer", status: "live_db_backed", route: "/dashboard/hope-ai", voice: "Hope, unhinged mode voice everything", promise: "Voice commands can route screens, log supported actions, and return spoken responses." },
+    { key: "day_trade", label: "Day-trade terminal", status: "paper_trade_provider_gated", route: "/dashboard/trading", voice: "Hope, open day trading", promise: "Trading UI routes and backend order mutation exist; live broker/provider execution stays behind kill switches." },
+    { key: "futures", label: "Futures lab", status: "paper_beta_only", route: "/dashboard/futures", voice: "Hope, open futures", promise: "Leverage/perpetual controls remain simulated education until provider and risk controls are configured." },
+    { key: "copy_trading", label: "Copy trading friends market", status: "paper_beta_only", route: "/dashboard/copy-trading", voice: "Hope, open copy trading", promise: "Social trader discovery is visible; live mirroring is disabled until provider-gated execution is implemented." },
+  ];
 }
 
 function buildPlan(intent: string, market: Market, mode: Mode): PlannedAction[] {
@@ -223,7 +266,8 @@ function spokenActionResponse(action: QuickAction, market: Market, executed: boo
 async function recordAction(input: { userId: number; mode: Mode; market: Market; intent: string; status?: "planned" | "completed" | "blocked" | "failed"; actions: unknown; resultSummary: string; nextSteps?: unknown }) {
   const db = await getDb();
   if (!db) return null;
-  const [created] = await db.insert(hopeAiActionRuns).values({ userId: input.userId, mode: input.mode, market: input.market, intent: summarizeIntent(input.intent, input.market), status: input.status ?? "completed", actionsJson: JSON.stringify(input.actions), resultSummary: input.resultSummary, nextStepsJson: JSON.stringify(input.nextSteps ?? []) }).$returningId();
+  const persistedMode: Exclude<Mode, "unhinged"> = input.mode === "unhinged" ? "hands_free" : input.mode;
+  const [created] = await db.insert(hopeAiActionRuns).values({ userId: input.userId, mode: persistedMode, market: input.market, intent: summarizeIntent(input.intent, input.market), status: input.status ?? "completed", actionsJson: JSON.stringify(input.actions), resultSummary: input.resultSummary, nextStepsJson: JSON.stringify(input.nextSteps ?? []) }).$returningId();
   return created?.id ?? null;
 }
 
@@ -301,8 +345,9 @@ export const hopeAiRouter = router({
       balances,
       latestRuns,
       navigationTargets,
-      voiceExamples: ["Hope, go to marketplace", "Open livestream studio", "Post a Hope AI founder update", "Tip creator 144 SKY4444", "Like post 1", "带我去市场"],
+      voiceExamples: ["Hope, go to marketplace", "Open livestream studio", "Hope, unhinged mode voice everything", "Hope, open casino", "Play slots beta", "Hope, open friends market", "Hope, open settings", "Hope, open day trading", "Post a Hope AI founder update", "Tip creator 144 SKY4444", "Like post 1", "带我去市场"],
       recommendedActions: buildPlan("hands-free Hope AI sprint", market, "hands_free"),
+      marketControls: buildMarketControlReadiness(market),
       productionReadiness: buildProductionReadiness(),
       productionGate: { liveMoneyMovement: "provider_config_required", stripe: "test_mode_or_env_secret_required", cryptoTransfers: "beta_ledger_enabled_real_onchain_gated", mainnetDeployment: "not_deployed", walletConnect: "adapter_ready_not_mainnet" },
     };
@@ -319,24 +364,26 @@ export const hopeAiRouter = router({
       subheadline: "Hope AI is evolving from a page into an operator layer that can understand voice intent, navigate the product, trigger safe quick actions, and explain every market move.",
       market: marketCopy[market],
       metrics: [
-        { label: "Voice-ready command layer", value: "3 procedures", detail: "voiceCommand, navigationIntent, and aiDevSection expose the hands-free brain to the React mission-control UI." },
+        { label: "Voice-ready command layer", value: "unhinged mode", detail: "voiceCommand, navigationIntent, productionReadiness, and aiDevSection expose route-everything voice control, spoken replies, safe quick actions, and high-energy beta orchestration." },
         { label: "Beta economy coverage", value: `${supportedCoins.length} coins`, detail: "SKYCOIN4444, Shadow Coin, and multi-coin beta ledger balances stay visible while real transfers remain gated." },
-        { label: "Hands-free destinations", value: `${navigationTargets.length} routes`, detail: "Marketplace, dating, livestream, social feed, wallet, admin, analytics, AI tools, and Sky Blue IT surfaces are voice-addressable." },
+        { label: "Hands-free destinations", value: `${navigationTargets.length} routes`, detail: "Marketplace, dating, livestream, social feed, wallet, casino, game center, admin, analytics, AI tools, and Sky Blue IT surfaces are voice-addressable." },
         { label: "Recorded Hope AI runs", value: `${latestRuns.length}`, detail: "Recent planned, completed, and blocked automations are retained for audit-style review." },
         { label: "Wallet visibility", value: `$${walletUsdTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}`, detail: "Estimated beta-ledger value across the currently configured account balances." },
         { label: "Market stance", value: marketCopy[market].zhName, detail: marketCopy[market].positioning },
         { label: "Production truth map", value: `${productionReadinessMatrix.length} areas`, detail: "Hope AI now labels DB-backed, beta-ledger, partial, provider-gated, and not-mainnet features separately so operators do not confuse prep-stage work with deployment." },
       ],
       innovationHighlights: [
-        "Natural-language voice commands map to product routes or safe quick actions instead of leaving users stranded in static dashboards.",
+        "Natural-language voice commands map to product routes, casino/game surfaces, production-readiness truth maps, or safe quick actions instead of leaving users stranded in static dashboards.",
         "Free-will engineering keeps Hope AI assistive and accountable: every action is explainable, logged, and visible to the operator.",
         "Bilingual U.S. and China-ready messaging is built into market guidance, navigation labels, and creator-commerce positioning.",
+        "Friends-market, settings, hands-free, day-trade, futures, and copy-trading routes now sit inside the same control-readiness payload with paper/provider-gated labels.",
         "Creator monetization, dating/community discovery, livestreaming, marketplace listings, admin reviews, and beta wallet utilities now share one orchestration layer.",
       ],
       technicalStack: ["Vite + React + TypeScript mission-control frontend", "tRPC protected procedures with authenticated user context", "Drizzle ORM persistence for audit runs, marketplace listings, live streams, feed interactions, and dating actions", "Multi-coin beta ledger service with SKY4444 and SHADOW support", "Provider-gated Stripe/on-chain production controls for responsible rollout"],
-      safetyArchitecture: ["Real-money movement stays behind provider configuration and environment secrets.", "On-chain transfers remain disabled until a production blockchain provider is intentionally configured.", "Admin review actions require admin or god-mode role checks.", "Voice commands that lack required IDs return a clear blocked state instead of guessing unsafe targets."],
+      safetyArchitecture: ["Real-money movement stays behind provider configuration and environment secrets.", "On-chain transfers remain disabled until a production blockchain provider is intentionally configured.", "Casino/gameplay is labeled as beta entertainment with audited sessions, not public regulated gambling infrastructure.", "Admin review actions require admin or god-mode role checks.", "Voice commands that lack required IDs return a clear blocked state instead of guessing unsafe targets.", "Unhinged mode increases voice intensity and route coverage, not permission to fake deployment, compliance, or money movement."],
             nextBuildMoves: buildProductionReadiness().nextPersistenceTargets,
       productionReadiness: buildProductionReadiness(),
+      marketControls: buildMarketControlReadiness(market),
     };
   }),
   productionReadiness: protectedProcedure.query(async () => {
@@ -349,6 +396,14 @@ export const hopeAiRouter = router({
 
   voiceCommand: protectedProcedure.input(z.object({ command: z.string().min(1).max(1200), market: marketSchema.default("global"), mode: modeSchema.default("hands_free"), execute: z.boolean().default(true), content: z.string().max(4000).optional(), postId: z.number().int().positive().optional(), targetUserId: z.number().int().positive().optional(), listingId: z.number().int().positive().optional(), amount: z.number().positive().max(1_000_000).optional(), coin: coinSchema.default("SKY4444") })).mutation(async ({ ctx, input }) => {
     const readiness = buildProductionReadiness();
+    const normalizedCommand = normalizeCommand(input.command);
+    const requestedUnhinged = /unhinged|unhiddge|unhinge|voice everything|everything mode|full voice|all voice|wild mode|beast mode/i.test(normalizedCommand) || input.mode === "unhinged";
+    if (requestedUnhinged && /voice|mode|everything|hope|unhing/i.test(normalizedCommand)) {
+      const result = buildVoiceEverythingPayload("unhinged", input.market);
+      const resultSummary = "Hope AI unhinged voice mode armed: full-platform routing, spoken replies, casino beta routing, quick actions, and production truth labels are active without fake mainnet or money-movement claims.";
+      const actionRunId = await recordAction({ userId: ctx.user.id, mode: "unhinged", market: input.market, intent: input.command, status: "completed", actions: [{ type: "voice_everything", result }], resultSummary, nextSteps: result.nextVoiceCommands });
+      return { success: true, intentType: "voice_mode" as const, needsInput: false, actionRunId, navigation: null, action: null, resultSummary, result, spokenResponse: "Unhinged mode armed. I can route marketplace, casino, game center, wallet, admin, livestream, social, and readiness commands fast, but mainnet, public gambling, and real money movement stay gated." };
+    }
     if (/readiness|production|mainnet|wallet connect|wallet-connect|contract|persistent|persistence|live db|staking|mining|trading/i.test(input.command)) {
       const resultSummary = "Hope AI production-control map returned: DB-backed flows are separated from beta-ledger, partial, provider-gated, and not-mainnet areas.";
       const actionRunId = await recordAction({ userId: ctx.user.id, mode: input.mode, market: input.market, intent: input.command, status: "completed", actions: [{ action: "production_readiness", result: readiness }], resultSummary, nextSteps: readiness.nextPersistenceTargets });
@@ -382,7 +437,7 @@ export const hopeAiRouter = router({
     const actions = buildPlan(input.command, input.market, input.mode);
     const resultSummary = `Hope AI converted the voice command into a ${actions.length}-step guided sprint plan.`;
     const actionRunId = await recordAction({ userId: ctx.user.id, mode: input.mode, market: input.market, intent: input.command, status: "planned", actions, resultSummary, nextSteps: ["Review the plan", "Run a quick action", "Use a navigation command such as go to marketplace"] });
-    return { success: true, intentType: "plan" as const, needsInput: false, actionRunId, navigation: null, action: null, actions, resultSummary, spokenResponse: `Hope AI planned ${actions.length} steps. Say go to marketplace, open livestream, post an update, tip creator, or show wallet to move hands-free.` };
+    return { success: true, intentType: "plan" as const, needsInput: false, actionRunId, navigation: null, action: null, actions, resultSummary, spokenResponse: `${voiceModeProfile(input.mode).spokenPrefix} planned ${actions.length} steps. Say open casino, go to marketplace, open livestream, post an update, tip creator, or show wallet to move hands-free.` };
   }),
 
   planSprint: protectedProcedure.input(z.object({ intent: z.string().min(1).max(1200), market: marketSchema.default("global"), mode: modeSchema.default("guided") })).mutation(async ({ ctx, input }) => {

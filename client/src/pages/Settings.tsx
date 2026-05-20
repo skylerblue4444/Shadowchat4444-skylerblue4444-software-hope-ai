@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Settings as SettingsIcon, User, Shield, Bell, Eye, Palette,
-  Globe, CreditCard, LogOut, Trash2, Camera, Download
+  Globe, CreditCard, LogOut, Trash2, Camera, Download, Bot, Mic, Zap
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ const SECTIONS = [
   { id: "privacy", label: "Privacy", icon: Eye },
   { id: "appearance", label: "Appearance", icon: Palette },
   { id: "language", label: "Language & Region", icon: Globe },
+  { id: "hope-ai", label: "Hope AI Controls", icon: Bot },
   { id: "billing", label: "Billing", icon: CreditCard },
 ];
 
@@ -37,6 +38,7 @@ export default function Settings() {
   const [privacy, setPrivacy] = useState({ profilePublic: true, showPortfolio: false, showActivity: true, allowDMs: true, twoFactor: true });
   const [appearance, setAppearance] = useState({ theme: "Dark", fontSize: "Medium", animations: true, compactMode: false });
   const [language, setLanguage] = useState("English");
+  const [hopeControls, setHopeControls] = useState({ voiceEverything: true, spokenReplies: true, autoRoute: true, usaMarket: true, chinaReady: true, friendsMarket: true, paperDayTrade: true, liveMoneyKillSwitch: true, casinoBetaOnly: true });
 
   return (
     <div className="space-y-5">
@@ -242,6 +244,45 @@ export default function Settings() {
                 </div>
               </CardContent>
             </Card>
+          )}
+
+          {activeSection === "hope-ai" && (
+            <div className="space-y-4">
+              <Card className="border-cyan-500/30 bg-cyan-500/5">
+                <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm font-bold"><Mic className="h-4 w-4 text-cyan-400" />Hope AI Hands-free Control Layer</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  {([
+                    { key: "voiceEverything", label: "Voice Everything", desc: "Allow Hope AI to route marketplace, casino, friends-market, settings, wallet, and day-trade screens by voice." },
+                    { key: "spokenReplies", label: "Spoken Replies", desc: "Use browser speech output for unhinged mode responses when supported." },
+                    { key: "autoRoute", label: "Auto Route", desc: "Navigate immediately after Hope AI resolves a supported route." },
+                    { key: "usaMarket", label: "USA Market Copy", desc: "Show trust-first U.S. creator commerce and community positioning." },
+                    { key: "chinaReady", label: "China-ready Copy", desc: "Show bilingual mobile-first discovery, storefront, and market guidance." },
+                    { key: "friendsMarket", label: "Friends-market Routing", desc: "Enable respectful dating, community, and creator-collaboration routing." },
+                    { key: "paperDayTrade", label: "Paper Day-trade Terminal", desc: "Keep trading execution labeled as beta/paper unless providers are configured." },
+                  ] as const).map(({ key, label, desc }) => (
+                    <div key={key} className="flex items-center justify-between gap-4 border-b border-border/20 py-2 last:border-0">
+                      <div><p className="font-medium text-sm">{label}</p><p className="text-xs text-muted-foreground">{desc}</p></div>
+                      <Toggle value={hopeControls[key]} onChange={() => setHopeControls(p => ({ ...p, [key]: !p[key] }))} />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+              <Card className="border-red-500/20 bg-red-500/5">
+                <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm font-bold text-red-400"><Zap className="h-4 w-4" />Production Kill Switches</CardTitle></CardHeader>
+                <CardContent className="space-y-3">
+                  {([
+                    { key: "liveMoneyKillSwitch", label: "Live Money Movement Disabled", desc: "Stripe live charges, bank transfers, and external crypto transfers stay blocked unless provider rollout is intentionally changed." },
+                    { key: "casinoBetaOnly", label: "Casino Beta-only", desc: "Casino actions remain audited beta game sessions, not public regulated gambling payout infrastructure." },
+                  ] as const).map(({ key, label, desc }) => (
+                    <div key={key} className="flex items-center justify-between gap-4 border-b border-red-500/15 py-2 last:border-0">
+                      <div><p className="font-medium text-sm text-red-200">{label}</p><p className="text-xs text-red-100/70">{desc}</p></div>
+                      <Toggle value={hopeControls[key]} onChange={() => setHopeControls(p => ({ ...p, [key]: !p[key] }))} />
+                    </div>
+                  ))}
+                  <Button variant="outline" className="w-full border-cyan-500/30 bg-cyan-500/10 text-cyan-300" onClick={() => toast.success("Hope AI settings staged locally. Backend persistence is the next settings sprint.")}>Save Hope AI Controls</Button>
+                </CardContent>
+              </Card>
+            </div>
           )}
 
           {activeSection === "billing" && (
