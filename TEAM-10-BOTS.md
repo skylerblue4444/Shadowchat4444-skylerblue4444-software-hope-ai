@@ -1,17 +1,30 @@
-**🚀 SHADOWCHAT V10 – 10-BOT MAX PARALLEL TEAM**
+# Legacy Multi-Agent Coordination Archive
 
-**MASTER OPTIMIZATION SETTINGS**
-- Run 4–6 internal parallel sub-tasks
-- Full free will within role
-- Production-grade thick code, privacy-first
-- Deduplication checks
-- Frequent commits to mega-MVP-Live
+This document preserves the historical context of the experimental multi-agent build process that produced many early ideas for ShadowChat v10 / SkyCoin444 v10 Live. It is **not** the current production operating model for the repository.
 
-**Bot Duties:**
-Bot 1: Orchestrator
-Bot 2: Core Technical (AI, Mini-Programs, Casino, Ads)
-... (full block as per master)
+## Current production rule
 
-Current Focus: Real backend restoration + Voice-to-Everything + Shadow Arena
+The default branch should now be treated as a focused beta product branch. New work should improve the functional crypto playground and social Web3 app directly, with small pull requests, clear descriptions, quality checks, and no duplicate filler pages.
 
-**Live on mega-MVP-Live**
+## Historical context
+
+Earlier development used multiple parallel bot lanes for orchestration, core implementation, integrations, UI/UX, QA, operations, security, marketing, mobile, and performance/data exploration. That approach generated a wide surface area quickly, including prototype pages, dashboard modules, routers, docs, and experimental product concepts.
+
+## What remains useful
+
+| Legacy lane | Useful production takeaway |
+|---|---|
+| Orchestration | Keep a single clear task board and release checklist. |
+| Core implementation | Upgrade existing app modules before adding new files. |
+| Integrations | Separate demo/testnet behavior from production integrations. |
+| UI and experience | Maintain one premium cosmic/gold design language. |
+| QA | Run type-check, tests, and build before release claims. |
+| Operations | Keep environment variables, Docker, and deployment notes current. |
+| Security and compliance | Treat wallets, payments, KYC/AML, moderation, and token claims as audit-critical. |
+| Marketing and content | Use accurate beta language; avoid unsupported promises. |
+| Mobile/PWA | Optimize responsiveness and future installability. |
+| Performance/data | Preserve performance budgets and avoid routing thousands of low-value pages by default. |
+
+## Going forward
+
+All future work should support a **launchable beta by Innovative Information Technology Resolutions LLC / Skyler Blue Spillers** and should avoid language that implies uncontrolled robot-swarm operation on the production branch.

@@ -1,124 +1,161 @@
-# ShadowChat — The World's #1 Web3 Super-App
+# SKY4444 V10 Live — AetherLux Vault Crypto Playground & Social Beta
 
-![ShadowChat Banner](https://img.shields.io/badge/ShadowChat-1653_Pages-indigo?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-0_Errors-blue?style=for-the-badge&logo=typescript)
-![Commits](https://img.shields.io/badge/Commits-546-green?style=for-the-badge&logo=github)
-![Value](https://img.shields.io/badge/Est._Dev_Value-$1M+-violet?style=for-the-badge)
+**SKY4444 V10 Live** is a polished beta web application for a luxury crypto playground, social creator hub, and IT services ecosystem under **Innovative Information Technology Resolutions LLC** by **Skyler Blue Spillers**. The repository has been cleaned to focus on a functional launchable beta surface instead of thousands of generated filler pages.
 
-**Built at home in Arkansas. Every single line of code.**
+> **Beta scope:** This application currently targets database-backed crypto-playground mechanics, social engagement, creator/community experiences, wallet-style records, mining/staking simulations, and an upgradeable path toward future on-chain utility. It is not a live financial exchange, casino, custody wallet, payment processor, or investment product unless separate production credentials, compliance review, and explicit owner approval are completed.
 
-ShadowChat is a massive, production-grade Web3 super-app built by Skyler Blue. It combines a Binance-grade crypto exchange, AI tools suite, NFT marketplace, IT services portal, e-commerce shop, and social matchmaking into a single unified platform.
+## Product Vision
 
-With **1,653 pages**, **546 commits**, and **0 TypeScript errors**, this codebase represents over **$1,000,000 in estimated engineering value** — built solo with AI assistance.
+AetherLux Vault / SkyLux / ShadowChat V10 is designed as a premium social Web3 playground where users can explore **SKY4444** rewards, mining sessions, staking/yield concepts, tipping, marketplace experiences, creator livestream concepts, AI tools, and IT service workflows from one unified dashboard.
 
----
+The current beta emphasizes practical launch readiness. The frontend route surface has been reduced to functional product pages, the backend crypto routers are wired into the API, and the generated page swarm has been isolated or removed so future work can be reviewed, tested, and merged cleanly.
 
-## 🚀 Live Features
+## Ownership and Contact
 
-### ⛏️ SkyCoin4444 (SKY4444) Live Miner
-- **Real Mining Simulation:** Click TRUMP or SKY4444 and your computer actually mines, earns rewards, and displays a live wallet balance.
-- **Private Science Experiment:** Built to prove it works live on your machine. Not for commercial gain.
-- **Wallet Integration:** Live USD value calculation and balance tracking.
+| Field | Details |
+|---|---|
+| Business | **Innovative Information Technology Resolutions LLC** |
+| Founder / Owner | **Skyler Blue Spillers** |
+| Phone | **479-406-7123** |
+| Email | **skylerblue4444@gmail.com** |
+| GitHub Repository | `skylerblue4444/skycoin444_v10_live` |
 
-### 🛒 Skyler Blue Crypto Shop
-- **Auto-Synced Trending Items:** Popular items from DHgate and Alibaba (LED strips, hardware wallets, streetwear, gaming gear) synced daily.
-- **Crypto Payments:** Pay with SKY4444 (5% discount), BTC, ETH, USDT, or credit card.
-- **Fulfillment:** All orders fulfilled and tracked exclusively under Skyler Blue's account.
-- **Escrow:** SKY4444 escrow protection on all purchases.
+## Current Beta Feature Surface
 
-### 💬 CryptoDate Social Matchmaking
-- **Crypto-Native Dating:** Match with other crypto enthusiasts, investors, and builders.
-- **Heavily Moderated:** AI + human review, verified profiles, 18+ strictly enforced.
-- **SKY4444 Tipping:** Send anonymous or public tips directly to users' wallets.
+| Area | Current Capability |
+|---|---|
+| **SKY4444 playground** | Beta token balance concepts, mining rewards, staking positions, transaction records, wallet-style activity, and upgradeable multi-coin support. |
+| **Mining lab** | Authenticated mining session start, stop, history, statistics, and beta reward claim logic backed by database models. |
+| **Staking / yield** | Pool listing, staking position creation, lock-period metadata, APY display, and database-backed staking transaction records. |
+| **Wallet and transactions** | Functional database-backed beta wallet surface for multi-coin balances, recent ledger activity, transfers, creator tips, swaps, escrow holds, mining, staking, airdrops, and rewards. |
+| **Social and creator routes** | Social feed, messages, livestream beta, dating lounge, creator tools, community boards, watch party, and media routes. |
+| **Crypto marketplace routes** | Trading, portfolio, token swap, NFT marketplace/creator/analytics, DAO, charity, and checkout-oriented beta pages. |
+| **Admin and operations** | Admin dashboard routes, moderation, analytics, compliance surfaces, user management, world-leader/admin concepts, and service center routes. |
+| **IT services ecosystem** | IT home, services, products, talent, booking, client portal, monitoring, invoices, and Sky Blue IT dashboard routes. |
+| **AI tools** | AI hub, copilot, chat, image generation, wealth assistant, and creator support pages. |
 
-### 📈 Day Trade Scream Room
-- **Voice-to-Trade Robot:** Yell at charts and let the AI execute hands-free. Speak "Buy SKY4444" and the bot buys it.
-- **Live Feed:** See what other traders are screaming and trading in real-time.
-- **Quick Execution:** One-tap robot trades for instant market execution.
+## High-Value Crypto and Backend Upgrade Direction
 
-### 💳 Stripe Checkout & Payments
-- **Full Integration:** Secure card processing + SKY4444 token checkout.
-- **Subscriptions:** 3-tier subscription management built-in.
+The priority product direction is to make the beta **database-persistent first** and **on-chain-ready next**. This avoids pretending that simulated beta rewards are already real financial settlement while still building a serious architecture for future token utility.
 
-### 🌐 IT Resolutions
-- **Managed IT Services:** Skyler Blue's IT services portal serving Springdale, Fayetteville, Fort Smith, Little Rock, and Jonesboro.
-- **Contact:** 479-406-7123
+| Priority | Implementation Direction |
+|---|---|
+| **SKY4444 supply and rewards** | Formalize tokenomics, reward distribution, mint/burn accounting, halving schedules if needed, and database records that can later map to smart-contract events. |
+| **Mining reward claiming** | Keep current beta claims persistent, add anti-abuse controls, reward caps, audit logs, and eventual chain adapter boundaries. |
+| **Staking / yield** | Continue APY logic, lock periods, accrued rewards, unstake flows, and transparent reward history before any real-money deployment. |
+| **Tipping with platform fee** | Creator tipping now records a 15% platform fee with charity split and burn accounting through beta transaction rows before any live payment or chain transfer is connected. |
+| **Multi-coin support** | Keep SKY4444 primary while supporting DOGE, TRUMP, USDT, BTC, ETH, USDC, and future asset records through a clean wallet service layer. |
+| **Escrow-ready mechanics** | Escrow hold records now exist for marketplace and P2P beta flows, with a service boundary ready for future release, refund, and dispute workflows. |
+| **Admin/God Mode controls** | Harden role-based access, audit logs, regional controls, and safe operational boundaries. |
 
----
+## Repository Cleanup Completed
 
-## 📊 Project Stats
+The repository previously contained a very large generated Shadow page swarm that slowed review and created confusion about what was actually part of the product. The cleaned beta now keeps the production route surface imported by `client/src/App.tsx` and removes generated filler pages that were not part of the launchable app.
 
-- **Total Pages:** 1,653
-- **Shadow Feature Pages:** 1,556
-- **GitHub Commits:** 546
-- **TypeScript Errors:** 0
-- **Routing:** Fully dynamic auto-routing via `ShadowRoutes.tsx`
+| Cleanup Item | Result |
+|---|---:|
+| Production Shadow pages kept | **12** |
+| Generated Shadow filler pages removed | **3,318** |
+| Unused generated route registry removed | **Yes** |
+| TypeScript check | **Passing** |
+| Production build | **Passing** |
 
----
+See [`GENERATED_PAGE_CLEANUP_REPORT.md`](./GENERATED_PAGE_CLEANUP_REPORT.md) for the cleanup boundary and kept page list.
 
-## 🛠️ Tech Stack
+## Technical Stack
 
-- **Frontend:** React 18, TypeScript, Tailwind CSS, shadcn/ui, Wouter
-- **Build Tool:** Vite
-- **Icons:** Lucide React
-- **Notifications:** Sonner
-- **Architecture:** Modular, component-based, highly scalable
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite 7, TypeScript, Wouter, Tailwind CSS, Radix UI, Framer Motion, Recharts |
+| Backend | Express, tRPC, TypeScript, Drizzle ORM |
+| Database | MySQL-compatible schema through Drizzle |
+| Auth foundation | OAuth-backed user model with role support |
+| Payments/integrations | Stripe packages are present for future approved payment flows |
+| Web3-ready libraries | `viem`, noble crypto utilities, QR code tooling, wallet-style service structure |
+| Validation | `pnpm run check` and `pnpm run build` |
 
----
+## Key Project Structure
 
-## 💻 Local Development Setup
+```text
+client/
+  src/
+    App.tsx                         # Production route tree
+    components/DashboardLayout.tsx  # Main dashboard navigation
+    pages/                          # Functional beta route pages
+server/
+  _core/                            # Express/tRPC application core
+  routers.ts                        # Root API router
+  routers/web3.ts                   # Wallet, tipping, swap, and escrow beta API
+  routers/mining.ts                 # Beta mining API
+  routers/staking.ts                # Beta staking API
+  lib/multi-coin.ts                 # Multi-coin beta wallet, fee, tip, swap, and escrow service
+  lib/multi-coin-engine.ts          # Compatibility wrapper for wallet service
+drizzle/
+  schema.ts                         # Database schema source of truth
+scripts/
+  cleanup-generated-shadow-pages.mjs
+```
 
-To run ShadowChat locally on your machine:
+## Local Development
 
-### Prerequisites
-- Node.js (v18 or higher)
-- pnpm (recommended) or npm
+Install dependencies with pnpm, then run the development server.
 
-### Installation
+```bash
+pnpm install
+pnpm run dev
+```
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/skylerblue4444/skycoin444_v10_live.git
-   cd skycoin444_v10_live
-   ```
+The development command starts the TypeScript backend entrypoint in watch mode. The frontend is served through the Vite/Express integration already present in the project.
 
-2. **Install dependencies:**
-   ```bash
-   pnpm install
-   ```
+## Database Setup
 
-3. **Start the development server:**
-   ```bash
-   pnpm run dev
-   ```
+The app is designed for a MySQL-compatible database through Drizzle. Configure the required database environment variables for your deployment target, then generate and run migrations.
 
-4. **Build for production:**
-   ```bash
-   pnpm run build
-   ```
+```bash
+pnpm run db:push
+```
 
-5. **Run TypeScript check:**
-   ```bash
-   pnpm tsc --noEmit
-   ```
+The beta schema includes users, trades, portfolios, holdings, posts, messages, chat history, vaults, staking positions, mining sessions, wallet balances, transaction ledger rows, fee/burn/charity transaction categories, escrow-ready states, API keys, referrals, leaderboard records, and onboarding progress.
 
----
+## Quality Checks
 
-## 🛡️ Security & Moderation
+Run TypeScript validation and a production build before merging or deploying.
 
-ShadowChat employs heavy moderation and security protocols:
-- **AI Content Moderation:** 24/7 scanning of all user-generated content.
-- **Zero-Trust Architecture:** Secure routing and component isolation.
-- **Escrow Protection:** All marketplace transactions are protected by smart contract escrow.
-- **No 4chan/Risky Migrations:** The platform actively blocks and moderates against unregulated, risky user migrations to maintain a safe environment for investors and builders.
+```bash
+pnpm run check
+pnpm run build
+```
 
----
+The latest cleanup and continuation pass validated both commands successfully after removing generated filler pages, replacing placeholder casino, dating, and livestream pages with functional beta components, and adding database-backed wallet, tip, swap, and escrow APIs plus the connected wallet UI.
 
-## 📞 Contact & Support
+## Production Launch Notes
 
-**Skyler Blue IT Resolutions**
-- **Phone:** 479-406-7123
-- **Email:** skylerblue4444@gmail.com
-- **Location:** Arkansas, USA
+Before a public or revenue-generating launch, complete the following hardening steps. These are intentionally separated from the beta so the current repository remains honest and safe.
 
-*God willing, we made it. You always have hope.* 🙏
+| Requirement | Why It Matters |
+|---|---|
+| Real database environment | Balances, rewards, claims, social activity, and admin state must persist outside local development. |
+| Auth and role hardening | Admin/God Mode functions need strict role checks, audit logs, and least-privilege access. |
+| Payment approval | Stripe, crypto checkout, deposits, withdrawals, payouts, and real settlement require explicit approval and production credentials. |
+| Compliance review | Gambling, token rewards, yield, payments, custody, and regional controls may trigger legal or regulatory requirements. |
+| On-chain adapter | Smart contracts, RPC endpoints, wallets, chain IDs, deployment scripts, and audits should be added only after tokenomics and compliance are finalized. |
+| Observability | Add production logging, error reporting, uptime checks, and admin audit trails. |
+
+## Suggested Next Milestones
+
+| Milestone | Target Outcome |
+|---|---|
+| **M1: Persistent beta wallet** | **Substantially advanced.** Wallet summary APIs, multi-coin balance records, recent transactions, and connected wallet UI are now in place for the beta ledger. |
+| **M2: Reward accounting** | Add deterministic mining/staking accrual calculations, caps, claim cooldowns, and admin review tools. |
+| **M3: Tipping and charity split** | **Substantially advanced.** Social tipping now records platform fee, charity split, burn ledger, creator receipt, and payer debit records. |
+| **M4: Escrow workflow** | **Started.** Escrow hold records can now be created; future work should add release, refund, dispute, and admin review flows. |
+| **M5: Admin audit layer** | Add role-protected admin audit logs for claims, tips, staking, payments, moderation, and manual adjustments. |
+| **M6: On-chain readiness** | Add token contract interfaces, deployment plan, chain adapter boundaries, and testnet-only integration before mainnet. |
+
+## Important Beta Disclaimer
+
+This software is a beta product and development playground. All crypto balances, mining rewards, staking yields, swaps, tips, casino-style experiences, and marketplace flows should be treated as simulated or database-recorded beta mechanics until explicitly connected to audited smart contracts, regulated payment systems, or approved production financial infrastructure.
+
+## License
+
+This repository currently declares the **MIT License** in `package.json`. Confirm final licensing before public commercial distribution.

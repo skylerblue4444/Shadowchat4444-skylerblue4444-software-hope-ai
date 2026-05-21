@@ -70,6 +70,7 @@ const NAV_GROUPS: NavGroup[] = [
       { icon: PieChart, label: "Portfolio", path: "/dashboard/portfolio" },
       { icon: BarChart2, label: "Market Data", path: "/dashboard/market" },
       { icon: GitMerge, label: "Cross-Chain Bridge", path: "/dashboard/bridge" },
+      { icon: Coins, label: "Mining Lab", path: "/dashboard/mining", badge: "BETA", badgeColor: "bg-yellow-600" },
       { icon: Vault, label: "Cold Vault", path: "/dashboard/vault" },
       { icon: Cpu, label: "Quantum Vault", path: "/dashboard/quantum-vault" },
       { icon: Brain, label: "AI Wealth Manager", path: "/dashboard/ai-wealth" },
@@ -81,7 +82,8 @@ const NAV_GROUPS: NavGroup[] = [
       { icon: Activity, label: "Social Feed", path: "/dashboard/social" },
       { icon: MessageSquare, label: "Messages", path: "/dashboard/messages" },
       { icon: Hash, label: "Community Boards", path: "/dashboard/boards" },
-      { icon: Tv, label: "Live Streams", path: "/dashboard/live", badge: "LIVE", badgeColor: "bg-red-600" },
+      { icon: Tv, label: "Live Streams", path: "/dashboard/live-polished", badge: "LIVE", badgeColor: "bg-red-600" },
+      { icon: Heart, label: "Dating Lounge", path: "/dashboard/dating", badge: "NEW", badgeColor: "bg-pink-600" },
       { icon: Trophy, label: "Leaderboard", path: "/dashboard/leaderboard" },
       { icon: Award, label: "Achievements", path: "/dashboard/achievements" },
       { icon: Gift, label: "Referrals", path: "/dashboard/referrals" },
@@ -94,6 +96,7 @@ const NAV_GROUPS: NavGroup[] = [
       { icon: CreditCard, label: "Checkout", path: "/dashboard/checkout" },
       { icon: AppWindow, label: "NFT Marketplace", path: "/dashboard/nft" },
       { icon: AppWindow, label: "Mini Programs", path: "/dashboard/mini-programs" },
+      { icon: Star, label: "Casino Playground", path: "/dashboard/casino", badge: "DEMO", badgeColor: "bg-purple-600" },
     ],
   },
   {
@@ -124,6 +127,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { icon: Zap, label: "SKY4444 ICO Hub", path: "/dashboard/ico", badge: "LIVE", badgeColor: "bg-cyan-600" },
       { icon: Coins, label: "Staking Center", path: "/dashboard/staking", badge: "APY", badgeColor: "bg-green-600" },
+      { icon: Cpu, label: "Mining Lab", path: "/dashboard/mining", badge: "BETA", badgeColor: "bg-yellow-600" },
       { icon: Wallet, label: "Wallet", path: "/dashboard/wallet" },
     ],
   },
