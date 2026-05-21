@@ -6,16 +6,32 @@
 
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+<<<<<<< HEAD
 import { DAOGovernance, ProposalStatus, VoteType } from "../lib/dao-governance.ts";
+=======
+import {
+  DAOGovernance,
+  ProposalStatus,
+  VoteType,
+} from "../lib/dao-governance.ts";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
 export const daoGovernanceRouter = router({
   // ─── Get Active Proposals ─────────────────────────────────────────────────
   getProposals: publicProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         status: z.enum(["active", "pending", "executed", "defeated"]).optional(),
         limit: z.number().default(20),
       }),
+=======
+        status: z
+          .enum(["active", "pending", "executed", "defeated"])
+          .optional(),
+        limit: z.number().default(20),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -23,7 +39,12 @@ export const daoGovernanceRouter = router({
           {
             id: "PROP-001",
             title: "Increase Staking APY to 25%",
+<<<<<<< HEAD
             description: "Proposal to increase SKY4444 staking APY from 18% to 25%",
+=======
+            description:
+              "Proposal to increase SKY4444 staking APY from 18% to 25%",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             proposer: 1,
             status: "active",
             startBlock: 1000000,
@@ -62,16 +83,28 @@ export const daoGovernanceRouter = router({
             functionSignature: z.string(),
             callData: z.string(),
             value: z.string(),
+<<<<<<< HEAD
           }),
         ),
       }),
+=======
+          })
+        ),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user has enough tokens to propose (25k minimum)
       const canPropose = DAOGovernance.canPropose("50000");
 
       if (!canPropose) {
+<<<<<<< HEAD
         throw new Error("Insufficient tokens to create proposal (minimum 25,000)");
+=======
+        throw new Error(
+          "Insufficient tokens to create proposal (minimum 25,000)"
+        );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       }
 
       return {
@@ -90,7 +123,11 @@ export const daoGovernanceRouter = router({
         proposalId: z.string(),
         support: z.enum(["for", "against", "abstain"]),
         reason: z.string().optional(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -112,8 +149,21 @@ export const daoGovernanceRouter = router({
       const againstVotes = "1000000";
       const abstainVotes = "500000";
 
+<<<<<<< HEAD
       const result = DAOGovernance.getProposalResult(forVotes, againstVotes, abstainVotes);
       const simulation = DAOGovernance.simulateOutcome(forVotes, againstVotes, abstainVotes);
+=======
+      const result = DAOGovernance.getProposalResult(
+        forVotes,
+        againstVotes,
+        abstainVotes
+      );
+      const simulation = DAOGovernance.simulateOutcome(
+        forVotes,
+        againstVotes,
+        abstainVotes
+      );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
       return {
         proposalId: input.proposalId,
@@ -135,7 +185,11 @@ export const daoGovernanceRouter = router({
     const votingPower = DAOGovernance.getVotingPower(tokenBalance);
     const votingPowerPercentage = DAOGovernance.getVotingPowerPercentage(
       votingPower,
+<<<<<<< HEAD
       "1000000000",
+=======
+      "1000000000"
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     return {
@@ -177,7 +231,13 @@ export const daoGovernanceRouter = router({
       return {
         proposalId: input.proposalId,
         ...timeline,
+<<<<<<< HEAD
         estimatedEndTime: new Date(Date.now() + timeline.blocksRemaining * 12000), // ~12s per block
+=======
+        estimatedEndTime: new Date(
+          Date.now() + timeline.blocksRemaining * 12000
+        ), // ~12s per block
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       };
     }),
 

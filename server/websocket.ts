@@ -9,7 +9,12 @@ interface ClientMessage {
 }
 
 interface ServerMessage {
-  type: "price_update" | "portfolio_update" | "social_update" | "notification" | "pong";
+  type:
+    | "price_update"
+    | "portfolio_update"
+    | "social_update"
+    | "notification"
+    | "pong";
   channel: string;
   data: unknown;
   timestamp: number;
@@ -37,7 +42,9 @@ class RealtimeServer {
           this.handleMessage(ws, msg, clientId);
         } catch (error) {
           console.error("[WebSocket] Message parse error:", error);
-          ws.send(JSON.stringify({ type: "error", message: "Invalid message format" }));
+          ws.send(
+            JSON.stringify({ type: "error", message: "Invalid message format" })
+          );
         }
       });
 
@@ -56,11 +63,15 @@ class RealtimeServer {
     switch (msg.type) {
       case "subscribe":
         this.subscribe(ws, msg.channel);
-        console.log(`[WebSocket] Client ${clientId} subscribed to ${msg.channel}`);
+        console.log(
+          `[WebSocket] Client ${clientId} subscribed to ${msg.channel}`
+        );
         break;
       case "unsubscribe":
         this.unsubscribe(ws, msg.channel);
-        console.log(`[WebSocket] Client ${clientId} unsubscribed from ${msg.channel}`);
+        console.log(
+          `[WebSocket] Client ${clientId} unsubscribed from ${msg.channel}`
+        );
         break;
       case "ping":
         ws.send(JSON.stringify({ type: "pong", timestamp: Date.now() }));
@@ -91,7 +102,7 @@ class RealtimeServer {
   }
 
   private removeClientFromChannels(ws: WebSocket) {
-    this.clients.forEach((subscribers) => {
+    this.clients.forEach(subscribers => {
       subscribers.delete(ws);
     });
   }
@@ -157,7 +168,7 @@ class RealtimeServer {
     const subscribers = this.clients.get(channel);
     if (subscribers) {
       const payload = JSON.stringify(message);
-      subscribers.forEach((ws) => {
+      subscribers.forEach(ws => {
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(payload);
         }

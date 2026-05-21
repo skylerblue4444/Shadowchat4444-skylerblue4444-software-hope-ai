@@ -98,6 +98,7 @@ export class AIAnalytics {
   /**
    * Calculate MACD (Moving Average Convergence Divergence)
    */
+<<<<<<< HEAD
   static calculateMACD(
     prices: string[],
   ): { macd: number; signal: number; histogram: number } {
@@ -107,6 +108,17 @@ export class AIAnalytics {
     const macd = parseFloat(
       new Decimal(ema12).minus(ema26).toFixed(6),
     );
+=======
+  static calculateMACD(prices: string[]): {
+    macd: number;
+    signal: number;
+    histogram: number;
+  } {
+    const ema12 = this.calculateEMA(prices, 12);
+    const ema26 = this.calculateEMA(prices, 26);
+
+    const macd = parseFloat(new Decimal(ema12).minus(ema26).toFixed(6));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     // Signal line is 9-period EMA of MACD
     const macdValues = prices.map((_, i) => {
@@ -115,9 +127,13 @@ export class AIAnalytics {
       return new Decimal(e12).minus(e26).toFixed(6);
     });
 
+<<<<<<< HEAD
     const signal = parseFloat(
       this.calculateEMA(macdValues, 9),
     );
+=======
+    const signal = parseFloat(this.calculateEMA(macdValues, 9));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const histogram = macd - signal;
 
     return { macd, signal, histogram };
@@ -133,10 +149,14 @@ export class AIAnalytics {
     let ema = new Decimal(prices[0]);
 
     for (let i = 1; i < prices.length; i++) {
+<<<<<<< HEAD
       ema = new Decimal(prices[i])
         .minus(ema)
         .times(k)
         .plus(ema);
+=======
+      ema = new Decimal(prices[i]).minus(ema).times(k).plus(ema);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }
 
     return ema.toFixed(18);
@@ -148,14 +168,23 @@ export class AIAnalytics {
   static calculateBollingerBands(
     prices: string[],
     period: number = 20,
+<<<<<<< HEAD
     stdDevMultiplier: number = 2,
+=======
+    stdDevMultiplier: number = 2
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { upper: string; middle: string; lower: string } {
     const middle = this.calculateSMA(prices, period);
     const middleDecimal = new Decimal(middle);
 
     // Calculate standard deviation
     const recentPrices = prices.slice(-period);
+<<<<<<< HEAD
     const mean = recentPrices.reduce((acc, p) => acc.plus(p), new Decimal(0))
+=======
+    const mean = recentPrices
+      .reduce((acc, p) => acc.plus(p), new Decimal(0))
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       .dividedBy(period);
 
     const variance = recentPrices
@@ -182,7 +211,11 @@ export class AIAnalytics {
     coin: string,
     currentPrice: string,
     technicalIndicators: TechnicalIndicators,
+<<<<<<< HEAD
     sentiment: number,
+=======
+    sentiment: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): PricePrediction {
     const signals: string[] = [];
     let bullishScore = 0;
@@ -215,7 +248,15 @@ export class AIAnalytics {
     if (currentPriceDecimal.gt(sma20) && sma20.gt(sma50) && sma50.gt(sma200)) {
       signals.push("Golden Cross - Strong Uptrend");
       bullishScore += 2;
+<<<<<<< HEAD
     } else if (currentPriceDecimal.lt(sma20) && sma20.lt(sma50) && sma50.lt(sma200)) {
+=======
+    } else if (
+      currentPriceDecimal.lt(sma20) &&
+      sma20.lt(sma50) &&
+      sma50.lt(sma200)
+    ) {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       signals.push("Death Cross - Strong Downtrend");
       bearishScore += 2;
     }
@@ -231,6 +272,7 @@ export class AIAnalytics {
 
     // Calculate predictions
     const totalScore = bullishScore + bearishScore;
+<<<<<<< HEAD
     const confidence = (Math.max(bullishScore, bearishScore) / Math.max(totalScore, 1)) * 100;
 
     const trend = bullishScore > bearishScore ? "bullish" : bearishScore > bullishScore ? "bearish" : "neutral";
@@ -244,6 +286,34 @@ export class AIAnalytics {
     const predicted1h = new Decimal(currentPrice).times(1 + priceChange1h).toFixed(18);
     const predicted24h = new Decimal(currentPrice).times(1 + priceChange24h).toFixed(18);
     const predicted7d = new Decimal(currentPrice).times(1 + priceChange7d).toFixed(18);
+=======
+    const confidence =
+      (Math.max(bullishScore, bearishScore) / Math.max(totalScore, 1)) * 100;
+
+    const trend =
+      bullishScore > bearishScore
+        ? "bullish"
+        : bearishScore > bullishScore
+          ? "bearish"
+          : "neutral";
+
+    // Simple price projection based on trend
+    const volatility = 0.02; // 2% assumed volatility
+    const priceChange1h =
+      trend === "bullish" ? volatility : trend === "bearish" ? -volatility : 0;
+    const priceChange24h = priceChange1h * 12;
+    const priceChange7d = priceChange24h * 7;
+
+    const predicted1h = new Decimal(currentPrice)
+      .times(1 + priceChange1h)
+      .toFixed(18);
+    const predicted24h = new Decimal(currentPrice)
+      .times(1 + priceChange24h)
+      .toFixed(18);
+    const predicted7d = new Decimal(currentPrice)
+      .times(1 + priceChange7d)
+      .toFixed(18);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       coin,
@@ -263,11 +333,24 @@ export class AIAnalytics {
   static analyzeSentiment(
     socialScore: number,
     newsScore: number,
+<<<<<<< HEAD
     onChainScore: number,
   ): SentimentAnalysis {
     const overallSentiment = (socialScore + newsScore + onChainScore) / 3;
 
     let trend: "very_bullish" | "bullish" | "neutral" | "bearish" | "very_bearish";
+=======
+    onChainScore: number
+  ): SentimentAnalysis {
+    const overallSentiment = (socialScore + newsScore + onChainScore) / 3;
+
+    let trend:
+      | "very_bullish"
+      | "bullish"
+      | "neutral"
+      | "bearish"
+      | "very_bearish";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     if (overallSentiment > 75) trend = "very_bullish";
     else if (overallSentiment > 25) trend = "bullish";
     else if (overallSentiment > -25) trend = "neutral";
@@ -290,13 +373,22 @@ export class AIAnalytics {
    */
   static generateTradingSignals(
     prediction: PricePrediction,
+<<<<<<< HEAD
     sentiment: SentimentAnalysis,
+=======
+    sentiment: SentimentAnalysis
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { action: "buy" | "sell" | "hold"; strength: number; reason: string } {
     let score = 0;
 
     // Prediction score
     if (prediction.trend === "bullish") score += prediction.confidence / 100;
+<<<<<<< HEAD
     else if (prediction.trend === "bearish") score -= prediction.confidence / 100;
+=======
+    else if (prediction.trend === "bearish")
+      score -= prediction.confidence / 100;
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     // Sentiment score
     const sentimentScore = sentiment.overallSentiment / 100;

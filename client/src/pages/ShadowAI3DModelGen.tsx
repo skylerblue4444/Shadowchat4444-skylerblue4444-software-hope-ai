@@ -1,0 +1,91 @@
+/**
+ * ShadowChat — 🎲 AI 3D Model Generator
+ * Skyler Blue | 479-406-7123 | skycoin444
+ */
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
+
+export default function ShadowAI3DModelGen() {
+  return (
+    <div className="space-y-4 pb-6">
+      <div className="border-b border-border/40 pb-3">
+        <h1 className="text-2xl font-black">🎲 AI 3D Model Generator</h1>
+        <p className="text-xs text-muted-foreground">
+          Generate 3D models from text descriptions. Export to OBJ, GLB, FBX.
+          NFT-ready.
+        </p>
+      </div>
+      <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
+        <CardContent className="py-6 text-center space-y-3">
+          <p className="text-4xl">🚀</p>
+          <p className="font-black text-lg">🎲 AI 3D Model Generator</p>
+          <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+            Generate 3D models from text descriptions. Export to OBJ, GLB, FBX.
+            NFT-ready.
+          </p>
+          <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+            SKY4444 Powered
+          </Badge>
+        </CardContent>
+      </Card>
+      <div className="grid grid-cols-2 gap-3">
+        {["Get Started", "Learn More", "Connect Wallet", "View Demo"].map(
+          (label, i) => (
+            <Card
+              key={i}
+              className="border-border/40 hover:border-yellow-500/40 cursor-pointer transition-all"
+            >
+              <CardContent className="py-4 text-center">
+                <p className="font-bold text-sm">{label}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  SKY4444 · BTC · ETH
+                </p>
+              </CardContent>
+            </Card>
+          )
+        )}
+      </div>
+      <Card className="border-border/40">
+        <CardContent className="py-4 space-y-2">
+          <p className="font-black text-sm">Key Features</p>
+          {[
+            "Real-time data",
+            "SKY4444 integration",
+            "AI-powered",
+            "Mobile-first",
+            "0 fees with SKY4444",
+          ].map((f, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className="text-green-400 text-xs">✓</span>
+              <p className="text-xs text-muted-foreground">{f}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+      <div className="flex gap-2">
+        <Link href="/dashboard/shadow/sky-coin4444-mine">
+          <Button
+            size="sm"
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs h-8"
+          >
+            ⛏️ Mine SKY4444
+          </Button>
+        </Link>
+        <Link href="/dashboard/shadow/live-wallet">
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-xs h-8 border-yellow-500/30 text-yellow-400"
+          >
+            👛 Wallet
+          </Button>
+        </Link>
+      </div>
+      <p className="text-center text-xs text-muted-foreground/60">
+        Skyler Blue IT · 479-406-7123 · skycoin444
+      </p>
+    </div>
+  );
+}

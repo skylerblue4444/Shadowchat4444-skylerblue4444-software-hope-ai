@@ -12,7 +12,11 @@ export const liveStakingRouter = router({
   // ─── Get Staking Configs ──────────────────────────────────────────────────
   getStakingConfigs: publicProcedure.query(async () => {
     return {
+<<<<<<< HEAD
       coins: Object.values(UnifiedStaking.STAKING_CONFIGS).map((config) => ({
+=======
+      coins: Object.values(UnifiedStaking.STAKING_CONFIGS).map(config => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         coin: config.coin,
         baseAPY: config.baseAPY,
         minStake: config.minStake,
@@ -41,11 +45,16 @@ export const liveStakingRouter = router({
         amount: z.string(),
         days: z.number(),
         compound: z.boolean().default(false),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const reward = input.compound
         ? UnifiedStaking.calculateCompoundReward(
+<<<<<<< HEAD
           input.coin as StakableCoin,
           input.amount,
           input.days,
@@ -55,6 +64,17 @@ export const liveStakingRouter = router({
           input.amount,
           input.days,
         );
+=======
+            input.coin as StakableCoin,
+            input.amount,
+            input.days
+          )
+        : UnifiedStaking.calculateReward(
+            input.coin as StakableCoin,
+            input.amount,
+            input.days
+          );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
       return {
         coin: input.coin,
@@ -73,19 +93,32 @@ export const liveStakingRouter = router({
       z.object({
         coin: z.string(),
         lockupDays: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const apy = UnifiedStaking.calculateBonusAPY(
         input.coin as StakableCoin,
+<<<<<<< HEAD
         input.lockupDays,
+=======
+        input.lockupDays
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {
         coin: input.coin,
         lockupDays: input.lockupDays,
+<<<<<<< HEAD
         baseAPY: UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]
           ?.baseAPY,
+=======
+        baseAPY:
+          UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]?.baseAPY,
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         bonusAPY: apy,
       };
     }),
@@ -97,13 +130,21 @@ export const liveStakingRouter = router({
         coin: z.string(),
         amount: z.string(),
         lockupDays: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const validation = UnifiedStaking.validateStakingParams(
         input.coin as StakableCoin,
         input.amount,
+<<<<<<< HEAD
         input.lockupDays,
+=======
+        input.lockupDays
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       if (!validation.valid) {
@@ -112,7 +153,11 @@ export const liveStakingRouter = router({
 
       const apy = UnifiedStaking.calculateBonusAPY(
         input.coin as StakableCoin,
+<<<<<<< HEAD
         input.lockupDays,
+=======
+        input.lockupDays
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {
@@ -163,7 +208,11 @@ export const liveStakingRouter = router({
       z.object({
         coin: z.string(),
         limit: z.number().default(20),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -205,7 +254,12 @@ export const liveStakingRouter = router({
         averageStake: "9551",
         estimatedDailyRewards: "68493",
         totalRewardsDistributed: "2500000",
+<<<<<<< HEAD
         apy: UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]?.baseAPY,
+=======
+        apy: UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]
+          ?.baseAPY,
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       };
     }),
 
@@ -215,12 +269,20 @@ export const liveStakingRouter = router({
       z.object({
         coin: z.string(),
         amount: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const recommendation = UnifiedStaking.getStakingRecommendation(
         input.coin as StakableCoin,
+<<<<<<< HEAD
         input.amount,
+=======
+        input.amount
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return recommendation;
@@ -234,14 +296,22 @@ export const liveStakingRouter = router({
         amount: z.string(),
         daysStaked: z.number(),
         lockupDays: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const penalty = UnifiedStaking.calculateEarlyUnstakePenalty(
         input.coin as StakableCoin,
         input.amount,
         input.daysStaked,
+<<<<<<< HEAD
         input.lockupDays,
+=======
+        input.lockupDays
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return penalty;
@@ -280,7 +350,11 @@ export const liveStakingRouter = router({
       z.object({
         coin: z.string().optional(),
         limit: z.number().default(20),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -309,12 +383,22 @@ export const liveStakingRouter = router({
       z.object({
         coin: z.string(),
         days: z.number().default(30),
+<<<<<<< HEAD
       }),
     )
     .query(async ({ input }) => {
       const history = [];
       const baseAPY = UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]
         ?.baseAPY || 10;
+=======
+      })
+    )
+    .query(async ({ input }) => {
+      const history = [];
+      const baseAPY =
+        UnifiedStaking.STAKING_CONFIGS[input.coin as StakableCoin]?.baseAPY ||
+        10;
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
       for (let i = 0; i < input.days; i++) {
         history.push({

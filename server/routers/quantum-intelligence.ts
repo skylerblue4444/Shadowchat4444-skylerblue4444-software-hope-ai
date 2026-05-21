@@ -24,7 +24,11 @@ export const quantumIntelligenceRouter = router({
         socialSentiment: z.number(),
         newsSentiment: z.number(),
         onChainSentiment: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const signal = AITradingBot.generateSignal(
@@ -38,7 +42,11 @@ export const quantumIntelligenceRouter = router({
           social: input.socialSentiment,
           news: input.newsSentiment,
           onChain: input.onChainSentiment,
+<<<<<<< HEAD
         },
+=======
+        }
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return signal;
     }),
@@ -49,9 +57,26 @@ export const quantumIntelligenceRouter = router({
         signalId: z.string(),
         coinType: z.string(),
         quantity: z.string(),
+<<<<<<< HEAD
         strategy: z.enum(["scalping", "swing", "trend_following", "mean_reversion", "arbitrage"]),
         riskLevel: z.enum(["conservative", "moderate", "aggressive", "extreme"]),
       }),
+=======
+        strategy: z.enum([
+          "scalping",
+          "swing",
+          "trend_following",
+          "mean_reversion",
+          "arbitrage",
+        ]),
+        riskLevel: z.enum([
+          "conservative",
+          "moderate",
+          "aggressive",
+          "extreme",
+        ]),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -77,12 +102,26 @@ export const quantumIntelligenceRouter = router({
     .input(
       z.object({
         coins: z.array(z.string()),
+<<<<<<< HEAD
         riskLevel: z.enum(["conservative", "moderate", "aggressive", "extreme"]),
       }),
     )
     .query(async ({ input }) => {
       return {
         allocations: input.coins.map((coin) => ({
+=======
+        riskLevel: z.enum([
+          "conservative",
+          "moderate",
+          "aggressive",
+          "extreme",
+        ]),
+      })
+    )
+    .query(async ({ input }) => {
+      return {
+        allocations: input.coins.map(coin => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
           coin,
           percentage: 100 / input.coins.length,
         })),
@@ -98,7 +137,11 @@ export const quantumIntelligenceRouter = router({
         strategy: z.string(),
         period: z.number(), // days
         initialCapital: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {
@@ -117,13 +160,21 @@ export const quantumIntelligenceRouter = router({
         coinType: z.string(),
         amount: z.string(),
         price: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const whale = WhaleTracker.detectWhaleTransaction(
         input.coinType,
         input.amount,
+<<<<<<< HEAD
         input.price,
+=======
+        input.price
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return whale || { detected: false };
     }),
@@ -197,7 +248,11 @@ export const quantumIntelligenceRouter = router({
         timeSinceLastTransaction: z.number(),
         locationChange: z.boolean(),
         deviceChange: z.boolean(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ ctx, input }) => {
       const fraud = SecurityShield.detectFraud(
@@ -206,7 +261,11 @@ export const quantumIntelligenceRouter = router({
         input.userAverageTransaction,
         input.timeSinceLastTransaction,
         input.locationChange,
+<<<<<<< HEAD
         input.deviceChange,
+=======
+        input.deviceChange
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return fraud;
     }),
@@ -270,7 +329,11 @@ export const quantumIntelligenceRouter = router({
         type: z.string(),
         description: z.string(),
         affectedSystems: z.array(z.string()),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {

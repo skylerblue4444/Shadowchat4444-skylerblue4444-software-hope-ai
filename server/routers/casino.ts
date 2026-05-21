@@ -51,7 +51,11 @@ export const casinoRouter = router({
         betAmount: z.string(),
         betNumber: z.number().min(0).max(36),
         coin: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const result = CasinoGames.playRoulette(input.betAmount, input.betNumber);
@@ -74,7 +78,11 @@ export const casinoRouter = router({
         betAmount: z.string(),
         prediction: z.enum(["high", "low", "even", "odd"]),
         coin: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const result = CasinoGames.playDice(input.betAmount, input.prediction);
@@ -94,9 +102,13 @@ export const casinoRouter = router({
   getHouseEdge: publicProcedure
     .input(z.object({ gameType: z.string() }))
     .query(async ({ input }) => {
+<<<<<<< HEAD
       const houseEdge = CasinoGames.calculateHouseEdge(
         input.gameType as any,
       );
+=======
+      const houseEdge = CasinoGames.calculateHouseEdge(input.gameType as any);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       return { gameType: input.gameType, houseEdge };
     }),
 
@@ -106,7 +118,11 @@ export const casinoRouter = router({
     .query(async ({ input }) => {
       const ev = CasinoGames.calculateExpectedValue(
         input.gameType as any,
+<<<<<<< HEAD
         input.betAmount,
+=======
+        input.betAmount
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return { expectedValue: ev };
     }),
@@ -155,7 +171,16 @@ export const casinoRouter = router({
 
   // ─── Get Leaderboard ──────────────────────────────────────────────────────
   getLeaderboard: publicProcedure
+<<<<<<< HEAD
     .input(z.object({ gameType: z.string().optional(), limit: z.number().default(10) }))
+=======
+    .input(
+      z.object({
+        gameType: z.string().optional(),
+        limit: z.number().default(10),
+      })
+    )
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     .query(async ({ input }) => {
       return {
         leaderboard: [

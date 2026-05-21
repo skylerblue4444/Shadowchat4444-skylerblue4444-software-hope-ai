@@ -84,7 +84,15 @@ export const errorHandler = {
    * Convert AppError to TRPC error
    */
   toTRPCError(error: AppError): TRPCError {
-    const codeMap: Record<ErrorCode, "UNAUTHORIZED" | "FORBIDDEN" | "BAD_REQUEST" | "NOT_FOUND" | "CONFLICT" | "INTERNAL_SERVER_ERROR"> = {
+    const codeMap: Record<
+      ErrorCode,
+      | "UNAUTHORIZED"
+      | "FORBIDDEN"
+      | "BAD_REQUEST"
+      | "NOT_FOUND"
+      | "CONFLICT"
+      | "INTERNAL_SERVER_ERROR"
+    > = {
       [ErrorCode.UNAUTHORIZED]: "UNAUTHORIZED",
       [ErrorCode.FORBIDDEN]: "FORBIDDEN",
       [ErrorCode.SESSION_EXPIRED]: "UNAUTHORIZED",
@@ -114,11 +122,8 @@ export const errorHandler = {
   /**
    * Validate required fields
    */
-  validateRequired(
-    data: Record<string, unknown>,
-    fields: string[]
-  ): void {
-    const missing = fields.filter((field) => !data[field]);
+  validateRequired(data: Record<string, unknown>, fields: string[]): void {
+    const missing = fields.filter(field => !data[field]);
     if (missing.length > 0) {
       throw new AppError(
         ErrorCode.MISSING_FIELD,
@@ -174,7 +179,11 @@ export const errorHandler = {
   /**
    * Check sufficient balance
    */
-  checkBalance(balance: number, required: number, currency: string = "SKY"): void {
+  checkBalance(
+    balance: number,
+    required: number,
+    currency: string = "SKY"
+  ): void {
     if (balance < required) {
       throw new AppError(
         ErrorCode.INSUFFICIENT_BALANCE,
@@ -265,7 +274,10 @@ export const logger = {
 
   debug: (message: string, data?: unknown) => {
     if (process.env.DEBUG) {
-      console.debug(`[DEBUG] ${new Date().toISOString()} - ${message}`, data || "");
+      console.debug(
+        `[DEBUG] ${new Date().toISOString()} - ${message}`,
+        data || ""
+      );
     }
   },
 
@@ -282,9 +294,7 @@ export const logger = {
 /**
  * Async error wrapper for tRPC procedures
  */
-export function asyncHandler<T>(
-  fn: () => Promise<T>
-): () => Promise<T> {
+export function asyncHandler<T>(fn: () => Promise<T>): () => Promise<T> {
   return async () => {
     try {
       return await fn();

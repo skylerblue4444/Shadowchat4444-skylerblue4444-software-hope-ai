@@ -12,7 +12,17 @@ export type ComplianceLevel = "compliant" | "warning" | "non_compliant";
 
 export interface SecurityThreat {
   threatId: string;
+<<<<<<< HEAD
   type: "fraud" | "manipulation" | "exploit" | "phishing" | "ddos" | "unauthorized_access";
+=======
+  type:
+    | "fraud"
+    | "manipulation"
+    | "exploit"
+    | "phishing"
+    | "ddos"
+    | "unauthorized_access";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   level: ThreatLevel;
   description: string;
   detectedAt: Date;
@@ -24,7 +34,16 @@ export interface SecurityThreat {
 export interface FraudDetection {
   detectionId: string;
   userId: number;
+<<<<<<< HEAD
   type: "unusual_activity" | "suspicious_transaction" | "account_takeover" | "wash_trading" | "pump_dump";
+=======
+  type:
+    | "unusual_activity"
+    | "suspicious_transaction"
+    | "account_takeover"
+    | "wash_trading"
+    | "pump_dump";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   confidence: number; // 0-100
   indicators: string[];
   timestamp: Date;
@@ -113,13 +132,23 @@ export class SecurityShield {
     userAverageTransaction: string,
     timesSinceLastTransaction: number,
     locationChange: boolean,
+<<<<<<< HEAD
     deviceChange: boolean,
+=======
+    deviceChange: boolean
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): FraudDetection {
     const indicators: string[] = [];
     let confidenceScore = 0;
 
     // Check transaction amount anomaly
+<<<<<<< HEAD
     const amountRatio = new Decimal(transactionAmount).dividedBy(userAverageTransaction).toNumber();
+=======
+    const amountRatio = new Decimal(transactionAmount)
+      .dividedBy(userAverageTransaction)
+      .toNumber();
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     if (amountRatio > 5) {
       indicators.push("Unusually large transaction");
       confidenceScore += 20;
@@ -143,7 +172,16 @@ export class SecurityShield {
       confidenceScore += 10;
     }
 
+<<<<<<< HEAD
     let type: "unusual_activity" | "suspicious_transaction" | "account_takeover" | "wash_trading" | "pump_dump" = "unusual_activity";
+=======
+    let type:
+      | "unusual_activity"
+      | "suspicious_transaction"
+      | "account_takeover"
+      | "wash_trading"
+      | "pump_dump" = "unusual_activity";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     if (confidenceScore > 50) {
       type = "account_takeover";
     } else if (confidenceScore > 30) {
@@ -168,9 +206,21 @@ export class SecurityShield {
    * Generate security threat
    */
   static generateSecurityThreat(
+<<<<<<< HEAD
     type: "fraud" | "manipulation" | "exploit" | "phishing" | "ddos" | "unauthorized_access",
     description: string,
     affectedUsers?: number,
+=======
+    type:
+      | "fraud"
+      | "manipulation"
+      | "exploit"
+      | "phishing"
+      | "ddos"
+      | "unauthorized_access",
+    description: string,
+    affectedUsers?: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): SecurityThreat {
     let level: ThreatLevel = "medium";
     if (affectedUsers && affectedUsers > 1000) {
@@ -206,11 +256,19 @@ export class SecurityShield {
   static verifyProofOfReserve(
     coinType: string,
     claimedReserve: string,
+<<<<<<< HEAD
     verifiedWallets: { address: string; balance: string }[],
   ): ProofOfReserve {
     const verifiedReserve = verifiedWallets.reduce(
       (sum, wallet) => new Decimal(sum).plus(wallet.balance),
       new Decimal(0),
+=======
+    verifiedWallets: { address: string; balance: string }[]
+  ): ProofOfReserve {
+    const verifiedReserve = verifiedWallets.reduce(
+      (sum, wallet) => new Decimal(sum).plus(wallet.balance),
+      new Decimal(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const claimedDecimal = new Decimal(claimedReserve);
@@ -229,7 +287,11 @@ export class SecurityShield {
       verifiedReserve: verifiedReserve.toFixed(18),
       discrepancy: discrepancy.toFixed(18),
       discrepancyPercent,
+<<<<<<< HEAD
       walletAddresses: verifiedWallets.map((w) => w.address),
+=======
+      walletAddresses: verifiedWallets.map(w => w.address),
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       blockchainVerification: {
         verified: true,
         blockHeight: Math.floor(Math.random() * 1000000),
@@ -247,7 +309,11 @@ export class SecurityShield {
     kycVerified: boolean,
     amlPassed: boolean,
     sanctionsCleared: boolean,
+<<<<<<< HEAD
     taxReported: boolean,
+=======
+    taxReported: boolean
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ComplianceReport {
     const issues: string[] = [];
     let status: ComplianceLevel = "compliant";
@@ -292,7 +358,11 @@ export class SecurityShield {
     resource: string,
     changes: Record<string, any>,
     ipAddress: string,
+<<<<<<< HEAD
     userAgent: string,
+=======
+    userAgent: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): AuditLog {
     return {
       logId: `AUDIT-${Date.now()}`,
@@ -316,7 +386,11 @@ export class SecurityShield {
     accountAgeMonths: number,
     verificationStatus: number, // 0-100
     geolocationChanges: number,
+<<<<<<< HEAD
     deviceCount: number,
+=======
+    deviceCount: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): RiskAssessment {
     const transactionRisk = Math.max(0, 100 - transactionCount * 2); // More transactions = lower risk
     const accountRisk = Math.max(0, 100 - accountAgeMonths * 2); // Older account = lower risk
@@ -377,7 +451,11 @@ export class SecurityShield {
     type: string,
     severity: ThreatLevel,
     description: string,
+<<<<<<< HEAD
     affectedSystems: string[],
+=======
+    affectedSystems: string[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): SecurityIncident {
     return {
       incidentId: `INC-${Date.now()}`,
@@ -406,14 +484,26 @@ export class SecurityShield {
       sellPrice: string;
       quantity: string;
       timeBetween: number; // seconds
+<<<<<<< HEAD
     }[],
+=======
+    }[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): boolean {
     for (const trade of trades) {
       const buyPrice = new Decimal(trade.buyPrice);
       const sellPrice = new Decimal(trade.sellPrice);
 
       // Check if price difference is minimal (within 1%)
+<<<<<<< HEAD
       const priceDiff = sellPrice.minus(buyPrice).dividedBy(buyPrice).times(100).abs();
+=======
+      const priceDiff = sellPrice
+        .minus(buyPrice)
+        .dividedBy(buyPrice)
+        .times(100)
+        .abs();
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       if (priceDiff.lt(1) && trade.timeBetween < 3600) {
         return true; // Likely wash trading
       }
@@ -428,7 +518,11 @@ export class SecurityShield {
     userId: number,
     amount: string,
     userBalance: string,
+<<<<<<< HEAD
     userHistory: { avgTransaction: string; txCount: number },
+=======
+    userHistory: { avgTransaction: string; txCount: number }
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     legitimate: boolean;
     riskScore: number;
@@ -468,6 +562,7 @@ export class SecurityShield {
   /**
    * Generate security score
    */
+<<<<<<< HEAD
   static generateSecurityScore(
     factors: {
       twoFactorEnabled: boolean;
@@ -479,6 +574,17 @@ export class SecurityShield {
       noFailedLogins: boolean;
     },
   ): number {
+=======
+  static generateSecurityScore(factors: {
+    twoFactorEnabled: boolean;
+    emailVerified: boolean;
+    phoneVerified: boolean;
+    kycCompleted: boolean;
+    addressVerified: boolean;
+    noSuspiciousActivity: boolean;
+    noFailedLogins: boolean;
+  }): number {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     let score = 50; // Base score
 
     if (factors.twoFactorEnabled) score += 15;

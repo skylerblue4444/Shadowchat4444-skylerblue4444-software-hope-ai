@@ -7,7 +7,16 @@
 import { Decimal } from "decimal.js";
 
 export type ICOPhase = "pre_sale" | "public_sale" | "whitelist" | "community";
+<<<<<<< HEAD
 export type ICOStatus = "upcoming" | "active" | "ended" | "failed" | "successful";
+=======
+export type ICOStatus =
+  | "upcoming"
+  | "active"
+  | "ended"
+  | "failed"
+  | "successful";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
 export interface ICOCampaign {
   icoId: string;
@@ -109,7 +118,11 @@ export class ICOManagement {
     hardCap: string,
     tokensForSale: string,
     pricePerToken: string,
+<<<<<<< HEAD
     acceptedPayments: string[],
+=======
+    acceptedPayments: string[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOCampaign {
     return {
       icoId: `ICO-${coinSymbol}-${Date.now()}`,
@@ -158,7 +171,11 @@ export class ICOManagement {
   static calculateTokensForInvestment(
     investmentAmount: string,
     pricePerToken: string,
+<<<<<<< HEAD
     bonusPercentage: number = 0,
+=======
+    bonusPercentage: number = 0
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { tokens: string; bonusTokens: string; total: string } {
     const tokens = new Decimal(investmentAmount).dividedBy(pricePerToken);
     const bonusTokens = tokens.times(bonusPercentage).dividedBy(100);
@@ -180,12 +197,20 @@ export class ICOManagement {
     investmentAmount: string,
     paymentCoin: string,
     pricePerToken: string,
+<<<<<<< HEAD
     bonusPercentage: number = 0,
+=======
+    bonusPercentage: number = 0
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOInvestment {
     const { tokens, bonusTokens } = this.calculateTokensForInvestment(
       investmentAmount,
       pricePerToken,
+<<<<<<< HEAD
       bonusPercentage,
+=======
+      bonusPercentage
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     return {
@@ -208,7 +233,11 @@ export class ICOManagement {
   static calculateVestingRelease(
     investment: ICOInvestment,
     vestingInfo: VestingInfo,
+<<<<<<< HEAD
     currentDate: Date = new Date(),
+=======
+    currentDate: Date = new Date()
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     if (!investment.vestingStartDate) {
       return "0";
@@ -222,6 +251,7 @@ export class ICOManagement {
     }
 
     const vestingEndDate = new Date(investment.vestingStartDate);
+<<<<<<< HEAD
     vestingEndDate.setDate(
       vestingEndDate.getDate() + vestingInfo.duration,
     );
@@ -229,12 +259,23 @@ export class ICOManagement {
     if (currentDate >= vestingEndDate) {
       const total = new Decimal(investment.tokensReceived).plus(
         investment.bonusTokens,
+=======
+    vestingEndDate.setDate(vestingEndDate.getDate() + vestingInfo.duration);
+
+    if (currentDate >= vestingEndDate) {
+      const total = new Decimal(investment.tokensReceived).plus(
+        investment.bonusTokens
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return total.toFixed(18);
     }
 
     const totalTokens = new Decimal(investment.tokensReceived).plus(
+<<<<<<< HEAD
       investment.bonusTokens,
+=======
+      investment.bonusTokens
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const cliffRelease = totalTokens
       .times(vestingInfo.releasePercentage)
@@ -243,7 +284,11 @@ export class ICOManagement {
     const remainingTokens = totalTokens.minus(cliffRelease);
     const remainingDays = vestingInfo.duration - vestingInfo.cliff;
     const elapsedDays = Math.floor(
+<<<<<<< HEAD
       (currentDate.getTime() - cliffDate.getTime()) / (1000 * 60 * 60 * 24),
+=======
+      (currentDate.getTime() - cliffDate.getTime()) / (1000 * 60 * 60 * 24)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const linearRelease = remainingTokens
@@ -258,6 +303,7 @@ export class ICOManagement {
    */
   static getICOMetrics(
     ico: ICOCampaign,
+<<<<<<< HEAD
     investments: ICOInvestment[],
   ): ICOMetrics {
     const totalInvestment = investments.reduce(
@@ -267,6 +313,17 @@ export class ICOManagement {
 
     const investmentAmounts = investments.map((inv) =>
       new Decimal(inv.investmentAmount),
+=======
+    investments: ICOInvestment[]
+  ): ICOMetrics {
+    const totalInvestment = investments.reduce(
+      (sum, inv) => new Decimal(sum).plus(inv.investmentAmount),
+      new Decimal(0)
+    );
+
+    const investmentAmounts = investments.map(
+      inv => new Decimal(inv.investmentAmount)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const averageInvestment =
       investments.length > 0
@@ -276,15 +333,25 @@ export class ICOManagement {
     const largestInvestment =
       investments.length > 0
         ? investmentAmounts.reduce((max, amount) =>
+<<<<<<< HEAD
           amount.gt(max) ? amount : max,
         )
+=======
+            amount.gt(max) ? amount : max
+          )
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
 
     const smallestInvestment =
       investments.length > 0
         ? investmentAmounts.reduce((min, amount) =>
+<<<<<<< HEAD
           amount.lt(min) ? amount : min,
         )
+=======
+            amount.lt(min) ? amount : min
+          )
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
 
     const capFillPercentage = new Decimal(totalInvestment)
@@ -294,6 +361,7 @@ export class ICOManagement {
 
     const tokensDistributed = investments.reduce(
       (sum, inv) =>
+<<<<<<< HEAD
         new Decimal(sum)
           .plus(inv.tokensReceived)
           .plus(inv.bonusTokens),
@@ -306,6 +374,18 @@ export class ICOManagement {
 
     const daysRemaining = Math.ceil(
       (ico.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+=======
+        new Decimal(sum).plus(inv.tokensReceived).plus(inv.bonusTokens),
+      new Decimal(0)
+    );
+
+    const tokensRemaining = new Decimal(ico.tokensForSale).minus(
+      tokensDistributed
+    );
+
+    const daysRemaining = Math.ceil(
+      (ico.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     return {
@@ -341,7 +421,11 @@ export class ICOManagement {
    */
   static getRefundEligibility(
     ico: ICOCampaign,
+<<<<<<< HEAD
     investment: ICOInvestment,
+=======
+    investment: ICOInvestment
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     eligible: boolean;
     reason: string;
@@ -371,7 +455,11 @@ export class ICOManagement {
     maxInvestment: string,
     tokenPrice: string,
     bonusPercentage: number,
+<<<<<<< HEAD
     tokensAvailable: string,
+=======
+    tokensAvailable: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOTier {
     return {
       tierId: `TIER-${Date.now()}`,
@@ -405,7 +493,11 @@ export class ICOManagement {
     const progressPercentage = Math.min(100, (elapsed / total) * 100);
     const daysRemaining = Math.max(
       0,
+<<<<<<< HEAD
       Math.ceil((end - now) / (1000 * 60 * 60 * 24)),
+=======
+      Math.ceil((end - now) / (1000 * 60 * 60 * 24))
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     return {
@@ -423,7 +515,11 @@ export class ICOManagement {
   static addToWhitelist(
     icoId: string,
     investorId: number,
+<<<<<<< HEAD
     maxAllocation: string,
+=======
+    maxAllocation: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOWhitelist {
     return {
       whitelistId: `WL-${Date.now()}`,
@@ -451,7 +547,11 @@ export class ICOManagement {
    */
   static getBonusTier(
     investment: string,
+<<<<<<< HEAD
     bonusStructure: BonusInfo[],
+=======
+    bonusStructure: BonusInfo[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): BonusInfo | null {
     const investmentAmount = new Decimal(investment);
 
@@ -469,7 +569,11 @@ export class ICOManagement {
    */
   static calculateSuccessMetrics(
     ico: ICOCampaign,
+<<<<<<< HEAD
     investments: ICOInvestment[],
+=======
+    investments: ICOInvestment[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     successRate: number;
     softCapMet: boolean;
@@ -478,7 +582,11 @@ export class ICOManagement {
   } {
     const totalRaised = investments.reduce(
       (sum, inv) => new Decimal(sum).plus(inv.investmentAmount),
+<<<<<<< HEAD
       new Decimal(0),
+=======
+      new Decimal(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const softCapMet = totalRaised.gte(ico.softCap);

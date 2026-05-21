@@ -2,6 +2,7 @@ import { z } from "zod";
 import { eq, sql } from "drizzle-orm";
 import { stakingPositions, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
+import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 import { protectedProcedure, router, TRPCError } from "../_core/trpc";
 
 const stakingPools = [
@@ -14,43 +15,92 @@ export const stakingRouter = router({
   listPools: protectedProcedure.query(async () => stakingPools),
 
   stake: protectedProcedure
-    .input(z.object({ poolId: z.number().int().positive(), amount: z.number().positive() }))
+    .input(
+      z.object({
+        poolId: z.number().int().positive(),
+        amount: z.number().positive(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) {
-        throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is not configured for staking positions." });
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Database is not configured for staking positions.",
+        });
       }
 
-      const pool = stakingPools.find((candidate) => candidate.id === input.poolId);
+      const pool = stakingPools.find(
+        candidate => candidate.id === input.poolId
+      );
       if (!pool) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown staking pool." });
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown staking pool.",
+        });
       }
 
       const amount = input.amount.toString();
-      const lockedUntil = new Date(Date.now() + pool.lockPeriodDays * 24 * 60 * 60 * 1000);
+      const lockedUntil = new Date(
+        Date.now() + pool.lockPeriodDays * 24 * 60 * 60 * 1000
+      );
 
-      await db.transaction(async (tx) => {
+      await db.transaction(async tx => {
         await tx
           .update(users)
           .set({ balance: sql`${users.balance} - ${amount}` })
           .where(eq(users.id, ctx.user.id));
 
-        await tx.insert(stakingPositions).values({
-          userId: ctx.user.id,
-          token: pool.token,
-          amount,
-          apy: pool.apy.toString(),
-          lockedUntil,
-          status: "active",
-        });
+        const [position] = await tx
+          .insert(stakingPositions)
+          .values({
+            userId: ctx.user.id,
+            token: pool.token,
+            amount,
+            apy: pool.apy.toString(),
+            lockedUntil,
+            status: "active",
+          })
+          .$returningId();
 
-        await tx.insert(transactions).values({
+        const memo = `Beta staking lock for ${pool.lockPeriodDays} days at ${pool.apy}% APY`;
+        const [transaction] = await tx
+          .insert(transactions)
+          .values({
+            userId: ctx.user.id,
+            type: "staking",
+            token: pool.token,
+            amount,
+            status: "complete",
+            memo,
+          })
+          .$returningId();
+
+        await recordSettlementEntry(tx, {
+          idempotencyKey: settlementKey(
+            "staking",
+            ctx.user.id,
+            position.id,
+            pool.token,
+            amount
+          ),
+          transactionId: transaction.id,
           userId: ctx.user.id,
-          type: "staking",
+          source: "staking",
+          direction: "debit",
           token: pool.token,
           amount,
-          status: "complete",
-          memo: `Beta staking lock for ${pool.lockPeriodDays} days at ${pool.apy}% APY`,
+          providerStatus: "provider_gated",
+          settlementStatus: "pending_review",
+          reviewStatus: "queued",
+          memo,
+          audit: {
+            router: "staking.stake",
+            poolId: pool.id,
+            lockPeriodDays: pool.lockPeriodDays,
+            apy: pool.apy,
+            providerGate: "staking release and payout provider remain disabled",
+          },
         });
       });
 

@@ -15,10 +15,34 @@ export const aiAnalyticsRouter = router({
     .query(async ({ input }) => {
       // Mock price data
       const prices = [
+<<<<<<< HEAD
         "0.0080", "0.0081", "0.0082", "0.0083", "0.0084", "0.0085",
         "0.0086", "0.0087", "0.0088", "0.0089", "0.0090", "0.0091",
         "0.0092", "0.0093", "0.0094", "0.0095", "0.0096", "0.0097",
         "0.0098", "0.0099", "0.0100",
+=======
+        "0.0080",
+        "0.0081",
+        "0.0082",
+        "0.0083",
+        "0.0084",
+        "0.0085",
+        "0.0086",
+        "0.0087",
+        "0.0088",
+        "0.0089",
+        "0.0090",
+        "0.0091",
+        "0.0092",
+        "0.0093",
+        "0.0094",
+        "0.0095",
+        "0.0096",
+        "0.0097",
+        "0.0098",
+        "0.0099",
+        "0.0100",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ];
 
       const rsi = AIAnalytics.calculateRSI(prices);
@@ -70,7 +94,11 @@ export const aiAnalyticsRouter = router({
         input.coin,
         currentPrice,
         indicators,
+<<<<<<< HEAD
         sentiment,
+=======
+        sentiment
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return prediction;
@@ -97,7 +125,15 @@ export const aiAnalyticsRouter = router({
         predicted7d: "0.0120",
         confidence: 72,
         trend: "bullish" as const,
+<<<<<<< HEAD
         signals: ["Golden Cross - Strong Uptrend", "RSI Neutral", "MACD Bullish Crossover"],
+=======
+        signals: [
+          "Golden Cross - Strong Uptrend",
+          "RSI Neutral",
+          "MACD Bullish Crossover",
+        ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       };
 
       const sentiment = {
@@ -125,7 +161,11 @@ export const aiAnalyticsRouter = router({
       z.object({
         coin: z.string(),
         period: z.enum(["1h", "4h", "1d", "1w", "1m"]).default("1d"),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -195,14 +235,24 @@ export const aiAnalyticsRouter = router({
         },
         {
           title: "SHADOW Accumulation Phase",
+<<<<<<< HEAD
           description: "Large volume at support levels indicates institutional buying",
+=======
+          description:
+            "Large volume at support levels indicates institutional buying",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
           impact: "bullish",
           confidence: 72,
           timestamp: new Date(Date.now() - 3600000),
         },
         {
           title: "Overall Market Sentiment Positive",
+<<<<<<< HEAD
           description: "Social and on-chain metrics show strong bullish sentiment",
+=======
+          description:
+            "Social and on-chain metrics show strong bullish sentiment",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
           impact: "bullish",
           confidence: 78,
           timestamp: new Date(Date.now() - 7200000),
@@ -218,7 +268,11 @@ export const aiAnalyticsRouter = router({
         coin: z.string(),
         priceTarget: z.string(),
         condition: z.enum(["above", "below"]),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {

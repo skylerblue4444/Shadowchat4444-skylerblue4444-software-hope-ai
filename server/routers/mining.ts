@@ -2,9 +2,18 @@ import { z } from "zod";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { miningSessions, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
+import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 import { protectedProcedure, router, TRPCError } from "../_core/trpc";
 
-const mineableCoins = ["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"] as const;
+const mineableCoins = [
+  "SKY4444",
+  "TRUMP",
+  "DOGE",
+  "USDT",
+  "BTC",
+  "MONERO",
+  "SHADOW",
+] as const;
 const rewardByCoin: Record<(typeof mineableCoins)[number], string> = {
   SKY4444: "50",
   TRUMP: "25",
@@ -17,11 +26,11 @@ const rewardByCoin: Record<(typeof mineableCoins)[number], string> = {
 
 export const miningRouter = router({
   listCoins: protectedProcedure.query(() =>
-    mineableCoins.map((coin) => ({
+    mineableCoins.map(coin => ({
       coin,
       demoReward: rewardByCoin[coin],
       status: "beta-demo" as const,
-    })),
+    }))
   ),
 
   startMining: protectedProcedure
@@ -29,7 +38,10 @@ export const miningRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) {
-        throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is not configured for mining sessions." });
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Database is not configured for mining sessions.",
+        });
       }
 
       const [session] = await db
@@ -65,48 +77,95 @@ export const miningRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) {
-        throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is not configured for mining sessions." });
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Database is not configured for mining sessions.",
+        });
       }
 
       await db
         .update(miningSessions)
         .set({ status: "ended", endedAt: new Date() })
-        .where(and(eq(miningSessions.id, input.sessionId), eq(miningSessions.userId, ctx.user.id)));
+        .where(
+          and(
+            eq(miningSessions.id, input.sessionId),
+            eq(miningSessions.userId, ctx.user.id)
+          )
+        );
 
       return { success: true, sessionId: input.sessionId };
     }),
 
   recordBlockFound: protectedProcedure
-    .input(z.object({ sessionId: z.number().int().positive(), coin: z.enum(mineableCoins) }))
+    .input(
+      z.object({
+        sessionId: z.number().int().positive(),
+        coin: z.enum(mineableCoins),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) {
-        throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is not configured for mining rewards." });
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Database is not configured for mining rewards.",
+        });
       }
 
       const reward = rewardByCoin[input.coin];
 
-      await db.transaction(async (tx) => {
+      await db.transaction(async tx => {
         await tx
           .update(miningSessions)
           .set({
             blocksFound: sql`${miningSessions.blocksFound} + 1`,
             balance: sql`${miningSessions.balance} + ${reward}`,
           })
-          .where(and(eq(miningSessions.id, input.sessionId), eq(miningSessions.userId, ctx.user.id)));
+          .where(
+            and(
+              eq(miningSessions.id, input.sessionId),
+              eq(miningSessions.userId, ctx.user.id)
+            )
+          );
 
         await tx
           .update(users)
           .set({ balance: sql`${users.balance} + ${reward}` })
           .where(eq(users.id, ctx.user.id));
 
-        await tx.insert(transactions).values({
+        const [transaction] = await tx
+          .insert(transactions)
+          .values({
+            userId: ctx.user.id,
+            type: "mining",
+            token: input.coin,
+            amount: reward,
+            status: "complete",
+            memo: `Beta mining reward for ${input.coin}`,
+          })
+          .$returningId();
+
+        await recordSettlementEntry(tx, {
+          idempotencyKey: settlementKey(
+            "mining",
+            ctx.user.id,
+            input.sessionId,
+            input.coin,
+            reward
+          ),
+          transactionId: transaction.id,
           userId: ctx.user.id,
-          type: "mining",
+          source: "mining",
+          direction: "credit",
           token: input.coin,
           amount: reward,
-          status: "complete",
+          providerStatus: "beta_ledger",
           memo: `Beta mining reward for ${input.coin}`,
+          audit: {
+            router: "mining.recordBlockFound",
+            sessionId: input.sessionId,
+            providerGate: "no external transfer executed",
+          },
         });
       });
 

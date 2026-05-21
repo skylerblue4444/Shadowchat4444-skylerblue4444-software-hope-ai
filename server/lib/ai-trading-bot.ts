@@ -7,7 +7,16 @@
 import { Decimal } from "decimal.js";
 
 export type SignalType = "buy" | "sell" | "hold" | "strong_buy" | "strong_sell";
+<<<<<<< HEAD
 export type BotStrategy = "scalping" | "swing" | "trend_following" | "mean_reversion" | "arbitrage";
+=======
+export type BotStrategy =
+  | "scalping"
+  | "swing"
+  | "trend_following"
+  | "mean_reversion"
+  | "arbitrage";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 export type RiskLevel = "conservative" | "moderate" | "aggressive" | "extreme";
 
 export interface TradingSignal {
@@ -95,7 +104,11 @@ export class AITradingBot {
     macd: number,
     sma20: string,
     sma50: string,
+<<<<<<< HEAD
     sentiment: { social: number; news: number; onChain: number },
+=======
+    sentiment: { social: number; news: number; onChain: number }
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): TradingSignal {
     let signal: SignalType = "hold";
     let confidence = 50;
@@ -119,7 +132,12 @@ export class AITradingBot {
     }
 
     // Sentiment analysis
+<<<<<<< HEAD
     const avgSentiment = (sentiment.social + sentiment.news + sentiment.onChain) / 3;
+=======
+    const avgSentiment =
+      (sentiment.social + sentiment.news + sentiment.onChain) / 3;
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     if (avgSentiment > 50 && signal !== "sell") {
       confidence += 10;
     } else if (avgSentiment < -50 && signal !== "buy") {
@@ -166,7 +184,11 @@ export class AITradingBot {
     signal: TradingSignal,
     quantity: string,
     strategy: BotStrategy,
+<<<<<<< HEAD
     riskLevel: RiskLevel,
+=======
+    riskLevel: RiskLevel
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): BotTrade {
     return {
       tradeId: `TRADE-${Date.now()}`,
@@ -184,10 +206,14 @@ export class AITradingBot {
   /**
    * Close trade and calculate P&L
    */
+<<<<<<< HEAD
   static closeTrade(
     trade: BotTrade,
     exitPrice: string,
   ): BotTrade {
+=======
+  static closeTrade(trade: BotTrade, exitPrice: string): BotTrade {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const entryValue = new Decimal(trade.entryPrice).times(trade.quantity);
     const exitValue = new Decimal(exitPrice).times(trade.quantity);
     const profitLoss = exitValue.minus(entryValue);
@@ -210,14 +236,24 @@ export class AITradingBot {
    * Calculate bot performance metrics
    */
   static calculatePerformance(trades: BotTrade[]): BotPerformance {
+<<<<<<< HEAD
     const closedTrades = trades.filter((t) => t.status === "closed");
     const winningTrades = closedTrades.filter(
       (t) => t.profitLoss && new Decimal(t.profitLoss).gt(0),
+=======
+    const closedTrades = trades.filter(t => t.status === "closed");
+    const winningTrades = closedTrades.filter(
+      t => t.profitLoss && new Decimal(t.profitLoss).gt(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const totalPnL = closedTrades.reduce(
       (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+<<<<<<< HEAD
       new Decimal(0),
+=======
+      new Decimal(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const winRate =
@@ -228,6 +264,7 @@ export class AITradingBot {
     const avgWin =
       winningTrades.length > 0
         ? winningTrades.reduce(
+<<<<<<< HEAD
           (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
           new Decimal(0),
         ) / winningTrades.length
@@ -235,14 +272,29 @@ export class AITradingBot {
 
     const losingTrades = closedTrades.filter(
       (t) => t.profitLoss && new Decimal(t.profitLoss).lt(0),
+=======
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / winningTrades.length
+        : new Decimal(0);
+
+    const losingTrades = closedTrades.filter(
+      t => t.profitLoss && new Decimal(t.profitLoss).lt(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const avgLoss =
       losingTrades.length > 0
         ? losingTrades.reduce(
+<<<<<<< HEAD
           (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
           new Decimal(0),
         ) / losingTrades.length
+=======
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / losingTrades.length
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
 
     const profitFactor = avgLoss.isZero()
@@ -270,9 +322,15 @@ export class AITradingBot {
   static optimizePortfolio(
     coins: string[],
     prices: Record<string, string>,
+<<<<<<< HEAD
     riskLevel: RiskLevel,
   ): BotPortfolio {
     const allocations = coins.map((coin) => {
+=======
+    riskLevel: RiskLevel
+  ): BotPortfolio {
+    const allocations = coins.map(coin => {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       let percentage = 100 / coins.length;
 
       // Adjust based on risk level
@@ -306,7 +364,11 @@ export class AITradingBot {
    */
   static analyzeMarketConditions(
     prices: Record<string, string>,
+<<<<<<< HEAD
     volumes: Record<string, string>,
+=======
+    volumes: Record<string, string>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): MarketCondition {
     // Simplified market analysis
     return {
@@ -326,9 +388,18 @@ export class AITradingBot {
    */
   static getStrategyRecommendation(
     marketCondition: MarketCondition,
+<<<<<<< HEAD
     riskTolerance: RiskLevel,
   ): BotStrategy {
     if (marketCondition.trend === "bullish" && marketCondition.volatility === "low") {
+=======
+    riskTolerance: RiskLevel
+  ): BotStrategy {
+    if (
+      marketCondition.trend === "bullish" &&
+      marketCondition.volatility === "low"
+    ) {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       return "trend_following";
     } else if (marketCondition.trend === "sideways") {
       return "mean_reversion";
@@ -343,25 +414,45 @@ export class AITradingBot {
    */
   static calculateRiskMetrics(
     portfolio: BotPortfolio,
+<<<<<<< HEAD
     trades: BotTrade[],
+=======
+    trades: BotTrade[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     valueAtRisk: string;
     maxLoss: string;
     riskRewardRatio: number;
   } {
+<<<<<<< HEAD
     const closedTrades = trades.filter((t) => t.status === "closed");
     const losses = closedTrades.filter(
       (t) => t.profitLoss && new Decimal(t.profitLoss).lt(0),
+=======
+    const closedTrades = trades.filter(t => t.status === "closed");
+    const losses = closedTrades.filter(
+      t => t.profitLoss && new Decimal(t.profitLoss).lt(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const maxLoss =
       losses.length > 0
+<<<<<<< HEAD
         ? losses.reduce((min, t) =>
           new Decimal(t.profitLoss || 0).lt(min)
             ? new Decimal(t.profitLoss || 0)
             : min,
           new Decimal(0),
         )
+=======
+        ? losses.reduce(
+            (min, t) =>
+              new Decimal(t.profitLoss || 0).lt(min)
+                ? new Decimal(t.profitLoss || 0)
+                : min,
+            new Decimal(0)
+          )
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
 
     const valueAtRisk = new Decimal(portfolio.totalValue)
@@ -369,14 +460,24 @@ export class AITradingBot {
       .toFixed(18); // 5% VaR
 
     const gains = closedTrades.filter(
+<<<<<<< HEAD
       (t) => t.profitLoss && new Decimal(t.profitLoss).gt(0),
+=======
+      t => t.profitLoss && new Decimal(t.profitLoss).gt(0)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const avgGain =
       gains.length > 0
         ? gains.reduce(
+<<<<<<< HEAD
           (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
           new Decimal(0),
         ) / gains.length
+=======
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / gains.length
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
 
     const riskRewardRatio = avgGain.isZero()
@@ -396,7 +497,11 @@ export class AITradingBot {
   static backtest(
     strategy: BotStrategy,
     historicalData: { price: string; volume: string; timestamp: Date }[],
+<<<<<<< HEAD
     initialCapital: string,
+=======
+    initialCapital: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     finalValue: string;
     totalReturn: number;

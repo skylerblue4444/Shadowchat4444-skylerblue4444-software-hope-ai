@@ -65,7 +65,19 @@ export const ICO_CONFIGS: Record<ICOCoin, ICOConfig> = {
     endDate: new Date("2026-12-31"),
     minInvestment: "100",
     maxInvestment: "1000000",
+<<<<<<< HEAD
     acceptedPayments: ["stripe", "btc", "doge", "xmr", "usdt", "trump", "shadow"],
+=======
+    acceptedPayments: [
+      "stripe",
+      "btc",
+      "doge",
+      "xmr",
+      "usdt",
+      "trump",
+      "shadow",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
   SHADOW: {
     coin: "SHADOW",
@@ -90,7 +102,15 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "10000",
       tokenBonus: 25,
       description: "First 1000 participants get 25% bonus tokens",
+<<<<<<< HEAD
       perks: ["25% bonus tokens", "Early access to features", "Community badge"],
+=======
+      perks: [
+        "25% bonus tokens",
+        "Early access to features",
+        "Community badge",
+      ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     },
     {
       tierId: "STANDARD",
@@ -108,7 +128,16 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "1000000",
       tokenBonus: 20,
       description: "Large investors get 20% bonus + VIP perks",
+<<<<<<< HEAD
       perks: ["20% bonus tokens", "VIP support", "Quarterly calls", "Governance vote"],
+=======
+      perks: [
+        "20% bonus tokens",
+        "VIP support",
+        "Quarterly calls",
+        "Governance vote",
+      ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     },
   ],
   SHADOW: [
@@ -137,7 +166,16 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "500000",
       tokenBonus: 18,
       description: "Founding member with equity-like governance",
+<<<<<<< HEAD
       perks: ["18% bonus tokens", "Equity-like governance", "VIP support", "Board seat"],
+=======
+      perks: [
+        "18% bonus tokens",
+        "Equity-like governance",
+        "VIP support",
+        "Board seat",
+      ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     },
   ],
 };
@@ -149,10 +187,19 @@ export class ICOFunding {
   static calculateTokensReceived(
     coin: ICOCoin,
     investmentUsd: string,
+<<<<<<< HEAD
     tierBonus: number,
   ): string {
     const config = ICO_CONFIGS[coin];
     const baseTokens = new Decimal(investmentUsd).dividedBy(config.pricePerToken);
+=======
+    tierBonus: number
+  ): string {
+    const config = ICO_CONFIGS[coin];
+    const baseTokens = new Decimal(investmentUsd).dividedBy(
+      config.pricePerToken
+    );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const bonusTokens = baseTokens.times(tierBonus).dividedBy(100);
     const totalTokens = baseTokens.plus(bonusTokens);
 
@@ -164,7 +211,11 @@ export class ICOFunding {
    */
   static getTierForInvestment(
     coin: ICOCoin,
+<<<<<<< HEAD
     investmentUsd: string,
+=======
+    investmentUsd: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOTier | null {
     const tiers = ICO_TIERS[coin];
     const amount = new Decimal(investmentUsd);
@@ -183,7 +234,11 @@ export class ICOFunding {
    */
   static validateInvestment(
     coin: ICOCoin,
+<<<<<<< HEAD
     investmentUsd: string,
+=======
+    investmentUsd: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { valid: boolean; error?: string } {
     const config = ICO_CONFIGS[coin];
 
@@ -194,11 +249,25 @@ export class ICOFunding {
     const amount = new Decimal(investmentUsd);
 
     if (amount.lt(config.minInvestment)) {
+<<<<<<< HEAD
       return { valid: false, error: `Minimum investment: $${config.minInvestment}` };
     }
 
     if (amount.gt(config.maxInvestment)) {
       return { valid: false, error: `Maximum investment: $${config.maxInvestment}` };
+=======
+      return {
+        valid: false,
+        error: `Minimum investment: $${config.minInvestment}`,
+      };
+    }
+
+    if (amount.gt(config.maxInvestment)) {
+      return {
+        valid: false,
+        error: `Maximum investment: $${config.maxInvestment}`,
+      };
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }
 
     return { valid: true };
@@ -211,7 +280,11 @@ export class ICOFunding {
     coin: ICOCoin,
     totalRaisedUsd: string,
     totalInvestors: number,
+<<<<<<< HEAD
     tokensDistributed: string,
+=======
+    tokensDistributed: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ICOMetrics {
     const config = ICO_CONFIGS[coin];
     const raised = new Decimal(totalRaisedUsd);
@@ -224,12 +297,22 @@ export class ICOFunding {
     const now = new Date();
     const daysRemaining = Math.max(
       0,
+<<<<<<< HEAD
       Math.ceil((config.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
     );
 
     const averageInvestment = totalInvestors > 0
       ? raised.dividedBy(totalInvestors).toFixed(2)
       : "0";
+=======
+      Math.ceil(
+        (config.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      )
+    );
+
+    const averageInvestment =
+      totalInvestors > 0 ? raised.dividedBy(totalInvestors).toFixed(2) : "0";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       coin,
@@ -249,7 +332,11 @@ export class ICOFunding {
   static calculateRefund(
     coin: ICOCoin,
     investmentUsd: string,
+<<<<<<< HEAD
     totalRaisedUsd: string,
+=======
+    totalRaisedUsd: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const config = ICO_CONFIGS[coin];
     const softCap = new Decimal(config.softCapUsd);
@@ -268,14 +355,24 @@ export class ICOFunding {
    */
   static calculateVestingSchedule(
     tokensReceived: string,
+<<<<<<< HEAD
     vestingMonths: number = 12,
+=======
+    vestingMonths: number = 12
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     month: number;
     tokensUnlocked: string;
     cumulativeTokens: string;
   }[] {
     const schedule = [];
+<<<<<<< HEAD
     const monthlyAllocation = new Decimal(tokensReceived).dividedBy(vestingMonths);
+=======
+    const monthlyAllocation = new Decimal(tokensReceived).dividedBy(
+      vestingMonths
+    );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     for (let i = 1; i <= vestingMonths; i++) {
       const tokensUnlocked = monthlyAllocation.toFixed(18);
@@ -309,11 +406,19 @@ export class ICOFunding {
   static calculateReferralBonus(
     coin: ICOCoin,
     referredInvestmentUsd: string,
+<<<<<<< HEAD
     referralBonusPercentage: number = 5,
   ): string {
     const config = ICO_CONFIGS[coin];
     const referredTokens = new Decimal(referredInvestmentUsd).dividedBy(
       config.pricePerToken,
+=======
+    referralBonusPercentage: number = 5
+  ): string {
+    const config = ICO_CONFIGS[coin];
+    const referredTokens = new Decimal(referredInvestmentUsd).dividedBy(
+      config.pricePerToken
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const bonus = referredTokens.times(referralBonusPercentage).dividedBy(100);
 
@@ -325,7 +430,11 @@ export class ICOFunding {
    */
   static generateInvestmentSummary(
     investment: ICOInvestment,
+<<<<<<< HEAD
     currentTokenPrice: string,
+=======
+    currentTokenPrice: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     investmentUsd: string;
     tokensReceived: string;
@@ -333,9 +442,20 @@ export class ICOFunding {
     gain: string;
     gainPercentage: number;
   } {
+<<<<<<< HEAD
     const currentValue = new Decimal(investment.tokensReceived).times(currentTokenPrice);
     const gain = currentValue.minus(investment.amountUsd);
     const gainPercentage = gain.dividedBy(investment.amountUsd).times(100).toNumber();
+=======
+    const currentValue = new Decimal(investment.tokensReceived).times(
+      currentTokenPrice
+    );
+    const gain = currentValue.minus(investment.amountUsd);
+    const gainPercentage = gain
+      .dividedBy(investment.amountUsd)
+      .times(100)
+      .toNumber();
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       investmentUsd: investment.amountUsd,

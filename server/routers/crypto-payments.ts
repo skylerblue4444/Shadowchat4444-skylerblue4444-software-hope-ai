@@ -86,6 +86,7 @@ export const cryptoPaymentsRouter = router({
   swap: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         fromCoin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         toCoin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         amount: z.number().positive(),
@@ -94,15 +95,61 @@ export const cryptoPaymentsRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       return multiCoinService.swap(ctx, input.fromCoin, input.toCoin, input.amount, input.slippage);
+=======
+        fromCoin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        toCoin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        amount: z.number().positive(),
+        slippage: z.number().default(0.5),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return multiCoinService.swap(
+        ctx,
+        input.fromCoin,
+        input.toCoin,
+        input.amount,
+        input.slippage
+      );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }),
 
   // ─── Burn (Deflationary) ──────────────────────────────────────────────────
   burn: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         amount: z.number().positive(),
       }),
+=======
+        coin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        amount: z.number().positive(),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       // Burn removes coins from circulation permanently
@@ -123,9 +170,23 @@ export const cryptoPaymentsRouter = router({
   mint: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         amount: z.number().positive(),
       }),
+=======
+        coin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        amount: z.number().positive(),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       // Mint is restricted to admin/owner only in production
@@ -145,9 +206,24 @@ export const cryptoPaymentsRouter = router({
   icoParticipate: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         paymentMethod: z.enum(["stripe", "btc", "doge", "xmr", "usdt", "trump", "sky4444", "shadow"]),
         usdAmount: z.number().positive(),
       }),
+=======
+        paymentMethod: z.enum([
+          "stripe",
+          "btc",
+          "doge",
+          "xmr",
+          "usdt",
+          "trump",
+          "sky4444",
+          "shadow",
+        ]),
+        usdAmount: z.number().positive(),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       if (!ENV.icoActive) {
@@ -181,6 +257,7 @@ export const cryptoPaymentsRouter = router({
   transfer: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         amount: z.number().positive(),
         recipientId: z.number(),
@@ -188,12 +265,36 @@ export const cryptoPaymentsRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       return multiCoinService.transfer(ctx, input.coin, input.amount, input.recipientId, "transfer");
+=======
+        coin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        amount: z.number().positive(),
+        recipientId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return multiCoinService.transfer(
+        ctx,
+        input.coin,
+        input.amount,
+        input.recipientId,
+        "transfer"
+      );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }),
 
   // ─── Tip (Social) ────────────────────────────────────────────────────────
   tip: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         coin: z.enum(["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"]),
         amount: z.number().positive(),
         recipientId: z.number(),
@@ -201,6 +302,29 @@ export const cryptoPaymentsRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       return multiCoinService.transfer(ctx, input.coin, input.amount, input.recipientId, "tip");
+=======
+        coin: z.enum([
+          "SKY4444",
+          "TRUMP",
+          "DOGE",
+          "USDT",
+          "BTC",
+          "MONERO",
+          "SHADOW",
+        ]),
+        amount: z.number().positive(),
+        recipientId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return multiCoinService.transfer(
+        ctx,
+        input.coin,
+        input.amount,
+        input.recipientId,
+        "tip"
+      );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }),
 
   // ─── Get ICO Status ──────────────────────────────────────────────────────
@@ -212,7 +336,20 @@ export const cryptoPaymentsRouter = router({
       softCap: ENV.icoSoftCap,
       startDate: ENV.icoStartDate,
       endDate: ENV.icoEndDate,
+<<<<<<< HEAD
       supportedPaymentMethods: ["stripe", "btc", "doge", "xmr", "usdt", "trump", "sky4444", "shadow"],
+=======
+      supportedPaymentMethods: [
+        "stripe",
+        "btc",
+        "doge",
+        "xmr",
+        "usdt",
+        "trump",
+        "sky4444",
+        "shadow",
+      ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     };
   }),
 

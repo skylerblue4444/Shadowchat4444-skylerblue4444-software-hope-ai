@@ -48,17 +48,14 @@ export function rankContent(posts: Post[]): Post[] {
   const ONE_DAY = 24 * 60 * 60 * 1000;
 
   return posts
-    .map((post) => {
+    .map(post => {
       // Time decay factor (newer posts score higher)
       const ageHours = (now - post.createdAt) / (60 * 60 * 1000);
       const timeDecay = Math.exp(-ageHours / 24);
 
       // Engagement score
       const engagementScore =
-        post.likes * 1 +
-        post.tips * 5 +
-        post.replies * 2 +
-        post.shares * 3;
+        post.likes * 1 + post.tips * 5 + post.replies * 2 + post.shares * 3;
 
       // Sentiment boost (bullish posts get slight boost)
       const sentimentBoost = (post.sentiment || 0) * 0.1;
@@ -144,22 +141,22 @@ export function analyzeSentiment(text: string): SentimentData {
   let neutralScore = 0;
 
   // Count keyword occurrences
-  bullishKeywords.forEach((keyword) => {
+  bullishKeywords.forEach(keyword => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     const matches = lowerText.match(regex);
     bullishScore += (matches?.length || 0) * 1.5;
   });
 
-  bearishKeywords.forEach((keyword) => {
+  bearishKeywords.forEach(keyword => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     const matches = lowerText.match(regex);
     bearishScore += (matches?.length || 0) * 1.5;
   });
 
-  neutralKeywords.forEach((keyword) => {
+  neutralKeywords.forEach(keyword => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     const matches = lowerText.match(regex);
-    neutralScore += (matches?.length || 0);
+    neutralScore += matches?.length || 0;
   });
 
   // Normalize scores
@@ -186,9 +183,11 @@ export function analyzeSentiment(text: string): SentimentData {
  * Portfolio Optimization Algorithm
  * Optimizes asset allocation using Modern Portfolio Theory
  */
-export function optimizePortfolio(assets: PortfolioAsset[]): OptimizationResult[] {
+export function optimizePortfolio(
+  assets: PortfolioAsset[]
+): OptimizationResult[] {
   // Calculate expected returns based on historical volatility and correlation
-  const results: OptimizationResult[] = assets.map((asset) => {
+  const results: OptimizationResult[] = assets.map(asset => {
     // Expected return: higher volatility = higher potential return
     const expectedReturn = 0.05 + asset.volatility * 0.3;
 
@@ -211,7 +210,7 @@ export function optimizePortfolio(assets: PortfolioAsset[]): OptimizationResult[
 
   // Normalize allocations to sum to 1
   const totalAllocation = results.reduce((sum, r) => sum + r.allocation, 0);
-  return results.map((r) => ({
+  return results.map(r => ({
     ...r,
     allocation: r.allocation / totalAllocation,
   }));
@@ -255,7 +254,10 @@ export function predictPrice(
   periods: number = 20
 ): { prediction: number; confidence: number } {
   if (historicalPrices.length < periods) {
-    return { prediction: historicalPrices[historicalPrices.length - 1], confidence: 0.3 };
+    return {
+      prediction: historicalPrices[historicalPrices.length - 1],
+      confidence: 0.3,
+    };
   }
 
   // Calculate simple moving average
@@ -264,7 +266,8 @@ export function predictPrice(
 
   // Calculate momentum (rate of change)
   const currentPrice = historicalPrices[historicalPrices.length - 1];
-  const previousPrice = historicalPrices[historicalPrices.length - Math.min(5, periods)];
+  const previousPrice =
+    historicalPrices[historicalPrices.length - Math.min(5, periods)];
   const momentum = (currentPrice - previousPrice) / previousPrice;
 
   // Calculate volatility
@@ -307,7 +310,8 @@ export function assessRisk(assets: PortfolioAsset[]): {
   }, 0);
 
   // Calculate diversification score (1 = fully diversified, 0 = concentrated)
-  const avgCorrelation = assets.reduce((sum, a) => sum + a.correlation, 0) / assets.length;
+  const avgCorrelation =
+    assets.reduce((sum, a) => sum + a.correlation, 0) / assets.length;
   const diversificationScore = 1 - avgCorrelation;
 
   // Overall risk (0-1)
@@ -316,10 +320,12 @@ export function assessRisk(assets: PortfolioAsset[]): {
   // Generate recommendation
   let recommendation = "Moderate risk";
   if (overallRisk < 0.3) recommendation = "Low risk - Conservative portfolio";
-  else if (overallRisk > 0.6) recommendation = "High risk - Aggressive portfolio";
+  else if (overallRisk > 0.6)
+    recommendation = "High risk - Aggressive portfolio";
 
   if (diversificationScore < 0.3)
-    recommendation += " | Low diversification - Consider spreading across more assets";
+    recommendation +=
+      " | Low diversification - Consider spreading across more assets";
 
   return { overallRisk, diversificationScore, recommendation };
 }

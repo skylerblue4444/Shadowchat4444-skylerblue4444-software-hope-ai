@@ -11,8 +11,21 @@ import { getDb } from "../db";
 import { ENV } from "../_core/env";
 
 const TRIAL_COINS = [
+<<<<<<< HEAD
   { symbol: "SKY4444", amount: 20000, memo: "🎉 Welcome free-trial grant – 20,000 SKY4444 coins" },
   { symbol: "SHADOW", amount: 10000, memo: "🎉 Welcome free-trial grant – 10,000 SHADOW coins" },
+=======
+  {
+    symbol: "SKY4444",
+    amount: 20000,
+    memo: "🎉 Welcome free-trial grant – 20,000 SKY4444 coins",
+  },
+  {
+    symbol: "SHADOW",
+    amount: 10000,
+    memo: "🎉 Welcome free-trial grant – 10,000 SHADOW coins",
+  },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 ];
 
 /**
@@ -27,7 +40,15 @@ export async function grantFreeTrialCoins(userId: number): Promise<{
   if (!db) {
     return {
       granted: true,
+<<<<<<< HEAD
       results: TRIAL_COINS.map(c => ({ symbol: c.symbol, amount: c.amount, success: true })),
+=======
+      results: TRIAL_COINS.map(c => ({
+        symbol: c.symbol,
+        amount: c.amount,
+        success: true,
+      })),
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     };
   }
 
@@ -42,28 +63,57 @@ export async function grantFreeTrialCoins(userId: number): Promise<{
         and(
           eq(transactions.userId, userId),
           eq(transactions.type, "free_trial"),
+<<<<<<< HEAD
           eq(transactions.token, coin.symbol),
         ),
+=======
+          eq(transactions.token, coin.symbol)
+        )
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       )
       .limit(1);
 
     if (existing.length > 0) {
+<<<<<<< HEAD
       results.push({ symbol: coin.symbol, amount: coin.amount, success: false });
+=======
+      results.push({
+        symbol: coin.symbol,
+        amount: coin.amount,
+        success: false,
+      });
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       continue;
     }
 
     const amountStr = coin.amount.toString();
 
+<<<<<<< HEAD
     await db.transaction(async (tx) => {
+=======
+    await db.transaction(async tx => {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       // Upsert holding
       const existingHolding = await tx
         .select({ id: holdings.id, amount: holdings.amount })
         .from(holdings)
+<<<<<<< HEAD
         .where(and(eq(holdings.userId, userId), eq(holdings.asset, coin.symbol)))
         .limit(1);
 
       if (existingHolding.length > 0) {
         const newAmount = (parseFloat(existingHolding[0].amount) + coin.amount).toString();
+=======
+        .where(
+          and(eq(holdings.userId, userId), eq(holdings.asset, coin.symbol))
+        )
+        .limit(1);
+
+      if (existingHolding.length > 0) {
+        const newAmount = (
+          parseFloat(existingHolding[0].amount) + coin.amount
+        ).toString();
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         await tx
           .update(holdings)
           .set({ amount: newAmount })

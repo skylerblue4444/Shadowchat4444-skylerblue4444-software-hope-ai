@@ -91,7 +91,18 @@ export type HopeActionCatalogItem = {
   aliases: string[];
   path: string;
   description: string;
+<<<<<<< HEAD
   category: "core" | "money" | "trading" | "ai" | "community" | "builder" | "safety";
+=======
+  category:
+    | "core"
+    | "money"
+    | "trading"
+    | "ai"
+    | "community"
+    | "builder"
+    | "safety";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   beginnerTip: string;
   examples: string[];
 };
@@ -118,7 +129,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/hub",
     description: "Your main SkyCoin444 dashboard and launch area.",
     category: "core",
+<<<<<<< HEAD
     beginnerTip: "Start here when you feel lost. Hope can route you anywhere from the hub.",
+=======
+    beginnerTip:
+      "Start here when you feel lost. Hope can route you anywhere from the hub.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open dashboard", "Take me home", "Go to the hub"],
   },
   {
@@ -126,9 +142,17 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     label: "Hope AI",
     aliases: ["ai", "hope", "copilot", "assistant", "voice", "hands free"],
     path: "/dashboard/hope-ai",
+<<<<<<< HEAD
     description: "Hands-free voice control, coaching, scanning, and safe workflow preparation.",
     category: "ai",
     beginnerTip: "Say what you want in plain English. Hope will either do it, explain it, or ask for confirmation.",
+=======
+    description:
+      "Hands-free voice control, coaching, scanning, and safe workflow preparation.",
+    category: "ai",
+    beginnerTip:
+      "Say what you want in plain English. Hope will either do it, explain it, or ask for confirmation.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Hope beginner mode", "What can I do", "Make it hands free"],
   },
   {
@@ -138,7 +162,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/trading",
     description: "Trading workspace for preparing buy and sell workflows.",
     category: "trading",
+<<<<<<< HEAD
     beginnerTip: "Use scans first, then prepare a draft trade. Hope will not silently execute a trade.",
+=======
+    beginnerTip:
+      "Use scans first, then prepare a draft trade. Hope will not silently execute a trade.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open trading", "Teach me trading", "Prepare buy one Bitcoin"],
   },
   {
@@ -158,7 +187,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/portfolio",
     description: "Portfolio and money-management snapshot.",
     category: "money",
+<<<<<<< HEAD
     beginnerTip: "This is where you check what you own and how your finances are trending.",
+=======
+    beginnerTip:
+      "This is where you check what you own and how your finances are trending.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open portfolio", "Show my net worth", "Summarize my money"],
   },
   {
@@ -168,7 +202,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/wallet",
     description: "Wallet balances, deposits, and funding workflows.",
     category: "money",
+<<<<<<< HEAD
     beginnerTip: "Use wallet for balances and funding. Hope can explain each step before you continue.",
+=======
+    beginnerTip:
+      "Use wallet for balances and funding. Hope can explain each step before you continue.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open wallet", "Show balance", "Take me to funds"],
   },
   {
@@ -176,9 +215,17 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     label: "Payments",
     aliases: ["pay", "payment", "payments", "checkout", "stripe", "invoice"],
     path: "/dashboard/pay",
+<<<<<<< HEAD
     description: "Payment and checkout workflows with server-side Stripe support.",
     category: "money",
     beginnerTip: "Hope can prepare payment steps, but final payment actions need confirmation.",
+=======
+    description:
+      "Payment and checkout workflows with server-side Stripe support.",
+    category: "money",
+    beginnerTip:
+      "Hope can prepare payment steps, but final payment actions need confirmation.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open payments", "Prepare a payment", "Go to checkout"],
   },
   {
@@ -188,8 +235,18 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/marketplace",
     description: "Marketplace listings and order workflows.",
     category: "builder",
+<<<<<<< HEAD
     beginnerTip: "Use this to list, buy, or explore products. Hope can walk you through your first listing.",
     examples: ["Open marketplace", "Teach me marketplace", "Show me what to sell"],
+=======
+    beginnerTip:
+      "Use this to list, buy, or explore products. Hope can walk you through your first listing.",
+    examples: [
+      "Open marketplace",
+      "Teach me marketplace",
+      "Show me what to sell",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
   {
     id: "defi",
@@ -208,7 +265,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/staking",
     description: "Staking and reward workflows.",
     category: "money",
+<<<<<<< HEAD
     beginnerTip: "Staking can lock funds. Hope will explain the risk before you act.",
+=======
+    beginnerTip:
+      "Staking can lock funds. Hope will explain the risk before you act.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open staking", "Explain staking", "Show rewards"],
   },
   {
@@ -218,7 +280,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/tax",
     description: "Tax and financial reporting center.",
     category: "money",
+<<<<<<< HEAD
     beginnerTip: "Use this area to organize taxable activity and export records.",
+=======
+    beginnerTip:
+      "Use this area to organize taxable activity and export records.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open tax center", "Show reports", "Help with taxes"],
   },
   {
@@ -228,7 +295,12 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/messages",
     description: "Messaging and user communication area.",
     category: "community",
+<<<<<<< HEAD
     beginnerTip: "Hope can open messages and help prepare text, but posting should stay user-confirmed.",
+=======
+    beginnerTip:
+      "Hope can open messages and help prepare text, but posting should stay user-confirmed.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open messages", "Go to chat", "Show inbox"],
   },
   {
@@ -238,58 +310,168 @@ export const HOPE_ACTION_CATALOG: HopeActionCatalogItem[] = [
     path: "/dashboard/settings",
     description: "Account settings, preferences, and security controls.",
     category: "safety",
+<<<<<<< HEAD
     beginnerTip: "Use settings to adjust your account. Hope will not change sensitive settings without confirmation.",
+=======
+    beginnerTip:
+      "Use settings to adjust your account. Hope will not change sensitive settings without confirmation.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open settings", "Go to profile", "Show security"],
   },
   {
     id: "ico",
     label: "SKY4444 ICO Hub",
+<<<<<<< HEAD
     aliases: ["ico", "fundraise", "fundraising", "invest", "token sale", "coin launch", "raise capital"],
     path: "/dashboard/ico",
     description: "ICO readiness hub with fundraising planning, disclosures, allocation tracking, and admin review workflows.",
     category: "builder",
     beginnerTip: "Use the ICO hub to prepare compliant fundraising materials. Hope will never promise returns or bypass legal review.",
     examples: ["Open ICO hub", "Plan my token launch", "Help me prepare fundraising"],
+=======
+    aliases: [
+      "ico",
+      "fundraise",
+      "fundraising",
+      "invest",
+      "token sale",
+      "coin launch",
+      "raise capital",
+    ],
+    path: "/dashboard/ico",
+    description:
+      "ICO readiness hub with fundraising planning, disclosures, allocation tracking, and admin review workflows.",
+    category: "builder",
+    beginnerTip:
+      "Use the ICO hub to prepare compliant fundraising materials. Hope will never promise returns or bypass legal review.",
+    examples: [
+      "Open ICO hub",
+      "Plan my token launch",
+      "Help me prepare fundraising",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
   {
     id: "casino",
     label: "Charity Casino Playground",
+<<<<<<< HEAD
     aliases: ["casino", "game", "games", "charity casino", "slots", "blackjack"],
     path: "/dashboard/casino",
     description: "Entertainment-only casino layer designed for charity-directed proceeds, disclosures, limits, and auditability.",
     category: "community",
     beginnerTip: "Casino workflows must remain charity-only, jurisdiction-aware, and admin controlled.",
     examples: ["Open charity casino", "Explain casino rules", "Show charity safeguards"],
+=======
+    aliases: [
+      "casino",
+      "game",
+      "games",
+      "charity casino",
+      "slots",
+      "blackjack",
+    ],
+    path: "/dashboard/casino",
+    description:
+      "Entertainment-only casino layer designed for charity-directed proceeds, disclosures, limits, and auditability.",
+    category: "community",
+    beginnerTip:
+      "Casino workflows must remain charity-only, jurisdiction-aware, and admin controlled.",
+    examples: [
+      "Open charity casino",
+      "Explain casino rules",
+      "Show charity safeguards",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
   {
     id: "charity",
     label: "Charity Hub",
+<<<<<<< HEAD
     aliases: ["charity", "donation", "donations", "nonprofit", "give", "impact"],
     path: "/dashboard/charity",
     description: "Charity destination, impact reporting, and donation workflow center.",
     category: "community",
     beginnerTip: "Use the charity hub to review where proceeds go before any campaign or game is enabled.",
+=======
+    aliases: [
+      "charity",
+      "donation",
+      "donations",
+      "nonprofit",
+      "give",
+      "impact",
+    ],
+    path: "/dashboard/charity",
+    description:
+      "Charity destination, impact reporting, and donation workflow center.",
+    category: "community",
+    beginnerTip:
+      "Use the charity hub to review where proceeds go before any campaign or game is enabled.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     examples: ["Open charity hub", "Show donation impact", "Plan charity flow"],
   },
   {
     id: "compliance",
     label: "Compliance Center",
+<<<<<<< HEAD
     aliases: ["compliance", "kyc", "aml", "legal", "risk controls", "admin compliance"],
     path: "/dashboard/admin/compliance",
     description: "Admin compliance center for disclosures, review queues, and safety controls.",
     category: "safety",
     beginnerTip: "Use compliance controls before launching fundraising, payments, crypto, or casino features.",
     examples: ["Open compliance", "Review legal checklist", "Show risk controls"],
+=======
+    aliases: [
+      "compliance",
+      "kyc",
+      "aml",
+      "legal",
+      "risk controls",
+      "admin compliance",
+    ],
+    path: "/dashboard/admin/compliance",
+    description:
+      "Admin compliance center for disclosures, review queues, and safety controls.",
+    category: "safety",
+    beginnerTip:
+      "Use compliance controls before launching fundraising, payments, crypto, or casino features.",
+    examples: [
+      "Open compliance",
+      "Review legal checklist",
+      "Show risk controls",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
   {
     id: "api-vault",
     label: "API Vault",
+<<<<<<< HEAD
     aliases: ["api vault", "keys", "integrations", "secrets", "environment variables"],
     path: "/dashboard/api-vault",
     description: "Integration vault for connector status and environment-variable based configuration.",
     category: "safety",
     beginnerTip: "Secrets belong in environment variables only. Hope can explain configuration without exposing keys.",
     examples: ["Open API vault", "Explain Stripe setup", "Show integration status"],
+=======
+    aliases: [
+      "api vault",
+      "keys",
+      "integrations",
+      "secrets",
+      "environment variables",
+    ],
+    path: "/dashboard/api-vault",
+    description:
+      "Integration vault for connector status and environment-variable based configuration.",
+    category: "safety",
+    beginnerTip:
+      "Secrets belong in environment variables only. Hope can explain configuration without exposing keys.",
+    examples: [
+      "Open API vault",
+      "Explain Stripe setup",
+      "Show integration status",
+    ],
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   },
 ];
 
@@ -329,12 +511,32 @@ function extractSymbol(text: string): string {
 }
 
 function findCatalogItem(text: string): HopeActionCatalogItem | undefined {
+<<<<<<< HEAD
   return HOPE_ACTION_CATALOG.find((item) => item.aliases.some((alias) => new RegExp(`\\b${alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(text)));
 }
 
 
 function missionId(goal: string): string {
   const slug = goal.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 36) || "mission";
+=======
+  return HOPE_ACTION_CATALOG.find(item =>
+    item.aliases.some(alias =>
+      new RegExp(
+        `\\b${alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        "i"
+      ).test(text)
+    )
+  );
+}
+
+function missionId(goal: string): string {
+  const slug =
+    goal
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 36) || "mission";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   return `hope-${slug}-${Date.now().toString(36)}`;
 }
 
@@ -345,7 +547,11 @@ function step(
   intent: HopeIntent,
   path: string | undefined,
   safetyLevel: "safe" | "confirm" | "blocked",
+<<<<<<< HEAD
   voicePrompt: string,
+=======
+  voicePrompt: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 ): HopeMissionStep {
   return {
     id,
@@ -360,6 +566,7 @@ function step(
   };
 }
 
+<<<<<<< HEAD
 export function planMission(goal: string, mode: HopeMode = "guardian"): HopeMissionPlan {
   const normalized = goal.trim() || "Build a safe SkyCoin444 action plan";
   const text = normalized.toLowerCase();
@@ -412,6 +619,242 @@ export function planMission(goal: string, mode: HopeMode = "guardian"): HopeMiss
       step("understand", "Understand the goal", "Hope translates your plain-English request into a route, explanation, or safe preparation workflow.", "explain", item?.path ?? "/dashboard/hope-ai", "safe", "Say explain this."),
       step("open-best-route", item ? `Open ${item.label}` : "Open Hope AI", item?.description ?? "Use the Hope AI command center as the control cockpit.", "navigate", item?.path ?? "/dashboard/hope-ai", "safe", item ? `Say open ${item.label}.` : "Say open Hope AI."),
       step("next-best-action", "Suggest next best action", "Hope proposes the next safe step and pauses for confirmation on money, trading, account, or admin changes.", "proactive_suggest", item?.path ?? "/dashboard/hope-ai", "safe", "Say what should I do next."),
+=======
+export function planMission(
+  goal: string,
+  mode: HopeMode = "guardian"
+): HopeMissionPlan {
+  const normalized = goal.trim() || "Build a safe SkyCoin444 action plan";
+  const text = normalized.toLowerCase();
+  const id = missionId(normalized);
+  let summary =
+    "Hope will turn your plain-English goal into a safe, voice-first app workflow.";
+  let steps: HopeMissionStep[] = [];
+
+  if (
+    /(ico|fundrais|token sale|coin launch|raise capital|investment|investor)/.test(
+      text
+    )
+  ) {
+    summary =
+      "Prepare a compliant crypto fundraising workflow with disclosures, allocation planning, payment readiness, and admin review before launch.";
+    steps = [
+      step(
+        "ico-brief",
+        "Open ICO command center",
+        "Review SKY4444 and project fundraising status, rounds, contribution flow, and disclosure checklist.",
+        "navigate",
+        "/dashboard/ico",
+        "safe",
+        "Say open ICO hub."
+      ),
+      step(
+        "coin-map",
+        "Map project coins",
+        "Review BTC, USDT, TRUMP, Monero, SKY4444, and Shadow Coin infrastructure so the fundraise has clear asset context.",
+        "navigate",
+        "/dashboard/wallet",
+        "safe",
+        "Say open wallet."
+      ),
+      step(
+        "compliance-review",
+        "Run compliance gate",
+        "Confirm disclosures, admin approval, KYC/AML workflow, jurisdiction notes, and no-profit-guarantee language.",
+        "navigate",
+        "/dashboard/admin/compliance",
+        "confirm",
+        "Say confirm compliance review when ready."
+      ),
+      step(
+        "payment-readiness",
+        "Check Stripe and contribution readiness",
+        "Verify payment rails are configured through environment variables and that final charges remain user-confirmed.",
+        "payment_prepare",
+        "/dashboard/pay",
+        "confirm",
+        "Say confirm payment workflow only when ready."
+      ),
+    ];
+  } else if (/(casino|game|games|charity casino|slots|blackjack)/.test(text)) {
+    summary =
+      "Prepare the casino layer as charity-only entertainment with destination controls, limits, disclosures, and audit logs.";
+    steps = [
+      step(
+        "charity-destination",
+        "Choose charity destination",
+        "Open the charity hub and verify the current beneficiary before any game flow is enabled.",
+        "navigate",
+        "/dashboard/charity",
+        "safe",
+        "Say open charity hub."
+      ),
+      step(
+        "casino-guardrails",
+        "Review casino guardrails",
+        "Open the casino playground with charity-only copy, no real-money gambling promises, and responsible-use controls.",
+        "navigate",
+        "/dashboard/casino",
+        "safe",
+        "Say open charity casino."
+      ),
+      step(
+        "admin-audit",
+        "Enable admin audit review",
+        "Route activity through compliance review and audit logs before public release.",
+        "navigate",
+        "/dashboard/admin/compliance",
+        "confirm",
+        "Say confirm compliance review when ready."
+      ),
+    ];
+  } else if (
+    /(privacy|security|protect|safe|lock|audit|keys|secret)/.test(text)
+  ) {
+    summary =
+      "Secure the account and platform by reviewing settings, API vault configuration, compliance controls, and privacy-safe data workflows.";
+    steps = [
+      step(
+        "settings",
+        "Open account security",
+        "Review profile, sessions, and account security preferences.",
+        "navigate",
+        "/dashboard/settings",
+        "safe",
+        "Say open settings."
+      ),
+      step(
+        "api-vault",
+        "Check API vault",
+        "Verify integrations are configured through environment variables without exposing secret values.",
+        "navigate",
+        "/dashboard/api-vault",
+        "safe",
+        "Say open API vault."
+      ),
+      step(
+        "compliance",
+        "Review compliance controls",
+        "Inspect admin risk controls and audit logs for payment, ICO, and casino workflows.",
+        "navigate",
+        "/dashboard/admin/compliance",
+        "confirm",
+        "Say confirm compliance review when ready."
+      ),
+    ];
+  } else if (
+    /(portfolio|money|budget|cash flow|net worth|wealth|finance)/.test(text)
+  ) {
+    summary =
+      "Build a voice-guided money cockpit: portfolio summary, wallet review, market scan, and optional draft trade preparation with confirmation gates.";
+    const symbol = extractSymbol(normalized);
+    steps = [
+      step(
+        "portfolio",
+        "Open portfolio",
+        "Review net worth, holdings, and finance snapshot.",
+        "portfolio_summary",
+        "/dashboard/portfolio",
+        "safe",
+        "Say summarize my money."
+      ),
+      step(
+        "wallet",
+        "Review wallet",
+        "Check balances and funding context before making decisions.",
+        "navigate",
+        "/dashboard/wallet",
+        "safe",
+        "Say open wallet."
+      ),
+      step(
+        "market-scan",
+        `Scan ${symbol}`,
+        `Generate an informational ${symbol} signal with confidence and risk context.`,
+        "market_scan",
+        "/dashboard/market",
+        "safe",
+        `Say scan ${symbol}.`
+      ),
+      step(
+        "trade-draft",
+        "Prepare only if confirmed",
+        "If you choose to act, Hope can prepare a draft trade record but never executes silently.",
+        "trade_prepare",
+        "/dashboard/trading",
+        "confirm",
+        "Say prepare trade, then confirm only after review."
+      ),
+    ];
+  } else if (
+    /(marketplace|shop|store|sell|commerce|product|listing)/.test(text)
+  ) {
+    summary =
+      "Build a creator-commerce workflow with marketplace navigation, payment readiness, and voice-guided listing preparation.";
+    steps = [
+      step(
+        "marketplace",
+        "Open marketplace",
+        "Review listings, products, and commerce tools.",
+        "navigate",
+        "/dashboard/marketplace",
+        "safe",
+        "Say open marketplace."
+      ),
+      step(
+        "payments",
+        "Prepare checkout safely",
+        "Review Stripe-backed payment flow without completing a charge automatically.",
+        "payment_prepare",
+        "/dashboard/pay",
+        "confirm",
+        "Say confirm payment workflow when ready."
+      ),
+      step(
+        "messages",
+        "Coordinate with buyers",
+        "Open messages to prepare buyer communication. Posting remains user-confirmed.",
+        "navigate",
+        "/dashboard/messages",
+        "safe",
+        "Say open messages."
+      ),
+    ];
+  } else {
+    const item = findCatalogItem(normalized);
+    summary = item
+      ? `Navigate to ${item.label}, explain the workflow, and suggest the safest next action.`
+      : summary;
+    steps = [
+      step(
+        "understand",
+        "Understand the goal",
+        "Hope translates your plain-English request into a route, explanation, or safe preparation workflow.",
+        "explain",
+        item?.path ?? "/dashboard/hope-ai",
+        "safe",
+        "Say explain this."
+      ),
+      step(
+        "open-best-route",
+        item ? `Open ${item.label}` : "Open Hope AI",
+        item?.description ??
+          "Use the Hope AI command center as the control cockpit.",
+        "navigate",
+        item?.path ?? "/dashboard/hope-ai",
+        "safe",
+        item ? `Say open ${item.label}.` : "Say open Hope AI."
+      ),
+      step(
+        "next-best-action",
+        "Suggest next best action",
+        "Hope proposes the next safe step and pauses for confirmation on money, trading, account, or admin changes.",
+        "proactive_suggest",
+        item?.path ?? "/dashboard/hope-ai",
+        "safe",
+        "Say what should I do next."
+      ),
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     ];
   }
 
@@ -421,7 +864,12 @@ export function planMission(goal: string, mode: HopeMode = "guardian"): HopeMiss
     summary,
     mode,
     estimatedMinutes: Math.max(2, steps.length * 3),
+<<<<<<< HEAD
     safetyNotice: "Hope can navigate, explain, scan, and prepare workflows hands-free. Money, trading, account-changing, admin, payment, ICO, and casino-impacting actions pause for explicit confirmation.",
+=======
+    safetyNotice:
+      "Hope can navigate, explain, scan, and prepare workflows hands-free. Money, trading, account-changing, admin, payment, ICO, and casino-impacting actions pause for explicit confirmation.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     steps,
     suggestedVoiceCommands: [
       "Start mission",
@@ -437,8 +885,13 @@ function splitCommandChain(raw: string): string[] {
   return raw
     .replace(/\bthen\b/gi, " and then ")
     .split(/\s+(?:and then|then|after that|next)\s+/i)
+<<<<<<< HEAD
     .map((part) => part.trim())
     .filter((part) => part.length > 2)
+=======
+    .map(part => part.trim())
+    .filter(part => part.length > 2)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     .slice(0, 6);
 }
 
@@ -453,14 +906,21 @@ export function planCommandChain(raw: string): HopeMissionPlan {
       parsed.spokenResponse,
       parsed.intent,
       parsed.payload.path,
+<<<<<<< HEAD
       parsed.payload.safetyLevel ?? (parsed.requiresConfirmation ? "confirm" : "safe"),
       `Say: ${command}`,
+=======
+      parsed.payload.safetyLevel ??
+        (parsed.requiresConfirmation ? "confirm" : "safe"),
+      `Say: ${command}`
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
   });
 
   return {
     id: missionId(raw),
     goal: raw,
+<<<<<<< HEAD
     summary: "Hope converted your multi-part request into a safe command chain. Safe navigation and explanations can continue hands-free; risky actions stop at confirmation gates.",
     mode: "guardian",
     estimatedMinutes: Math.max(2, steps.length * 2),
@@ -484,6 +944,92 @@ export function getProactiveSuggestions(input: { currentPath?: string; mode?: Ho
     suggestions.unshift({ id: "casino-charity", title: "Charity-only casino check", body: "Verify beneficiary, limits, and audit controls before enabling game workflows.", command: "Plan charity casino safeguards", path: "/dashboard/charity", priority: "high", safetyLevel: "confirm" });
   } else if (/wallet|portfolio|market|trading/.test(path)) {
     suggestions.unshift({ id: "money-scan", title: "Build money mission", body: "Review wallet, scan a coin, and prepare a safe next step without executing trades silently.", command: "Plan a money mission for Bitcoin", path: "/dashboard/portfolio", priority: "high", safetyLevel: "safe" });
+=======
+    summary:
+      "Hope converted your multi-part request into a safe command chain. Safe navigation and explanations can continue hands-free; risky actions stop at confirmation gates.",
+    mode: "guardian",
+    estimatedMinutes: Math.max(2, steps.length * 2),
+    safetyNotice:
+      "Command chains never bypass confirmation. Any payment, trade, tip, admin, ICO, or casino-impacting step pauses before execution.",
+    steps,
+    suggestedVoiceCommands: [
+      "Run safe steps",
+      "Read chain",
+      "Skip risky step",
+      "Pause chain",
+    ],
+  };
+}
+
+export function getProactiveSuggestions(
+  input: {
+    currentPath?: string;
+    mode?: HopeMode;
+    recentIntent?: HopeIntent;
+  } = {}
+): HopeProactiveSuggestion[] {
+  const path = input.currentPath ?? "/dashboard/hope-ai";
+  const suggestions: HopeProactiveSuggestion[] = [
+    {
+      id: "mission",
+      title: "Turn this into a mission",
+      body: "Say a goal and Hope will build a step-by-step plan with confirmation gates.",
+      command: "Plan a mission for my next goal",
+      path: "/dashboard/hope-ai",
+      priority: "high",
+      safetyLevel: "safe",
+    },
+    {
+      id: "safety",
+      title: "Review the risky parts",
+      body: "Hope can explain what requires confirmation before you continue.",
+      command: "What is risky here?",
+      path,
+      priority: "medium",
+      safetyLevel: "safe",
+    },
+    {
+      id: "beginner",
+      title: "Beginner free-will mode",
+      body: "Speak naturally. Hope will infer the best page, explanation, scan, or draft workflow.",
+      command: "Hope beginner mode",
+      path: "/dashboard/hope-ai",
+      priority: input.mode === "beginner" ? "low" : "medium",
+      safetyLevel: "safe",
+    },
+  ];
+
+  if (/ico/.test(path)) {
+    suggestions.unshift({
+      id: "ico-compliance",
+      title: "ICO compliance gate",
+      body: "Before fundraising, review disclosures, allocation logic, and admin approval.",
+      command: "Plan my compliant ICO launch",
+      path: "/dashboard/admin/compliance",
+      priority: "high",
+      safetyLevel: "confirm",
+    });
+  } else if (/casino/.test(path)) {
+    suggestions.unshift({
+      id: "casino-charity",
+      title: "Charity-only casino check",
+      body: "Verify beneficiary, limits, and audit controls before enabling game workflows.",
+      command: "Plan charity casino safeguards",
+      path: "/dashboard/charity",
+      priority: "high",
+      safetyLevel: "confirm",
+    });
+  } else if (/wallet|portfolio|market|trading/.test(path)) {
+    suggestions.unshift({
+      id: "money-scan",
+      title: "Build money mission",
+      body: "Review wallet, scan a coin, and prepare a safe next step without executing trades silently.",
+      command: "Plan a money mission for Bitcoin",
+      path: "/dashboard/portfolio",
+      priority: "high",
+      safetyLevel: "safe",
+    });
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   return suggestions.slice(0, 5);
@@ -517,7 +1063,17 @@ function explainTopic(topic: string): ParsedHopeCommand {
   if (item) {
     return {
       intent: "explain",
+<<<<<<< HEAD
       payload: { raw: topic, topic: item.id, path: item.path, actionLabel: item.label, safetyLevel: "safe" },
+=======
+      payload: {
+        raw: topic,
+        topic: item.id,
+        path: item.path,
+        actionLabel: item.label,
+        safetyLevel: "safe",
+      },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       requiresConfirmation: false,
       displayTitle: `${item.label} explained simply`,
       spokenResponse: `${item.label}: ${item.beginnerTip} I can open it for you when you say open ${item.label}.`,
@@ -542,7 +1098,12 @@ function explainTopic(topic: string): ParsedHopeCommand {
     payload: { raw: topic, topic: "skycoin444", safetyLevel: "safe" },
     requiresConfirmation: false,
     displayTitle: "Hope AI beginner explanation",
+<<<<<<< HEAD
     spokenResponse: "SkyCoin444 has trading, wallet, marketplace, portfolio, payments, AI tools, and community features. Tell me a goal and I will route you step by step.",
+=======
+    spokenResponse:
+      "SkyCoin444 has trading, wallet, marketplace, portfolio, payments, AI tools, and community features. Tell me a goal and I will route you step by step.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     displayCards: beginnerCards(),
   };
 }
@@ -560,32 +1121,73 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
     };
   }
 
+<<<<<<< HEAD
   if (/(beginner|simple mode|explain simple|new user|starter|walk me through)/.test(text)) {
+=======
+  if (
+    /(beginner|simple mode|explain simple|new user|starter|walk me through)/.test(
+      text
+    )
+  ) {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return {
       intent: "beginner_mode",
       payload: { raw, mode: "beginner", safetyLevel: "safe" },
       requiresConfirmation: false,
       displayTitle: "Beginner mode activated",
+<<<<<<< HEAD
       spokenResponse: "Beginner mode is on. I will use simple language, suggest the next best step, and ask before anything risky.",
+=======
+      spokenResponse:
+        "Beginner mode is on. I will use simple language, suggest the next best step, and ask before anything risky.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       displayCards: beginnerCards(),
     };
   }
 
+<<<<<<< HEAD
   if (/(hands free|voice mode|listen|no hands|drive mode|talk mode)/.test(text)) {
+=======
+  if (
+    /(hands free|voice mode|listen|no hands|drive mode|talk mode)/.test(text)
+  ) {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return {
       intent: "hands_free_mode",
       payload: { raw, mode: "guardian", safetyLevel: "safe" },
       requiresConfirmation: false,
       displayTitle: "Hands-free mode",
+<<<<<<< HEAD
       spokenResponse: "Hands-free mode is ready. I can navigate, explain, scan markets, and prepare actions. I will require confirmation for money or trading records.",
       displayCards: [
         { title: "Navigate", body: "Say open wallet, open trading, open marketplace, or open portfolio.", path: "/dashboard/hope-ai" },
         { title: "Research", body: "Say scan Bitcoin, analyze Ethereum, or explain DeFi.", path: "/dashboard/market" },
         { title: "Prepare", body: "Say prepare buy one SKY or prepare a tip, then confirm only when ready.", path: "/dashboard/trading" },
+=======
+      spokenResponse:
+        "Hands-free mode is ready. I can navigate, explain, scan markets, and prepare actions. I will require confirmation for money or trading records.",
+      displayCards: [
+        {
+          title: "Navigate",
+          body: "Say open wallet, open trading, open marketplace, or open portfolio.",
+          path: "/dashboard/hope-ai",
+        },
+        {
+          title: "Research",
+          body: "Say scan Bitcoin, analyze Ethereum, or explain DeFi.",
+          path: "/dashboard/market",
+        },
+        {
+          title: "Prepare",
+          body: "Say prepare buy one SKY or prepare a tip, then confirm only when ready.",
+          path: "/dashboard/trading",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
 
+<<<<<<< HEAD
   if (/(mission|autonomous|plan my|build a plan|make a plan|launch plan|roadmap|strategy|step by step|free will mission)/.test(text)) {
     const mission = planMission(raw, /(beginner|simple|new user)/.test(text) ? "beginner" : "guardian");
     return {
@@ -595,6 +1197,30 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
       displayTitle: "Mission plan ready",
       spokenResponse: `${mission.summary} I built ${mission.steps.length} steps and will pause at every confirmation gate.`,
       displayCards: mission.steps.slice(0, 4).map((missionStep) => ({
+=======
+  if (
+    /(mission|autonomous|plan my|build a plan|make a plan|launch plan|roadmap|strategy|step by step|free will mission)/.test(
+      text
+    )
+  ) {
+    const mission = planMission(
+      raw,
+      /(beginner|simple|new user)/.test(text) ? "beginner" : "guardian"
+    );
+    return {
+      intent: "mission_plan",
+      payload: {
+        raw,
+        goal: mission.goal,
+        missionId: mission.id,
+        plannedStepCount: mission.steps.length,
+        safetyLevel: "safe",
+      },
+      requiresConfirmation: false,
+      displayTitle: "Mission plan ready",
+      spokenResponse: `${mission.summary} I built ${mission.steps.length} steps and will pause at every confirmation gate.`,
+      displayCards: mission.steps.slice(0, 4).map(missionStep => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         title: missionStep.title,
         body: missionStep.description,
         action: missionStep.voicePrompt,
@@ -607,11 +1233,30 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
     const chain = planCommandChain(raw);
     return {
       intent: "command_chain",
+<<<<<<< HEAD
       payload: { raw, goal: chain.goal, missionId: chain.id, chainCommands: splitCommandChain(raw), plannedStepCount: chain.steps.length, safetyLevel: chain.steps.some((chainStep) => chainStep.requiresConfirmation) ? "confirm" : "safe" },
       requiresConfirmation: false,
       displayTitle: "Command chain staged",
       spokenResponse: `I staged ${chain.steps.length} commands. Safe steps can run hands-free, and risky steps will stop for confirmation.`,
       displayCards: chain.steps.map((chainStep) => ({
+=======
+      payload: {
+        raw,
+        goal: chain.goal,
+        missionId: chain.id,
+        chainCommands: splitCommandChain(raw),
+        plannedStepCount: chain.steps.length,
+        safetyLevel: chain.steps.some(
+          chainStep => chainStep.requiresConfirmation
+        )
+          ? "confirm"
+          : "safe",
+      },
+      requiresConfirmation: false,
+      displayTitle: "Command chain staged",
+      spokenResponse: `I staged ${chain.steps.length} commands. Safe steps can run hands-free, and risky steps will stop for confirmation.`,
+      displayCards: chain.steps.map(chainStep => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         title: chainStep.title,
         body: chainStep.description,
         action: chainStep.voicePrompt,
@@ -620,15 +1265,30 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
     };
   }
 
+<<<<<<< HEAD
   if (/(suggest|recommend|proactive|what should i do next|next best)/.test(text)) {
     const suggestions = getProactiveSuggestions({ mode: /(beginner|simple)/.test(text) ? "beginner" : "guardian" });
+=======
+  if (
+    /(suggest|recommend|proactive|what should i do next|next best)/.test(text)
+  ) {
+    const suggestions = getProactiveSuggestions({
+      mode: /(beginner|simple)/.test(text) ? "beginner" : "guardian",
+    });
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return {
       intent: "proactive_suggest",
       payload: { raw, topic: "proactive_suggestions", safetyLevel: "safe" },
       requiresConfirmation: false,
       displayTitle: "Hope AI suggestions",
+<<<<<<< HEAD
       spokenResponse: "I found a few safe next moves. I can turn any of them into a mission when you ask.",
       displayCards: suggestions.map((suggestion) => ({
+=======
+      spokenResponse:
+        "I found a few safe next moves. I can turn any of them into a mission when you ask.",
+      displayCards: suggestions.map(suggestion => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         title: suggestion.title,
         body: suggestion.body,
         action: `Say: ${suggestion.command}`,
@@ -637,17 +1297,49 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
     };
   }
 
+<<<<<<< HEAD
   if (/(what can i do|help|guide|coach|next step|mind blowing|innovative|free will)/.test(text)) {
+=======
+  if (
+    /(what can i do|help|guide|coach|next step|mind blowing|innovative|free will)/.test(
+      text
+    )
+  ) {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return {
       intent: "workflow_guide",
       payload: { raw, topic: "best_next_actions", safetyLevel: "safe" },
       requiresConfirmation: false,
       displayTitle: "Hope AI can run the app with you",
+<<<<<<< HEAD
       spokenResponse: "I can be your hands-free guide. Start by saying open wallet, scan Bitcoin, teach me trading, open marketplace, or summarize my money.",
       displayCards: [
         { title: "Build wealth view", body: "Open portfolio, review wallet, scan markets, and prepare a plan without leaving voice mode.", action: "Say: summarize my money", path: "/dashboard/portfolio" },
         { title: "Creator commerce", body: "Open marketplace, prepare listings, review payments, and guide checkout setup.", action: "Say: teach me marketplace", path: "/dashboard/marketplace" },
         { title: "AI trading cockpit", body: "Scan a token, explain risk, open charts, and prepare a draft order only after confirmation.", action: "Say: scan Bitcoin", path: "/dashboard/market" },
+=======
+      spokenResponse:
+        "I can be your hands-free guide. Start by saying open wallet, scan Bitcoin, teach me trading, open marketplace, or summarize my money.",
+      displayCards: [
+        {
+          title: "Build wealth view",
+          body: "Open portfolio, review wallet, scan markets, and prepare a plan without leaving voice mode.",
+          action: "Say: summarize my money",
+          path: "/dashboard/portfolio",
+        },
+        {
+          title: "Creator commerce",
+          body: "Open marketplace, prepare listings, review payments, and guide checkout setup.",
+          action: "Say: teach me marketplace",
+          path: "/dashboard/marketplace",
+        },
+        {
+          title: "AI trading cockpit",
+          body: "Scan a token, explain risk, open charts, and prepare a draft order only after confirmation.",
+          action: "Say: scan Bitcoin",
+          path: "/dashboard/market",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -676,8 +1368,21 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
       displayTitle: "Draft trade prepared",
       spokenResponse: `I prepared a ${side} order for ${amount} ${symbol}. Say confirm before I place the beta trade record.`,
       displayCards: [
+<<<<<<< HEAD
         { title: "Draft order", body: `${side.toUpperCase()} ${amount} ${symbol} at ${priceMatch?.[1] ?? "market"}.`, path: "/dashboard/trading" },
         { title: "Safety check", body: "This changes account records. Confirm only if the details are correct.", path: "/dashboard/trading" },
+=======
+        {
+          title: "Draft order",
+          body: `${side.toUpperCase()} ${amount} ${symbol} at ${priceMatch?.[1] ?? "market"}.`,
+          path: "/dashboard/trading",
+        },
+        {
+          title: "Safety check",
+          body: "This changes account records. Confirm only if the details are correct.",
+          path: "/dashboard/trading",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -700,8 +1405,23 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
         ? `I prepared a ${amount} SKY4444 tip to user ${recipientMatch[1]}. Say confirm to send it.`
         : "I can prepare that tip, but I need a recipient user number before sending.",
       displayCards: [
+<<<<<<< HEAD
         { title: "Tip draft", body: recipientMatch ? `${amount} SKY4444 to user ${recipientMatch[1]}.` : "Recipient user number needed.", path: "/dashboard/messages" },
         { title: "Confirmation required", body: "Tips are account-impacting and require confirmation.", path: "/dashboard/messages" },
+=======
+        {
+          title: "Tip draft",
+          body: recipientMatch
+            ? `${amount} SKY4444 to user ${recipientMatch[1]}.`
+            : "Recipient user number needed.",
+          path: "/dashboard/messages",
+        },
+        {
+          title: "Confirmation required",
+          body: "Tips are account-impacting and require confirmation.",
+          path: "/dashboard/messages",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -709,6 +1429,7 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
   if (/(payment|checkout|stripe|invoice|charge)/.test(text)) {
     return {
       intent: "payment_prepare",
+<<<<<<< HEAD
       payload: { raw, path: "/dashboard/pay", actionLabel: "payment workflow", safetyLevel: "confirm" },
       requiresConfirmation: true,
       displayTitle: "Payment workflow prepared",
@@ -716,6 +1437,29 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
       displayCards: [
         { title: "Payment route", body: "Server-side Stripe setup is available through environment variables.", path: "/dashboard/pay" },
         { title: "Safety", body: "Hope AI will not complete a charge silently.", path: "/dashboard/pay" },
+=======
+      payload: {
+        raw,
+        path: "/dashboard/pay",
+        actionLabel: "payment workflow",
+        safetyLevel: "confirm",
+      },
+      requiresConfirmation: true,
+      displayTitle: "Payment workflow prepared",
+      spokenResponse:
+        "I can open payments and prepare checkout. Say confirm to open the payment workflow; final payment still requires user action.",
+      displayCards: [
+        {
+          title: "Payment route",
+          body: "Server-side Stripe setup is available through environment variables.",
+          path: "/dashboard/pay",
+        },
+        {
+          title: "Safety",
+          body: "Hope AI will not complete a charge silently.",
+          path: "/dashboard/pay",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -729,7 +1473,15 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
       displayTitle: `${symbol} signal scan`,
       spokenResponse: `Scanning ${symbol} for an informational Hope AI signal now.`,
       displayCards: [
+<<<<<<< HEAD
         { title: "Market scan", body: `Generating an informational ${symbol} signal with confidence and risk context.`, path: "/dashboard/market" },
+=======
+        {
+          title: "Market scan",
+          body: `Generating an informational ${symbol} signal with confidence and risk context.`,
+          path: "/dashboard/market",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -740,9 +1492,20 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
       payload: { raw, path: "/dashboard/portfolio", safetyLevel: "safe" },
       requiresConfirmation: false,
       displayTitle: "Money summary",
+<<<<<<< HEAD
       spokenResponse: "Opening your money management summary and portfolio view.",
       displayCards: [
         { title: "Money snapshot", body: "Review net worth, assets, and cash-flow trend from the finance backend.", path: "/dashboard/portfolio" },
+=======
+      spokenResponse:
+        "Opening your money management summary and portfolio view.",
+      displayCards: [
+        {
+          title: "Money snapshot",
+          body: "Review net worth, assets, and cash-flow trend from the finance backend.",
+          path: "/dashboard/portfolio",
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -751,12 +1514,31 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
   if (item) {
     return {
       intent: "navigate",
+<<<<<<< HEAD
       payload: { raw, path: item.path, topic: item.id, actionLabel: item.label, safetyLevel: "safe" },
+=======
+      payload: {
+        raw,
+        path: item.path,
+        topic: item.id,
+        actionLabel: item.label,
+        safetyLevel: "safe",
+      },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       requiresConfirmation: false,
       displayTitle: `Opening ${item.label}`,
       spokenResponse: `Opening ${item.label}. ${item.beginnerTip}`,
       displayCards: [
+<<<<<<< HEAD
         { title: item.label, body: item.description, action: item.beginnerTip, path: item.path },
+=======
+        {
+          title: item.label,
+          body: item.description,
+          action: item.beginnerTip,
+          path: item.path,
+        },
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       ],
     };
   }
@@ -766,11 +1548,17 @@ export function parseHopeCommand(transcript: string): ParsedHopeCommand {
     payload: { raw, safetyLevel: "safe" },
     requiresConfirmation: false,
     displayTitle: "I need a clearer command",
+<<<<<<< HEAD
     spokenResponse: "I can navigate, explain features, scan markets, prepare trades, prepare payments, and prepare tips. Try saying: Hope beginner mode.",
+=======
+    spokenResponse:
+      "I can navigate, explain features, scan markets, prepare trades, prepare payments, and prepare tips. Try saying: Hope beginner mode.",
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     displayCards: beginnerCards(),
   };
 }
 
+<<<<<<< HEAD
 export function generateTradingSignal(symbol: string, timeframe = "intraday", price?: number): GeneratedSignal {
   const normalized = symbol.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12) || "SKY4444";
   const seed = Array.from(normalized).reduce((sum, char) => sum + char.charCodeAt(0), 0) + timeframe.length * 17;
@@ -782,6 +1570,41 @@ export function generateTradingSignal(symbol: string, timeframe = "intraday", pr
   const basePrice = price && price > 0 ? price : 1 + (seed % 50000) / 100;
   const direction = action === "sell" ? -1 : 1;
   const target = basePrice * (1 + direction * Math.max(0.015, confidence / 2500));
+=======
+export function generateTradingSignal(
+  symbol: string,
+  timeframe = "intraday",
+  price?: number
+): GeneratedSignal {
+  const normalized =
+    symbol
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "")
+      .slice(0, 12) || "SKY4444";
+  const seed =
+    Array.from(normalized).reduce((sum, char) => sum + char.charCodeAt(0), 0) +
+    timeframe.length * 17;
+  const momentum = (seed % 21) - 10;
+  const volatility = 15 + (seed % 55);
+  const confidence = Math.max(
+    45,
+    Math.min(91, 58 + Math.abs(momentum) + Math.round((70 - volatility) / 5))
+  );
+  const action: GeneratedSignal["action"] =
+    momentum > 5
+      ? "buy"
+      : momentum < -5
+        ? "sell"
+        : Math.abs(momentum) < 3
+          ? "hold"
+          : "watch";
+  const riskLevel: GeneratedSignal["riskLevel"] =
+    volatility > 55 ? "high" : volatility > 35 ? "medium" : "low";
+  const basePrice = price && price > 0 ? price : 1 + (seed % 50000) / 100;
+  const direction = action === "sell" ? -1 : 1;
+  const target =
+    basePrice * (1 + direction * Math.max(0.015, confidence / 2500));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   const stop = basePrice * (1 - direction * Math.max(0.01, volatility / 5000));
   const expiresAt = new Date(Date.now() + 4 * 60 * 60 * 1000);
 

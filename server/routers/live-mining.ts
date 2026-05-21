@@ -12,7 +12,11 @@ export const liveMiningRouter = router({
   // ─── Get Mining Configs ───────────────────────────────────────────────────
   getMiningConfigs: publicProcedure.query(async () => {
     return {
+<<<<<<< HEAD
       coins: Object.values(UnifiedMining.MINING_CONFIGS).map((config) => ({
+=======
+      coins: Object.values(UnifiedMining.MINING_CONFIGS).map(config => ({
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         coin: config.coin,
         blockReward: config.blockReward,
         blockTime: config.blockTime,
@@ -40,14 +44,22 @@ export const liveMiningRouter = router({
         coin: z.string(),
         hashrate: z.string(),
         durationHours: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const durationSeconds = input.durationHours * 3600;
       const reward = UnifiedMining.calculateExpectedReward(
         input.coin as MineableCoin,
         input.hashrate,
+<<<<<<< HEAD
         durationSeconds,
+=======
+        durationSeconds
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {
@@ -64,12 +76,20 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         hashrate: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const validation = UnifiedMining.validateMiningSession(
         input.coin as MineableCoin,
+<<<<<<< HEAD
         input.hashrate,
+=======
+        input.hashrate
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       if (!validation.valid) {
@@ -93,13 +113,21 @@ export const liveMiningRouter = router({
         coin: z.string(),
         totalHashrate: z.string(),
         totalMiners: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const stats = UnifiedMining.calculatePoolStats(
         input.coin as MineableCoin,
         input.totalHashrate,
+<<<<<<< HEAD
         input.totalMiners,
+=======
+        input.totalMiners
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return stats;
@@ -114,7 +142,11 @@ export const liveMiningRouter = router({
         electricityCostPerKwh: z.string(),
         hardwareCostUsd: z.string(),
         coinPriceUsd: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const roi = UnifiedMining.calculateMiningROI(
@@ -122,7 +154,11 @@ export const liveMiningRouter = router({
         input.hashrate,
         input.electricityCostPerKwh,
         input.hardwareCostUsd,
+<<<<<<< HEAD
         input.coinPriceUsd,
+=======
+        input.coinPriceUsd
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return roi;
@@ -134,12 +170,20 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         currentBlockHeight: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const halving = UnifiedMining.calculateHalvingImpact(
         input.coin as MineableCoin,
+<<<<<<< HEAD
         input.currentBlockHeight,
+=======
+        input.currentBlockHeight
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return halving;
@@ -168,7 +212,11 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         limit: z.number().default(20),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -266,7 +314,11 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         days: z.number().default(30),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const history = [];

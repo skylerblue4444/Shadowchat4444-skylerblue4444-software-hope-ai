@@ -16,7 +16,9 @@ export const users = mysqlTable("users", {
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: mysqlEnum("role", ["user", "creator", "seller", "moderator", "admin", "god"]).default("user").notNull(),
+  accountStatus: mysqlEnum("accountStatus", ["active", "pending", "suspended", "banned"]).default("active").notNull(),
+  verified: int("verified").default(0).notNull(),
   /** Demo beta balance used by playground mining, staking, tips, and testnet-style flows. */
   balance: varchar("balance", { length: 50 }).default("10000").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -76,6 +78,49 @@ export const posts = mysqlTable("posts", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+export const datingProfiles = mysqlTable("datingProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id),
+  displayName: varchar("displayName", { length: 120 }).notNull(),
+  age: int("age").default(18).notNull(),
+  location: varchar("location", { length: 160 }).default("Global").notNull(),
+  bio: text("bio").notNull(),
+  interests: text("interests").notNull(),
+  seeking: varchar("seeking", { length: 120 }).default("networking, dating, creator collabs").notNull(),
+  avatarUrl: text("avatarUrl"),
+  compatibilityScore: int("compatibilityScore").default(72).notNull(),
+  isVisible: int("isVisible").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const datingActions = mysqlTable("datingActions", {
+  id: int("id").autoincrement().primaryKey(),
+  actorId: int("actorId").notNull().references(() => users.id),
+  targetId: int("targetId").notNull().references(() => users.id),
+  action: mysqlEnum("action", ["like", "pass", "superlike", "block"]).notNull(),
+  message: text("message"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const follows = mysqlTable("follows", {
+  id: int("id").autoincrement().primaryKey(),
+  followerId: int("followerId").notNull().references(() => users.id),
+  followingId: int("followingId").notNull().references(() => users.id),
+  status: mysqlEnum("status", ["active", "muted", "blocked"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const feedInteractions = mysqlTable("feedInteractions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  postId: int("postId").notNull().references(() => posts.id),
+  type: mysqlEnum("type", ["like", "comment", "share", "tip", "flag"]).notNull(),
+  amount: varchar("amount", { length: 50 }).default("0").notNull(),
+  content: text("content"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const messages = mysqlTable("messages", {
   id: int("id").autoincrement().primaryKey(),
   senderId: int("senderId").notNull().references(() => users.id),
@@ -92,6 +137,25 @@ export const chatHistory = mysqlTable("chatHistory", {
   role: mysqlEnum("role", ["user", "assistant"]).notNull(),
   content: text("content").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const beginnerPlusBusinessIntents = mysqlTable("beginnerPlusBusinessIntents", {
+  id: int("id").autoincrement().primaryKey(),
+  intentKey: varchar("intentKey", { length: 160 }).notNull().unique(),
+  userId: int("userId").notNull().references(() => users.id),
+  action: mysqlEnum("action", ["publish-guided-post", "review-profile-trust", "build-business-offer", "queue-creator-monetization", "open-partner-path"]).notNull(),
+  note: text("note"),
+  status: mysqlEnum("status", ["queued-for-guided-user-review", "queued-for-business-and-creator-review", "approved", "rejected"]).default("queued-for-guided-user-review").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["none", "queued", "approved", "rejected"]).default("none").notNull(),
+  reviewRequired: int("reviewRequired").default(0).notNull(),
+  actionJson: text("actionJson"),
+  guidanceJson: text("guidanceJson"),
+  guardrailsJson: text("guardrailsJson"),
+  adminNote: text("adminNote"),
+  reviewedById: int("reviewedById").references(() => users.id),
+  reviewedAt: timestamp("reviewedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
 // Vault and Staking Tables
@@ -144,6 +208,122 @@ export const transactions = mysqlTable("transactions", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const settlementLedger = mysqlTable("settlementLedger", {
+  id: int("id").autoincrement().primaryKey(),
+  idempotencyKey: varchar("idempotencyKey", { length: 160 }).notNull().unique(),
+  transactionId: int("transactionId").references(() => transactions.id),
+  userId: int("userId").notNull().references(() => users.id),
+  counterpartyUserId: int("counterpartyUserId").references(() => users.id),
+  source: mysqlEnum("source", ["mining", "staking", "casino", "tip", "trading", "wallet", "payment", "escrow", "admin"]).notNull(),
+  direction: mysqlEnum("direction", ["credit", "debit", "neutral"]).notNull(),
+  token: varchar("token", { length: 20 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  provider: varchar("provider", { length: 80 }).default("beta-ledger").notNull(),
+  providerStatus: mysqlEnum("providerStatus", ["beta_ledger", "paper", "test_mode", "provider_gated", "disabled", "review_required"]).default("beta_ledger").notNull(),
+  settlementStatus: mysqlEnum("settlementStatus", ["recorded", "pending_review", "approved", "rejected", "voided", "provider_pending"]).default("recorded").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["none", "queued", "approved", "rejected"]).default("none").notNull(),
+  memo: varchar("memo", { length: 255 }),
+  auditJson: text("auditJson"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const marketplaceListings = mysqlTable("marketplaceListings", {
+  id: int("id").autoincrement().primaryKey(),
+  sellerId: int("sellerId").notNull().references(() => users.id),
+  title: varchar("title", { length: 180 }).notNull(),
+  description: text("description").notNull(),
+  category: varchar("category", { length: 80 }).default("digital").notNull(),
+  price: varchar("price", { length: 50 }).notNull(),
+  token: varchar("token", { length: 20 }).default("SKY4444").notNull(),
+  inventory: int("inventory").default(1).notNull(),
+  status: mysqlEnum("status", ["draft", "live", "sold", "paused", "removed"]).default("live").notNull(),
+  imageUrl: text("imageUrl"),
+  escrowRequired: int("escrowRequired").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const marketplaceOrders = mysqlTable("marketplaceOrders", {
+  id: int("id").autoincrement().primaryKey(),
+  listingId: int("listingId").notNull().references(() => marketplaceListings.id),
+  buyerId: int("buyerId").notNull().references(() => users.id),
+  sellerId: int("sellerId").notNull().references(() => users.id),
+  escrowId: int("escrowId").references(() => escrowTransactions.id),
+  token: varchar("token", { length: 20 }).default("SKY4444").notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  quantity: int("quantity").default(1).notNull(),
+  status: mysqlEnum("status", ["created", "held", "released", "refunded", "disputed", "cancelled"]).default("created").notNull(),
+  shippingName: varchar("shippingName", { length: 180 }),
+  shippingAddress: text("shippingAddress"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierProviderSyncs = mysqlTable("supplierProviderSyncs", {
+  id: int("id").autoincrement().primaryKey(),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier"]).notNull(),
+  displayName: varchar("displayName", { length: 160 }).notNull(),
+  apiId: varchar("apiId", { length: 160 }),
+  providerStatus: mysqlEnum("providerStatus", ["not_configured", "configured", "syncing", "healthy", "degraded", "disabled"]).default("not_configured").notNull(),
+  lastSyncAt: timestamp("lastSyncAt"),
+  lastError: text("lastError"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierCatalogItems = mysqlTable("supplierCatalogItems", {
+  id: int("id").autoincrement().primaryKey(),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier"]).default("admin_import").notNull(),
+  externalId: varchar("externalId", { length: 180 }),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description").notNull(),
+  category: varchar("category", { length: 80 }).default("general").notNull(),
+  supplierName: varchar("supplierName", { length: 180 }).notNull(),
+  supplierCountry: varchar("supplierCountry", { length: 80 }).default("global").notNull(),
+  sourceUrl: text("sourceUrl"),
+  imageUrlsJson: text("imageUrlsJson").notNull(),
+  reviewSummaryJson: text("reviewSummaryJson"),
+  specsJson: text("specsJson"),
+  price: varchar("price", { length: 50 }).notNull(),
+  compareAtPrice: varchar("compareAtPrice", { length: 50 }),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  serviceFee: varchar("serviceFee", { length: 50 }).default("44").notNull(),
+  marginPercent: varchar("marginPercent", { length: 50 }).default("18").notNull(),
+  rating: varchar("rating", { length: 20 }).default("0").notNull(),
+  reviewCount: int("reviewCount").default(0).notNull(),
+  soldCount: int("soldCount").default(0).notNull(),
+  minOrder: int("minOrder").default(1).notNull(),
+  shippingSummary: varchar("shippingSummary", { length: 180 }).default("Supplier quoted shipping").notNull(),
+  shippingDays: varchar("shippingDays", { length: 80 }).default("Quoted after review").notNull(),
+  providerStatus: mysqlEnum("providerStatus", ["live_api", "admin_import", "curated_seed", "needs_review", "paused", "removed"]).default("admin_import").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["queued", "approved", "rejected"]).default("approved").notNull(),
+  createdByAdminId: int("createdByAdminId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierOrderRequests = mysqlTable("supplierOrderRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  requesterId: int("requesterId").notNull().references(() => users.id),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier", "mixed"]).default("mixed").notNull(),
+  cartItemsJson: text("cartItemsJson").notNull(),
+  subtotal: varchar("subtotal", { length: 50 }).notNull(),
+  serviceFee: varchar("serviceFee", { length: 50 }).default("44").notNull(),
+  platformMargin: varchar("platformMargin", { length: 50 }).default("0").notNull(),
+  estimatedSupplierCost: varchar("estimatedSupplierCost", { length: 50 }).default("0").notNull(),
+  total: varchar("total", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  orderStatus: mysqlEnum("orderStatus", ["queued", "admin_review", "approved", "provider_submitted", "fulfilled", "rejected", "cancelled"]).default("queued").notNull(),
+  paymentStatus: mysqlEnum("paymentStatus", ["not_charged", "quote_sent", "held", "paid", "refunded"]).default("not_charged").notNull(),
+  shippingName: varchar("shippingName", { length: 180 }),
+  shippingAddress: text("shippingAddress"),
+  buyerNote: text("buyerNote"),
+  adminNote: text("adminNote"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export const escrowTransactions = mysqlTable("escrowTransactions", {
   id: int("id").autoincrement().primaryKey(),
   buyerId: int("buyerId").notNull().references(() => users.id),
@@ -156,6 +336,54 @@ export const escrowTransactions = mysqlTable("escrowTransactions", {
   memo: varchar("memo", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const liveStreams = mysqlTable("liveStreams", {
+  id: int("id").autoincrement().primaryKey(),
+  hostId: int("hostId").notNull().references(() => users.id),
+  title: varchar("title", { length: 180 }).notNull(),
+  topic: text("topic").notNull(),
+  channelType: mysqlEnum("channelType", ["livestream", "youtube", "audio"]).default("livestream").notNull(),
+  streamUrl: text("streamUrl"),
+  thumbnailUrl: text("thumbnailUrl"),
+  viewerCount: int("viewerCount").default(0).notNull(),
+  tipPool: varchar("tipPool", { length: 50 }).default("0").notNull(),
+  status: mysqlEnum("status", ["scheduled", "live", "ended", "flagged"]).default("scheduled").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const tokenSupplyEvents = mysqlTable("tokenSupplyEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  actorId: int("actorId").notNull().references(() => users.id),
+  token: varchar("token", { length: 20 }).default("SKY4444").notNull(),
+  eventType: mysqlEnum("eventType", ["mint", "burn", "airdrop", "reserve", "charity", "fee"]).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  memo: varchar("memo", { length: 255 }),
+  status: mysqlEnum("status", ["queued", "posted", "rejected"]).default("posted").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const adminAuditLogs = mysqlTable("adminAuditLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  actorId: int("actorId").notNull().references(() => users.id),
+  targetUserId: int("targetUserId").references(() => users.id),
+  action: varchar("action", { length: 120 }).notNull(),
+  details: text("details"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const hopeAiActionRuns = mysqlTable("hopeAiActionRuns", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  mode: mysqlEnum("mode", ["hands_free", "guided", "admin", "market", "companion"]).default("guided").notNull(),
+  intent: varchar("intent", { length: 160 }).notNull(),
+  market: mysqlEnum("market", ["usa", "china", "global"]).default("global").notNull(),
+  status: mysqlEnum("status", ["planned", "completed", "blocked", "failed"]).default("completed").notNull(),
+  actionsJson: text("actionsJson").notNull(),
+  resultSummary: text("resultSummary"),
+  nextStepsJson: text("nextStepsJson"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
 // API Keys Table
@@ -315,7 +543,18 @@ export type Vault = typeof vaults.$inferSelect;
 export type StakingPosition = typeof stakingPositions.$inferSelect;
 export type MiningSession = typeof miningSessions.$inferSelect;
 export type Transaction = typeof transactions.$inferSelect;
+export type SettlementLedgerEntry = typeof settlementLedger.$inferSelect;
 export type EscrowTransaction = typeof escrowTransactions.$inferSelect;
+export type DatingProfile = typeof datingProfiles.$inferSelect;
+export type DatingAction = typeof datingActions.$inferSelect;
+export type MarketplaceListing = typeof marketplaceListings.$inferSelect;
+export type MarketplaceOrder = typeof marketplaceOrders.$inferSelect;
+export type LiveStream = typeof liveStreams.$inferSelect;
+export type FeedInteraction = typeof feedInteractions.$inferSelect;
+export type Follow = typeof follows.$inferSelect;
+export type TokenSupplyEvent = typeof tokenSupplyEvents.$inferSelect;
+export type AdminAuditLog = typeof adminAuditLogs.$inferSelect;
+export type HopeAiActionRun = typeof hopeAiActionRuns.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type Referral = typeof referrals.$inferSelect;
 export type Leaderboard = typeof leaderboard.$inferSelect;

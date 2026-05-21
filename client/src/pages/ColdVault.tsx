@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Lock, Unlock, TrendingUp, Calendar, Gift } from "lucide-react";
@@ -66,11 +72,30 @@ export default function ColdVault() {
   const totalLocked = vaults.reduce((sum, v) => sum + v.amount, 0);
   const totalEarned = vaults.reduce((sum, v) => sum + v.earned, 0);
 
-  const tierInfo: Record<string, { color: string; minAmount: number; description: string }> = {
-    bronze: { color: "from-amber-600 to-amber-700", minAmount: 1000, description: "30-day lock" },
-    silver: { color: "from-slate-400 to-slate-500", minAmount: 10000, description: "60-day lock" },
-    gold: { color: "from-yellow-500 to-yellow-600", minAmount: 50000, description: "90-day lock" },
-    platinum: { color: "from-purple-500 to-purple-600", minAmount: 100000, description: "180-day lock" },
+  const tierInfo: Record<
+    string,
+    { color: string; minAmount: number; description: string }
+  > = {
+    bronze: {
+      color: "from-amber-600 to-amber-700",
+      minAmount: 1000,
+      description: "30-day lock",
+    },
+    silver: {
+      color: "from-slate-400 to-slate-500",
+      minAmount: 10000,
+      description: "60-day lock",
+    },
+    gold: {
+      color: "from-yellow-500 to-yellow-600",
+      minAmount: 50000,
+      description: "90-day lock",
+    },
+    platinum: {
+      color: "from-purple-500 to-purple-600",
+      minAmount: 100000,
+      description: "180-day lock",
+    },
   };
 
   const handleDeposit = () => {
@@ -84,27 +109,37 @@ export default function ColdVault() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total Locked</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total Locked
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">{totalLocked.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-purple-400">
+              {totalLocked.toLocaleString()}
+            </div>
             <p className="text-xs text-gray-500 mt-1">SKY in vaults</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Yield Earned</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Yield Earned
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-400">+{totalEarned.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-green-400">
+              +{totalEarned.toLocaleString()}
+            </div>
             <p className="text-xs text-gray-500 mt-1">Passive income</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Average APY</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Average APY
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-400">12.75%</div>
@@ -120,7 +155,9 @@ export default function ColdVault() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-semibold mb-2 block">Select Tier</label>
+            <label className="text-sm font-semibold mb-2 block">
+              Select Tier
+            </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {Object.entries(tierInfo).map(([tier, info]) => (
                 <button
@@ -133,7 +170,9 @@ export default function ColdVault() {
                   }`}
                 >
                   <p className="text-xs font-semibold capitalize">{tier}</p>
-                  <p className="text-xs text-gray-400 mt-1">Min: {info.minAmount.toLocaleString()} SKY</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Min: {info.minAmount.toLocaleString()} SKY
+                  </p>
                 </button>
               ))}
             </div>
@@ -146,7 +185,7 @@ export default function ColdVault() {
                 type="number"
                 placeholder="Enter amount in SKY"
                 value={depositAmount}
-                onChange={(e) => setDepositAmount(e.target.value)}
+                onChange={e => setDepositAmount(e.target.value)}
                 className="bg-gray-900 border-gray-700"
               />
               <Button
@@ -158,7 +197,13 @@ export default function ColdVault() {
               </Button>
             </div>
             <p className="text-xs text-gray-500 mt-2">
-              APY: {tierInfo[selectedTier as keyof typeof tierInfo].minAmount > 50000 ? "25%" : tierInfo[selectedTier as keyof typeof tierInfo].minAmount > 10000 ? "18%" : "12%"}
+              APY:{" "}
+              {tierInfo[selectedTier as keyof typeof tierInfo].minAmount > 50000
+                ? "25%"
+                : tierInfo[selectedTier as keyof typeof tierInfo].minAmount >
+                    10000
+                  ? "18%"
+                  : "12%"}
             </p>
           </div>
         </CardContent>
@@ -166,7 +211,7 @@ export default function ColdVault() {
 
       <div className="space-y-3">
         <h3 className="font-semibold text-lg">Your Vaults</h3>
-        {vaults.map((vault) => (
+        {vaults.map(vault => (
           <Card key={vault.id} className="overflow-hidden">
             <CardContent className="pt-6">
               <div className="flex items-start justify-between mb-4">
@@ -181,8 +226,12 @@ export default function ColdVault() {
                     )}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm capitalize">{vault.name}</h3>
-                    <p className="text-xs text-gray-400">{tierInfo[vault.tier].description}</p>
+                    <h3 className="font-semibold text-sm capitalize">
+                      {vault.name}
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      {tierInfo[vault.tier].description}
+                    </p>
                   </div>
                 </div>
                 <Badge
@@ -211,15 +260,21 @@ export default function ColdVault() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">APY</p>
-                  <p className="text-sm font-bold text-green-400 mt-1">{vault.apy}%</p>
+                  <p className="text-sm font-bold text-green-400 mt-1">
+                    {vault.apy}%
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">Earned</p>
-                  <p className="text-sm font-bold text-yellow-400 mt-1">+{vault.earned}</p>
+                  <p className="text-sm font-bold text-yellow-400 mt-1">
+                    +{vault.earned}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">Unlock</p>
-                  <p className="text-sm font-bold text-blue-400 mt-1">{vault.lockedUntil}</p>
+                  <p className="text-sm font-bold text-blue-400 mt-1">
+                    {vault.lockedUntil}
+                  </p>
                 </div>
               </div>
 

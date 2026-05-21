@@ -57,7 +57,11 @@ export const ammDexRouter = router({
         amountIn: z.string(),
         tokenIn: z.string(),
         slippageTolerance: z.number().default(0.5),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       // Mock pool for demo
@@ -73,7 +77,16 @@ export const ammDexRouter = router({
         tvl: "7500000",
       };
 
+<<<<<<< HEAD
       const quote = AMMEngine.getSwapQuote(input.amountIn, pool, input.tokenIn, input.slippageTolerance);
+=======
+      const quote = AMMEngine.getSwapQuote(
+        input.amountIn,
+        pool,
+        input.tokenIn,
+        input.slippageTolerance
+      );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       return quote;
     }),
 
@@ -85,7 +98,11 @@ export const ammDexRouter = router({
         amountIn: z.string(),
         tokenIn: z.string(),
         minimumAmountOut: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -107,7 +124,11 @@ export const ammDexRouter = router({
         poolId: z.string(),
         amount0: z.string(),
         amount1: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const lpTokens = AMMEngine.getLPTokenAmount(input.amount0, input.amount1);
@@ -129,7 +150,11 @@ export const ammDexRouter = router({
       z.object({
         lpTokenId: z.string(),
         lpTokenAmount: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -180,14 +205,22 @@ export const ammDexRouter = router({
         poolId: z.string(),
         amountIn: z.string(),
         tokenIn: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const impact = AMMEngine.getPriceImpact(
         input.amountIn,
         "5000000",
         "2500000",
+<<<<<<< HEAD
         25,
+=======
+        25
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {

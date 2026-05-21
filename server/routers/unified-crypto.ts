@@ -62,10 +62,25 @@ export const unifiedCryptoRouter = router({
   sendCoins: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         coinType: z.enum(["SKYCOIN4444", "SHADOW", "TRUMP", "DOGE", "BTC", "MONERO", "USDT"]),
         amount: z.string(),
         toAddress: z.string(),
       }),
+=======
+        coinType: z.enum([
+          "SKYCOIN4444",
+          "SHADOW",
+          "TRUMP",
+          "DOGE",
+          "BTC",
+          "MONERO",
+          "USDT",
+        ]),
+        amount: z.string(),
+        toAddress: z.string(),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {
@@ -78,10 +93,33 @@ export const unifiedCryptoRouter = router({
   swapCoins: protectedProcedure
     .input(
       z.object({
+<<<<<<< HEAD
         fromCoin: z.enum(["SKYCOIN4444", "SHADOW", "TRUMP", "DOGE", "BTC", "MONERO", "USDT"]),
         toCoin: z.enum(["SKYCOIN4444", "SHADOW", "TRUMP", "DOGE", "BTC", "MONERO", "USDT"]),
         amount: z.string(),
       }),
+=======
+        fromCoin: z.enum([
+          "SKYCOIN4444",
+          "SHADOW",
+          "TRUMP",
+          "DOGE",
+          "BTC",
+          "MONERO",
+          "USDT",
+        ]),
+        toCoin: z.enum([
+          "SKYCOIN4444",
+          "SHADOW",
+          "TRUMP",
+          "DOGE",
+          "BTC",
+          "MONERO",
+          "USDT",
+        ]),
+        amount: z.string(),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {
@@ -126,8 +164,21 @@ export const unifiedCryptoRouter = router({
       z.object({
         icoId: z.string(),
         amount: z.string(),
+<<<<<<< HEAD
         paymentCoin: z.enum(["SKYCOIN4444", "SHADOW", "TRUMP", "DOGE", "BTC", "MONERO", "USDT"]),
       }),
+=======
+        paymentCoin: z.enum([
+          "SKYCOIN4444",
+          "SHADOW",
+          "TRUMP",
+          "DOGE",
+          "BTC",
+          "MONERO",
+          "USDT",
+        ]),
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {
@@ -180,7 +231,11 @@ export const unifiedCryptoRouter = router({
         destinationChain: z.string(),
         tokenSymbol: z.string(),
         amount: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {
@@ -226,7 +281,11 @@ export const unifiedCryptoRouter = router({
         coinType: z.string(),
         amount: z.string(),
         duration: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ input }) => {
       return {

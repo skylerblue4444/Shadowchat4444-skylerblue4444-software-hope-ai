@@ -6,9 +6,30 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+<<<<<<< HEAD
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Zap, Shield, TrendingUp, Users, Rocket, BarChart3, Lock } from "lucide-react";
+=======
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowRight,
+  Zap,
+  Shield,
+  TrendingUp,
+  Users,
+  Rocket,
+  BarChart3,
+  Lock,
+} from "lucide-react";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
 const LandingPage: React.FC = () => {
   return (
@@ -24,26 +45,51 @@ const LandingPage: React.FC = () => {
             <Button variant="ghost" className="text-slate-300 hover:text-white">
               Pricing
             </Button>
+<<<<<<< HEAD
             <Button className="bg-blue-600 hover:bg-blue-700">Get Started</Button>
+=======
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              Get Started
+            </Button>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+<<<<<<< HEAD
         <Badge className="mb-4 bg-blue-600/20 text-blue-400 border-blue-600/50">🚀 Quantum Intelligence Powered</Badge>
+=======
+        <Badge className="mb-4 bg-blue-600/20 text-blue-400 border-blue-600/50">
+          🚀 Quantum Intelligence Powered
+        </Badge>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
           The Future of Crypto Trading & Wealth Management
         </h1>
         <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+<<<<<<< HEAD
           FinTrack combines AI-powered trading, whale tracking, and enterprise-grade security into one unified platform.
           Trade smarter, earn more, stay secure.
+=======
+          FinTrack combines AI-powered trading, whale tracking, and
+          enterprise-grade security into one unified platform. Trade smarter,
+          earn more, stay secure.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         </p>
         <div className="flex justify-center gap-4 mb-12">
           <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg">
             Start Free Trial <ArrowRight className="ml-2" />
           </Button>
+<<<<<<< HEAD
           <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-800 px-8 py-6 text-lg">
+=======
+          <Button
+            variant="outline"
+            className="border-slate-600 text-white hover:bg-slate-800 px-8 py-6 text-lg"
+          >
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             Watch Demo
           </Button>
         </div>
@@ -58,17 +104,33 @@ const LandingPage: React.FC = () => {
 
       {/* Features Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+<<<<<<< HEAD
         <h2 className="text-4xl font-bold text-white mb-12 text-center">Powerful Features</h2>
+=======
+        <h2 className="text-4xl font-bold text-white mb-12 text-center">
+          Powerful Features
+        </h2>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
           <Card className="bg-slate-800 border-slate-700 hover:border-blue-600 transition">
             <CardHeader>
               <Zap className="w-8 h-8 text-blue-400 mb-2" />
               <CardTitle className="text-white">AI Trading Bot</CardTitle>
+<<<<<<< HEAD
               <CardDescription>Automated signals with 62.5% win rate</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
               5 strategies, 4 risk levels, and real-time portfolio optimization for all 7 coins.
+=======
+              <CardDescription>
+                Automated signals with 62.5% win rate
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-slate-400">
+              5 strategies, 4 risk levels, and real-time portfolio optimization
+              for all 7 coins.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -80,7 +142,12 @@ const LandingPage: React.FC = () => {
               <CardDescription>Real-time market intelligence</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
+<<<<<<< HEAD
               Monitor whale movements, detect anomalies, and get market sentiment analysis instantly.
+=======
+              Monitor whale movements, detect anomalies, and get market
+              sentiment analysis instantly.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -92,7 +159,12 @@ const LandingPage: React.FC = () => {
               <CardDescription>Enterprise-grade protection</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
+<<<<<<< HEAD
               Fraud detection, Proof of Reserve, and full compliance reporting with audit trails.
+=======
+              Fraud detection, Proof of Reserve, and full compliance reporting
+              with audit trails.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -104,7 +176,12 @@ const LandingPage: React.FC = () => {
               <CardDescription>7 coins, unified management</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
+<<<<<<< HEAD
               SKYCOIN4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT all in one place.
+=======
+              SKYCOIN4444, SHADOW, TRUMP, DOGE, BTC, MONERO, and USDT all in one
+              place.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -116,7 +193,12 @@ const LandingPage: React.FC = () => {
               <CardDescription>Earn while you engage</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
+<<<<<<< HEAD
               Casino, social feed, dating, YouTube Watch-to-Earn, and puzzle challenges.
+=======
+              Casino, social feed, dating, YouTube Watch-to-Earn, and puzzle
+              challenges.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -128,7 +210,12 @@ const LandingPage: React.FC = () => {
               <CardDescription>Early access to opportunities</CardDescription>
             </CardHeader>
             <CardContent className="text-slate-400">
+<<<<<<< HEAD
               Participate in SKY4444 and SHADOW ICOs with bonus tiers and vesting schedules.
+=======
+              Participate in SKY4444 and SHADOW ICOs with bonus tiers and
+              vesting schedules.
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
         </div>
@@ -158,7 +245,13 @@ const LandingPage: React.FC = () => {
 
       {/* Pricing Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+<<<<<<< HEAD
         <h2 className="text-4xl font-bold text-white mb-12 text-center">Simple Pricing</h2>
+=======
+        <h2 className="text-4xl font-bold text-white mb-12 text-center">
+          Simple Pricing
+        </h2>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Starter */}
           <Card className="bg-slate-800 border-slate-700">
@@ -175,7 +268,13 @@ const LandingPage: React.FC = () => {
                 <li>✗ AI Trading Bot</li>
                 <li>✗ Whale Tracker</li>
               </ul>
+<<<<<<< HEAD
               <Button className="w-full bg-slate-700 hover:bg-slate-600">Get Started</Button>
+=======
+              <Button className="w-full bg-slate-700 hover:bg-slate-600">
+                Get Started
+              </Button>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -187,7 +286,13 @@ const LandingPage: React.FC = () => {
               <CardDescription>For active traders</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+<<<<<<< HEAD
               <div className="text-3xl font-bold text-white">$29<span className="text-lg text-slate-400">/mo</span></div>
+=======
+              <div className="text-3xl font-bold text-white">
+                $29<span className="text-lg text-slate-400">/mo</span>
+              </div>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
               <ul className="space-y-2 text-slate-400">
                 <li>✓ Everything in Starter</li>
                 <li>✓ AI Trading Bot</li>
@@ -195,7 +300,13 @@ const LandingPage: React.FC = () => {
                 <li>✓ Security Shield</li>
                 <li>✓ Priority support</li>
               </ul>
+<<<<<<< HEAD
               <Button className="w-full bg-blue-600 hover:bg-blue-700">Start Free Trial</Button>
+=======
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                Start Free Trial
+              </Button>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
 
@@ -214,7 +325,13 @@ const LandingPage: React.FC = () => {
                 <li>✓ API access</li>
                 <li>✓ SLA guarantee</li>
               </ul>
+<<<<<<< HEAD
               <Button className="w-full bg-slate-700 hover:bg-slate-600">Contact Sales</Button>
+=======
+              <Button className="w-full bg-slate-700 hover:bg-slate-600">
+                Contact Sales
+              </Button>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </CardContent>
           </Card>
         </div>
@@ -222,8 +339,17 @@ const LandingPage: React.FC = () => {
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+<<<<<<< HEAD
         <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Trading?</h2>
         <p className="text-xl text-slate-400 mb-8">Join thousands of traders using FinTrack's Quantum Intelligence.</p>
+=======
+        <h2 className="text-4xl font-bold text-white mb-6">
+          Ready to Transform Your Trading?
+        </h2>
+        <p className="text-xl text-slate-400 mb-8">
+          Join thousands of traders using FinTrack's Quantum Intelligence.
+        </p>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg">
           Start Your Free Trial <ArrowRight className="ml-2" />
         </Button>
@@ -235,35 +361,102 @@ const LandingPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="text-white font-bold mb-4">FinTrack</h3>
+<<<<<<< HEAD
               <p className="text-slate-400">Quantum Intelligence for Crypto Trading</p>
+=======
+              <p className="text-slate-400">
+                Quantum Intelligence for Crypto Trading
+              </p>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Product</h4>
               <ul className="space-y-2 text-slate-400">
+<<<<<<< HEAD
                 <li><a href="#" className="hover:text-white">Features</a></li>
                 <li><a href="#" className="hover:text-white">Pricing</a></li>
                 <li><a href="#" className="hover:text-white">Security</a></li>
+=======
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Security
+                  </a>
+                </li>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
               </ul>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Company</h4>
               <ul className="space-y-2 text-slate-400">
+<<<<<<< HEAD
                 <li><a href="#" className="hover:text-white">About</a></li>
                 <li><a href="#" className="hover:text-white">Blog</a></li>
                 <li><a href="#" className="hover:text-white">Contact</a></li>
+=======
+                <li>
+                  <a href="#" className="hover:text-white">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Contact
+                  </a>
+                </li>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
               </ul>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Legal</h4>
               <ul className="space-y-2 text-slate-400">
+<<<<<<< HEAD
                 <li><a href="#" className="hover:text-white">Privacy</a></li>
                 <li><a href="#" className="hover:text-white">Terms</a></li>
                 <li><a href="#" className="hover:text-white">Compliance</a></li>
+=======
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white">
+                    Compliance
+                  </a>
+                </li>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
               </ul>
             </div>
           </div>
           <div className="border-t border-slate-700 pt-8 text-center text-slate-400">
+<<<<<<< HEAD
             <p>&copy; 2026 FinTrack. All rights reserved. Powered by Quantum Intelligence.</p>
+=======
+            <p>
+              &copy; 2026 FinTrack. All rights reserved. Powered by Quantum
+              Intelligence.
+            </p>
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
           </div>
         </div>
       </footer>

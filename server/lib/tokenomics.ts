@@ -41,7 +41,11 @@ export class Tokenomics {
   static getCirculatingSupply(
     totalSupply: string,
     burnedSupply: string,
+<<<<<<< HEAD
     lockedSupply: string,
+=======
+    lockedSupply: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const circulating = new Decimal(totalSupply)
       .minus(burnedSupply)
@@ -52,10 +56,14 @@ export class Tokenomics {
   /**
    * Calculate token inflation rate
    */
+<<<<<<< HEAD
   static getInflationRate(
     currentSupply: string,
     maxSupply: string,
   ): number {
+=======
+  static getInflationRate(currentSupply: string, maxSupply: string): number {
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const inflationRate = new Decimal(currentSupply)
       .dividedBy(maxSupply)
       .times(100);
@@ -69,11 +77,21 @@ export class Tokenomics {
     currentBlock: number,
     startEmission: string,
     halvingInterval: number,
+<<<<<<< HEAD
     currentBlock_: number,
   ): string {
     const halvings = Math.floor((currentBlock_ - currentBlock) / halvingInterval);
     const emission = new Decimal(startEmission).dividedBy(
       new Decimal(2).pow(halvings),
+=======
+    currentBlock_: number
+  ): string {
+    const halvings = Math.floor(
+      (currentBlock_ - currentBlock) / halvingInterval
+    );
+    const emission = new Decimal(startEmission).dividedBy(
+      new Decimal(2).pow(halvings)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     return emission.toFixed(18);
   }
@@ -84,7 +102,11 @@ export class Tokenomics {
   static getProjectedSupply(
     currentSupply: string,
     emissionRate: string,
+<<<<<<< HEAD
     blocksToProject: number,
+=======
+    blocksToProject: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const newTokens = new Decimal(emissionRate).times(blocksToProject);
     const projectedSupply = new Decimal(currentSupply).plus(newTokens);
@@ -96,7 +118,11 @@ export class Tokenomics {
    */
   static getVestingClaimable(
     schedule: VestingSchedule,
+<<<<<<< HEAD
     currentBlock: number,
+=======
+    currentBlock: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     if (currentBlock < schedule.startBlock) {
       return "0";
@@ -121,7 +147,11 @@ export class Tokenomics {
    */
   static getVestingProgress(
     schedule: VestingSchedule,
+<<<<<<< HEAD
     currentBlock: number,
+=======
+    currentBlock: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): number {
     if (currentBlock < schedule.startBlock) return 0;
     if (currentBlock >= schedule.endBlock) return 100;
@@ -154,7 +184,11 @@ export class Tokenomics {
    */
   static getDistributionPercentage(
     allocation: string,
+<<<<<<< HEAD
     totalSupply: string,
+=======
+    totalSupply: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): number {
     const percentage = new Decimal(allocation)
       .dividedBy(totalSupply)
@@ -168,7 +202,11 @@ export class Tokenomics {
   static generateEmissionSchedule(
     startEmission: string,
     halvingInterval: number,
+<<<<<<< HEAD
     halvings: number,
+=======
+    halvings: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): EmissionSchedule[] {
     const schedule: EmissionSchedule[] = [];
     let currentEmission = new Decimal(startEmission);
@@ -193,7 +231,11 @@ export class Tokenomics {
   static calculateBurnImpact(
     burnAmount: string,
     circulatingSupply: string,
+<<<<<<< HEAD
     currentPrice: string,
+=======
+    currentPrice: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     supplyReduction: number;
     potentialPriceImpact: number;

@@ -6,7 +6,16 @@
 
 import { Decimal } from "decimal.js";
 
+<<<<<<< HEAD
 export type ShopItemType = "merchandise" | "digital" | "service" | "whitepaper" | "nft";
+=======
+export type ShopItemType =
+  | "merchandise"
+  | "digital"
+  | "service"
+  | "whitepaper"
+  | "nft";
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
 export interface ShopItem {
   itemId: string;
@@ -198,16 +207,26 @@ export class CryptoShop {
    * Calculate order total
    */
   static calculateOrderTotal(
+<<<<<<< HEAD
     items: { itemId: string; quantity: number }[],
+=======
+    items: { itemId: string; quantity: number }[]
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     let total = new Decimal(0);
 
     for (const item of items) {
+<<<<<<< HEAD
       const shopItem = SHOP_ITEMS.find((i) => i.itemId === item.itemId);
       if (shopItem) {
         total = total.plus(
           new Decimal(shopItem.priceUsd).times(item.quantity),
         );
+=======
+      const shopItem = SHOP_ITEMS.find(i => i.itemId === item.itemId);
+      if (shopItem) {
+        total = total.plus(new Decimal(shopItem.priceUsd).times(item.quantity));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       }
     }
 
@@ -220,7 +239,11 @@ export class CryptoShop {
   static convertUsdToCrypto(
     usdAmount: string,
     coin: string,
+<<<<<<< HEAD
     coinPrice: string,
+=======
+    coinPrice: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const cryptoAmount = new Decimal(usdAmount).dividedBy(coinPrice);
     return cryptoAmount.toFixed(18);
@@ -230,14 +253,22 @@ export class CryptoShop {
    * Get items by category
    */
   static getItemsByCategory(category: string): ShopItem[] {
+<<<<<<< HEAD
     return SHOP_ITEMS.filter((item) => item.category === category);
+=======
+    return SHOP_ITEMS.filter(item => item.category === category);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
    * Get items by coin accepted
    */
   static getItemsByCoin(coin: string): ShopItem[] {
+<<<<<<< HEAD
     return SHOP_ITEMS.filter((item) => item.acceptedCoins.includes(coin));
+=======
+    return SHOP_ITEMS.filter(item => item.acceptedCoins.includes(coin));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
@@ -246,10 +277,17 @@ export class CryptoShop {
   static searchItems(query: string): ShopItem[] {
     const lowerQuery = query.toLowerCase();
     return SHOP_ITEMS.filter(
+<<<<<<< HEAD
       (item) =>
         item.name.toLowerCase().includes(lowerQuery) ||
         item.description.toLowerCase().includes(lowerQuery) ||
         item.category.toLowerCase().includes(lowerQuery),
+=======
+      item =>
+        item.name.toLowerCase().includes(lowerQuery) ||
+        item.description.toLowerCase().includes(lowerQuery) ||
+        item.category.toLowerCase().includes(lowerQuery)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
   }
 
@@ -269,7 +307,11 @@ export class CryptoShop {
    */
   static applyDiscount(
     orderTotal: string,
+<<<<<<< HEAD
     discountPercentage: number,
+=======
+    discountPercentage: number
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { discountAmount: string; finalTotal: string } {
     const discount = new Decimal(orderTotal)
       .times(discountPercentage)
@@ -286,7 +328,11 @@ export class CryptoShop {
    * Get whitepaper by coin
    */
   static getWhitepaperByCoin(coin: string): Whitepaper | undefined {
+<<<<<<< HEAD
     return WHITEPAPERS.find((wp) => wp.coin === coin);
+=======
+    return WHITEPAPERS.find(wp => wp.coin === coin);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
@@ -294,7 +340,11 @@ export class CryptoShop {
    */
   static calculateShippingCost(
     country: string,
+<<<<<<< HEAD
     weight: number, // kg
+=======
+    weight: number // kg
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     // Base shipping cost
     let baseCost = new Decimal(10);
@@ -304,7 +354,13 @@ export class CryptoShop {
     baseCost = baseCost.times(countryMultiplier);
 
     // Weight surcharge
+<<<<<<< HEAD
     const weightSurcharge = new Decimal(weight).times(2).times(countryMultiplier);
+=======
+    const weightSurcharge = new Decimal(weight)
+      .times(2)
+      .times(countryMultiplier);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     const totalShipping = baseCost.plus(weightSurcharge);
     return totalShipping.toFixed(2);
@@ -316,7 +372,11 @@ export class CryptoShop {
   static calculateTax(
     orderTotal: string,
     country: string,
+<<<<<<< HEAD
     state?: string,
+=======
+    state?: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     let taxRate = new Decimal(0);
 
@@ -341,7 +401,11 @@ export class CryptoShop {
   static generateOrderSummary(
     order: ShopOrder,
     shippingCost: string,
+<<<<<<< HEAD
     tax: string,
+=======
+    tax: string
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     subtotal: string;
     shipping: string;
@@ -349,9 +413,13 @@ export class CryptoShop {
     total: string;
   } {
     const subtotal = order.totalUsd;
+<<<<<<< HEAD
     const total = new Decimal(subtotal)
       .plus(shippingCost)
       .plus(tax);
+=======
+    const total = new Decimal(subtotal).plus(shippingCost).plus(tax);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       subtotal,
@@ -379,7 +447,11 @@ export class CryptoShop {
    * Check inventory
    */
   static checkInventory(itemId: string, quantity: number): boolean {
+<<<<<<< HEAD
     const item = SHOP_ITEMS.find((i) => i.itemId === itemId);
+=======
+    const item = SHOP_ITEMS.find(i => i.itemId === itemId);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return item ? item.inventory >= quantity : false;
   }
 
@@ -403,7 +475,11 @@ export class CryptoShop {
     totalReviews: number;
   } {
     const totalItems = SHOP_ITEMS.length;
+<<<<<<< HEAD
     const categories = new Set(SHOP_ITEMS.map((i) => i.category));
+=======
+    const categories = new Set(SHOP_ITEMS.map(i => i.category));
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const totalInventory = SHOP_ITEMS.reduce((sum, i) => sum + i.inventory, 0);
     const averageRating =
       SHOP_ITEMS.reduce((sum, i) => sum + i.rating, 0) / SHOP_ITEMS.length;

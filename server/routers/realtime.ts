@@ -16,7 +16,11 @@ export const realtimeRouter = router({
       const call = RealtimeCommunication.initiateCall(
         ctx.userId,
         input.recipientId,
+<<<<<<< HEAD
         "voice",
+=======
+        "voice"
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return call;
     }),
@@ -28,7 +32,11 @@ export const realtimeRouter = router({
       const call = RealtimeCommunication.initiateCall(
         ctx.userId,
         input.recipientId,
+<<<<<<< HEAD
         "video",
+=======
+        "video"
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
       return call;
     }),
@@ -50,7 +58,11 @@ export const realtimeRouter = router({
     .mutation(async ({ ctx, input }) => {
       const cost = RealtimeCommunication.calculateCallCost(
         "voice",
+<<<<<<< HEAD
         input.durationSeconds,
+=======
+        input.durationSeconds
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {
@@ -68,12 +80,20 @@ export const realtimeRouter = router({
       z.object({
         type: z.enum(["voice", "video"]),
         durationSeconds: z.number(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       const cost = RealtimeCommunication.calculateCallCost(
         input.type,
+<<<<<<< HEAD
         input.durationSeconds,
+=======
+        input.durationSeconds
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return {
@@ -112,14 +132,22 @@ export const realtimeRouter = router({
         title: z.string(),
         description: z.string(),
         category: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       const stream = RealtimeCommunication.startStream(
         ctx.userId,
         input.title,
         input.description,
+<<<<<<< HEAD
         input.category,
+=======
+        input.category
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
 
       return stream;
@@ -143,7 +171,11 @@ export const realtimeRouter = router({
         streamId: z.string(),
         amount: z.string(),
         coin: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -202,7 +234,11 @@ export const realtimeRouter = router({
       z.object({
         roomId: z.string(),
         content: z.string(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -219,7 +255,11 @@ export const realtimeRouter = router({
       z.object({
         roomId: z.string(),
         limit: z.number().default(50),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .query(async ({ input }) => {
       return {
@@ -248,7 +288,11 @@ export const realtimeRouter = router({
       z.object({
         name: z.string(),
         members: z.array(z.number()),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -267,7 +311,11 @@ export const realtimeRouter = router({
         audioUrl: z.string(),
         duration: z.number(),
         transcript: z.string().optional(),
+<<<<<<< HEAD
       }),
+=======
+      })
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     )
     .mutation(async ({ ctx, input }) => {
       return {

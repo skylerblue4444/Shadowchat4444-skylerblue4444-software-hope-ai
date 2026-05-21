@@ -37,7 +37,11 @@ export class AMMEngine {
     amountIn: string,
     reserveIn: string,
     reserveOut: string,
+<<<<<<< HEAD
     feeBps: number = 25,
+=======
+    feeBps: number = 25
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const amountInDecimal = new Decimal(amountIn);
     const reserveInDecimal = new Decimal(reserveIn);
@@ -66,7 +70,11 @@ export class AMMEngine {
     amountOut: string,
     reserveIn: string,
     reserveOut: string,
+<<<<<<< HEAD
     feeBps: number = 25,
+=======
+    feeBps: number = 25
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const amountOutDecimal = new Decimal(amountOut);
     const reserveInDecimal = new Decimal(reserveIn);
@@ -86,7 +94,13 @@ export class AMMEngine {
     const amountInUnadjusted = numerator.dividedBy(denominator);
 
     // Adjust for fee: amountIn = amountInUnadjusted / (1 - fee/10000)
+<<<<<<< HEAD
     const feeMultiplier = new Decimal(10000).dividedBy(new Decimal(10000 - feeBps));
+=======
+    const feeMultiplier = new Decimal(10000).dividedBy(
+      new Decimal(10000 - feeBps)
+    );
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const amountIn = amountInUnadjusted.times(feeMultiplier);
 
     return amountIn.toFixed(18);
@@ -99,11 +113,19 @@ export class AMMEngine {
     amountIn: string,
     reserveIn: string,
     reserveOut: string,
+<<<<<<< HEAD
     feeBps: number = 25,
   ): number {
     const spotPrice = new Decimal(reserveOut).dividedBy(reserveIn);
     const executionPrice = new Decimal(amountIn).dividedBy(
       this.getAmountOut(amountIn, reserveIn, reserveOut, feeBps),
+=======
+    feeBps: number = 25
+  ): number {
+    const spotPrice = new Decimal(reserveOut).dividedBy(reserveIn);
+    const executionPrice = new Decimal(amountIn).dividedBy(
+      this.getAmountOut(amountIn, reserveIn, reserveOut, feeBps)
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const priceImpact = executionPrice.dividedBy(spotPrice).minus(1).times(100);
     return parseFloat(priceImpact.toFixed(4));
@@ -116,18 +138,50 @@ export class AMMEngine {
     amountIn: string,
     pool: LiquidityPool,
     tokenIn: string,
+<<<<<<< HEAD
     slippageTolerance: number = 0.5,
+=======
+    slippageTolerance: number = 0.5
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): SwapQuote {
     const isToken0In = tokenIn === pool.token0;
     const reserveIn = isToken0In ? pool.reserve0 : pool.reserve1;
     const reserveOut = isToken0In ? pool.reserve1 : pool.reserve0;
 
+<<<<<<< HEAD
     const amountOut = this.getAmountOut(amountIn, reserveIn, reserveOut, pool.fee);
     const priceImpact = this.getPriceImpact(amountIn, reserveIn, reserveOut, pool.fee);
     const fee = new Decimal(amountIn).times(pool.fee).dividedBy(10000).toFixed(18);
     const executionPrice = new Decimal(amountIn).dividedBy(amountOut).toFixed(18);
     const slippageAmount = new Decimal(amountOut).times(slippageTolerance).dividedBy(100);
     const minimumReceived = new Decimal(amountOut).minus(slippageAmount).toFixed(18);
+=======
+    const amountOut = this.getAmountOut(
+      amountIn,
+      reserveIn,
+      reserveOut,
+      pool.fee
+    );
+    const priceImpact = this.getPriceImpact(
+      amountIn,
+      reserveIn,
+      reserveOut,
+      pool.fee
+    );
+    const fee = new Decimal(amountIn)
+      .times(pool.fee)
+      .dividedBy(10000)
+      .toFixed(18);
+    const executionPrice = new Decimal(amountIn)
+      .dividedBy(amountOut)
+      .toFixed(18);
+    const slippageAmount = new Decimal(amountOut)
+      .times(slippageTolerance)
+      .dividedBy(100);
+    const minimumReceived = new Decimal(amountOut)
+      .minus(slippageAmount)
+      .toFixed(18);
+>>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       amountIn,

@@ -1,0 +1,3 @@
+You are Bot 1 - Orchestrator / PM Bot...
+
+[full prompt]
