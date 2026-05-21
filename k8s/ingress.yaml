@@ -1,0 +1,23 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shadowchat-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts: ["shadowchat.io"]
+    secretName: shadowchat-tls
+  rules:
+  - host: shadowchat.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: shadowchat-service
+            port:
+              number: 80

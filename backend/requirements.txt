@@ -1,0 +1,9 @@
+fastapi==0.115.0
+uvicorn==0.32.0
+ecdsa
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10
+redis==5.2.0
+pydantic==2.10.1
+cryptography
+python-dotenv

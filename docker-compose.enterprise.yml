@@ -1,0 +1,14 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+version: '3.8'
+services:
+  shadowchat:
+    build: .
+    ports:
+      - "4444:4444"
+    deploy:
+      replicas: 5
+  p2p:
+    build: .
+    command: python p2p/node_p2p.py
+    deploy:
+      replicas: 3

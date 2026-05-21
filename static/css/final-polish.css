@@ -1,0 +1,9 @@
+/* Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC */
+.neon-glow {
+  animation: neonPulse 1.5s infinite alternate;
+}
+
+@keyframes neonPulse {
+  from { text-shadow: 0 0 10px #a855f7; }
+  to { text-shadow: 0 0 30px #a855f7, 0 0 40px #a855f7; }
+}

@@ -1,0 +1,7 @@
+fastapi==0.115.0
+uvicorn==0.32.0
+ecdsa
+python-dotenv
+sqlalchemy==2.0.36
+pydantic==2.10.1
+cryptography

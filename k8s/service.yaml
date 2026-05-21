@@ -1,0 +1,13 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+apiVersion: v1
+kind: Service
+metadata:
+  name: shadowchat-service
+spec:
+  selector:
+    app: shadowchat
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4444
+  type: LoadBalancer

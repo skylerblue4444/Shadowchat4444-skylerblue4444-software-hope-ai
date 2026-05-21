@@ -1,0 +1,9 @@
+{
+  "title": "ShadowChat Billion-Scale Dashboard",
+  "panels": [
+    { "title": "SKY444 Supply", "type": "stat" },
+    { "title": "Active Users", "type": "stat" },
+    { "title": "P2P Nodes", "type": "stat" },
+    { "title": "Live Streams", "type": "stat" }
+  ]
+}
