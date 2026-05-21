@@ -1,4 +1,5 @@
 import { useAuth } from "@/_core/hooks/useAuth";
+import HopeAIGlobalVoiceDock from "@/components/HopeAIGlobalVoiceDock";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -381,6 +382,7 @@ function DashboardLayoutContent({ children, setSidebarWidth }: { children: React
           </div>
         )}
         <main className="flex-1 p-4 min-h-screen">{children}</main>
+        <HopeAIGlobalVoiceDock />
       </SidebarInset>
     </>
   );

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { eq, sql } from "drizzle-orm";
 import { stakingPositions, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
+import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 import { protectedProcedure, router, TRPCError } from "../_core/trpc";
 
 const stakingPools = [
@@ -35,22 +36,44 @@ export const stakingRouter = router({
           .set({ balance: sql`${users.balance} - ${amount}` })
           .where(eq(users.id, ctx.user.id));
 
-        await tx.insert(stakingPositions).values({
+        const [position] = await tx.insert(stakingPositions).values({
           userId: ctx.user.id,
           token: pool.token,
           amount,
           apy: pool.apy.toString(),
           lockedUntil,
           status: "active",
-        });
+        }).$returningId();
 
-        await tx.insert(transactions).values({
+        const memo = `Beta staking lock for ${pool.lockPeriodDays} days at ${pool.apy}% APY`;
+        const [transaction] = await tx.insert(transactions).values({
           userId: ctx.user.id,
           type: "staking",
           token: pool.token,
           amount,
           status: "complete",
-          memo: `Beta staking lock for ${pool.lockPeriodDays} days at ${pool.apy}% APY`,
+          memo,
+        }).$returningId();
+
+        await recordSettlementEntry(tx, {
+          idempotencyKey: settlementKey("staking", ctx.user.id, position.id, pool.token, amount),
+          transactionId: transaction.id,
+          userId: ctx.user.id,
+          source: "staking",
+          direction: "debit",
+          token: pool.token,
+          amount,
+          providerStatus: "provider_gated",
+          settlementStatus: "pending_review",
+          reviewStatus: "queued",
+          memo,
+          audit: {
+            router: "staking.stake",
+            poolId: pool.id,
+            lockPeriodDays: pool.lockPeriodDays,
+            apy: pool.apy,
+            providerGate: "staking release and payout provider remain disabled",
+          },
         });
       });
 

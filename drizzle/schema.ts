@@ -139,6 +139,25 @@ export const chatHistory = mysqlTable("chatHistory", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const beginnerPlusBusinessIntents = mysqlTable("beginnerPlusBusinessIntents", {
+  id: int("id").autoincrement().primaryKey(),
+  intentKey: varchar("intentKey", { length: 160 }).notNull().unique(),
+  userId: int("userId").notNull().references(() => users.id),
+  action: mysqlEnum("action", ["publish-guided-post", "review-profile-trust", "build-business-offer", "queue-creator-monetization", "open-partner-path"]).notNull(),
+  note: text("note"),
+  status: mysqlEnum("status", ["queued-for-guided-user-review", "queued-for-business-and-creator-review", "approved", "rejected"]).default("queued-for-guided-user-review").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["none", "queued", "approved", "rejected"]).default("none").notNull(),
+  reviewRequired: int("reviewRequired").default(0).notNull(),
+  actionJson: text("actionJson"),
+  guidanceJson: text("guidanceJson"),
+  guardrailsJson: text("guardrailsJson"),
+  adminNote: text("adminNote"),
+  reviewedById: int("reviewedById").references(() => users.id),
+  reviewedAt: timestamp("reviewedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 // Vault and Staking Tables
 export const vaults = mysqlTable("vaults", {
   id: int("id").autoincrement().primaryKey(),
@@ -237,6 +256,70 @@ export const marketplaceOrders = mysqlTable("marketplaceOrders", {
   status: mysqlEnum("status", ["created", "held", "released", "refunded", "disputed", "cancelled"]).default("created").notNull(),
   shippingName: varchar("shippingName", { length: 180 }),
   shippingAddress: text("shippingAddress"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierProviderSyncs = mysqlTable("supplierProviderSyncs", {
+  id: int("id").autoincrement().primaryKey(),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier"]).notNull(),
+  displayName: varchar("displayName", { length: 160 }).notNull(),
+  apiId: varchar("apiId", { length: 160 }),
+  providerStatus: mysqlEnum("providerStatus", ["not_configured", "configured", "syncing", "healthy", "degraded", "disabled"]).default("not_configured").notNull(),
+  lastSyncAt: timestamp("lastSyncAt"),
+  lastError: text("lastError"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierCatalogItems = mysqlTable("supplierCatalogItems", {
+  id: int("id").autoincrement().primaryKey(),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier"]).default("admin_import").notNull(),
+  externalId: varchar("externalId", { length: 180 }),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description").notNull(),
+  category: varchar("category", { length: 80 }).default("general").notNull(),
+  supplierName: varchar("supplierName", { length: 180 }).notNull(),
+  supplierCountry: varchar("supplierCountry", { length: 80 }).default("global").notNull(),
+  sourceUrl: text("sourceUrl"),
+  imageUrlsJson: text("imageUrlsJson").notNull(),
+  reviewSummaryJson: text("reviewSummaryJson"),
+  specsJson: text("specsJson"),
+  price: varchar("price", { length: 50 }).notNull(),
+  compareAtPrice: varchar("compareAtPrice", { length: 50 }),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  serviceFee: varchar("serviceFee", { length: 50 }).default("44").notNull(),
+  marginPercent: varchar("marginPercent", { length: 50 }).default("18").notNull(),
+  rating: varchar("rating", { length: 20 }).default("0").notNull(),
+  reviewCount: int("reviewCount").default(0).notNull(),
+  soldCount: int("soldCount").default(0).notNull(),
+  minOrder: int("minOrder").default(1).notNull(),
+  shippingSummary: varchar("shippingSummary", { length: 180 }).default("Supplier quoted shipping").notNull(),
+  shippingDays: varchar("shippingDays", { length: 80 }).default("Quoted after review").notNull(),
+  providerStatus: mysqlEnum("providerStatus", ["live_api", "admin_import", "curated_seed", "needs_review", "paused", "removed"]).default("admin_import").notNull(),
+  reviewStatus: mysqlEnum("reviewStatus", ["queued", "approved", "rejected"]).default("approved").notNull(),
+  createdByAdminId: int("createdByAdminId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierOrderRequests = mysqlTable("supplierOrderRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  requesterId: int("requesterId").notNull().references(() => users.id),
+  provider: mysqlEnum("provider", ["dhgate", "alibaba", "admin_import", "private_supplier", "mixed"]).default("mixed").notNull(),
+  cartItemsJson: text("cartItemsJson").notNull(),
+  subtotal: varchar("subtotal", { length: 50 }).notNull(),
+  serviceFee: varchar("serviceFee", { length: 50 }).default("44").notNull(),
+  platformMargin: varchar("platformMargin", { length: 50 }).default("0").notNull(),
+  estimatedSupplierCost: varchar("estimatedSupplierCost", { length: 50 }).default("0").notNull(),
+  total: varchar("total", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 12 }).default("USD").notNull(),
+  orderStatus: mysqlEnum("orderStatus", ["queued", "admin_review", "approved", "provider_submitted", "fulfilled", "rejected", "cancelled"]).default("queued").notNull(),
+  paymentStatus: mysqlEnum("paymentStatus", ["not_charged", "quote_sent", "held", "paid", "refunded"]).default("not_charged").notNull(),
+  shippingName: varchar("shippingName", { length: 180 }),
+  shippingAddress: text("shippingAddress"),
+  buyerNote: text("buyerNote"),
+  adminNote: text("adminNote"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

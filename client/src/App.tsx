@@ -86,6 +86,10 @@ const Spaces         = lazy(() => import('./pages/Spaces'));
 const NFTAnalytics   = lazy(() => import('./pages/NFTAnalytics'));
 const AIChat         = lazy(() => import('./pages/AIChat'));
 const HopeAI         = lazy(() => import('./pages/HopeAI'));
+const HopeAICommandCenter = lazy(() => import('./pages/HopeAICommandCenter'));
+const HopeAiTradingRoom = lazy(() => import('./pages/HopeAiTradingRoom'));
+const AIVoiceCompanion = lazy(() => import('./pages/AIVoiceCompanion'));
+const AIAgent        = lazy(() => import('./pages/AIAgent'));
 const SkyBlueITDashboard = lazy(() => import('./pages/SkyBlueITDashboard'));
 const ShadowChatMessaging = lazy(() => import('./pages/ShadowChatMessaging'));
 const Launchpad      = lazy(() => import('./pages/Launchpad'));
@@ -102,6 +106,28 @@ const ShadowID       = lazy(() => import('./pages/ShadowID'));
 const ShadowGov      = lazy(() => import('./pages/ShadowGov'));
 const ShadowVault    = lazy(() => import('./pages/ShadowVault'));
 const ShadowHub      = lazy(() => import('./pages/ShadowHub'));
+
+// Additional Features
+const CoinEconomy    = lazy(() => import('./pages/CoinEconomy'));
+const ComponentShowcase = lazy(() => import('./pages/ComponentShowcase'));
+const CreatorDashboard = lazy(() => import('./pages/CreatorDashboard'));
+const Dashboard      = lazy(() => import('./pages/Dashboard'));
+const Dating         = lazy(() => import('./pages/Dating'));
+const DevPlan        = lazy(() => import('./pages/DevPlan'));
+const LandingPage    = lazy(() => import('./pages/LandingPage'));
+const MarketplaceDisputes = lazy(() => import('./pages/MarketplaceDisputes'));
+const MessagingHub   = lazy(() => import('./pages/MessagingHub'));
+const MiniProgramsStore = lazy(() => import('./pages/MiniProgramsStore'));
+const MoneyManagement = lazy(() => import('./pages/MoneyManagement'));
+const NotificationsCenter = lazy(() => import('./pages/NotificationsCenter'));
+const PolishedMarketplace = lazy(() => import('./pages/Polished_Marketplace'));
+const PrivateGroupDAO = lazy(() => import('./pages/PrivateGroupDAO'));
+const QRPay          = lazy(() => import('./pages/QRPay'));
+const ReputationSystem = lazy(() => import('./pages/ReputationSystem'));
+const SearchDiscovery = lazy(() => import('./pages/SearchDiscovery'));
+const UnifiedFeed    = lazy(() => import('./pages/UnifiedFeed'));
+const UserProfileHub = lazy(() => import('./pages/UserProfileHub'));
+const AdminDashboardLive = lazy(() => import('./pages/AdminDashboard_Live'));
 
 // IT Resolutions
 const ITHome         = lazy(() => import('./pages/ITHome'));
@@ -216,6 +242,10 @@ function DashboardRoutes() {
           <Route path="/dashboard/copilot"          component={AICopilot} />
           <Route path="/dashboard/ai-chat"          component={AIChat} />
           <Route path="/dashboard/hope-ai"          component={HopeAI} />
+          <Route path="/dashboard/hope-ai-command"   component={HopeAICommandCenter} />
+          <Route path="/dashboard/hope-ai-trading"   component={HopeAiTradingRoom} />
+          <Route path="/dashboard/ai-voice"          component={AIVoiceCompanion} />
+          <Route path="/dashboard/ai-agent"          component={AIAgent} />
           <Route path="/dashboard/ai-image"         component={AIImageGen} />
           <Route path="/dashboard/ai-wealth"        component={AIWealth} />
 
@@ -243,14 +273,35 @@ function DashboardRoutes() {
 
           {/* Mini Programs */}
           <Route path="/dashboard/mini-programs"    component={MiniPrograms} />
+          <Route path="/dashboard/mini-programs-store" component={MiniProgramsStore} />
 
           {/* Analytics & Profile */}
           <Route path="/dashboard/analytics"        component={Analytics} />
           <Route path="/dashboard/profile"          component={Profile} />
+          <Route path="/dashboard/user-profile"     component={UserProfileHub} />
           <Route path="/dashboard/dating"           component={PolishedDating} />
+          <Route path="/dashboard/dating-classic"   component={Dating} />
 
           <Route path="/dashboard/settings"         component={Settings} />
           <Route path="/dashboard/onboarding"       component={Onboarding} />
+
+          {/* Additional Features */}
+          <Route path="/dashboard/coin-economy"     component={CoinEconomy} />
+          <Route path="/dashboard/money"            component={MoneyManagement} />
+          <Route path="/dashboard/qr-pay"           component={QRPay} />
+          <Route path="/dashboard/search"           component={SearchDiscovery} />
+          <Route path="/dashboard/feed"             component={UnifiedFeed} />
+          <Route path="/dashboard/messaging-hub"    component={MessagingHub} />
+          <Route path="/dashboard/notifications-center" component={NotificationsCenter} />
+          <Route path="/dashboard/reputation"       component={ReputationSystem} />
+          <Route path="/dashboard/private-dao"      component={PrivateGroupDAO} />
+          <Route path="/dashboard/marketplace-polished" component={PolishedMarketplace} />
+          <Route path="/dashboard/marketplace-disputes" component={MarketplaceDisputes} />
+          <Route path="/dashboard/creator-dashboard" component={CreatorDashboard} />
+          <Route path="/dashboard/dev-plan"         component={DevPlan} />
+          <Route path="/dashboard/showcase"         component={ComponentShowcase} />
+          <Route path="/dashboard/admin-live"       component={AdminDashboardLive} />
+          <Route path="/dashboard/landing"          component={LandingPage} />
 
           {/* Referrals & Partners */}
           <Route path="/dashboard/referrals"        component={Referrals} />

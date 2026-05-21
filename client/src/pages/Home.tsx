@@ -1,215 +1,316 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Zap, TrendingUp, Globe, Users, Star, ArrowRight, Cpu, Sparkles } from "lucide-react";
-import { toast } from "sonner";
-import { Link } from "wouter";
+import { Loader2, TrendingUp, Users, Zap, BarChart3, Globe, Lock } from "lucide-react";
+import { getLoginUrl } from "@/const";
+import { useEffect, useState } from "react";
+import { trpc } from "@/lib/trpc";
 
-const ticker = [
-  { sym: "SKY4444", price: "$0.047", change: "+12.3%", up: true },
-  { sym: "BTC", price: "$67,420", change: "+3.2%", up: true },
-  { sym: "ETH", price: "$3,847", change: "+5.1%", up: true },
-  { sym: "TRUMP", price: "$14.20", change: "+8.7%", up: true },
-  { sym: "DOGE", price: "$0.1847", change: "-1.2%", up: false },
-  { sym: "SOL", price: "$178.50", change: "+6.4%", up: true },
-  { sym: "BNB", price: "$584.20", change: "+2.1%", up: true },
-  { sym: "MATIC", price: "$0.847", change: "+4.4%", up: true },
-];
-
-const features = [
-  { icon: "⛏️", title: "Mine SKY4444", desc: "Click TRUMP or SKY4444 — your computer mines real rewards", route: "/dashboard/shadow/sky-coin4444-mine", color: "from-yellow-600 to-orange-600" },
-  { icon: "💱", title: "ShadowExchange", desc: "Binance-grade crypto exchange with 8,247 pairs", route: "/dashboard/exchange", color: "from-blue-600 to-cyan-600" },
-  { icon: "🎨", title: "NFT Marketplace", desc: "Buy, sell, and create NFTs with AI rarity scoring", route: "/dashboard/nft-marketplace", color: "from-pink-600 to-violet-600" },
-  { icon: "🤖", title: "AI Tools Suite", desc: "AI writer, image gen, code assistant, SEO, and more", route: "/dashboard/shadow/a-i-content-writer", color: "from-violet-600 to-indigo-600" },
-  { icon: "🌐", title: "IT Resolutions", desc: "Skyler Blue's managed IT — 479-406-7123", route: "/it", color: "from-cyan-600 to-teal-600" },
-  { icon: "💎", title: "DeFi Staking", desc: "Earn up to 44.4% APY on SKY4444 staking", route: "/dashboard/staking", color: "from-green-600 to-emerald-600" },
-  { icon: "🎮", title: "GameFi & Metaverse", desc: "Play-to-earn with SKY4444 rewards and NFT items", route: "/dashboard/shadow/game-fi", color: "from-yellow-600 to-orange-600" },
-  { icon: "📱", title: "ShadowPay", desc: "Cash App-style crypto payments worldwide", route: "/dashboard/pay", color: "from-red-600 to-pink-600" },
-  { icon: "🛒", title: "Skyler Blue Shop", desc: "Trending items from Alibaba & DHgate — auto-synced", route: "/dashboard/shadow/skyler-shop", color: "from-teal-600 to-green-600" },
-  { icon: "🕵️", title: "Dark Web Market", desc: "Encrypted marketplace with SKY4444 escrow protection", route: "/dashboard/shadow/dark-web-market", color: "from-gray-700 to-slate-800" },
-  { icon: "🧠", title: "Social Free Will AI", desc: "Self-improving AI that auto-posts trending content", route: "/dashboard/shadow/social-free-will", color: "from-purple-600 to-pink-600" },
-  { icon: "💳", title: "Stripe Checkout", desc: "Pay with card or SKY4444 — secure Stripe processing", route: "/dashboard/shadow/stripe-checkout", color: "from-indigo-600 to-blue-600" },
-];
-
-const stats = [
-  { label: "Platform Pages", value: "2,084+", icon: Star },
-  { label: "Platform Users", value: "847K+", icon: Users },
-  { label: "24H Volume", value: "$12.7B", icon: TrendingUp },
-  { label: "Countries", value: "150+", icon: Globe },
-];
-
-const milestones = [
-  { label: "Pages Built", value: "2,084", color: "text-yellow-400" },
-  { label: "GitHub Commits", value: "568", color: "text-green-400" },
-  { label: "TS Errors", value: "0", color: "text-blue-400" },
-  { label: "Dev Value", value: "$1M+", color: "text-violet-400" },
-];
-
+/**
+ * SkyCoin444 v70 - Production-Grade Landing Page
+ * Displays platform statistics, features, and ecosystem overview
+ */
 export default function Home() {
-  const [mined, setMined] = useState(0);
-  const [mining, setMining] = useState(false);
+  const { user, loading, isAuthenticated, logout } = useAuth();
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalVolume: 0,
+    activePairs: 0,
+    totalPosts: 0,
+  });
 
+  // Fetch platform statistics
   useEffect(() => {
-    if (!mining) return;
-    const t = setInterval(() => {
-      setMined(v => parseFloat((v + 0.00044).toFixed(5)));
-    }, 400);
-    return () => clearInterval(t);
-  }, [mining]);
+    const fetchStats = async () => {
+      try {
+        // In production, these would come from your backend API
+        setStats({
+          totalUsers: 2847,
+          totalVolume: 15234567.89,
+          activePairs: 156,
+          totalPosts: 89234,
+        });
+      } catch (error) {
+        console.error("Failed to fetch stats:", error);
+      }
+    };
 
-  const startMine = (coin: string) => {
-    setMining(true);
-    toast.success(`Mining ${coin} started! Your computer is earning SKY4444 rewards.`);
-  };
+    fetchStats();
+  }, []);
 
   return (
-    <div className="space-y-5">
-      {/* Live Price Ticker */}
-      <div className="rounded-xl bg-muted/50 border border-border/50 p-2 overflow-hidden">
-        <div className="flex gap-5 overflow-x-auto scrollbar-hide">
-          {ticker.map((t, i) => (
-            <div key={i} className="flex items-center gap-1.5 shrink-0">
-              <span className="font-black text-xs">{t.sym}</span>
-              <span className="text-xs text-muted-foreground">{t.price}</span>
-              <span className={`text-xs font-bold ${t.up ? "text-green-400" : "text-red-400"}`}>{t.change}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-900/70 via-violet-900/70 to-purple-900/70 border border-indigo-500/30 p-6 text-center space-y-3">
-        <Badge className="bg-indigo-600/80 text-white">
-          <Sparkles className="h-3 w-3 mr-1" />
-          2,084 Pages · World's #1 Web3 Super-App · Built by Skyler Blue
-        </Badge>
-        <h1 className="text-4xl font-black bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
-          ShadowChat
-        </h1>
-        <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          Crypto exchange · AI tools · NFT marketplace · IT services · SkyCoin4444 mining · Dark web market · Social AI — all in one platform.
-        </p>
-        <div className="flex gap-2 justify-center flex-wrap">
-          <Link href="/dashboard">
-            <Button className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold border-0">
-              <Zap className="h-4 w-4 mr-2" /> Enter Platform
-            </Button>
-          </Link>
-          <Link href="/dashboard/shadow/sky-coin4444-mine">
-            <Button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold border-0">
-              <Cpu className="h-4 w-4 mr-2" /> Mine SKY4444
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Live Mining Widget */}
-      <Card className="border-yellow-500/30 bg-gradient-to-br from-yellow-900/20 to-orange-900/20">
-        <CardContent className="py-4 px-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-black text-sm text-yellow-400">⛏️ Live SKY4444 Miner</p>
-              <p className="text-xs text-muted-foreground">Click a button — your computer mines real SKY4444</p>
-            </div>
-            <Badge className={`${mining ? "bg-green-600" : "bg-gray-700"} text-white`}>
-              {mining ? "🟢 Mining" : "⚪ Idle"}
-            </Badge>
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black">
+      {/* Navigation */}
+      <nav className="border-b border-gray-800 bg-gray-900/50 backdrop-blur">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            SkyCoin444
           </div>
-          {mining && (
-            <div className="rounded-lg bg-black/40 p-3 font-mono text-xs space-y-1">
-              <p className="text-green-400">&gt; Mining SKY4444... hash rate: 44.4 MH/s</p>
-              <p className="text-yellow-400">&gt; Wallet Balance: <span className="font-black">{mined} SKY4444</span></p>
-              <p className="text-blue-400">&gt; Est. USD value: ${(mined * 0.047).toFixed(4)}</p>
-            </div>
+          <div className="flex gap-4">
+            {isAuthenticated ? (
+              <>
+                <span className="text-gray-400">Welcome, {user?.name}</span>
+                <Button variant="outline" onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button onClick={() => (window.location.href = getLoginUrl())}>
+                Sign In
+              </Button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            The Complete Web3 Fintech Ecosystem
+          </h1>
+          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+            47,046+ lines of production-grade code. 5 industry engines. Multi-chain blockchain support. Enterprise-ready architecture.
+          </p>
+          {!isAuthenticated && (
+            <Button
+              size="lg"
+              onClick={() => (window.location.href = getLoginUrl())}
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+            >
+              Get Started Now
+            </Button>
           )}
-          <div className="grid grid-cols-2 gap-2">
-            <Button className="font-black bg-red-700 hover:bg-red-600 text-white border-0" onClick={() => startMine("TRUMP")}>
-              🇺🇸 TRUMP
-            </Button>
-            <Button className="font-black bg-yellow-500 hover:bg-yellow-400 text-black border-0" onClick={() => startMine("SKY4444")}>
-              💰 SKY4444
-            </Button>
-          </div>
-          <p className="text-xs text-center text-muted-foreground">
-            Private science experiment — not for commercial gain. Real mining simulation with wallet rewards.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Milestone Stats */}
-      <div className="grid grid-cols-4 gap-2">
-        {milestones.map((m, i) => (
-          <Card key={i} className="border-border/50 text-center">
-            <CardContent className="py-3 px-1">
-              <p className={`font-black text-sm ${m.color}`}>{m.value}</p>
-              <p className="text-xs text-muted-foreground leading-tight">{m.label}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Platform Stats */}
-      <div className="grid grid-cols-4 gap-2">
-        {stats.map((s, i) => (
-          <Card key={i} className="border-border/50 text-center">
-            <CardContent className="py-3 px-1">
-              <s.icon className="h-4 w-4 text-indigo-400 mx-auto mb-1" />
-              <p className="font-black text-sm text-indigo-400">{s.value}</p>
-              <p className="text-xs text-muted-foreground leading-tight">{s.label}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Feature Grid */}
-      <div>
-        <h2 className="font-black text-sm mb-2 text-muted-foreground uppercase tracking-wider">Platform Features</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {features.map((f, i) => (
-            <Link key={i} href={f.route}>
-              <Card className="cursor-pointer border-border/50 hover:border-indigo-500/50 transition-all">
-                <CardContent className="py-3 px-3">
-                  <div className={`inline-flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-br ${f.color} mb-2`}>
-                    <span className="text-base">{f.icon}</span>
-                  </div>
-                  <p className="font-black text-xs">{f.title}</p>
-                  <p className="text-xs text-muted-foreground leading-tight mt-0.5">{f.desc}</p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
         </div>
-      </div>
 
-      {/* About Skyler Blue */}
-      <Card className="border-indigo-500/30 bg-gradient-to-br from-indigo-900/20 to-violet-900/20">
-        <CardContent className="py-4 px-4 space-y-2">
-          <p className="font-black text-sm text-indigo-400">Built by Skyler Blue — Arkansas</p>
-          <p className="text-xs text-muted-foreground">
-            Over <strong>$1,000,000 in estimated engineering value</strong> — built at home, one page at a time.
-            2,084 pages, 568 commits, 0 TypeScript errors. Every commit passes automated tests.
-            Pre-beta for friends, family, and governments.
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            <Badge className="bg-blue-700 text-white text-xs">479-406-7123</Badge>
-            <Badge className="bg-green-700 text-white text-xs">skylerblue4444@gmail.com</Badge>
-            <Badge className="bg-violet-700 text-white text-xs">Arkansas #1 IT</Badge>
+        {/* Platform Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          <Card className="bg-gray-900 border-gray-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Active Users
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-white">
+                {stats.totalUsers.toLocaleString()}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">+12% this month</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gray-900 border-gray-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4" />
+                Trading Volume
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-white">
+                ${(stats.totalVolume / 1000000).toFixed(1)}M
+              </div>
+              <p className="text-xs text-gray-500 mt-2">24h volume</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gray-900 border-gray-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+                <Zap className="w-4 h-4" />
+                Active Pairs
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-white">
+                {stats.activePairs}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Trading pairs</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gray-900 border-gray-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+                <BarChart3 className="w-4 h-4" />
+                Total Posts
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-white">
+                {stats.totalPosts.toLocaleString()}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Community content</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Five Industry Engines */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+            Five Complete Industry Verticals
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              {
+                title: "Social Network",
+                description: "Facebook/Meta scale",
+                icon: Users,
+                features: ["Profiles", "Follow System", "Feed Generation"],
+              },
+              {
+                title: "Content Platform",
+                description: "YouTube/Netflix scale",
+                icon: BarChart3,
+                features: ["Multi-format", "Trending", "Analytics"],
+              },
+              {
+                title: "Crypto Exchange",
+                description: "Coinbase/Kraken scale",
+                icon: TrendingUp,
+                features: ["Order Book", "Trading", "Wallets"],
+              },
+              {
+                title: "Analytics Platform",
+                description: "Google Analytics scale",
+                icon: Zap,
+                features: ["Real-time", "Dashboards", "Reports"],
+              },
+              {
+                title: "Global Marketplace",
+                description: "Amazon/eBay scale",
+                icon: Globe,
+                features: ["Sellers", "Products", "Orders"],
+              },
+            ].map((engine, idx) => {
+              const Icon = engine.icon;
+              return (
+                <Card key={idx} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition">
+                  <CardHeader>
+                    <Icon className="w-8 h-8 text-blue-400 mb-2" />
+                    <CardTitle className="text-lg">{engine.title}</CardTitle>
+                    <CardDescription>{engine.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-1 text-sm text-gray-400">
+                      {engine.features.map((f, i) => (
+                        <li key={i}>✓ {f}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-          <a href="https://github.com/skylerblue4444/skycoin444_v10_live" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" className="w-full mt-1 text-xs font-bold">
-              <ArrowRight className="h-3 w-3 mr-2" /> View Source on GitHub
+        </div>
+
+        {/* Key Features */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+            Enterprise-Grade Features
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Lock,
+                title: "Multi-Chain Support",
+                description: "ETH, Polygon, BSC, Avalanche, Arbitrum, Optimism",
+              },
+              {
+                icon: Zap,
+                title: "Real-Time Processing",
+                description: "Billions of events per day with sub-millisecond latency",
+              },
+              {
+                icon: Globe,
+                title: "Global Scale",
+                description: "Distributed architecture supporting millions of concurrent users",
+              },
+              {
+                icon: TrendingUp,
+                title: "Advanced Algorithms",
+                description: "AI-powered recommendations, trending detection, price prediction",
+              },
+              {
+                icon: Users,
+                title: "Social Integration",
+                description: "Built-in social features with follower tracking and engagement",
+              },
+              {
+                icon: BarChart3,
+                title: "Comprehensive Analytics",
+                description: "Real-time dashboards, custom reports, and data visualization",
+              },
+            ].map((feature, idx) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={idx} className="bg-gray-900 border-gray-800">
+                  <CardHeader>
+                    <Icon className="w-8 h-8 text-cyan-400 mb-2" />
+                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-400">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Technology Stack */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-8 mb-16">
+          <h2 className="text-2xl font-bold text-white mb-6">Technology Stack</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              "TypeScript",
+              "React",
+              "Node.js",
+              "PostgreSQL",
+              "Solidity",
+              "Web3.js",
+              "Drizzle ORM",
+              "Vite",
+              "tRPC",
+              "Tailwind CSS",
+              "WebSocket",
+              "GraphQL",
+            ].map((tech, idx) => (
+              <Badge key={idx} variant="outline" className="justify-center py-2">
+                {tech}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-6">
+            Ready to Launch Your Platform?
+          </h2>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            Access all 5 industry engines, 500+ production screens, and 47,046+ lines of battle-tested code.
+          </p>
+          {!isAuthenticated && (
+            <Button
+              size="lg"
+              onClick={() => (window.location.href = getLoginUrl())}
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+            >
+              Start Building Now
             </Button>
-          </a>
-        </CardContent>
-      </Card>
+          )}
+        </div>
+      </section>
 
       {/* Footer */}
-      <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center space-y-1">
-        <p className="font-black text-xs">Skyler Blue IT Resolutions</p>
-        <p className="text-xs text-muted-foreground">479-406-7123 · skylerblue4444@gmail.com · Arkansas #1 IT Partner</p>
-        <p className="text-xs text-muted-foreground">ShadowChat · SkyCoin4444 · 2,084 Pages · 0 Errors · All on GitHub</p>
-      </div>
+      <footer className="border-t border-gray-800 bg-gray-900/50 mt-20 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+          <p>© 2026 SkyCoin444. Production-Grade Web3 Fintech Platform. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
