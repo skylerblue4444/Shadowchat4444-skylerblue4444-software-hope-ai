@@ -1,33 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-Updated TASKS.md with current progress and 12-bot responsibility matrix.
-
-Filler archive: 94%
-Luxury pages: 91%
-Chapter 1: 62%
-Overall: 67%
-=======
-Updated TASKS.md with current progress and responsibility matrix
-
-## Current Progress
-- Filler Archive: 93%
-- Luxury Pages: 89%
-- Chapter 1: 59%
-- Overall: 65%
-
-## Responsibilities
-See TEAM-12-BOTS.md
->>>>>>> origin/feature/bot10-luxury-polish-batch
-=======
-# Updated TASKS.md - Next Luxury Batch
-
-## Current Sprint
-- Luxury polish on Casino, Dating, GameCenter, CreatorStudio
-- Chapter 1 Wallet + Mining
-- Filler archive 92% complete
->>>>>>> origin/feature/bot10-next-luxury-batch
-=======
 # SkyCoin444 v10 Live — Beta Product Task Board
 
 ## Current priority
@@ -60,4 +30,3 @@ This repository is being consolidated into a **functional crypto playground and 
 ## Beta principle
 
 The beta should be described honestly: **a high-ambition Web3 social and crypto playground with real app structure, many polished interfaces, and selected backend persistence, while some market, mining, staking, AI, and compliance surfaces remain simulated or testnet-oriented until audits, integrations, and legal review are complete.**
->>>>>>> origin/production-feature-polish-20260520-074729
