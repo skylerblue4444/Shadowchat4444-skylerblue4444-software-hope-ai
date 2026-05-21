@@ -5,8 +5,7 @@ import {
   BarChart2, DollarSign, Activity, Lock, Eye, Zap, Crown,
   CheckCircle, XCircle, Clock, ArrowUp, ArrowDown, Server,
   Database, Cpu, Wifi, Bell, Flag, FileText, ChevronRight,
-  RefreshCw, Download, Filter, Search, MoreHorizontal, Briefcase,
-  Package, ShoppingCart
+  RefreshCw, Download, Filter, Search, MoreHorizontal
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -77,9 +76,6 @@ export default function AdminDashboard() {
   const utils = trpc.useUtils();
   const [refreshing, setRefreshing] = useState(false);
   const settlementReview = trpc.adminLive.settlementReview.useQuery({ limit: 10 }, { refetchInterval: 30000 });
-  const beginnerPlusBusinessReview = trpc.adminLive.beginnerPlusBusinessReview.useQuery({ limit: 10 }, { refetchInterval: 30000 });
-  const supplierProviderStatus = trpc.marketplaceLive.supplierProviderStatus.useQuery(undefined, { refetchInterval: 60000 });
-  const supplierOrderReview = trpc.marketplaceLive.adminSupplierOrderRequests.useQuery({ limit: 12 }, { refetchInterval: 30000 });
   const updateSettlementReview = trpc.adminLive.updateSettlementReview.useMutation({
     onSuccess: async () => {
       toast.success("Settlement review status updated.");
@@ -87,77 +83,14 @@ export default function AdminDashboard() {
     },
     onError: (error) => toast.error(error.message),
   });
-  const updateBeginnerPlusBusinessReview = trpc.adminLive.updateBeginnerPlusBusinessReview.useMutation({
-    onSuccess: async () => {
-      toast.success("Beginner Plus business review status updated.");
-      await utils.adminLive.beginnerPlusBusinessReview.invalidate();
-    },
-    onError: (error) => toast.error(error.message),
-  });
-  const importSupplierCatalog = trpc.marketplaceLive.adminImportSupplierCatalog.useMutation({
-    onSuccess: async (result) => {
-      toast.success(`Imported ${(result as any)?.count ?? "supplier"} catalog rows for admin review.`);
-      await utils.marketplaceLive.listSupplierCatalog.invalidate();
-    },
-    onError: (error) => toast.error(error.message),
-  });
-  const syncSupplierProvider = trpc.marketplaceLive.adminSyncSupplierProvider.useMutation({
-    onSuccess: async (result) => {
-      toast.success(`${(result as any)?.provider ?? "Supplier"} sync logged.`, { description: (result as any)?.message ?? "Provider adapter status updated." });
-      await Promise.all([utils.marketplaceLive.supplierProviderStatus.invalidate(), utils.marketplaceLive.listSupplierCatalog.invalidate()]);
-    },
-    onError: (error) => toast.error(error.message),
-  });
-  const updateSupplierOrder = trpc.marketplaceLive.adminUpdateSupplierOrderRequest.useMutation({
-    onSuccess: async () => {
-      toast.success("Supplier order review updated.");
-      await utils.marketplaceLive.adminSupplierOrderRequests.invalidate();
-    },
-    onError: (error) => toast.error(error.message),
-  });
 
   const pendingSettlementEntries = settlementReview.data?.pendingEntries ?? [];
-  const pendingBusinessIntents = beginnerPlusBusinessReview.data?.pendingIntents ?? [];
-  const supplierOrders = (supplierOrderReview.data ?? []) as any[];
-  const activeSupplierOrders = supplierOrders.filter((order) => ["queued", "admin_review", "approved"].includes(order.orderStatus));
-  const supplierProviders = (((supplierProviderStatus.data as any)?.providers ?? []) as any[]);
 
   const handleRefresh = () => {
     setRefreshing(true);
-    Promise.all([settlementReview.refetch(), beginnerPlusBusinessReview.refetch(), supplierProviderStatus.refetch(), supplierOrderReview.refetch()]).finally(() => {
+    settlementReview.refetch().finally(() => {
       setRefreshing(false);
       toast.success("Dashboard refreshed");
-    });
-  };
-
-  const handlePowerhouseImport = () => {
-    importSupplierCatalog.mutate({
-      rows: [
-        {
-          provider: "admin_import",
-          externalId: `admin-powerhouse-stream-kit-${Date.now()}`,
-          title: "Admin Imported Creator Live Commerce Starter Kit",
-          description: "Admin-import sample for a real supplier row: live shopping camera stand, LED light, clip mic, and desk mount bundle. Replace with DHgate, Alibaba, or private-supplier import details before publishing at scale.",
-          category: "Video Streams",
-          supplierName: "Admin Imported Supplier",
-          supplierCountry: "Global",
-          imageUrls: ["https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&h=800&fit=crop"],
-          reviewSummary: { source: "admin import", note: "Attach real review snapshots or provider review JSON in production." },
-          specs: { Fulfillment: "Admin reviewed", Monetization: "$44 cart service fee + margin", Source: "Admin import" },
-          price: 44,
-          compareAtPrice: 89,
-          serviceFee: 44,
-          marginPercent: 22,
-          rating: 4.7,
-          reviewCount: 128,
-          soldCount: 444,
-          minOrder: 1,
-          shippingSummary: "Supplier quote required",
-          shippingDays: "7-21 days after quote approval",
-          providerStatus: "admin_import",
-          reviewStatus: "approved",
-        },
-      ],
     });
   };
 
@@ -294,122 +227,6 @@ export default function AdminDashboard() {
             {!pendingSettlementEntries.length && (
               <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
                 {settlementReview.isLoading ? "Loading settlement entries requiring admin review..." : "No queued settlement entries. Audited mining, staking, casino, wallet, tip, and paper-trading entries will appear here when marked for review."}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Beginner Plus Business Review */}
-      <Card className="border-emerald-500/20 bg-emerald-500/5">
-        <CardHeader className="pb-2">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <CardTitle className="text-sm font-bold flex items-center gap-2"><Briefcase className="h-4 w-4 text-emerald-300" />Beginner Plus Business Review</CardTitle>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">{beginnerPlusBusinessReview.data?.pendingCount ?? pendingBusinessIntents.length} queued</Badge>
-              <Badge className="border-emerald-500/20 bg-emerald-500/10 text-emerald-300">Creator / profile / partner intents</Badge>
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground">{beginnerPlusBusinessReview.data?.betaNotice ?? "Loading Beginner Plus creator and business review queue. Publishing, payments, identity claims, monetization, and partner activation stay confirm-first and provider-gated."}</p>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {pendingBusinessIntents.map((intent: any) => (
-              <div key={intent.id} className="grid gap-3 rounded-xl border border-border/40 bg-background/40 p-3 lg:grid-cols-[1.1fr_0.9fr_0.8fr_auto] lg:items-center">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-semibold capitalize">{intent.action.replace(/-/g, " ")}</span>
-                    <Badge variant="outline">user #{intent.userId}</Badge>
-                    <Badge className="border-amber-500/20 bg-amber-500/10 text-amber-300">review required</Badge>
-                  </div>
-                  <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{intent.note ?? intent.intentKey}</p>
-                </div>
-                <div>
-                  <p className="font-mono text-xs font-bold">{intent.intentKey}</p>
-                  <p className="text-xs text-muted-foreground">{new Date(intent.createdAt).toLocaleString()}</p>
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300">{intent.status}</Badge>
-                  <Badge className="border-purple-500/20 bg-purple-500/10 text-purple-300">{intent.reviewStatus}</Badge>
-                </div>
-                <div className="flex gap-2 lg:justify-end">
-                  <Button size="sm" className="bg-green-600 text-white" disabled={updateBeginnerPlusBusinessReview.isPending} onClick={() => updateBeginnerPlusBusinessReview.mutate({ id: intent.id, reviewStatus: "approved", adminNote: "Approved in admin Beginner Plus business review; live provider-gated actions still require separate confirmation." })}><CheckCircle className="mr-1 h-3.5 w-3.5" />Approve</Button>
-                  <Button size="sm" variant="destructive" disabled={updateBeginnerPlusBusinessReview.isPending} onClick={() => updateBeginnerPlusBusinessReview.mutate({ id: intent.id, reviewStatus: "rejected", adminNote: "Rejected in admin Beginner Plus business review; revise offer, trust language, or provider-gated claims before retrying." })}><XCircle className="mr-1 h-3.5 w-3.5" />Reject</Button>
-                </div>
-              </div>
-            ))}
-            {!pendingBusinessIntents.length && (
-              <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
-                {beginnerPlusBusinessReview.isLoading ? "Loading Beginner Plus business intents requiring admin review..." : "No queued Beginner Plus business intents. Creator offers, monetization requests, and partner paths will appear here when users queue review-required guidance actions."}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Supplier Marketplace Powerhouse Review */}
-      <Card className="border-orange-500/20 bg-orange-500/5">
-        <CardHeader className="pb-2">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <CardTitle className="text-sm font-bold flex items-center gap-2"><ShoppingCart className="h-4 w-4 text-orange-300" />Supplier Marketplace Powerhouse</CardTitle>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">{activeSupplierOrders.length} active orders</Badge>
-              <Badge className="border-orange-500/20 bg-orange-500/10 text-orange-300">$44 cart fee · admin-reviewed</Badge>
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground">Real DHgate/Alibaba-style provider adapters stay server-side and credential-gated. Admin imports can seed real supplier rows, photos, review summaries, source URLs, and prices; every buyer cart remains quote-first before any provider submission or charge.</p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 lg:grid-cols-3 mb-4">
-            {supplierProviders.map((provider) => (
-              <div key={provider.provider} className="rounded-xl border border-border/40 bg-background/40 p-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Package className="h-4 w-4 text-orange-300" />
-                    <span className="text-sm font-semibold">{provider.label}</span>
-                  </div>
-                  <Badge className="border-blue-500/20 bg-blue-500/10 text-blue-300">{provider.status}</Badge>
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">{provider.message}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mb-4 flex flex-wrap gap-2">
-            <Button size="sm" className="bg-orange-600 text-white" disabled={importSupplierCatalog.isPending} onClick={handlePowerhouseImport}><Package className="mr-1 h-3.5 w-3.5" />Import sample supplier row</Button>
-            <Button size="sm" variant="outline" disabled={syncSupplierProvider.isPending} onClick={() => syncSupplierProvider.mutate({ provider: "dhgate", query: "popular creator livestream products" })}>Sync DHgate adapter</Button>
-            <Button size="sm" variant="outline" disabled={syncSupplierProvider.isPending} onClick={() => syncSupplierProvider.mutate({ provider: "alibaba", query: "popular ecommerce creator products" })}>Sync Alibaba adapter</Button>
-          </div>
-          <div className="space-y-3">
-            {supplierOrders.map((order) => {
-              const cartItems = Array.isArray(order.cartItems) ? order.cartItems : [];
-              return (
-                <div key={order.id} className="grid gap-3 rounded-xl border border-border/40 bg-background/40 p-3 lg:grid-cols-[1.2fr_0.8fr_0.8fr_auto] lg:items-center">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-semibold">Order request #{order.id}</span>
-                      <Badge variant="outline">user #{order.requesterId}</Badge>
-                      <Badge className="border-amber-500/20 bg-amber-500/10 text-amber-300">{order.provider}</Badge>
-                    </div>
-                    <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{cartItems.map((item: any) => `${item.title} × ${item.quantity}`).join(" · ") || "Cart details pending parse"}</p>
-                  </div>
-                  <div>
-                    <p className="font-mono text-sm font-bold">${Number(order.total ?? 0).toFixed(2)} total</p>
-                    <p className="text-xs text-muted-foreground">Fee ${Number(order.serviceFee ?? 0).toFixed(2)} · margin ${Number(order.platformMargin ?? 0).toFixed(2)}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300">{order.orderStatus}</Badge>
-                    <Badge className="border-purple-500/20 bg-purple-500/10 text-purple-300">{order.paymentStatus}</Badge>
-                  </div>
-                  <div className="flex gap-2 lg:justify-end">
-                    <Button size="sm" className="bg-green-600 text-white" disabled={updateSupplierOrder.isPending} onClick={() => updateSupplierOrder.mutate({ orderId: order.id, orderStatus: "approved", paymentStatus: "quote_sent", adminNote: "Approved for buyer quote. Provider submission and charge still require final confirmation." })}><CheckCircle className="mr-1 h-3.5 w-3.5" />Quote</Button>
-                    <Button size="sm" variant="destructive" disabled={updateSupplierOrder.isPending} onClick={() => updateSupplierOrder.mutate({ orderId: order.id, orderStatus: "rejected", paymentStatus: "not_charged", adminNote: "Rejected during supplier review; no provider submission or charge performed." })}><XCircle className="mr-1 h-3.5 w-3.5" />Reject</Button>
-                  </div>
-                </div>
-              );
-            })}
-            {!supplierOrders.length && (
-              <div className="rounded-xl border border-border/40 p-6 text-center text-sm text-muted-foreground">
-                {supplierOrderReview.isLoading ? "Loading supplier order requests..." : "No supplier order requests yet. Marketplace carts will appear here for quote approval before any supplier submission or charge."}
               </div>
             )}
           </div>

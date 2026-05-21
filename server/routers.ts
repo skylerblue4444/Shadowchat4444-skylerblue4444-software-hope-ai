@@ -23,14 +23,25 @@ import { nftMarketplaceRouter } from "./routers/nft-marketplace";
 import { web3Router } from "./routers/web3";
 import { miningRouter } from "./routers/mining";
 import { stakingRouter } from "./routers/staking";
-import { datingRouter } from "./routers/dating";
-import { marketplaceLiveRouter } from "./routers/marketplace-live";
-import { liveSocialRouter } from "./routers/live-social";
-import { skycoinRouter } from "./routers/skycoin";
-import { adminLiveRouter } from "./routers/admin-live";
+import { aiFeedRouter } from "./routers/ai-feed";
+import { financeRouter } from "./routers/finance";
+import { commerceMarketplaceRouter } from "./routers/commerce-marketplace";
 import { hopeAiRouter } from "./routers/hope-ai";
-import { gamesRouter } from "./routers/games";
-import { platformRouter } from "./routers/platform";
+
+// ─── Crypto Infrastructure Routers ────────────────────────────────────────────
+import { cryptoPaymentsRouter } from "./routers/crypto-payments";
+import { icoShopRouter } from "./routers/ico-shop";
+import { cryptoInfrastructureRouter } from "./routers/crypto-infrastructure";
+import { ammDexRouter } from "./routers/amm-dex";
+import { daoGovernanceRouter } from "./routers/dao-governance";
+import { aiAnalyticsRouter } from "./routers/ai-analytics";
+import { liveMiningRouter } from "./routers/live-mining";
+import { liveStakingRouter } from "./routers/live-staking";
+import { liveIcoShopRouter } from "./routers/live-ico-shop";
+import { casinoRouter } from "./routers/casino";
+import { socialRouter } from "./routers/social";
+import { realtimeRouter } from "./routers/realtime";
+import { youtubePuzzlesRouter } from "./routers/youtube-puzzles";
 
 export const appRouter = router({
   system: systemRouter,
@@ -87,14 +98,27 @@ export const appRouter = router({
   web3: web3Router,
   mining: miningRouter,
   staking: stakingRouter,
-  dating: datingRouter,
-  marketplaceLive: marketplaceLiveRouter,
-  liveSocial: liveSocialRouter,
-  skycoin: skycoinRouter,
-  adminLive: adminLiveRouter,
+  aiFeed: aiFeedRouter,
+  finance: financeRouter,
+  commerceMarketplace: commerceMarketplaceRouter,
   hopeAi: hopeAiRouter,
-  games: gamesRouter,
-  platform: platformRouter,
+
+  // ─── Crypto Infrastructure Routers ────────────────────────────────────────
+  cryptoPayments: cryptoPaymentsRouter,
+  icoShop: icoShopRouter,
+  cryptoInfra: cryptoInfrastructureRouter,
+  ammDex: ammDexRouter,
+  daoGov: daoGovernanceRouter,
+  aiAnalytics: aiAnalyticsRouter,
+  liveMining: liveMiningRouter,
+  liveStaking: liveStakingRouter,
+  liveIcoShop: liveIcoShopRouter,
+
+  // ─── Platform Features: Casino, Social, Real-time ───────────────────────
+  casino: casinoRouter,
+  socialPlatform: socialRouter,
+  realtime: realtimeRouter,
+  youtubePuzzles: youtubePuzzlesRouter,
 });
 
 export type AppRouter = typeof appRouter;

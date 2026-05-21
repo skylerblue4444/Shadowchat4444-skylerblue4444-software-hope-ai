@@ -4,7 +4,7 @@ import {
   User, Edit, Star, Award, TrendingUp, Shield, Zap,
   MessageSquare, Heart, Share2, Copy, CheckCircle,
   Twitter, Globe, Link, Camera, Settings, Crown,
-  BarChart2, Coins, Users, Calendar, Flag, Lock, Clock
+  BarChart2, Coins, Users, Calendar, Flag, Lock
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -45,14 +45,9 @@ export default function Profile() {
   const { data: user } = trpc.auth.me.useQuery();
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"activity" | "badges" | "nfts" | "stats">("activity");
-  const utils = trpc.useUtils();
   const { data: beginnerPlus } = trpc.platform.beginnerPlusBusinessMode.useQuery();
-  const { data: beginnerPlusHistory, isLoading: beginnerPlusHistoryLoading } = trpc.platform.recentBeginnerPlusBusinessIntents.useQuery({ limit: 6 }, { refetchInterval: 45000 });
   const beginnerPlusIntent = trpc.platform.createBeginnerPlusBusinessIntent.useMutation({
-    onSuccess: async (result) => {
-      toast.success(`Beginner Plus queued: ${result.action.label}${result.persisted ? " and saved for review" : ""}`);
-      await utils.platform.recentBeginnerPlusBusinessIntents.invalidate();
-    },
+    onSuccess: (result) => toast.success(`Beginner Plus queued: ${result.action.label}`),
     onError: (error) => toast.error(error.message),
   });
 
@@ -204,37 +199,6 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
-
-      <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-blue-950/10">
-        <CardHeader className="pb-3">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <CardTitle className="flex items-center gap-2 text-base"><Clock className="h-4 w-4 text-emerald-400" />Beginner Plus saved review history</CardTitle>
-            <Badge variant="outline">{beginnerPlusHistory?.intents?.length ?? 0} recent intents</Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {beginnerPlusHistory?.betaNotice ?? "Saved profile, creator, offer, and monetization guidance actions appear here after they are persisted for transparent review."}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {(beginnerPlusHistory?.intents ?? []).slice(0, 6).map((intent: any) => (
-              <div key={intent.id} className="rounded-xl border border-emerald-500/10 bg-emerald-500/5 p-3">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold capitalize text-emerald-300">{intent.action.replace(/-/g, " ")}</p>
-                  <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300 text-[10px]">{intent.reviewStatus}</Badge>
-                </div>
-                <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{intent.note ?? intent.status}</p>
-                <p className="mt-2 text-[11px] text-muted-foreground">{new Date(intent.createdAt).toLocaleString()}</p>
-              </div>
-            ))}
-            {!(beginnerPlusHistory?.intents ?? []).length && (
-              <div className="md:col-span-3 rounded-xl border border-border/40 p-4 text-sm text-muted-foreground">
-                {beginnerPlusHistoryLoading ? "Loading saved review history..." : "No saved Beginner Plus profile intents yet. Use Review trust, Build offer, or Monetization review to create a durable review record."}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Tabs */}
       <div className="flex gap-2">

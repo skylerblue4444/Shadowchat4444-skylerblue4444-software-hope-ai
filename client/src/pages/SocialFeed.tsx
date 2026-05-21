@@ -4,7 +4,7 @@ import {
   Heart, MessageSquare, Share2, Bookmark, MoreHorizontal,
   Image, Smile, Send, TrendingUp, Flame, Star, Zap,
   Users, Globe, Lock, ChevronDown, Play, Award,
-  ArrowUp, Repeat2, AtSign, Hash, Plus, X, Clock
+  ArrowUp, Repeat2, AtSign, Hash, Plus, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -169,14 +169,9 @@ export default function SocialFeed() {
   const [posts, setPosts] = useState(MOCK_POSTS);
   const [activeTab, setActiveTab] = useState<"for-you" | "following" | "trending">("for-you");
   const [postVisibility, setPostVisibility] = useState<"public" | "followers">("public");
-  const utils = trpc.useUtils();
   const { data: beginnerPlus } = trpc.platform.beginnerPlusBusinessMode.useQuery();
-  const { data: beginnerPlusHistory, isLoading: beginnerPlusHistoryLoading } = trpc.platform.recentBeginnerPlusBusinessIntents.useQuery({ limit: 5 }, { refetchInterval: 45000 });
   const beginnerPlusIntent = trpc.platform.createBeginnerPlusBusinessIntent.useMutation({
-    onSuccess: async (result) => {
-      toast.success(`Beginner Plus queued: ${result.action.label}${result.persisted ? " and saved for review" : ""}`);
-      await utils.platform.recentBeginnerPlusBusinessIntents.invalidate();
-    },
+    onSuccess: (result) => toast.success(`Beginner Plus queued: ${result.action.label}`),
     onError: (error) => toast.error(error.message),
   });
 
@@ -302,36 +297,6 @@ export default function SocialFeed() {
             <Button size="sm" variant="outline" className="w-full h-8 text-xs" onClick={handleBeginnerPlusReview} disabled={!content.trim() || beginnerPlusIntent.isPending}>
               <Star className="h-3.5 w-3.5 mr-1.5" />Queue guided post review
             </Button>
-          </CardContent>
-        </Card>
-
-        {/* Beginner Plus Durable History */}
-        <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-blue-950/10">
-          <CardContent className="pt-4">
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <h3 className="font-bold text-sm flex items-center gap-2"><Clock className="h-4 w-4 text-emerald-400" />Saved review history</h3>
-              <Badge variant="outline">{beginnerPlusHistory?.intents?.length ?? 0} recent</Badge>
-            </div>
-            <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              {beginnerPlusHistory?.betaNotice ?? "Beginner Plus review history loads signed-in saved actions for transparency before any provider-gated publishing, monetization, or partner activation."}
-            </p>
-            <div className="space-y-2">
-              {(beginnerPlusHistory?.intents ?? []).slice(0, 4).map((intent: any) => (
-                <div key={intent.id} className="rounded-lg border border-emerald-500/10 bg-emerald-500/5 p-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold capitalize text-emerald-300">{intent.action.replace(/-/g, " ")}</p>
-                    <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300 text-[10px]">{intent.reviewStatus}</Badge>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground line-clamp-2">{intent.note ?? intent.status}</p>
-                  <p className="mt-1 text-[10px] text-muted-foreground">{new Date(intent.createdAt).toLocaleString()}</p>
-                </div>
-              ))}
-              {!(beginnerPlusHistory?.intents ?? []).length && (
-                <div className="rounded-lg border border-border/40 p-3 text-[11px] text-muted-foreground">
-                  {beginnerPlusHistoryLoading ? "Loading saved review history..." : "No saved Beginner Plus business intents yet. Draft a post and queue guided review to create the first durable entry."}
-                </div>
-              )}
-            </div>
           </CardContent>
         </Card>
 

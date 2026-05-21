@@ -1,7 +1,6 @@
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, trades, portfolios, posts, messages, vaults, leaderboard } from "../drizzle/schema";
-import { recordSettlementEntry, settlementKey } from "./lib/settlement-ledger";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -94,23 +93,7 @@ export async function getUserByOpenId(openId: string) {
 export async function createTrade(userId: number, trade: any) {
   const db = await getDb();
   if (!db) return null;
-  const result: any = await db.insert(trades).values({ userId, ...trade });
-  const insertedId = result?.[0]?.insertId ?? result?.insertId ?? settlementKey("trade", userId, trade.pair, trade.type, trade.amount, trade.price, trade.total, Date.now());
-  await recordSettlementEntry(db, {
-    idempotencyKey: settlementKey("trading", userId, insertedId),
-    userId,
-    source: "trading",
-    direction: "debit",
-    token: `${trade.pair ?? "PAPER"}`.slice(0, 20),
-    amount: trade.total ?? trade.amount ?? 0,
-    provider: "paper-trading-engine",
-    providerStatus: "paper",
-    settlementStatus: "recorded",
-    reviewStatus: "queued",
-    memo: `Paper ${trade.type ?? "trade"} order recorded for ${trade.pair ?? "unknown pair"}`,
-    audit: { tradeId: insertedId, orderType: trade.type, price: trade.price, amount: trade.amount, total: trade.total },
-  });
-  return result;
+  return db.insert(trades).values({ userId, ...trade });
 }
 
 export async function getUserTrades(userId: number, limit = 50) {
@@ -146,26 +129,7 @@ export async function getFeedPosts(limit = 20, offset = 0) {
 export async function sendMessage(senderId: number, recipientId: number, content: string, tipAmount = 0) {
   const db = await getDb();
   if (!db) return null;
-  const result: any = await db.insert(messages).values({ senderId, recipientId, content, tipAmount });
-  if (tipAmount > 0) {
-    const insertedId = result?.[0]?.insertId ?? result?.insertId ?? settlementKey("message", senderId, recipientId, tipAmount, Date.now());
-    await recordSettlementEntry(db, {
-      idempotencyKey: settlementKey("message-tip", senderId, recipientId, insertedId),
-      userId: senderId,
-      counterpartyUserId: recipientId,
-      source: "tip",
-      direction: "debit",
-      token: "SKY4444",
-      amount: tipAmount,
-      provider: "social-tip-beta-ledger",
-      providerStatus: "beta_ledger",
-      settlementStatus: "recorded",
-      reviewStatus: "queued",
-      memo: "Message tip recorded on beta settlement ledger",
-      audit: { messageId: insertedId, contentPreview: content.slice(0, 80) },
-    });
-  }
-  return result;
+  return db.insert(messages).values({ senderId, recipientId, content, tipAmount });
 }
 
 // Vault queries

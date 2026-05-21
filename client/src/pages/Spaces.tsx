@@ -12,16 +12,16 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const LIVE_SPACES = [
-  { id: "s1", title: "Space Quest Command: supplier drops, creator rooms, and $44 cart reviews", host: "Skyler Blue", hostEmoji: "⚡", speakers: 5, listeners: 444, topic: "Crypto", live: true, pinned: true, duration: "2:44:08", source: "Seeded command room" },
-  { id: "s2", title: "Economic Powerhouse Room: 11 profit streams and supplier-import playbook", host: "CommerceOps", hostEmoji: "👑", speakers: 4, listeners: 880, topic: "Commerce", live: true, pinned: false, duration: "0:44:22", source: "Admin playbook" },
-  { id: "s3", title: "Creator Video Shopping Lab: reviews, pictures, and admin-approved orders", host: "ShopScout", hostEmoji: "💎", speakers: 4, listeners: 721, topic: "Commerce", live: true, pinned: false, duration: "0:32:14", source: "Supplier API/import" },
-  { id: "s4", title: "DeFi Beginner Plus Safety Desk: wallets, reviews, and gated settlement", host: "YieldFarmer99", hostEmoji: "🌾", speakers: 2, listeners: 428, topic: "DeFi", live: true, pinned: false, duration: "0:12:44", source: "Review-first finance" },
+  { id: "s1", title: "SKY4444 ICO AMA — Ask Me Anything!", host: "Skyler Blue", hostEmoji: "⚡", speakers: 3, listeners: 284, topic: "Crypto", live: true, pinned: true, duration: "1:24:08" },
+  { id: "s2", title: "Bitcoin Bull Run 2025 — Technical Analysis", host: "CryptoKing88", hostEmoji: "👑", speakers: 2, listeners: 1240, topic: "Bitcoin", live: true, pinned: false, duration: "0:48:22" },
+  { id: "s3", title: "NFT Market Trends — What's Hot in May 2025", host: "NFT_Queen", hostEmoji: "💎", speakers: 4, listeners: 840, topic: "NFT", live: true, pinned: false, duration: "0:22:14" },
+  { id: "s4", title: "DeFi Yield Farming Strategies for Beginners", host: "YieldFarmer99", hostEmoji: "🌾", speakers: 2, listeners: 428, topic: "DeFi", live: true, pinned: false, duration: "0:12:44" },
 ];
 
 const UPCOMING_SPACES = [
-  { id: "u1", title: "Real Supplier API Setup Clinic", host: "Skyler Blue", hostEmoji: "⚡", scheduled: "Tomorrow 3PM CDT", reminded: true },
-  { id: "u2", title: "Admin Catalog Import Sprint", host: "CommerceOps", hostEmoji: "🇺🇸", scheduled: "Friday 7PM CDT", reminded: false },
-  { id: "u3", title: "Space Quest Season One Launch", host: "MetaKing", hostEmoji: "🌐", scheduled: "Saturday 2PM CDT", reminded: false },
+  { id: "u1", title: "ShadowChat Product Roadmap 2025", host: "Skyler Blue", hostEmoji: "⚡", scheduled: "Tomorrow 3PM CDT", reminded: true },
+  { id: "u2", title: "TRUMP Coin: The Full Story", host: "TrumpArmy", hostEmoji: "🇺🇸", scheduled: "May 17, 7PM CDT", reminded: false },
+  { id: "u3", title: "Metaverse Land Rush — Buying Strategy", host: "MetaKing", hostEmoji: "🌐", scheduled: "May 18, 2PM CDT", reminded: false },
 ];
 
 const SPEAKERS = [
@@ -38,14 +38,7 @@ const TOPIC_COLORS: Record<string, string> = {
   Bitcoin: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   NFT: "bg-purple-500/10 text-purple-400 border-purple-500/20",
   DeFi: "bg-green-500/10 text-green-400 border-green-500/20",
-  Commerce: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
 };
-
-const SPACE_QUEST_DECK = [
-  { title: "Orbit Room", metric: "24/7", detail: "Seeded audio rooms keep the app feeling active while real backend rooms are added." },
-  { title: "Supplier Scout", metric: "$44", detail: "Cart-service review fee path aligns video shopping, admin import, and quote approval." },
-  { title: "Creator Commerce", metric: "11x", detail: "Memberships, tips, fees, ads, boosts, data, drops, bundles, referrals, services, and enterprise tools." },
-];
 
 export default function Spaces() {
   const [tab, setTab] = useState<"discover" | "live" | "upcoming" | "create">("discover");
@@ -69,25 +62,11 @@ export default function Spaces() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black flex items-center gap-2"><Radio className="h-6 w-6 text-blue-400" />Spaces</h1>
-          <p className="text-sm text-muted-foreground">Always-live audio rooms for Space Quest, supplier shopping, creator commerce, and review-first crypto guidance</p>
+          <p className="text-sm text-muted-foreground">Live audio rooms — talk crypto, Web3, and more</p>
         </div>
         <Button className="bg-blue-600 text-white border-0" size="sm" onClick={() => setTab("create")}>
           <Plus className="h-4 w-4 mr-2" />Start Space
         </Button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {SPACE_QUEST_DECK.map((item) => (
-          <Card key={item.title} className="border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/5">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-black">{item.title}</p>
-                <Badge className="bg-blue-500/10 text-blue-300 border-blue-500/20">{item.metric}</Badge>
-              </div>
-              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{item.detail}</p>
-            </CardContent>
-          </Card>
-        ))}
       </div>
 
       {/* In Space Banner */}
@@ -170,8 +149,7 @@ export default function Spaces() {
                           <span className="text-xs text-red-400 font-bold">LIVE</span>
                         </div>
                         <Badge className={`text-xs ${TOPIC_COLORS[space.topic]}`}>{space.topic}</Badge>
-                        {space.pinned && <Badge className="text-xs bg-blue-500/10 text-blue-400 border-blue-500/20">Pinned</Badge>}
-                        {space.source && <Badge className="text-xs bg-cyan-500/10 text-cyan-300 border-cyan-500/20">{space.source}</Badge>}
+                        {space.pinned && <Badge className="text-xs bg-blue-500/10 text-blue-400 border-blue-500/20">📌 Pinned</Badge>}
                       </div>
                       <p className="font-black text-sm leading-tight">{space.title}</p>
                       <p className="text-xs text-muted-foreground">by {space.host}</p>

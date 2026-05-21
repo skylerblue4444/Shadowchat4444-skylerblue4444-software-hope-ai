@@ -14,7 +14,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { trpc } from "@/lib/trpc";
 
 // ─── Product Data (DHgate/Alibaba style) ────────────────────────────────────
 const PRODUCTS = [
@@ -198,39 +197,9 @@ const REVIEWS_DATA = [
   { user: "David W.", rating: 4, date: "1 month ago", text: "Great value. Build quality is surprisingly good. Would recommend to anyone looking for budget options.", helpful: 23, avatar: "D", verified: false },
 ];
 
-type MarketplaceProduct = {
-  id: number;
-  catalogItemId?: number;
-  title: string;
-  price: number;
-  originalPrice: number;
-  rating: number;
-  reviews: number;
-  sold: number;
-  supplier: string;
-  origin: string;
-  minOrder: number;
-  shipping: string;
-  shippingDays: string;
-  category: string;
-  badge?: string;
-  images: string[];
-  description: string;
-  specs: Record<string, string>;
-  verified: boolean;
-  topSupplier: boolean;
-  provider?: "dhgate" | "alibaba" | "admin_import" | "private_supplier" | "mixed";
-  sourceLabel?: string;
-  reviewLabel?: string;
-  serviceFee?: number;
-  marginPercent?: number;
-  providerStatus?: string;
-  sourceUrl?: string | null;
-};
+type CartItem = { product: typeof PRODUCTS[0]; qty: number };
 
-type CartItem = { product: MarketplaceProduct; qty: number };
-
-function ProductModal({ product, onClose, onAddToCart }: { product: MarketplaceProduct; onClose: () => void; onAddToCart: (p: MarketplaceProduct, qty: number) => void }) {
+function ProductModal({ product, onClose, onAddToCart }: { product: typeof PRODUCTS[0]; onClose: () => void; onAddToCart: (p: typeof PRODUCTS[0], qty: number) => void }) {
   const [imgIdx, setImgIdx] = useState(0);
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState("details");
@@ -280,7 +249,6 @@ function ProductModal({ product, onClose, onAddToCart }: { product: MarketplaceP
             <div className="flex items-center gap-2 mb-3">
               {product.verified && <Badge className="bg-green-500/10 text-green-400 border-green-500/20 text-xs"><CheckCircle className="h-3 w-3 mr-1" />Verified Supplier</Badge>}
               {product.topSupplier && <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20 text-xs"><Award className="h-3 w-3 mr-1" />Top Supplier</Badge>}
-              {product.sourceLabel && <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 text-xs"><Globe className="h-3 w-3 mr-1" />{product.sourceLabel}</Badge>}
             </div>
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-3xl font-bold text-green-400">${product.price.toFixed(2)}</span>
@@ -323,15 +291,7 @@ function ProductModal({ product, onClose, onAddToCart }: { product: MarketplaceP
                 <button key={tab} onClick={() => setActiveTab(tab)} className={`pb-2 text-xs font-medium capitalize transition-colors border-b-2 ${activeTab === tab ? "border-blue-500 text-blue-400" : "border-transparent text-muted-foreground hover:text-foreground"}`}>{tab}</button>
               ))}
             </div>
-            {activeTab === "details" && (
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground leading-relaxed">{product.description}</p>
-                <div className="rounded-lg border border-orange-500/20 bg-orange-500/5 p-2 text-xs text-muted-foreground">
-                  Admin-reviewed commerce: carts are queued for quote, provider availability, shipping, and compliance review before any supplier order or charge. Service fee target: ${product.serviceFee ?? 44} per reviewed cart.
-                </div>
-                {product.reviewLabel && <p className="text-xs text-blue-300">Review source: {product.reviewLabel}</p>}
-              </div>
-            )}
+            {activeTab === "details" && <p className="text-xs text-muted-foreground leading-relaxed">{product.description}</p>}
             {activeTab === "specs" && (
               <div className="space-y-1.5">
                 {Object.entries(product.specs).map(([k, v]) => (
@@ -365,16 +325,13 @@ function ProductModal({ product, onClose, onAddToCart }: { product: MarketplaceP
   );
 }
 
-function CartDrawer({ cart, onClose, onRemove, onQtyChange, onCheckout, isCheckingOut = false }: {
+function CartDrawer({ cart, onClose, onRemove, onQtyChange, onCheckout }: {
   cart: CartItem[]; onClose: () => void;
   onRemove: (id: number) => void;
   onQtyChange: (id: number, qty: number) => void;
   onCheckout: () => void;
-  isCheckingOut?: boolean;
 }) {
   const total = cart.reduce((s, i) => s + i.product.price * i.qty, 0);
-  const serviceFee = cart.length > 0 ? 44 : 0;
-  const reviewedTotal = total + serviceFee;
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex justify-end" onClick={onClose}>
       <motion.div
@@ -413,13 +370,12 @@ function CartDrawer({ cart, onClose, onRemove, onQtyChange, onCheckout, isChecki
         {cart.length > 0 && (
           <div className="p-4 border-t border-border space-y-3">
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal</span><span className="font-bold">${total.toFixed(2)}</span></div>
-            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Admin review / cart service fee</span><span className="text-orange-400">${serviceFee.toFixed(2)}</span></div>
-            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Shipping</span><span className="text-blue-400">Quoted after supplier review</span></div>
-            <div className="flex justify-between font-bold"><span>Review estimate</span><span className="text-lg">${reviewedTotal.toFixed(2)}</span></div>
-            <Button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white border-0" onClick={onCheckout} disabled={isCheckingOut}>
-              {isCheckingOut ? "Queuing review..." : "Send to Admin Review"} <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Shipping</span><span className="text-green-400">Free</span></div>
+            <div className="flex justify-between font-bold"><span>Total</span><span className="text-lg">${total.toFixed(2)}</span></div>
+            <Button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white border-0" onClick={onCheckout}>
+              Checkout <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <p className="text-xs text-muted-foreground text-center">No supplier order or payment is submitted until admin quote approval. Payment rails can include USD, BTC, DOGE, TRUMP, or SKY4444 after review.</p>
+            <p className="text-xs text-muted-foreground text-center">Pay with USD, BTC, DOGE, TRUMP, or SKY4444</p>
           </div>
         )}
       </motion.div>
@@ -429,79 +385,17 @@ function CartDrawer({ cart, onClose, onRemove, onQtyChange, onCheckout, isChecki
 
 export default function Marketplace() {
   const [, setLocation] = useLocation();
-  const utils = trpc.useUtils();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [selectedProduct, setSelectedProduct] = useState<MarketplaceProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<typeof PRODUCTS[0] | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [wishlist, setWishlist] = useState<number[]>([]);
 
-  const supplierStatus = trpc.marketplaceLive.supplierProviderStatus.useQuery(undefined, { refetchInterval: 60000 });
-  const supplierCatalog = trpc.marketplaceLive.listSupplierCatalog.useQuery(
-    { search: search || undefined, category: category === "All" ? undefined : category, limit: 80 },
-    { refetchInterval: 60000 },
-  );
-  const mySupplierOrders = trpc.marketplaceLive.mySupplierOrderRequests.useQuery(undefined, { retry: false, refetchInterval: 60000 });
-  const createSupplierOrder = trpc.marketplaceLive.createSupplierOrderRequest.useMutation({
-    onSuccess: async (result) => {
-      const orderId = (result as any)?.order?.id ?? (result as any)?.id ?? "new";
-      toast.success(`Supplier order request #${orderId} queued for admin review.`, {
-        description: "No payment or supplier submission happens until the quote is approved.",
-      });
-      setCart([]);
-      setShowCart(false);
-      await utils.marketplaceLive.mySupplierOrderRequests.invalidate();
-    },
-    onError: (error) => toast.error(error.message),
-  });
-
-  const providerProducts: MarketplaceProduct[] = ((supplierCatalog.data ?? []) as any[]).map((item, index) => {
-    const price = Number(item.price ?? 0);
-    const compareAtPrice = Number(item.compareAtPrice ?? (price ? price * 1.6 : price + 25));
-    const images = Array.isArray(item.imageUrls) && item.imageUrls.length ? item.imageUrls : ["https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=400&h=400&fit=crop"];
-    const specs = item.specs && typeof item.specs === "object" && !Array.isArray(item.specs)
-      ? Object.fromEntries(Object.entries(item.specs).map(([key, value]) => [key, String(value)]))
-      : { Source: String(item.sourceLabel ?? "Supplier catalog"), Status: String(item.providerStatus ?? "reviewed") };
-    return {
-      id: Number(item.id ?? 100000 + index),
-      catalogItemId: item.providerStatus === "curated_seed" ? undefined : Number(item.id),
-      title: String(item.title ?? "Supplier Product"),
-      price,
-      originalPrice: Math.max(compareAtPrice, price || 1),
-      rating: Number(item.rating ?? 0),
-      reviews: Number(item.reviewCount ?? 0),
-      sold: Number(item.soldCount ?? 0),
-      supplier: String(item.supplierName ?? "Supplier"),
-      origin: String(item.supplierCountry ?? "Global"),
-      minOrder: Number(item.minOrder ?? 1),
-      shipping: String(item.shippingSummary ?? "Supplier quoted shipping"),
-      shippingDays: String(item.shippingDays ?? "Quoted after review"),
-      category: String(item.category ?? "General"),
-      badge: item.providerStatus === "live_api" ? "Live API" : item.providerStatus === "admin_import" ? "Admin Import" : "Curated",
-      images,
-      description: String(item.description ?? "Supplier catalog item queued for admin-reviewed fulfillment."),
-      specs,
-      verified: item.reviewStatus === "approved",
-      topSupplier: item.provider === "dhgate" || item.provider === "alibaba",
-      provider: item.provider ?? "admin_import",
-      sourceLabel: item.sourceLabel,
-      reviewLabel: item.reviewLabel,
-      serviceFee: Number(item.serviceFee ?? 44),
-      marginPercent: Number(item.marginPercent ?? 18),
-      providerStatus: item.providerStatus,
-      sourceUrl: item.sourceUrl,
-    };
-  });
-  const displayProducts: MarketplaceProduct[] = providerProducts.length ? providerProducts : (PRODUCTS as unknown as MarketplaceProduct[]);
-  const categoryOptions = Array.from(new Set(["All", ...CATEGORIES.filter((cat) => cat !== "All"), ...displayProducts.map((p) => p.category)]));
-  const supplierProviderRows = (((supplierStatus.data as any)?.providers ?? []) as any[]);
-  const pendingOrderCount = (((mySupplierOrders.data as any[]) ?? []).filter((order) => ["queued", "admin_review", "approved"].includes(order.orderStatus)).length);
-
-  const filtered = displayProducts.filter(p => {
-    const matchSearch = p.title.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase()) || p.supplier.toLowerCase().includes(search.toLowerCase());
+  const filtered = PRODUCTS.filter(p => {
+    const matchSearch = p.title.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
     const matchCat = category === "All" || p.category === category;
     return matchSearch && matchCat;
   }).sort((a, b) => {
@@ -512,7 +406,7 @@ export default function Marketplace() {
     return b.sold - a.sold;
   });
 
-  const addToCart = (product: MarketplaceProduct, qty = 1) => {
+  const addToCart = (product: typeof PRODUCTS[0], qty = 1) => {
     setCart(prev => {
       const existing = prev.find(i => i.product.id === product.id);
       if (existing) return prev.map(i => i.product.id === product.id ? { ...i, qty: i.qty + qty } : i);
@@ -528,29 +422,12 @@ export default function Marketplace() {
     toast.success(wishlist.includes(id) ? "Removed from wishlist" : "Added to wishlist!");
   };
 
-  const handleSupplierCheckout = () => {
-    if (!cart.length) return;
-    createSupplierOrder.mutate({
-      serviceFee: 44,
-      buyerNote: "Marketplace cart submitted for admin supplier quote, compliance review, and provider availability confirmation.",
-      items: cart.map((item) => ({
-        catalogItemId: item.product.catalogItemId,
-        title: item.product.title,
-        provider: item.product.provider ?? "admin_import",
-        price: item.product.price,
-        quantity: item.qty,
-        imageUrl: item.product.images[0],
-        supplierName: item.product.supplier,
-      })),
-    });
-  };
-
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} />}
-      <AnimatePresence>{showCart && <CartDrawer cart={cart} onClose={() => setShowCart(false)} onRemove={removeFromCart} onQtyChange={updateQty} onCheckout={handleSupplierCheckout} isCheckingOut={createSupplierOrder.isPending} />}</AnimatePresence>
+      <AnimatePresence>{showCart && <CartDrawer cart={cart} onClose={() => setShowCart(false)} onRemove={removeFromCart} onQtyChange={updateQty} onCheckout={() => { setShowCart(false); setLocation("/dashboard/checkout"); }} />}</AnimatePresence>
 
       {/* Header */}
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur border-b border-border/40">
@@ -571,7 +448,7 @@ export default function Marketplace() {
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search live supplier API + admin-import catalog..." className="pl-9 h-9" value={search} onChange={e => setSearch(e.target.value)} />
+              <Input placeholder="Search 50M+ products..." className="pl-9 h-9" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
             <select className="h-9 rounded-md border border-input bg-background px-2 text-xs focus:outline-none" value={sortBy} onChange={e => setSortBy(e.target.value)}>
               <option value="popular">Most Popular</option>
@@ -587,7 +464,7 @@ export default function Marketplace() {
         </div>
         {/* Category tabs */}
         <div className="flex gap-1 px-4 pb-2 overflow-x-auto">
-          {categoryOptions.map(cat => (
+          {CATEGORIES.map(cat => (
             <button key={cat} onClick={() => setCategory(cat)} className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors ${category === cat ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}>{cat}</button>
           ))}
         </div>
@@ -607,48 +484,6 @@ export default function Marketplace() {
             <span>{b.text}</span>
           </div>
         ))}
-      </div>
-
-      {/* Supplier API + Import Status */}
-      <div className="px-4 py-4 border-b border-border/40 bg-gradient-to-r from-orange-500/5 via-blue-500/5 to-purple-500/5">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <Card className="border-orange-500/20 bg-orange-500/5">
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Globe className="h-4 w-4 text-orange-400" />
-                <span className="font-semibold text-sm">Real Supplier Engine</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">DHgate and Alibaba-style provider adapters are server-side and credential-gated. Admin imports can immediately power the catalog with real supplier rows, photos, prices, review summaries, and source URLs.</p>
-            </CardContent>
-          </Card>
-          <Card className="border-blue-500/20 bg-blue-500/5">
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Shield className="h-4 w-4 text-blue-400" />
-                <span className="font-semibold text-sm">Admin-Reviewed Orders</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">Each cart becomes a review queue item with a $44 service-fee target, supplier-cost estimate, margin tracking, and no automatic charge until admin quote approval.</p>
-            </CardContent>
-          </Card>
-          <Card className="border-purple-500/20 bg-purple-500/5">
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="h-4 w-4 text-purple-400" />
-                <span className="font-semibold text-sm">Economic Powerhouse</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">Eleven streams: cart fees, supplier margin, promoted drops, video shopping, tips, memberships, ads, data insights, affiliate rails, Space Quest rewards, and premium admin sourcing.</p>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          {supplierProviderRows.map((provider) => (
-            <Badge key={provider.provider} className="bg-background/80 text-muted-foreground border-border">
-              {provider.label}: {provider.status}
-            </Badge>
-          ))}
-          {pendingOrderCount > 0 && <Badge className="bg-green-500/10 text-green-400 border-green-500/20">{pendingOrderCount} active review request{pendingOrderCount === 1 ? "" : "s"}</Badge>}
-          {supplierCatalog.isLoading && <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20">Loading supplier catalog</Badge>}
-        </div>
       </div>
 
       {/* Products */}
@@ -672,7 +507,6 @@ export default function Marketplace() {
                       <img src={product.images[0]} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                       <Badge className="absolute top-1.5 left-1.5 bg-red-600 text-white border-0 text-xs px-1.5 py-0.5">-{discount}%</Badge>
                       {product.badge && <Badge className="absolute top-1.5 right-1.5 bg-orange-500 text-white border-0 text-xs px-1.5 py-0.5">{product.badge}</Badge>}
-                      {product.sourceLabel && <Badge className="absolute bottom-1.5 left-1.5 bg-black/70 text-white border-0 text-[10px] px-1.5 py-0.5">{product.sourceLabel}</Badge>}
                       <button
                         onClick={e => { e.stopPropagation(); toggleWishlist(product.id); }}
                         className="absolute bottom-1.5 right-1.5 h-7 w-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
@@ -687,11 +521,10 @@ export default function Marketplace() {
                         <span className="text-xs font-medium">{product.rating}</span>
                         <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
                       </div>
-                      <div className="flex items-baseline gap-1 mb-1">
+                      <div className="flex items-baseline gap-1 mb-2">
                         <span className="text-sm font-bold text-green-400">${product.price.toFixed(2)}</span>
                         <span className="text-xs text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
                       </div>
-                      <p className="text-[10px] text-muted-foreground mb-2">{product.supplier} · {product.shippingDays}</p>
                       <Button size="sm" className="w-full h-7 text-xs bg-gradient-to-r from-orange-500 to-red-500 text-white border-0" onClick={() => addToCart(product)}>
                         Add to Cart
                       </Button>
@@ -724,7 +557,6 @@ export default function Marketplace() {
                           <span className="text-base font-bold text-green-400">${product.price.toFixed(2)}</span>
                           <span className="text-xs text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
                           <span className="text-xs text-muted-foreground">· {product.shipping}</span>
-                          {product.sourceLabel && <span className="text-xs text-blue-300">· {product.sourceLabel}</span>}
                         </div>
                         <div className="flex gap-2">
                           <Button size="sm" className="h-7 text-xs bg-gradient-to-r from-orange-500 to-red-500 text-white border-0" onClick={() => addToCart(product)}>Add to Cart</Button>

@@ -2,7 +2,6 @@ import { z } from "zod";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { miningSessions, transactions, users } from "../../drizzle/schema";
 import { getDb } from "../db";
-import { recordSettlementEntry, settlementKey } from "../lib/settlement-ledger";
 import { protectedProcedure, router, TRPCError } from "../_core/trpc";
 
 const mineableCoins = ["SKY4444", "TRUMP", "DOGE", "USDT", "BTC", "MONERO", "SHADOW"] as const;
@@ -101,30 +100,13 @@ export const miningRouter = router({
           .set({ balance: sql`${users.balance} + ${reward}` })
           .where(eq(users.id, ctx.user.id));
 
-        const [transaction] = await tx.insert(transactions).values({
+        await tx.insert(transactions).values({
           userId: ctx.user.id,
           type: "mining",
           token: input.coin,
           amount: reward,
           status: "complete",
           memo: `Beta mining reward for ${input.coin}`,
-        }).$returningId();
-
-        await recordSettlementEntry(tx, {
-          idempotencyKey: settlementKey("mining", ctx.user.id, input.sessionId, input.coin, reward),
-          transactionId: transaction.id,
-          userId: ctx.user.id,
-          source: "mining",
-          direction: "credit",
-          token: input.coin,
-          amount: reward,
-          providerStatus: "beta_ledger",
-          memo: `Beta mining reward for ${input.coin}`,
-          audit: {
-            router: "mining.recordBlockFound",
-            sessionId: input.sessionId,
-            providerGate: "no external transfer executed",
-          },
         });
       });
 
