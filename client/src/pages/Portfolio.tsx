@@ -1,6 +1,28 @@
 import { useState } from "react";
-import { LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, TrendingDown, Eye, EyeOff } from "lucide-react";
@@ -27,9 +49,33 @@ export default function Portfolio() {
   const [showValues, setShowValues] = useState(true);
 
   const assets: Asset[] = [
-    { symbol: "SKY", name: "SkyCoin", amount: 50000, price: 0.045, value: 2250, change24h: 5.2, allocation: 35 },
-    { symbol: "BTC", name: "Bitcoin", amount: 0.5, price: 67500, value: 33750, change24h: 2.1, allocation: 52 },
-    { symbol: "ETH", name: "Ethereum", amount: 10, price: 3500, value: 35000, change24h: -1.3, allocation: 13 },
+    {
+      symbol: "SKY",
+      name: "SkyCoin",
+      amount: 50000,
+      price: 0.045,
+      value: 2250,
+      change24h: 5.2,
+      allocation: 35,
+    },
+    {
+      symbol: "BTC",
+      name: "Bitcoin",
+      amount: 0.5,
+      price: 67500,
+      value: 33750,
+      change24h: 2.1,
+      allocation: 52,
+    },
+    {
+      symbol: "ETH",
+      name: "Ethereum",
+      amount: 10,
+      price: 3500,
+      value: 35000,
+      change24h: -1.3,
+      allocation: 13,
+    },
   ];
 
   const portfolioData: PortfolioData[] = [
@@ -53,21 +99,29 @@ export default function Portfolio() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Portfolio</h2>
-          <p className="text-sm text-gray-400 mt-1">Track your assets and performance</p>
+          <p className="text-sm text-gray-400 mt-1">
+            Track your assets and performance
+          </p>
         </div>
         <Button
           onClick={() => setShowValues(!showValues)}
           variant="outline"
           size="sm"
         >
-          {showValues ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          {showValues ? (
+            <Eye className="w-4 h-4" />
+          ) : (
+            <EyeOff className="w-4 h-4" />
+          )}
         </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total Value</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total Value
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-purple-400">
@@ -79,10 +133,14 @@ export default function Portfolio() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">24h Change</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              24h Change
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold flex items-center gap-2 ${totalChange >= 0 ? "text-green-400" : "text-red-400"}`}>
+            <div
+              className={`text-3xl font-bold flex items-center gap-2 ${totalChange >= 0 ? "text-green-400" : "text-red-400"}`}
+            >
               {showValues ? `$${totalChange.toLocaleString()}` : "••••••"}
               {totalChange >= 0 ? (
                 <TrendingUp className="w-6 h-6" />
@@ -96,10 +154,14 @@ export default function Portfolio() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Assets</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Assets
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-400">{assets.length}</div>
+            <div className="text-3xl font-bold text-blue-400">
+              {assets.length}
+            </div>
             <p className="text-xs text-gray-500 mt-1">Diversified</p>
           </CardContent>
         </Card>
@@ -128,7 +190,7 @@ export default function Portfolio() {
                   border: "1px solid #374151",
                   borderRadius: "8px",
                 }}
-                formatter={(value) => `$${value.toLocaleString()}`}
+                formatter={value => `$${value.toLocaleString()}`}
               />
               <Area
                 type="monotone"
@@ -164,7 +226,7 @@ export default function Portfolio() {
                     <Cell key={`cell-${index}`} fill={colors[index]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                <Tooltip formatter={value => `$${value.toLocaleString()}`} />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
@@ -175,16 +237,23 @@ export default function Portfolio() {
             <CardTitle>Holdings</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {assets.map((asset) => (
-              <div key={asset.symbol} className="p-3 border border-gray-700 rounded-lg">
+            {assets.map(asset => (
+              <div
+                key={asset.symbol}
+                className="p-3 border border-gray-700 rounded-lg"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <p className="font-semibold text-sm">{asset.name}</p>
-                    <p className="text-xs text-gray-400">{asset.amount} {asset.symbol}</p>
+                    <p className="text-xs text-gray-400">
+                      {asset.amount} {asset.symbol}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-sm text-purple-400">
-                      {showValues ? `$${asset.value.toLocaleString()}` : "••••••"}
+                      {showValues
+                        ? `$${asset.value.toLocaleString()}`
+                        : "••••••"}
                     </p>
                     <Badge
                       className={`text-xs ${
@@ -193,7 +262,8 @@ export default function Portfolio() {
                           : "bg-red-600 text-white"
                       }`}
                     >
-                      {asset.change24h >= 0 ? "+" : ""}{asset.change24h}%
+                      {asset.change24h >= 0 ? "+" : ""}
+                      {asset.change24h}%
                     </Badge>
                   </div>
                 </div>
@@ -226,7 +296,7 @@ export default function Portfolio() {
                   border: "1px solid #374151",
                   borderRadius: "8px",
                 }}
-                formatter={(value) => `$${value.toLocaleString()}`}
+                formatter={value => `$${value.toLocaleString()}`}
               />
               <Legend />
               <Bar dataKey="btc" stackId="a" fill="#f59e0b" name="Bitcoin" />
@@ -242,10 +312,18 @@ export default function Portfolio() {
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          <Button variant="outline" className="w-full">Buy</Button>
-          <Button variant="outline" className="w-full">Sell</Button>
-          <Button variant="outline" className="w-full">Swap</Button>
-          <Button variant="outline" className="w-full">Stake</Button>
+          <Button variant="outline" className="w-full">
+            Buy
+          </Button>
+          <Button variant="outline" className="w-full">
+            Sell
+          </Button>
+          <Button variant="outline" className="w-full">
+            Swap
+          </Button>
+          <Button variant="outline" className="w-full">
+            Stake
+          </Button>
         </CardContent>
       </Card>
     </div>

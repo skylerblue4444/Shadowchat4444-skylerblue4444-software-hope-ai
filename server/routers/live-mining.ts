@@ -12,7 +12,7 @@ export const liveMiningRouter = router({
   // ─── Get Mining Configs ───────────────────────────────────────────────────
   getMiningConfigs: publicProcedure.query(async () => {
     return {
-      coins: Object.values(UnifiedMining.MINING_CONFIGS).map((config) => ({
+      coins: Object.values(UnifiedMining.MINING_CONFIGS).map(config => ({
         coin: config.coin,
         blockReward: config.blockReward,
         blockTime: config.blockTime,
@@ -40,14 +40,14 @@ export const liveMiningRouter = router({
         coin: z.string(),
         hashrate: z.string(),
         durationHours: z.number(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const durationSeconds = input.durationHours * 3600;
       const reward = UnifiedMining.calculateExpectedReward(
         input.coin as MineableCoin,
         input.hashrate,
-        durationSeconds,
+        durationSeconds
       );
 
       return {
@@ -64,12 +64,12 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         hashrate: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const validation = UnifiedMining.validateMiningSession(
         input.coin as MineableCoin,
-        input.hashrate,
+        input.hashrate
       );
 
       if (!validation.valid) {
@@ -93,13 +93,13 @@ export const liveMiningRouter = router({
         coin: z.string(),
         totalHashrate: z.string(),
         totalMiners: z.number(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const stats = UnifiedMining.calculatePoolStats(
         input.coin as MineableCoin,
         input.totalHashrate,
-        input.totalMiners,
+        input.totalMiners
       );
 
       return stats;
@@ -114,7 +114,7 @@ export const liveMiningRouter = router({
         electricityCostPerKwh: z.string(),
         hardwareCostUsd: z.string(),
         coinPriceUsd: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const roi = UnifiedMining.calculateMiningROI(
@@ -122,7 +122,7 @@ export const liveMiningRouter = router({
         input.hashrate,
         input.electricityCostPerKwh,
         input.hardwareCostUsd,
-        input.coinPriceUsd,
+        input.coinPriceUsd
       );
 
       return roi;
@@ -134,12 +134,12 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         currentBlockHeight: z.number(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const halving = UnifiedMining.calculateHalvingImpact(
         input.coin as MineableCoin,
-        input.currentBlockHeight,
+        input.currentBlockHeight
       );
 
       return halving;
@@ -168,7 +168,7 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         limit: z.number().default(20),
-      }),
+      })
     )
     .query(async ({ input }) => {
       return {
@@ -266,7 +266,7 @@ export const liveMiningRouter = router({
       z.object({
         coin: z.string(),
         days: z.number().default(30),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const history = [];

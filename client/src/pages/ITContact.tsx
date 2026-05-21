@@ -2,8 +2,17 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
-  Phone, Mail, MapPin, Clock, Send, CheckCircle,
-  MessageSquare, HeadphonesIcon, Zap, Building2, ArrowRight
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle,
+  MessageSquare,
+  HeadphonesIcon,
+  Zap,
+  Building2,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,7 +75,12 @@ const DEPARTMENTS = [
 export default function ITContact() {
   const [, setLocation] = useLocation();
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", company: "", department: "General Inquiry", message: "",
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    department: "General Inquiry",
+    message: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -78,7 +92,7 @@ export default function ITContact() {
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, 1200));
     setLoading(false);
     setSubmitted(true);
     toast.success("Message sent! We'll be in touch within 2 hours.");
@@ -90,14 +104,20 @@ export default function ITContact() {
       <div className="border-b border-border/40 bg-muted/20 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <button onClick={() => setLocation("/it")} className="hover:text-foreground transition-colors">Home</button>
+            <button
+              onClick={() => setLocation("/it")}
+              className="hover:text-foreground transition-colors"
+            >
+              Home
+            </button>
             <span>/</span>
             <span className="text-foreground">Contact</span>
           </div>
           <h1 className="text-4xl font-bold mb-3">Get In Touch</h1>
           <p className="text-muted-foreground max-w-xl">
-            Ready to transform your IT infrastructure? Have a question? Our team is here to help.
-            Reach out and we'll respond within 2 business hours.
+            Ready to transform your IT infrastructure? Have a question? Our team
+            is here to help. Reach out and we'll respond within 2 business
+            hours.
           </p>
         </div>
       </div>
@@ -107,18 +127,26 @@ export default function ITContact() {
           {/* Contact Methods */}
           <div className="lg:col-span-1 space-y-5">
             <h2 className="text-xl font-bold mb-6">Contact Options</h2>
-            {CONTACT_METHODS.map((method) => (
+            {CONTACT_METHODS.map(method => (
               <a key={method.title} href={method.href} className="block group">
                 <Card className="border-border/50 hover:border-blue-500/30 transition-all group-hover:-translate-y-0.5">
                   <CardContent className="pt-4 pb-4">
                     <div className="flex items-start gap-4">
-                      <div className={`h-10 w-10 rounded-lg ${method.bg} flex items-center justify-center shrink-0`}>
+                      <div
+                        className={`h-10 w-10 rounded-lg ${method.bg} flex items-center justify-center shrink-0`}
+                      >
                         <method.icon className={`h-5 w-5 ${method.color}`} />
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground mb-0.5">{method.title}</p>
-                        <p className={`font-semibold text-sm ${method.color}`}>{method.value}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">{method.sub}</p>
+                        <p className="text-xs text-muted-foreground mb-0.5">
+                          {method.title}
+                        </p>
+                        <p className={`font-semibold text-sm ${method.color}`}>
+                          {method.value}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {method.sub}
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -140,7 +168,7 @@ export default function ITContact() {
                     { day: "Monday – Friday", hours: "8:00 AM – 6:00 PM CST" },
                     { day: "Saturday", hours: "9:00 AM – 2:00 PM CST" },
                     { day: "Sunday", hours: "Emergency support only" },
-                  ].map((row) => (
+                  ].map(row => (
                     <div key={row.day} className="flex justify-between">
                       <span className="text-muted-foreground">{row.day}</span>
                       <span className="font-medium text-xs">{row.hours}</span>
@@ -150,7 +178,9 @@ export default function ITContact() {
                 <div className="mt-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-xs text-green-400 font-medium">24/7 Emergency Support Available</span>
+                    <span className="text-xs text-green-400 font-medium">
+                      24/7 Emergency Support Available
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -164,7 +194,8 @@ export default function ITContact() {
                   <div>
                     <p className="font-semibold text-sm mb-1">Service Area</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Northwest Arkansas & surrounding regions.<br />
+                      Northwest Arkansas & surrounding regions.
+                      <br />
                       Remote support available nationwide.
                     </p>
                   </div>
@@ -190,74 +221,113 @@ export default function ITContact() {
                     className="text-center py-12"
                   >
                     <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Message Received!</h3>
+                    <h3 className="text-xl font-bold mb-2">
+                      Message Received!
+                    </h3>
                     <p className="text-muted-foreground mb-6">
-                      Thank you, {form.name}. We'll respond to {form.email} within 2 business hours.
+                      Thank you, {form.name}. We'll respond to {form.email}{" "}
+                      within 2 business hours.
                     </p>
                     <div className="flex flex-wrap justify-center gap-3">
-                      <Button onClick={() => setSubmitted(false)} variant="outline">Send Another</Button>
-                      <Button onClick={() => setLocation("/it/book")}>Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                      <Button
+                        onClick={() => setSubmitted(false)}
+                        variant="outline"
+                      >
+                        Send Another
+                      </Button>
+                      <Button onClick={() => setLocation("/it/book")}>
+                        Book Consultation{" "}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
                     </div>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Full Name *</label>
+                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                          Full Name *
+                        </label>
                         <Input
                           placeholder="John Smith"
                           value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          onChange={e =>
+                            setForm({ ...form, name: e.target.value })
+                          }
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Email Address *</label>
+                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                          Email Address *
+                        </label>
                         <Input
                           type="email"
                           placeholder="john@company.com"
                           value={form.email}
-                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          onChange={e =>
+                            setForm({ ...form, email: e.target.value })
+                          }
                           required
                         />
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Phone Number</label>
+                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                          Phone Number
+                        </label>
                         <Input
                           type="tel"
                           placeholder="(479) 555-0100"
                           value={form.phone}
-                          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                          onChange={e =>
+                            setForm({ ...form, phone: e.target.value })
+                          }
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Company Name</label>
+                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                          Company Name
+                        </label>
                         <Input
                           placeholder="Acme Corp"
                           value={form.company}
-                          onChange={(e) => setForm({ ...form, company: e.target.value })}
+                          onChange={e =>
+                            setForm({ ...form, company: e.target.value })
+                          }
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Department / Topic</label>
+                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                        Department / Topic
+                      </label>
                       <select
                         className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
                         value={form.department}
-                        onChange={(e) => setForm({ ...form, department: e.target.value })}
+                        onChange={e =>
+                          setForm({ ...form, department: e.target.value })
+                        }
                       >
-                        {DEPARTMENTS.map((d) => <option key={d} value={d}>{d}</option>)}
+                        {DEPARTMENTS.map(d => (
+                          <option key={d} value={d}>
+                            {d}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Message *</label>
+                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                        Message *
+                      </label>
                       <Textarea
                         placeholder="Tell us about your IT needs, current challenges, or questions..."
                         rows={5}
                         value={form.message}
-                        onChange={(e) => setForm({ ...form, message: e.target.value })}
+                        onChange={e =>
+                          setForm({ ...form, message: e.target.value })
+                        }
                         required
                       />
                     </div>
@@ -265,7 +335,11 @@ export default function ITContact() {
                       <p className="text-xs text-muted-foreground">
                         We typically respond within 2 business hours.
                       </p>
-                      <Button type="submit" disabled={loading} className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 min-w-[140px]">
+                      <Button
+                        type="submit"
+                        disabled={loading}
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 min-w-[140px]"
+                      >
                         {loading ? (
                           <span className="flex items-center gap-2">
                             <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

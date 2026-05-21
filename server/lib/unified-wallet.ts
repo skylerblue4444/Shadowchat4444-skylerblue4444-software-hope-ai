@@ -6,9 +6,30 @@
 
 import { Decimal } from "decimal.js";
 
-export type CoinType = "SKYCOIN4444" | "SHADOW" | "TRUMP" | "DOGE" | "BTC" | "MONERO" | "USDT";
-export type TransactionType = "send" | "receive" | "stake" | "unstake" | "mine" | "burn" | "swap" | "trade" | "ico_invest" | "ico_distribute";
-export type TransactionStatus = "pending" | "confirmed" | "failed" | "cancelled";
+export type CoinType =
+  | "SKYCOIN4444"
+  | "SHADOW"
+  | "TRUMP"
+  | "DOGE"
+  | "BTC"
+  | "MONERO"
+  | "USDT";
+export type TransactionType =
+  | "send"
+  | "receive"
+  | "stake"
+  | "unstake"
+  | "mine"
+  | "burn"
+  | "swap"
+  | "trade"
+  | "ico_invest"
+  | "ico_distribute";
+export type TransactionStatus =
+  | "pending"
+  | "confirmed"
+  | "failed"
+  | "cancelled";
 
 export interface Wallet {
   walletId: string;
@@ -109,10 +130,7 @@ export class UnifiedWallet {
   /**
    * Create wallet for user
    */
-  static createWallet(
-    userId: number,
-    coinType: CoinType,
-  ): Wallet {
+  static createWallet(userId: number, coinType: CoinType): Wallet {
     return {
       walletId: `WALLET-${coinType}-${userId}-${Date.now()}`,
       userId,
@@ -133,9 +151,7 @@ export class UnifiedWallet {
    * Get or create all wallets for user
    */
   static initializeUserWallets(userId: number): Wallet[] {
-    return this.SUPPORTED_COINS.map((coin) =>
-      this.createWallet(userId, coin),
-    );
+    return this.SUPPORTED_COINS.map(coin => this.createWallet(userId, coin));
   }
 
   /**
@@ -144,7 +160,7 @@ export class UnifiedWallet {
   static calculateAvailableBalance(
     balance: string,
     stakedBalance: string,
-    lockedBalance: string,
+    lockedBalance: string
   ): string {
     return new Decimal(balance)
       .minus(stakedBalance)
@@ -155,15 +171,9 @@ export class UnifiedWallet {
   /**
    * Calculate transaction fee
    */
-  static calculateTransactionFee(
-    amount: string,
-    coinType: CoinType,
-  ): string {
+  static calculateTransactionFee(amount: string, coinType: CoinType): string {
     const feePercentage = this.TRANSACTION_FEES[coinType];
-    return new Decimal(amount)
-      .times(feePercentage)
-      .dividedBy(100)
-      .toFixed(18);
+    return new Decimal(amount).times(feePercentage).dividedBy(100).toFixed(18);
   }
 
   /**
@@ -174,7 +184,7 @@ export class UnifiedWallet {
     type: TransactionType,
     amount: string,
     toAddress: string,
-    metadata?: Record<string, any>,
+    metadata?: Record<string, any>
   ): Transaction {
     const fee = this.calculateTransactionFee(amount, wallet.coinType);
 
@@ -201,7 +211,7 @@ export class UnifiedWallet {
   static sendTransaction(
     wallet: Wallet,
     amount: string,
-    toAddress: string,
+    toAddress: string
   ): { success: boolean; transaction?: Transaction; error?: string } {
     const fee = this.calculateTransactionFee(amount, wallet.coinType);
     const totalAmount = new Decimal(amount).plus(fee);
@@ -217,7 +227,7 @@ export class UnifiedWallet {
       wallet,
       "send",
       amount,
-      toAddress,
+      toAddress
     );
 
     return {
@@ -232,14 +242,9 @@ export class UnifiedWallet {
   static receiveTransaction(
     wallet: Wallet,
     amount: string,
-    fromAddress: string,
+    fromAddress: string
   ): Transaction {
-    return this.recordTransaction(
-      wallet,
-      "receive",
-      amount,
-      fromAddress,
-    );
+    return this.recordTransaction(wallet, "receive", amount, fromAddress);
   }
 
   /**
@@ -247,9 +252,9 @@ export class UnifiedWallet {
    */
   static getPortfolioSummary(
     wallets: Wallet[],
-    coinPrices: Record<CoinType, string>,
+    coinPrices: Record<CoinType, string>
   ): PortfolioSummary {
-    const coins: CoinBalance[] = wallets.map((wallet) => {
+    const coins: CoinBalance[] = wallets.map(wallet => {
       const price = new Decimal(coinPrices[wallet.coinType] || "0");
       const usdValue = new Decimal(wallet.balance).times(price);
 
@@ -266,10 +271,10 @@ export class UnifiedWallet {
 
     const totalValue = coins.reduce(
       (sum, coin) => new Decimal(sum).plus(coin.usdValue),
-      new Decimal(0),
+      new Decimal(0)
     );
 
-    const coinsWithPercentage = coins.map((coin) => ({
+    const coinsWithPercentage = coins.map(coin => ({
       ...coin,
       percentageOfPortfolio: new Decimal(coin.usdValue)
         .dividedBy(totalValue)
@@ -279,17 +284,17 @@ export class UnifiedWallet {
 
     const totalBalance = wallets.reduce(
       (sum, w) => new Decimal(sum).plus(w.balance),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const totalStaked = wallets.reduce(
       (sum, w) => new Decimal(sum).plus(w.stakedBalance),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const totalLocked = wallets.reduce(
       (sum, w) => new Decimal(sum).plus(w.lockedBalance),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     return {
@@ -308,12 +313,12 @@ export class UnifiedWallet {
    */
   static getTransactionHistory(
     transactions: Transaction[],
-    limit: number = 50,
+    limit: number = 50
   ): TransactionHistory[] {
     return transactions
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit)
-      .map((tx) => ({
+      .map(tx => ({
         txId: tx.txId,
         coinType: tx.coinType,
         type: tx.type,
@@ -330,16 +335,16 @@ export class UnifiedWallet {
    */
   static getWalletActivity(
     userId: number,
-    transactions: Transaction[],
+    transactions: Transaction[]
   ): WalletActivity {
     const totalVolume = transactions.reduce(
       (sum, tx) => new Decimal(sum).plus(tx.amount),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const totalFeesPaid = transactions.reduce(
       (sum, tx) => new Decimal(sum).plus(tx.fee),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const averageTransactionSize =
@@ -349,13 +354,14 @@ export class UnifiedWallet {
 
     // Find most used coin
     const coinCounts: Record<CoinType, number> = {} as any;
-    transactions.forEach((tx) => {
+    transactions.forEach(tx => {
       coinCounts[tx.coinType] = (coinCounts[tx.coinType] || 0) + 1;
     });
 
-    const mostUsedCoin = Object.entries(coinCounts).sort(
-      ([, a], [, b]) => b - a,
-    )[0]?.[0] as CoinType || "SKYCOIN4444";
+    const mostUsedCoin =
+      (Object.entries(coinCounts).sort(
+        ([, a], [, b]) => b - a
+      )[0]?.[0] as CoinType) || "SKYCOIN4444";
 
     return {
       userId,
@@ -375,7 +381,7 @@ export class UnifiedWallet {
     fromWallet: Wallet,
     toWallet: Wallet,
     fromAmount: string,
-    exchangeRate: string,
+    exchangeRate: string
   ): { success: boolean; transaction?: Transaction; error?: string } {
     const fee = this.calculateTransactionFee(fromAmount, fromWallet.coinType);
     const totalAmount = new Decimal(fromAmount).plus(fee);
@@ -398,7 +404,7 @@ export class UnifiedWallet {
         toAmount: toAmount.toFixed(18),
         toCoin: toWallet.coinType,
         exchangeRate,
-      },
+      }
     );
 
     return {
@@ -413,7 +419,7 @@ export class UnifiedWallet {
   static stakeCoins(
     wallet: Wallet,
     amount: string,
-    duration: number, // days
+    duration: number // days
   ): { success: boolean; transaction?: Transaction; error?: string } {
     if (new Decimal(wallet.availableBalance).lt(amount)) {
       return {
@@ -430,7 +436,7 @@ export class UnifiedWallet {
       {
         duration,
         stakingStartDate: new Date(),
-      },
+      }
     );
 
     return {
@@ -444,7 +450,7 @@ export class UnifiedWallet {
    */
   static burnCoins(
     wallet: Wallet,
-    amount: string,
+    amount: string
   ): { success: boolean; transaction?: Transaction; error?: string } {
     if (new Decimal(wallet.availableBalance).lt(amount)) {
       return {
@@ -460,7 +466,7 @@ export class UnifiedWallet {
       "0x0000000000000000000000000000000000000000",
       {
         burnType: "user_initiated",
-      },
+      }
     );
 
     return {
@@ -474,9 +480,9 @@ export class UnifiedWallet {
    */
   static getWalletByCoin(
     wallets: Wallet[],
-    coinType: CoinType,
+    coinType: CoinType
   ): Wallet | undefined {
-    return wallets.find((w) => w.coinType === coinType);
+    return wallets.find(w => w.coinType === coinType);
   }
 
   /**
@@ -484,7 +490,7 @@ export class UnifiedWallet {
    */
   static getAllWalletAddresses(wallets: Wallet[]): Record<CoinType, string> {
     const addresses: any = {};
-    wallets.forEach((wallet) => {
+    wallets.forEach(wallet => {
       addresses[wallet.coinType] = wallet.address;
     });
     return addresses;
@@ -493,14 +499,11 @@ export class UnifiedWallet {
   /**
    * Update wallet balance
    */
-  static updateWalletBalance(
-    wallet: Wallet,
-    newBalance: string,
-  ): Wallet {
+  static updateWalletBalance(wallet: Wallet, newBalance: string): Wallet {
     const availableBalance = this.calculateAvailableBalance(
       newBalance,
       wallet.stakedBalance,
-      wallet.lockedBalance,
+      wallet.lockedBalance
     );
 
     return {
@@ -527,9 +530,9 @@ export class UnifiedWallet {
    */
   static getTransactionById(
     transactions: Transaction[],
-    txId: string,
+    txId: string
   ): Transaction | undefined {
-    return transactions.find((tx) => tx.txId === txId);
+    return transactions.find(tx => tx.txId === txId);
   }
 
   /**
@@ -537,9 +540,9 @@ export class UnifiedWallet {
    */
   static getTransactionsByType(
     transactions: Transaction[],
-    type: TransactionType,
+    type: TransactionType
   ): Transaction[] {
-    return transactions.filter((tx) => tx.type === type);
+    return transactions.filter(tx => tx.type === type);
   }
 
   /**
@@ -547,8 +550,8 @@ export class UnifiedWallet {
    */
   static getTransactionsByStatus(
     transactions: Transaction[],
-    status: TransactionStatus,
+    status: TransactionStatus
   ): Transaction[] {
-    return transactions.filter((tx) => tx.status === status);
+    return transactions.filter(tx => tx.status === status);
   }
 }

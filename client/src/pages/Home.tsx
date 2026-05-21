@@ -1,8 +1,22 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, TrendingUp, Users, Zap, BarChart3, Globe, Lock } from "lucide-react";
+import {
+  Loader2,
+  TrendingUp,
+  Users,
+  Zap,
+  BarChart3,
+  Globe,
+  Lock,
+} from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
@@ -71,7 +85,8 @@ export default function Home() {
             The Complete Web3 Fintech Ecosystem
           </h1>
           <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-            47,046+ lines of production-grade code. 5 industry engines. Multi-chain blockchain support. Enterprise-ready architecture.
+            47,046+ lines of production-grade code. 5 industry engines.
+            Multi-chain blockchain support. Enterprise-ready architecture.
           </p>
           {!isAuthenticated && (
             <Button
@@ -187,7 +202,10 @@ export default function Home() {
             ].map((engine, idx) => {
               const Icon = engine.icon;
               return (
-                <Card key={idx} className="bg-gray-900 border-gray-800 hover:border-gray-700 transition">
+                <Card
+                  key={idx}
+                  className="bg-gray-900 border-gray-800 hover:border-gray-700 transition"
+                >
                   <CardHeader>
                     <Icon className="w-8 h-8 text-blue-400 mb-2" />
                     <CardTitle className="text-lg">{engine.title}</CardTitle>
@@ -221,27 +239,32 @@ export default function Home() {
               {
                 icon: Zap,
                 title: "Real-Time Processing",
-                description: "Billions of events per day with sub-millisecond latency",
+                description:
+                  "Billions of events per day with sub-millisecond latency",
               },
               {
                 icon: Globe,
                 title: "Global Scale",
-                description: "Distributed architecture supporting millions of concurrent users",
+                description:
+                  "Distributed architecture supporting millions of concurrent users",
               },
               {
                 icon: TrendingUp,
                 title: "Advanced Algorithms",
-                description: "AI-powered recommendations, trending detection, price prediction",
+                description:
+                  "AI-powered recommendations, trending detection, price prediction",
               },
               {
                 icon: Users,
                 title: "Social Integration",
-                description: "Built-in social features with follower tracking and engagement",
+                description:
+                  "Built-in social features with follower tracking and engagement",
               },
               {
                 icon: BarChart3,
                 title: "Comprehensive Analytics",
-                description: "Real-time dashboards, custom reports, and data visualization",
+                description:
+                  "Real-time dashboards, custom reports, and data visualization",
               },
             ].map((feature, idx) => {
               const Icon = feature.icon;
@@ -262,7 +285,9 @@ export default function Home() {
 
         {/* Technology Stack */}
         <div className="bg-gray-900 border border-gray-800 rounded-lg p-8 mb-16">
-          <h2 className="text-2xl font-bold text-white mb-6">Technology Stack</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">
+            Technology Stack
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               "TypeScript",
@@ -278,7 +303,11 @@ export default function Home() {
               "WebSocket",
               "GraphQL",
             ].map((tech, idx) => (
-              <Badge key={idx} variant="outline" className="justify-center py-2">
+              <Badge
+                key={idx}
+                variant="outline"
+                className="justify-center py-2"
+              >
                 {tech}
               </Badge>
             ))}
@@ -291,7 +320,8 @@ export default function Home() {
             Ready to Launch Your Platform?
           </h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            Access all 5 industry engines, 500+ production screens, and 47,046+ lines of battle-tested code.
+            Access all 5 industry engines, 500+ production screens, and 47,046+
+            lines of battle-tested code.
           </p>
           {!isAuthenticated && (
             <Button
@@ -308,7 +338,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-800 bg-gray-900/50 mt-20 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
-          <p>© 2026 SkyCoin444. Production-Grade Web3 Fintech Platform. All rights reserved.</p>
+          <p>
+            © 2026 SkyCoin444. Production-Grade Web3 Fintech Platform. All
+            rights reserved.
+          </p>
         </div>
       </footer>
     </div>

@@ -6,7 +6,14 @@
 
 import { Decimal } from "decimal.js";
 
-export type StakableCoin = "TRUMP" | "DOGE" | "BTC" | "SHADOW" | "SKYCOIN4444" | "MONERO" | "USDT";
+export type StakableCoin =
+  | "TRUMP"
+  | "DOGE"
+  | "BTC"
+  | "SHADOW"
+  | "SKYCOIN4444"
+  | "MONERO"
+  | "USDT";
 
 export interface StakingConfig {
   coin: StakableCoin;
@@ -112,7 +119,7 @@ export class UnifiedStaking {
     coin: StakableCoin,
     amount: string,
     daysStaked: number,
-    apy?: number,
+    apy?: number
   ): string {
     const config = STAKING_CONFIGS[coin];
     const effectiveAPY = apy || config.baseAPY;
@@ -133,24 +140,27 @@ export class UnifiedStaking {
     coin: StakableCoin,
     amount: string,
     daysStaked: number,
-    apy?: number,
+    apy?: number
   ): string {
     const config = STAKING_CONFIGS[coin];
     const effectiveAPY = apy || config.baseAPY;
 
     // Determine compounding periods
-    const compoundingPeriodsPerYear = config.compoundingFrequency === "daily"
-      ? 365
-      : config.compoundingFrequency === "weekly"
-        ? 52
-        : 12;
+    const compoundingPeriodsPerYear =
+      config.compoundingFrequency === "daily"
+        ? 365
+        : config.compoundingFrequency === "weekly"
+          ? 52
+          : 12;
 
-    const rate = new Decimal(effectiveAPY).dividedBy(100).dividedBy(compoundingPeriodsPerYear);
+    const rate = new Decimal(effectiveAPY)
+      .dividedBy(100)
+      .dividedBy(compoundingPeriodsPerYear);
     const periods = Math.round((daysStaked / 365) * compoundingPeriodsPerYear);
 
     // A = P(1 + r)^n
     const compoundedAmount = new Decimal(amount).times(
-      rate.plus(1).pow(periods),
+      rate.plus(1).pow(periods)
     );
 
     const reward = compoundedAmount.minus(amount);
@@ -161,10 +171,7 @@ export class UnifiedStaking {
   /**
    * Calculate APY with lockup bonus
    */
-  static calculateBonusAPY(
-    coin: StakableCoin,
-    lockupDays: number,
-  ): number {
+  static calculateBonusAPY(coin: StakableCoin, lockupDays: number): number {
     const config = STAKING_CONFIGS[coin];
     const baseAPY = config.baseAPY;
 
@@ -181,7 +188,7 @@ export class UnifiedStaking {
     coin: StakableCoin,
     amount: string,
     daysStaked: number,
-    lockupDays: number,
+    lockupDays: number
   ): {
     penalty: string;
     netAmount: string;
@@ -204,7 +211,7 @@ export class UnifiedStaking {
     return {
       penalty: penalty.toFixed(18),
       netAmount: netAmount.toFixed(18),
-      penaltyPercentage: (penaltyBps / 100),
+      penaltyPercentage: penaltyBps / 100,
     };
   }
 
@@ -213,20 +220,21 @@ export class UnifiedStaking {
    */
   static calculateTotalRewards(
     positions: StakingPosition[],
-    currentBlockHeight: number,
+    currentBlockHeight: number
   ): string {
     const blockTime = 12; // seconds per block (Ethereum standard)
     const secondsPerDay = 86400;
     const blocksPerDay = secondsPerDay / blockTime;
 
     const totalRewards = positions.reduce((sum, position) => {
-      const daysStaked = (currentBlockHeight - position.startBlock) / blocksPerDay;
+      const daysStaked =
+        (currentBlockHeight - position.startBlock) / blocksPerDay;
       const config = STAKING_CONFIGS[position.coin];
       const reward = this.calculateCompoundReward(
         position.coin,
         position.amount,
         daysStaked,
-        position.apy,
+        position.apy
       );
       return sum.plus(reward);
     }, new Decimal(0));
@@ -240,7 +248,7 @@ export class UnifiedStaking {
   static validateStakingParams(
     coin: StakableCoin,
     amount: string,
-    lockupDays: number,
+    lockupDays: number
   ): { valid: boolean; error?: string } {
     const config = STAKING_CONFIGS[coin];
 
@@ -268,7 +276,7 @@ export class UnifiedStaking {
   static calculatePoolStats(
     coin: StakableCoin,
     totalStaked: string,
-    activeStakers: number,
+    activeStakers: number
   ): {
     totalStaked: string;
     activeStakers: number;
@@ -296,7 +304,7 @@ export class UnifiedStaking {
    */
   static getStakingRecommendation(
     coin: StakableCoin,
-    amount: string,
+    amount: string
   ): {
     recommendedLockup: number;
     estimatedAPY: number;
@@ -306,7 +314,8 @@ export class UnifiedStaking {
     const config = STAKING_CONFIGS[coin];
 
     // Recommend longest lockup for best APY
-    const recommendedLockup = config.lockupPeriods[config.lockupPeriods.length - 1];
+    const recommendedLockup =
+      config.lockupPeriods[config.lockupPeriods.length - 1];
     const estimatedAPY = this.calculateBonusAPY(coin, recommendedLockup);
 
     const monthlyReward = this.calculateReward(coin, amount, 30, estimatedAPY);

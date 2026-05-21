@@ -65,7 +65,15 @@ export const ICO_CONFIGS: Record<ICOCoin, ICOConfig> = {
     endDate: new Date("2026-12-31"),
     minInvestment: "100",
     maxInvestment: "1000000",
-    acceptedPayments: ["stripe", "btc", "doge", "xmr", "usdt", "trump", "shadow"],
+    acceptedPayments: [
+      "stripe",
+      "btc",
+      "doge",
+      "xmr",
+      "usdt",
+      "trump",
+      "shadow",
+    ],
   },
   SHADOW: {
     coin: "SHADOW",
@@ -90,7 +98,11 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "10000",
       tokenBonus: 25,
       description: "First 1000 participants get 25% bonus tokens",
-      perks: ["25% bonus tokens", "Early access to features", "Community badge"],
+      perks: [
+        "25% bonus tokens",
+        "Early access to features",
+        "Community badge",
+      ],
     },
     {
       tierId: "STANDARD",
@@ -108,7 +120,12 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "1000000",
       tokenBonus: 20,
       description: "Large investors get 20% bonus + VIP perks",
-      perks: ["20% bonus tokens", "VIP support", "Quarterly calls", "Governance vote"],
+      perks: [
+        "20% bonus tokens",
+        "VIP support",
+        "Quarterly calls",
+        "Governance vote",
+      ],
     },
   ],
   SHADOW: [
@@ -137,7 +154,12 @@ export const ICO_TIERS: Record<ICOCoin, ICOTier[]> = {
       maxInvestment: "500000",
       tokenBonus: 18,
       description: "Founding member with equity-like governance",
-      perks: ["18% bonus tokens", "Equity-like governance", "VIP support", "Board seat"],
+      perks: [
+        "18% bonus tokens",
+        "Equity-like governance",
+        "VIP support",
+        "Board seat",
+      ],
     },
   ],
 };
@@ -149,10 +171,12 @@ export class ICOFunding {
   static calculateTokensReceived(
     coin: ICOCoin,
     investmentUsd: string,
-    tierBonus: number,
+    tierBonus: number
   ): string {
     const config = ICO_CONFIGS[coin];
-    const baseTokens = new Decimal(investmentUsd).dividedBy(config.pricePerToken);
+    const baseTokens = new Decimal(investmentUsd).dividedBy(
+      config.pricePerToken
+    );
     const bonusTokens = baseTokens.times(tierBonus).dividedBy(100);
     const totalTokens = baseTokens.plus(bonusTokens);
 
@@ -164,7 +188,7 @@ export class ICOFunding {
    */
   static getTierForInvestment(
     coin: ICOCoin,
-    investmentUsd: string,
+    investmentUsd: string
   ): ICOTier | null {
     const tiers = ICO_TIERS[coin];
     const amount = new Decimal(investmentUsd);
@@ -183,7 +207,7 @@ export class ICOFunding {
    */
   static validateInvestment(
     coin: ICOCoin,
-    investmentUsd: string,
+    investmentUsd: string
   ): { valid: boolean; error?: string } {
     const config = ICO_CONFIGS[coin];
 
@@ -194,11 +218,17 @@ export class ICOFunding {
     const amount = new Decimal(investmentUsd);
 
     if (amount.lt(config.minInvestment)) {
-      return { valid: false, error: `Minimum investment: $${config.minInvestment}` };
+      return {
+        valid: false,
+        error: `Minimum investment: $${config.minInvestment}`,
+      };
     }
 
     if (amount.gt(config.maxInvestment)) {
-      return { valid: false, error: `Maximum investment: $${config.maxInvestment}` };
+      return {
+        valid: false,
+        error: `Maximum investment: $${config.maxInvestment}`,
+      };
     }
 
     return { valid: true };
@@ -211,7 +241,7 @@ export class ICOFunding {
     coin: ICOCoin,
     totalRaisedUsd: string,
     totalInvestors: number,
-    tokensDistributed: string,
+    tokensDistributed: string
   ): ICOMetrics {
     const config = ICO_CONFIGS[coin];
     const raised = new Decimal(totalRaisedUsd);
@@ -224,12 +254,13 @@ export class ICOFunding {
     const now = new Date();
     const daysRemaining = Math.max(
       0,
-      Math.ceil((config.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
+      Math.ceil(
+        (config.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      )
     );
 
-    const averageInvestment = totalInvestors > 0
-      ? raised.dividedBy(totalInvestors).toFixed(2)
-      : "0";
+    const averageInvestment =
+      totalInvestors > 0 ? raised.dividedBy(totalInvestors).toFixed(2) : "0";
 
     return {
       coin,
@@ -249,7 +280,7 @@ export class ICOFunding {
   static calculateRefund(
     coin: ICOCoin,
     investmentUsd: string,
-    totalRaisedUsd: string,
+    totalRaisedUsd: string
   ): string {
     const config = ICO_CONFIGS[coin];
     const softCap = new Decimal(config.softCapUsd);
@@ -268,14 +299,16 @@ export class ICOFunding {
    */
   static calculateVestingSchedule(
     tokensReceived: string,
-    vestingMonths: number = 12,
+    vestingMonths: number = 12
   ): {
     month: number;
     tokensUnlocked: string;
     cumulativeTokens: string;
   }[] {
     const schedule = [];
-    const monthlyAllocation = new Decimal(tokensReceived).dividedBy(vestingMonths);
+    const monthlyAllocation = new Decimal(tokensReceived).dividedBy(
+      vestingMonths
+    );
 
     for (let i = 1; i <= vestingMonths; i++) {
       const tokensUnlocked = monthlyAllocation.toFixed(18);
@@ -309,11 +342,11 @@ export class ICOFunding {
   static calculateReferralBonus(
     coin: ICOCoin,
     referredInvestmentUsd: string,
-    referralBonusPercentage: number = 5,
+    referralBonusPercentage: number = 5
   ): string {
     const config = ICO_CONFIGS[coin];
     const referredTokens = new Decimal(referredInvestmentUsd).dividedBy(
-      config.pricePerToken,
+      config.pricePerToken
     );
     const bonus = referredTokens.times(referralBonusPercentage).dividedBy(100);
 
@@ -325,7 +358,7 @@ export class ICOFunding {
    */
   static generateInvestmentSummary(
     investment: ICOInvestment,
-    currentTokenPrice: string,
+    currentTokenPrice: string
   ): {
     investmentUsd: string;
     tokensReceived: string;
@@ -333,9 +366,14 @@ export class ICOFunding {
     gain: string;
     gainPercentage: number;
   } {
-    const currentValue = new Decimal(investment.tokensReceived).times(currentTokenPrice);
+    const currentValue = new Decimal(investment.tokensReceived).times(
+      currentTokenPrice
+    );
     const gain = currentValue.minus(investment.amountUsd);
-    const gainPercentage = gain.dividedBy(investment.amountUsd).times(100).toNumber();
+    const gainPercentage = gain
+      .dividedBy(investment.amountUsd)
+      .times(100)
+      .toNumber();
 
     return {
       investmentUsd: investment.amountUsd,

@@ -261,9 +261,7 @@ export const paymentsRouter = router({
         stripePriceId: input.priceId,
         plan: input.plan,
         status: subscription.status as any,
-        currentPeriodStart: new Date(
-          subscription.current_period_start * 1000
-        ),
+        currentPeriodStart: new Date(subscription.current_period_start * 1000),
         currentPeriodEnd: new Date(subscription.current_period_end * 1000),
       });
 
@@ -387,10 +385,7 @@ export const paymentsRouter = router({
       }
 
       // Create refund
-      const refund = await createRefund(
-        input.paymentIntentId,
-        input.amount
-      );
+      const refund = await createRefund(input.paymentIntentId, input.amount);
 
       // Update payment status
       await db

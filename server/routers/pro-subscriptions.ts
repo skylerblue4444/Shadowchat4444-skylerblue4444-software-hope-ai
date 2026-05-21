@@ -1,6 +1,6 @@
-import { router, protectedProcedure, publicProcedure } from '../_core/trpc';
-import { z } from 'zod';
-import { db } from '../db';
+import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import { z } from "zod";
+import { db } from "../db";
 
 /**
  * Pro Subscriptions - Multi-Tier Premium Subscription System
@@ -13,100 +13,100 @@ export const proSubscriptionsRouter = router({
     return {
       tiers: [
         {
-          id: 'free',
-          name: 'Free',
+          id: "free",
+          name: "Free",
           price: 0,
-          billingCycle: 'monthly',
+          billingCycle: "monthly",
           features: [
-            'Basic trading interface',
-            'Limited market data (15-min delay)',
-            '5 trades per day',
-            'Community access',
-            'Email support'
+            "Basic trading interface",
+            "Limited market data (15-min delay)",
+            "5 trades per day",
+            "Community access",
+            "Email support",
           ],
           limits: {
             tradesPerDay: 5,
             maxTradeSize: 100,
-            dataDelay: '15 minutes',
-            apiCalls: 100
-          }
+            dataDelay: "15 minutes",
+            apiCalls: 100,
+          },
         },
         {
-          id: 'pro',
-          name: 'Pro',
+          id: "pro",
+          name: "Pro",
           price: 29.99,
-          billingCycle: 'monthly',
+          billingCycle: "monthly",
           features: [
-            'Advanced live trade screen',
-            'Real-time market data (< 1s)',
-            'Unlimited trades',
-            'Max Profit algorithms',
-            'Priority support',
-            'Advanced charting',
-            'Custom alerts'
+            "Advanced live trade screen",
+            "Real-time market data (< 1s)",
+            "Unlimited trades",
+            "Max Profit algorithms",
+            "Priority support",
+            "Advanced charting",
+            "Custom alerts",
           ],
           limits: {
             tradesPerDay: -1, // Unlimited
             maxTradeSize: 50000,
-            dataDelay: '< 1 second',
-            apiCalls: 10000
+            dataDelay: "< 1 second",
+            apiCalls: 10000,
           },
           monthlyValue: 29.99,
           annualPrice: 299.99,
-          savings: '17%'
+          savings: "17%",
         },
         {
-          id: 'elite',
-          name: 'Elite',
+          id: "elite",
+          name: "Elite",
           price: 99.99,
-          billingCycle: 'monthly',
+          billingCycle: "monthly",
           features: [
-            'Everything in Pro',
-            'Manus Mode (autonomous AI)',
-            'Premium analytics',
-            'Whale tracking',
-            'Social trading features',
-            'Dedicated account manager',
-            'Phone support 24/7',
-            'Custom strategies'
+            "Everything in Pro",
+            "Manus Mode (autonomous AI)",
+            "Premium analytics",
+            "Whale tracking",
+            "Social trading features",
+            "Dedicated account manager",
+            "Phone support 24/7",
+            "Custom strategies",
           ],
           limits: {
             tradesPerDay: -1,
             maxTradeSize: 500000,
-            dataDelay: '< 100ms',
-            apiCalls: 100000
+            dataDelay: "< 100ms",
+            apiCalls: 100000,
           },
           monthlyValue: 99.99,
           annualPrice: 999.99,
-          savings: '17%'
+          savings: "17%",
         },
         {
-          id: 'institutional',
-          name: 'Institutional',
+          id: "institutional",
+          name: "Institutional",
           price: 499.99,
-          billingCycle: 'monthly',
+          billingCycle: "monthly",
           features: [
-            'Everything in Elite',
-            'Institutional API access',
-            'White-label solution',
-            'Custom integrations',
-            'Dedicated infrastructure',
-            'SLA guarantee (99.99% uptime)',
-            'Custom reporting',
-            'Compliance support'
+            "Everything in Elite",
+            "Institutional API access",
+            "White-label solution",
+            "Custom integrations",
+            "Dedicated infrastructure",
+            "SLA guarantee (99.99% uptime)",
+            "Custom reporting",
+            "Compliance support",
           ],
           limits: {
             tradesPerDay: -1,
             maxTradeSize: -1, // Unlimited
-            dataDelay: '< 50ms',
-            apiCalls: -1 // Unlimited
+            dataDelay: "< 50ms",
+            apiCalls: -1, // Unlimited
           },
           monthlyValue: 499.99,
           annualPrice: 4999.99,
-          savings: '17%',
-          custom: true
-        }
-      ]
+          savings: "17%",
+          custom: true,
+        },
+      ],
     };
   }),
 
@@ -114,15 +114,15 @@ export const proSubscriptionsRouter = router({
   getCurrentSubscription: protectedProcedure.query(async ({ ctx }) => {
     return {
       subscription: {
-        tier: 'pro',
-        status: 'active',
+        tier: "pro",
+        status: "active",
         startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
         renewalDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        billingCycle: 'monthly',
+        billingCycle: "monthly",
         monthlyPrice: 29.99,
         autoRenew: true,
-        paymentMethod: 'Stripe Card ending in 4242'
-      }
+        paymentMethod: "Stripe Card ending in 4242",
+      },
     };
   }),
 
@@ -130,8 +130,8 @@ export const proSubscriptionsRouter = router({
   upgradeSubscription: protectedProcedure
     .input(
       z.object({
-        tierId: z.enum(['free', 'pro', 'elite', 'institutional']),
-        billingCycle: z.enum(['monthly', 'annual']).default('monthly'),
+        tierId: z.enum(["free", "pro", "elite", "institutional"]),
+        billingCycle: z.enum(["monthly", "annual"]).default("monthly"),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -140,11 +140,18 @@ export const proSubscriptionsRouter = router({
         message: `Successfully upgraded to ${input.tierId} tier.`,
         subscription: {
           tier: input.tierId,
-          status: 'active',
+          status: "active",
           billingCycle: input.billingCycle,
           startDate: new Date(),
-          renewalDate: new Date(Date.now() + (input.billingCycle === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000)
-        }
+          renewalDate: new Date(
+            Date.now() +
+              (input.billingCycle === "monthly" ? 30 : 365) *
+                24 *
+                60 *
+                60 *
+                1000
+          ),
+        },
       };
     }),
 
@@ -158,9 +165,10 @@ export const proSubscriptionsRouter = router({
     .mutation(async ({ ctx, input }) => {
       return {
         success: true,
-        message: 'Subscription cancelled. You will have access until the end of your billing cycle.',
+        message:
+          "Subscription cancelled. You will have access until the end of your billing cycle.",
         cancellationDate: new Date(),
-        accessUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        accessUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       };
     }),
 
@@ -174,8 +182,8 @@ export const proSubscriptionsRouter = router({
         apiCallsLimit: 100000,
         storageUsed: 2.5, // GB
         storageLimit: 100,
-        dataAccessLevel: 'real-time'
-      }
+        dataAccessLevel: "real-time",
+      },
     };
   }),
 
@@ -184,20 +192,20 @@ export const proSubscriptionsRouter = router({
     return {
       history: [
         {
-          id: 'inv_001',
+          id: "inv_001",
           date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
           amount: 29.99,
-          status: 'paid',
-          description: 'Pro Subscription - Monthly'
+          status: "paid",
+          description: "Pro Subscription - Monthly",
         },
         {
-          id: 'inv_002',
+          id: "inv_002",
           date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
           amount: 29.99,
-          status: 'paid',
-          description: 'Pro Subscription - Monthly'
-        }
-      ]
+          status: "paid",
+          description: "Pro Subscription - Monthly",
+        },
+      ],
     };
   }),
 
@@ -211,8 +219,8 @@ export const proSubscriptionsRouter = router({
     .mutation(async ({ ctx, input }) => {
       return {
         success: true,
-        message: 'Payment method updated successfully.',
-        paymentMethod: 'Stripe Card ending in 4242'
+        message: "Payment method updated successfully.",
+        paymentMethod: "Stripe Card ending in 4242",
       };
-    })
+    }),
 });

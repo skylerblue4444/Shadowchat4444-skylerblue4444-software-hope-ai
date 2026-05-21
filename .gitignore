@@ -114,3 +114,4 @@ client/public/__manus__/version.json
 
 # Local Manus working backups and extracted handoff notes
 .manus-backups/
+node_modules/

@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bell, Trash2, Archive, Check } from "lucide-react";
 
@@ -72,20 +78,20 @@ export default function Notifications() {
     },
   ]);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleMarkAsRead = (id: string) => {
     setNotifications(
-      notifications.map((n) => (n.id === id ? { ...n, read: true } : n))
+      notifications.map(n => (n.id === id ? { ...n, read: true } : n))
     );
   };
 
   const handleDelete = (id: string) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
+    setNotifications(notifications.filter(n => n.id !== id));
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
 
   const typeColors: Record<string, string> = {
@@ -117,27 +123,37 @@ export default function Notifications() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">{notifications.length}</div>
+            <div className="text-3xl font-bold text-purple-400">
+              {notifications.length}
+            </div>
             <p className="text-xs text-gray-500 mt-1">All notifications</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Unread</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Unread
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-400">{unreadCount}</div>
+            <div className="text-3xl font-bold text-blue-400">
+              {unreadCount}
+            </div>
             <p className="text-xs text-gray-500 mt-1">Waiting for you</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Today</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Today
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-400">3</div>
@@ -147,7 +163,9 @@ export default function Notifications() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">This Week</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              This Week
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-400">12</div>
@@ -163,7 +181,7 @@ export default function Notifications() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {notifications.map((notification) => (
+            {notifications.map(notification => (
               <div
                 key={notification.id}
                 className={`p-4 rounded-lg border-2 transition-all ${
@@ -183,7 +201,9 @@ export default function Notifications() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-sm">{notification.title}</h3>
+                      <h3 className="font-semibold text-sm">
+                        {notification.title}
+                      </h3>
                       <Badge
                         variant="outline"
                         className={`text-xs ${
@@ -204,8 +224,12 @@ export default function Notifications() {
                         <div className="w-2 h-2 rounded-full bg-purple-400 flex-shrink-0" />
                       )}
                     </div>
-                    <p className="text-sm text-gray-300 mb-1">{notification.message}</p>
-                    <p className="text-xs text-gray-500">{notification.timestamp}</p>
+                    <p className="text-sm text-gray-300 mb-1">
+                      {notification.message}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {notification.timestamp}
+                    </p>
                   </div>
 
                   <div className="flex gap-1 flex-shrink-0">
@@ -238,13 +262,17 @@ export default function Notifications() {
       <Card>
         <CardHeader>
           <CardTitle>Notification Preferences</CardTitle>
-          <CardDescription>Customize what notifications you receive</CardDescription>
+          <CardDescription>
+            Customize what notifications you receive
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between p-3 border border-gray-700 rounded-lg">
             <div>
               <p className="text-sm font-semibold">Trade Notifications</p>
-              <p className="text-xs text-gray-400">Get alerts on order execution</p>
+              <p className="text-xs text-gray-400">
+                Get alerts on order execution
+              </p>
             </div>
             <input type="checkbox" defaultChecked className="w-5 h-5" />
           </div>
@@ -252,7 +280,9 @@ export default function Notifications() {
           <div className="flex items-center justify-between p-3 border border-gray-700 rounded-lg">
             <div>
               <p className="text-sm font-semibold">Price Alerts</p>
-              <p className="text-xs text-gray-400">Notify when prices reach targets</p>
+              <p className="text-xs text-gray-400">
+                Notify when prices reach targets
+              </p>
             </div>
             <input type="checkbox" defaultChecked className="w-5 h-5" />
           </div>
@@ -260,7 +290,9 @@ export default function Notifications() {
           <div className="flex items-center justify-between p-3 border border-gray-700 rounded-lg">
             <div>
               <p className="text-sm font-semibold">Social Updates</p>
-              <p className="text-xs text-gray-400">Likes, replies, and mentions</p>
+              <p className="text-xs text-gray-400">
+                Likes, replies, and mentions
+              </p>
             </div>
             <input type="checkbox" defaultChecked className="w-5 h-5" />
           </div>
@@ -276,7 +308,9 @@ export default function Notifications() {
           <div className="flex items-center justify-between p-3 border border-gray-700 rounded-lg">
             <div>
               <p className="text-sm font-semibold">System Alerts</p>
-              <p className="text-xs text-gray-400">Maintenance and important updates</p>
+              <p className="text-xs text-gray-400">
+                Maintenance and important updates
+              </p>
             </div>
             <input type="checkbox" defaultChecked className="w-5 h-5" />
           </div>

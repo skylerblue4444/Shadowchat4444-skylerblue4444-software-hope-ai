@@ -11,8 +11,16 @@ import { getDb } from "../db";
 import { ENV } from "../_core/env";
 
 const TRIAL_COINS = [
-  { symbol: "SKY4444", amount: 20000, memo: "🎉 Welcome free-trial grant – 20,000 SKY4444 coins" },
-  { symbol: "SHADOW", amount: 10000, memo: "🎉 Welcome free-trial grant – 10,000 SHADOW coins" },
+  {
+    symbol: "SKY4444",
+    amount: 20000,
+    memo: "🎉 Welcome free-trial grant – 20,000 SKY4444 coins",
+  },
+  {
+    symbol: "SHADOW",
+    amount: 10000,
+    memo: "🎉 Welcome free-trial grant – 10,000 SHADOW coins",
+  },
 ];
 
 /**
@@ -27,7 +35,11 @@ export async function grantFreeTrialCoins(userId: number): Promise<{
   if (!db) {
     return {
       granted: true,
-      results: TRIAL_COINS.map(c => ({ symbol: c.symbol, amount: c.amount, success: true })),
+      results: TRIAL_COINS.map(c => ({
+        symbol: c.symbol,
+        amount: c.amount,
+        success: true,
+      })),
     };
   }
 
@@ -42,28 +54,36 @@ export async function grantFreeTrialCoins(userId: number): Promise<{
         and(
           eq(transactions.userId, userId),
           eq(transactions.type, "free_trial"),
-          eq(transactions.token, coin.symbol),
-        ),
+          eq(transactions.token, coin.symbol)
+        )
       )
       .limit(1);
 
     if (existing.length > 0) {
-      results.push({ symbol: coin.symbol, amount: coin.amount, success: false });
+      results.push({
+        symbol: coin.symbol,
+        amount: coin.amount,
+        success: false,
+      });
       continue;
     }
 
     const amountStr = coin.amount.toString();
 
-    await db.transaction(async (tx) => {
+    await db.transaction(async tx => {
       // Upsert holding
       const existingHolding = await tx
         .select({ id: holdings.id, amount: holdings.amount })
         .from(holdings)
-        .where(and(eq(holdings.userId, userId), eq(holdings.asset, coin.symbol)))
+        .where(
+          and(eq(holdings.userId, userId), eq(holdings.asset, coin.symbol))
+        )
         .limit(1);
 
       if (existingHolding.length > 0) {
-        const newAmount = (parseFloat(existingHolding[0].amount) + coin.amount).toString();
+        const newAmount = (
+          parseFloat(existingHolding[0].amount) + coin.amount
+        ).toString();
         await tx
           .update(holdings)
           .set({ amount: newAmount })

@@ -23,15 +23,38 @@ export default function ShadowFilecoin() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Filecoin Storage</h1>
-          <p className="text-sm text-muted-foreground">Filecoin decentralized storage with competitive pricing and retrieval markets</p>
+          <p className="text-sm text-muted-foreground">
+            Filecoin decentralized storage with competitive pricing and
+            retrieval markets
+          </p>
         </div>
         <Badge className="bg-indigo-600 text-white shrink-0">Filecoin</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8247</p><p className="text-xs text-muted-foreground">Storage Providers</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">8.4EB</p><p className="text-xs text-muted-foreground">Total Storage</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Competitive</p><p className="text-xs text-muted-foreground">Price</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Fast</p><p className="text-xs text-muted-foreground">Retrieval</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">8247</p>
+            <p className="text-xs text-muted-foreground">Storage Providers</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">8.4EB</p>
+            <p className="text-xs text-muted-foreground">Total Storage</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">Competitive</p>
+            <p className="text-xs text-muted-foreground">Price</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">Fast</p>
+            <p className="text-xs text-muted-foreground">Retrieval</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,23 +67,38 @@ export default function ShadowFilecoin() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">Filecoin Storage — Activate Now</p>
-        <p className="text-xs text-muted-foreground mb-3">Join 847000+ users already on ShadowChat</p>
+        <p className="font-black text-sm mb-1">
+          Filecoin Storage — Activate Now
+        </p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Join 847000+ users already on ShadowChat
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Filecoin Storage activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("Filecoin Storage activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Filecoin Storage docs...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Opening Filecoin Storage docs...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

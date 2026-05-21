@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Zap, Brain, TrendingUp, Target } from "lucide-react";
@@ -56,7 +62,8 @@ export default function AIWealth() {
 
   const totalManaged = strategies.reduce((sum, s) => sum + s.allocation, 0);
   const totalPerformance = (
-    strategies.reduce((sum, s) => sum + s.performance * s.allocation, 0) / totalManaged
+    strategies.reduce((sum, s) => sum + s.performance * s.allocation, 0) /
+    totalManaged
   ).toFixed(1);
 
   const riskColors: Record<string, string> = {
@@ -70,31 +77,41 @@ export default function AIWealth() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total Managed</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total Managed
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">${totalManaged.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-purple-400">
+              ${totalManaged.toLocaleString()}
+            </div>
             <p className="text-xs text-gray-500 mt-1">Under AI management</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Avg Performance</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Avg Performance
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-400">+{totalPerformance}%</div>
+            <div className="text-3xl font-bold text-green-400">
+              +{totalPerformance}%
+            </div>
             <p className="text-xs text-gray-500 mt-1">This month</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Active Strategies</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Active Strategies
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-400">
-              {strategies.filter((s) => s.status === "active").length}
+              {strategies.filter(s => s.status === "active").length}
             </div>
             <p className="text-xs text-gray-500 mt-1">Running</p>
           </CardContent>
@@ -102,7 +119,9 @@ export default function AIWealth() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">AI Confidence</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              AI Confidence
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-400">94%</div>
@@ -117,10 +136,12 @@ export default function AIWealth() {
             <Brain className="w-5 h-5 text-purple-400" />
             AI-Powered Strategies
           </CardTitle>
-          <CardDescription>Autonomous portfolio management with machine learning</CardDescription>
+          <CardDescription>
+            Autonomous portfolio management with machine learning
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {strategies.map((strategy) => (
+          {strategies.map(strategy => (
             <div
               key={strategy.id}
               className="p-4 border border-gray-700 rounded-lg hover:border-purple-500/50 transition-colors"
@@ -140,11 +161,15 @@ export default function AIWealth() {
                     >
                       {strategy.status.toUpperCase()}
                     </Badge>
-                    <Badge className={`text-xs text-white ${riskColors[strategy.riskLevel]}`}>
+                    <Badge
+                      className={`text-xs text-white ${riskColors[strategy.riskLevel]}`}
+                    >
                       {strategy.riskLevel.toUpperCase()} RISK
                     </Badge>
                   </div>
-                  <p className="text-xs text-gray-400">{strategy.description}</p>
+                  <p className="text-xs text-gray-400">
+                    {strategy.description}
+                  </p>
                 </div>
               </div>
 
@@ -152,24 +177,35 @@ export default function AIWealth() {
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-xs font-semibold">Allocation</span>
-                    <span className="text-xs text-gray-400">${strategy.allocation.toLocaleString()}</span>
+                    <span className="text-xs text-gray-400">
+                      ${strategy.allocation.toLocaleString()}
+                    </span>
                   </div>
-                  <Progress value={(strategy.allocation / totalManaged) * 100} className="h-2" />
+                  <Progress
+                    value={(strategy.allocation / totalManaged) * 100}
+                    className="h-2"
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-4 gap-2 p-3 bg-gray-900/50 rounded border border-gray-700">
                 <div>
                   <p className="text-xs text-gray-400">Performance</p>
-                  <p className="text-sm font-bold text-green-400 mt-1">+{strategy.performance}%</p>
+                  <p className="text-sm font-bold text-green-400 mt-1">
+                    +{strategy.performance}%
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">Expected Return</p>
-                  <p className="text-sm font-bold text-blue-400 mt-1">{strategy.expectedReturn}%</p>
+                  <p className="text-sm font-bold text-blue-400 mt-1">
+                    {strategy.expectedReturn}%
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">Next Rebalance</p>
-                  <p className="text-sm font-bold text-yellow-400 mt-1">{strategy.nextRebalance}</p>
+                  <p className="text-sm font-bold text-yellow-400 mt-1">
+                    {strategy.nextRebalance}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400">Confidence</p>
@@ -226,12 +262,16 @@ export default function AIWealth() {
       <Card>
         <CardHeader>
           <CardTitle>Create New AI Strategy</CardTitle>
-          <CardDescription>Let our AI build a custom strategy for you</CardDescription>
+          <CardDescription>
+            Let our AI build a custom strategy for you
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-semibold mb-2 block">Risk Tolerance</label>
+              <label className="text-sm font-semibold mb-2 block">
+                Risk Tolerance
+              </label>
               <div className="grid grid-cols-3 gap-2">
                 <Button variant="outline">Conservative</Button>
                 <Button variant="outline">Balanced</Button>

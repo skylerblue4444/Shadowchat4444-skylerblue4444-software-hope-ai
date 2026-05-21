@@ -48,7 +48,7 @@ export const liveIcoShopRouter = router({
         input.coin as ICOCoin,
         "25000000",
         12500,
-        "25000000000",
+        "25000000000"
       );
 
       return {
@@ -86,12 +86,12 @@ export const liveIcoShopRouter = router({
         coin: z.string(),
         amountUsd: z.string(),
         paymentMethod: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const validation = ICOFunding.validateInvestment(
         input.coin as ICOCoin,
-        input.amountUsd,
+        input.amountUsd
       );
 
       if (!validation.valid) {
@@ -100,13 +100,13 @@ export const liveIcoShopRouter = router({
 
       const tier = ICOFunding.getTierForInvestment(
         input.coin as ICOCoin,
-        input.amountUsd,
+        input.amountUsd
       );
 
       const tokensReceived = ICOFunding.calculateTokensReceived(
         input.coin as ICOCoin,
         input.amountUsd,
-        tier?.tokenBonus || 0,
+        tier?.tokenBonus || 0
       );
 
       return {
@@ -166,7 +166,7 @@ export const liveIcoShopRouter = router({
         category: z.string().optional(),
         coin: z.string().optional(),
         search: z.string().optional(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       let items = CryptoShop.SHOP_ITEMS;
@@ -186,7 +186,7 @@ export const liveIcoShopRouter = router({
   getItemDetails: publicProcedure
     .input(z.object({ itemId: z.string() }))
     .query(async ({ input }) => {
-      const item = CryptoShop.SHOP_ITEMS.find((i) => i.itemId === input.itemId);
+      const item = CryptoShop.SHOP_ITEMS.find(i => i.itemId === input.itemId);
       return item || { error: "Item not found" };
     }),
 
@@ -198,10 +198,10 @@ export const liveIcoShopRouter = router({
           z.object({
             itemId: z.string(),
             quantity: z.number(),
-          }),
+          })
         ),
         paymentCoin: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const totalUsd = CryptoShop.calculateOrderTotal(input.items);
@@ -222,18 +222,14 @@ export const liveIcoShopRouter = router({
       orders: [
         {
           orderId: "ORDER-001",
-          items: [
-            { name: "SKYCOIN4444 T-Shirt", quantity: 2, price: "$25" },
-          ],
+          items: [{ name: "SKYCOIN4444 T-Shirt", quantity: 2, price: "$25" }],
           totalUsd: "$50",
           status: "shipped",
           timestamp: new Date(Date.now() - 86400000 * 7),
         },
         {
           orderId: "ORDER-002",
-          items: [
-            { name: "SHADOW Hoodie", quantity: 1, price: "$65" },
-          ],
+          items: [{ name: "SHADOW Hoodie", quantity: 1, price: "$65" }],
           totalUsd: "$65",
           status: "delivered",
           timestamp: new Date(Date.now() - 86400000 * 14),
@@ -245,7 +241,7 @@ export const liveIcoShopRouter = router({
   // ─── SHOP: Get Whitepapers ────────────────────────────────────────────────
   getWhitepapers: publicProcedure.query(async () => {
     return {
-      whitepapers: CryptoShop.WHITEPAPERS.map((wp) => ({
+      whitepapers: CryptoShop.WHITEPAPERS.map(wp => ({
         coin: wp.coin,
         title: wp.title,
         version: wp.version,
@@ -308,7 +304,7 @@ export const liveIcoShopRouter = router({
       z.object({
         orderTotal: z.string(),
         discountCode: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       // Mock discount logic
@@ -320,7 +316,7 @@ export const liveIcoShopRouter = router({
 
       const result = CryptoShop.applyDiscount(
         input.orderTotal,
-        discountPercentage,
+        discountPercentage
       );
 
       return {

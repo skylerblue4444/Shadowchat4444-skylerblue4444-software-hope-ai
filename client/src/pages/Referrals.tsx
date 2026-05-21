@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Share2, Gift, Users, TrendingUp } from "lucide-react";
@@ -48,7 +54,7 @@ export default function Referrals() {
 
   const referralLink = "https://skycoin444.com/ref/USER123456";
   const totalRewards = referrals.reduce((sum, r) => sum + r.totalReward, 0);
-  const activeReferrals = referrals.filter((r) => r.status === "active").length;
+  const activeReferrals = referrals.filter(r => r.status === "active").length;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink);
@@ -59,27 +65,39 @@ export default function Referrals() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total Referrals</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total Referrals
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">{referrals.length}</div>
-            <p className="text-xs text-gray-500 mt-1">{activeReferrals} active</p>
+            <div className="text-3xl font-bold text-purple-400">
+              {referrals.length}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {activeReferrals} active
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total Rewards</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total Rewards
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-400">{totalRewards.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-green-400">
+              {totalRewards.toLocaleString()}
+            </div>
             <p className="text-xs text-gray-500 mt-1">SKY earned</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Pending Rewards</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Pending Rewards
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-400">250</div>
@@ -89,7 +107,9 @@ export default function Referrals() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Tier</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Tier
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-400">Silver</div>
@@ -101,7 +121,9 @@ export default function Referrals() {
       <Card>
         <CardHeader>
           <CardTitle>Your Referral Link</CardTitle>
-          <CardDescription>Share this link to invite friends and earn rewards</CardDescription>
+          <CardDescription>
+            Share this link to invite friends and earn rewards
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex gap-2">
@@ -110,11 +132,7 @@ export default function Referrals() {
               readOnly
               className="bg-gray-900 border-gray-700"
             />
-            <Button
-              onClick={handleCopyLink}
-              variant="outline"
-              className="px-4"
-            >
+            <Button onClick={handleCopyLink} variant="outline" className="px-4">
               <Copy className="w-4 h-4" />
             </Button>
             <Button className="bg-purple-600 hover:bg-purple-700 px-4">
@@ -146,11 +164,13 @@ export default function Referrals() {
       <Card>
         <CardHeader>
           <CardTitle>Your Referrals</CardTitle>
-          <CardDescription>Track your referred users and earnings</CardDescription>
+          <CardDescription>
+            Track your referred users and earnings
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {referrals.map((ref) => (
+            {referrals.map(ref => (
               <div
                 key={ref.id}
                 className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:border-purple-500/50 transition-colors"
@@ -172,14 +192,18 @@ export default function Referrals() {
                     </Badge>
                   </div>
                   <p className="text-xs text-gray-500">{ref.email}</p>
-                  <p className="text-xs text-gray-600 mt-1">Joined {ref.joinedDate}</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Joined {ref.joinedDate}
+                  </p>
                 </div>
 
                 <div className="text-right">
                   <div className="flex items-center gap-4">
                     <div>
                       <p className="text-xs text-gray-400">Trades</p>
-                      <p className="text-lg font-bold text-blue-400">{ref.trades}</p>
+                      <p className="text-lg font-bold text-blue-400">
+                        {ref.trades}
+                      </p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-400">Reward</p>
@@ -209,7 +233,9 @@ export default function Referrals() {
             </div>
             <div>
               <p className="font-semibold text-sm">Share Your Link</p>
-              <p className="text-xs text-gray-400">Send your unique referral link to friends</p>
+              <p className="text-xs text-gray-400">
+                Send your unique referral link to friends
+              </p>
             </div>
           </div>
 
@@ -219,7 +245,9 @@ export default function Referrals() {
             </div>
             <div>
               <p className="font-semibold text-sm">They Sign Up</p>
-              <p className="text-xs text-gray-400">Your friend creates an account using your link</p>
+              <p className="text-xs text-gray-400">
+                Your friend creates an account using your link
+              </p>
             </div>
           </div>
 
@@ -229,7 +257,9 @@ export default function Referrals() {
             </div>
             <div>
               <p className="font-semibold text-sm">They Trade</p>
-              <p className="text-xs text-gray-400">Your friend starts trading on the platform</p>
+              <p className="text-xs text-gray-400">
+                Your friend starts trading on the platform
+              </p>
             </div>
           </div>
 
@@ -239,7 +269,9 @@ export default function Referrals() {
             </div>
             <div>
               <p className="font-semibold text-sm">You Earn</p>
-              <p className="text-xs text-gray-400">Earn a percentage of their trading fees forever</p>
+              <p className="text-xs text-gray-400">
+                Earn a percentage of their trading fees forever
+              </p>
             </div>
           </div>
         </CardContent>

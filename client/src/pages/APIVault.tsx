@@ -1,12 +1,34 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
-import { Copy, Eye, EyeOff, Trash2, Plus, Key, Shield, AlertTriangle } from "lucide-react";
+import {
+  Copy,
+  Eye,
+  EyeOff,
+  Trash2,
+  Plus,
+  Key,
+  Shield,
+  AlertTriangle,
+} from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 
@@ -108,7 +130,9 @@ export default function APIVault() {
         id: `key_${Date.now()}`,
         name: newKeyForm.name,
         key: `${newKeyForm.service}_key_****...****`,
-        secret: newKeyForm.secret ? `${newKeyForm.service}_secret_****...****` : undefined,
+        secret: newKeyForm.secret
+          ? `${newKeyForm.service}_secret_****...****`
+          : undefined,
         service: newKeyForm.service,
         permissions: newKeyForm.permissions,
         isActive: true,
@@ -133,15 +157,13 @@ export default function APIVault() {
   };
 
   const handleDeleteKey = (keyId: string) => {
-    setApiKeys(apiKeys.filter((k) => k.id !== keyId));
+    setApiKeys(apiKeys.filter(k => k.id !== keyId));
     toast.success("API key deleted");
   };
 
   const handleToggleActive = (keyId: string) => {
     setApiKeys(
-      apiKeys.map((k) =>
-        k.id === keyId ? { ...k, isActive: !k.isActive } : k
-      )
+      apiKeys.map(k => (k.id === keyId ? { ...k, isActive: !k.isActive } : k))
     );
   };
 
@@ -173,7 +195,8 @@ export default function APIVault() {
       <Alert className="border-yellow-900 bg-yellow-950">
         <AlertTriangle className="h-4 w-4 text-yellow-600" />
         <AlertDescription className="text-yellow-200">
-          Never share your API keys or secrets. Store them securely and rotate them regularly.
+          Never share your API keys or secrets. Store them securely and rotate
+          them regularly.
         </AlertDescription>
       </Alert>
 
@@ -181,7 +204,9 @@ export default function APIVault() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">API Vault</h1>
-          <p className="text-gray-400">Manage your API keys and integrations securely</p>
+          <p className="text-gray-400">
+            Manage your API keys and integrations securely
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -199,20 +224,31 @@ export default function APIVault() {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-300">Key Name</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Key Name
+                </label>
                 <Input
                   placeholder="e.g., Binance Trading Bot"
                   value={newKeyForm.name}
-                  onChange={(e) => setNewKeyForm({ ...newKeyForm, name: e.target.value })}
+                  onChange={e =>
+                    setNewKeyForm({ ...newKeyForm, name: e.target.value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300">Service</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Service
+                </label>
                 <select
                   value={newKeyForm.service}
-                  onChange={(e) => setNewKeyForm({ ...newKeyForm, service: e.target.value as any })}
+                  onChange={e =>
+                    setNewKeyForm({
+                      ...newKeyForm,
+                      service: e.target.value as any,
+                    })
+                  }
                   className="w-full bg-gray-800 border border-gray-700 text-white rounded px-3 py-2"
                 >
                   <option value="binance">Binance</option>
@@ -225,44 +261,56 @@ export default function APIVault() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300">API Key</label>
+                <label className="text-sm font-medium text-gray-300">
+                  API Key
+                </label>
                 <Input
                   type="password"
                   placeholder="Your API key"
                   value={newKeyForm.key}
-                  onChange={(e) => setNewKeyForm({ ...newKeyForm, key: e.target.value })}
+                  onChange={e =>
+                    setNewKeyForm({ ...newKeyForm, key: e.target.value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300">API Secret (Optional)</label>
+                <label className="text-sm font-medium text-gray-300">
+                  API Secret (Optional)
+                </label>
                 <Input
                   type="password"
                   placeholder="Your API secret"
                   value={newKeyForm.secret}
-                  onChange={(e) => setNewKeyForm({ ...newKeyForm, secret: e.target.value })}
+                  onChange={e =>
+                    setNewKeyForm({ ...newKeyForm, secret: e.target.value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300">Permissions</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Permissions
+                </label>
                 <div className="space-y-2">
-                  {["read", "write", "trade", "admin"].map((perm) => (
+                  {["read", "write", "trade", "admin"].map(perm => (
                     <label key={perm} className="flex items-center gap-2">
                       <input
                         type="checkbox"
                         checked={newKeyForm.permissions.includes(perm)}
-                        onChange={(e) => {
+                        onChange={e => {
                           const perms = e.target.checked
                             ? [...newKeyForm.permissions, perm]
-                            : newKeyForm.permissions.filter((p) => p !== perm);
+                            : newKeyForm.permissions.filter(p => p !== perm);
                           setNewKeyForm({ ...newKeyForm, permissions: perms });
                         }}
                         className="rounded"
                       />
-                      <span className="text-sm text-gray-300">{perm.charAt(0).toUpperCase() + perm.slice(1)}</span>
+                      <span className="text-sm text-gray-300">
+                        {perm.charAt(0).toUpperCase() + perm.slice(1)}
+                      </span>
                     </label>
                   ))}
                 </div>
@@ -282,17 +330,20 @@ export default function APIVault() {
 
       {/* API Keys List */}
       <div className="space-y-4">
-        {apiKeys.map((apiKey) => (
+        {apiKeys.map(apiKey => (
           <Card key={apiKey.id} className="bg-gray-900 border-gray-800">
             <CardContent className="pt-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-2xl">{getServiceIcon(apiKey.service)}</span>
+                    <span className="text-2xl">
+                      {getServiceIcon(apiKey.service)}
+                    </span>
                     <div>
                       <h3 className="font-bold text-white">{apiKey.name}</h3>
                       <p className="text-sm text-gray-400">
-                        {apiKey.service.charAt(0).toUpperCase() + apiKey.service.slice(1)}
+                        {apiKey.service.charAt(0).toUpperCase() +
+                          apiKey.service.slice(1)}
                       </p>
                     </div>
                     <Badge variant={apiKey.isActive ? "default" : "secondary"}>
@@ -304,7 +355,9 @@ export default function APIVault() {
                   <div className="space-y-2 mb-3">
                     <div className="flex items-center gap-2 bg-gray-800 p-2 rounded">
                       <span className="text-xs text-gray-400 flex-1 font-mono">
-                        {showSecrets.has(`key_${apiKey.id}`) ? apiKey.key : apiKey.key.replace(/./g, "*")}
+                        {showSecrets.has(`key_${apiKey.id}`)
+                          ? apiKey.key
+                          : apiKey.key.replace(/./g, "*")}
                       </span>
                       <Button
                         size="sm"
@@ -329,12 +382,16 @@ export default function APIVault() {
                     {apiKey.secret && (
                       <div className="flex items-center gap-2 bg-gray-800 p-2 rounded">
                         <span className="text-xs text-gray-400 flex-1 font-mono">
-                          {showSecrets.has(`secret_${apiKey.id}`) ? apiKey.secret : apiKey.secret.replace(/./g, "*")}
+                          {showSecrets.has(`secret_${apiKey.id}`)
+                            ? apiKey.secret
+                            : apiKey.secret.replace(/./g, "*")}
                         </span>
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => toggleShowSecret(`secret_${apiKey.id}`)}
+                          onClick={() =>
+                            toggleShowSecret(`secret_${apiKey.id}`)
+                          }
                         >
                           {showSecrets.has(`secret_${apiKey.id}`) ? (
                             <EyeOff className="w-4 h-4" />
@@ -345,7 +402,9 @@ export default function APIVault() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => copyToClipboard(apiKey.secret || "", "API Secret")}
+                          onClick={() =>
+                            copyToClipboard(apiKey.secret || "", "API Secret")
+                          }
                         >
                           <Copy className="w-4 h-4" />
                         </Button>
@@ -355,8 +414,11 @@ export default function APIVault() {
 
                   {/* Permissions */}
                   <div className="flex flex-wrap gap-2 mb-3">
-                    {apiKey.permissions.map((perm) => (
-                      <Badge key={perm} className={getPermissionBadgeColor(perm)}>
+                    {apiKey.permissions.map(perm => (
+                      <Badge
+                        key={perm}
+                        className={getPermissionBadgeColor(perm)}
+                      >
                         {perm}
                       </Badge>
                     ))}
@@ -365,7 +427,9 @@ export default function APIVault() {
                   {/* Metadata */}
                   <div className="text-xs text-gray-500 space-y-1">
                     <p>Created: {apiKey.createdAt.toLocaleDateString()}</p>
-                    {apiKey.lastUsed && <p>Last used: {apiKey.lastUsed.toLocaleString()}</p>}
+                    {apiKey.lastUsed && (
+                      <p>Last used: {apiKey.lastUsed.toLocaleString()}</p>
+                    )}
                     {apiKey.expiresAt && (
                       <p className="text-red-400">
                         Expires: {apiKey.expiresAt.toLocaleDateString()}

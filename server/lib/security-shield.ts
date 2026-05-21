@@ -12,7 +12,13 @@ export type ComplianceLevel = "compliant" | "warning" | "non_compliant";
 
 export interface SecurityThreat {
   threatId: string;
-  type: "fraud" | "manipulation" | "exploit" | "phishing" | "ddos" | "unauthorized_access";
+  type:
+    | "fraud"
+    | "manipulation"
+    | "exploit"
+    | "phishing"
+    | "ddos"
+    | "unauthorized_access";
   level: ThreatLevel;
   description: string;
   detectedAt: Date;
@@ -24,7 +30,12 @@ export interface SecurityThreat {
 export interface FraudDetection {
   detectionId: string;
   userId: number;
-  type: "unusual_activity" | "suspicious_transaction" | "account_takeover" | "wash_trading" | "pump_dump";
+  type:
+    | "unusual_activity"
+    | "suspicious_transaction"
+    | "account_takeover"
+    | "wash_trading"
+    | "pump_dump";
   confidence: number; // 0-100
   indicators: string[];
   timestamp: Date;
@@ -113,13 +124,15 @@ export class SecurityShield {
     userAverageTransaction: string,
     timesSinceLastTransaction: number,
     locationChange: boolean,
-    deviceChange: boolean,
+    deviceChange: boolean
   ): FraudDetection {
     const indicators: string[] = [];
     let confidenceScore = 0;
 
     // Check transaction amount anomaly
-    const amountRatio = new Decimal(transactionAmount).dividedBy(userAverageTransaction).toNumber();
+    const amountRatio = new Decimal(transactionAmount)
+      .dividedBy(userAverageTransaction)
+      .toNumber();
     if (amountRatio > 5) {
       indicators.push("Unusually large transaction");
       confidenceScore += 20;
@@ -143,7 +156,12 @@ export class SecurityShield {
       confidenceScore += 10;
     }
 
-    let type: "unusual_activity" | "suspicious_transaction" | "account_takeover" | "wash_trading" | "pump_dump" = "unusual_activity";
+    let type:
+      | "unusual_activity"
+      | "suspicious_transaction"
+      | "account_takeover"
+      | "wash_trading"
+      | "pump_dump" = "unusual_activity";
     if (confidenceScore > 50) {
       type = "account_takeover";
     } else if (confidenceScore > 30) {
@@ -168,9 +186,15 @@ export class SecurityShield {
    * Generate security threat
    */
   static generateSecurityThreat(
-    type: "fraud" | "manipulation" | "exploit" | "phishing" | "ddos" | "unauthorized_access",
+    type:
+      | "fraud"
+      | "manipulation"
+      | "exploit"
+      | "phishing"
+      | "ddos"
+      | "unauthorized_access",
     description: string,
-    affectedUsers?: number,
+    affectedUsers?: number
   ): SecurityThreat {
     let level: ThreatLevel = "medium";
     if (affectedUsers && affectedUsers > 1000) {
@@ -206,11 +230,11 @@ export class SecurityShield {
   static verifyProofOfReserve(
     coinType: string,
     claimedReserve: string,
-    verifiedWallets: { address: string; balance: string }[],
+    verifiedWallets: { address: string; balance: string }[]
   ): ProofOfReserve {
     const verifiedReserve = verifiedWallets.reduce(
       (sum, wallet) => new Decimal(sum).plus(wallet.balance),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const claimedDecimal = new Decimal(claimedReserve);
@@ -229,7 +253,7 @@ export class SecurityShield {
       verifiedReserve: verifiedReserve.toFixed(18),
       discrepancy: discrepancy.toFixed(18),
       discrepancyPercent,
-      walletAddresses: verifiedWallets.map((w) => w.address),
+      walletAddresses: verifiedWallets.map(w => w.address),
       blockchainVerification: {
         verified: true,
         blockHeight: Math.floor(Math.random() * 1000000),
@@ -247,7 +271,7 @@ export class SecurityShield {
     kycVerified: boolean,
     amlPassed: boolean,
     sanctionsCleared: boolean,
-    taxReported: boolean,
+    taxReported: boolean
   ): ComplianceReport {
     const issues: string[] = [];
     let status: ComplianceLevel = "compliant";
@@ -292,7 +316,7 @@ export class SecurityShield {
     resource: string,
     changes: Record<string, any>,
     ipAddress: string,
-    userAgent: string,
+    userAgent: string
   ): AuditLog {
     return {
       logId: `AUDIT-${Date.now()}`,
@@ -316,7 +340,7 @@ export class SecurityShield {
     accountAgeMonths: number,
     verificationStatus: number, // 0-100
     geolocationChanges: number,
-    deviceCount: number,
+    deviceCount: number
   ): RiskAssessment {
     const transactionRisk = Math.max(0, 100 - transactionCount * 2); // More transactions = lower risk
     const accountRisk = Math.max(0, 100 - accountAgeMonths * 2); // Older account = lower risk
@@ -377,7 +401,7 @@ export class SecurityShield {
     type: string,
     severity: ThreatLevel,
     description: string,
-    affectedSystems: string[],
+    affectedSystems: string[]
   ): SecurityIncident {
     return {
       incidentId: `INC-${Date.now()}`,
@@ -406,14 +430,18 @@ export class SecurityShield {
       sellPrice: string;
       quantity: string;
       timeBetween: number; // seconds
-    }[],
+    }[]
   ): boolean {
     for (const trade of trades) {
       const buyPrice = new Decimal(trade.buyPrice);
       const sellPrice = new Decimal(trade.sellPrice);
 
       // Check if price difference is minimal (within 1%)
-      const priceDiff = sellPrice.minus(buyPrice).dividedBy(buyPrice).times(100).abs();
+      const priceDiff = sellPrice
+        .minus(buyPrice)
+        .dividedBy(buyPrice)
+        .times(100)
+        .abs();
       if (priceDiff.lt(1) && trade.timeBetween < 3600) {
         return true; // Likely wash trading
       }
@@ -428,7 +456,7 @@ export class SecurityShield {
     userId: number,
     amount: string,
     userBalance: string,
-    userHistory: { avgTransaction: string; txCount: number },
+    userHistory: { avgTransaction: string; txCount: number }
   ): {
     legitimate: boolean;
     riskScore: number;
@@ -468,17 +496,15 @@ export class SecurityShield {
   /**
    * Generate security score
    */
-  static generateSecurityScore(
-    factors: {
-      twoFactorEnabled: boolean;
-      emailVerified: boolean;
-      phoneVerified: boolean;
-      kycCompleted: boolean;
-        addressVerified: boolean;
-      noSuspiciousActivity: boolean;
-      noFailedLogins: boolean;
-    },
-  ): number {
+  static generateSecurityScore(factors: {
+    twoFactorEnabled: boolean;
+    emailVerified: boolean;
+    phoneVerified: boolean;
+    kycCompleted: boolean;
+    addressVerified: boolean;
+    noSuspiciousActivity: boolean;
+    noFailedLogins: boolean;
+  }): number {
     let score = 50; // Base score
 
     if (factors.twoFactorEnabled) score += 15;

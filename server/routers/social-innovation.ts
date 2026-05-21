@@ -1,6 +1,6 @@
-import { router, protectedProcedure } from '../_core/trpc';
-import { z } from 'zod';
-import { db } from '../db';
+import { router, protectedProcedure } from "../_core/trpc";
+import { z } from "zod";
+import { db } from "../db";
 
 /**
  * Social Innovation - Next-Gen Social Trading
@@ -14,26 +14,26 @@ export const socialInnovationRouter = router({
       traders: [
         {
           id: 1,
-          username: 'WhaleWatcher',
+          username: "WhaleWatcher",
           roi30d: 0.45,
           winRate: 0.82,
           followers: 1250,
           assetsUnderManagement: 5000000,
-          strategy: 'Momentum Trading',
-          riskLevel: 'Moderate'
+          strategy: "Momentum Trading",
+          riskLevel: "Moderate",
         },
         {
           id: 2,
-          username: 'AlphaSeeker',
+          username: "AlphaSeeker",
           roi30d: 0.62,
           winRate: 0.75,
           followers: 850,
           assetsUnderManagement: 2500000,
-          strategy: 'Scalping',
-          riskLevel: 'High'
-        }
+          strategy: "Scalping",
+          riskLevel: "High",
+        },
       ],
-      topPerformer: 'AlphaSeeker'
+      topPerformer: "AlphaSeeker",
     };
   }),
 
@@ -50,9 +50,9 @@ export const socialInnovationRouter = router({
         success: true,
         poolId: input.poolId,
         amount: input.amount,
-        status: 'active',
+        status: "active",
         message: `Successfully joined the social trading pool with ${input.amount} SKYCOIN4444.`,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }),
 
@@ -62,24 +62,24 @@ export const socialInnovationRouter = router({
       signals: [
         {
           id: 1,
-          token: 'SKYCOIN4444',
-          consensus: 'Strong Buy',
+          token: "SKYCOIN4444",
+          consensus: "Strong Buy",
           confidence: 0.89,
           sourceCount: 156, // Number of elite traders in agreement
-          targetPrice: 15.50,
-          timeframe: '48h'
+          targetPrice: 15.5,
+          timeframe: "48h",
         },
         {
           id: 2,
-          token: 'SHADOW_COIN',
-          consensus: 'Hold',
+          token: "SHADOW_COIN",
+          consensus: "Hold",
           confidence: 0.65,
           sourceCount: 89,
-          targetPrice: 2.80,
-          timeframe: '1w'
-        }
+          targetPrice: 2.8,
+          timeframe: "1w",
+        },
       ],
-      overallMarketSentiment: 'Bullish'
+      overallMarketSentiment: "Bullish",
     };
   }),
 
@@ -96,10 +96,11 @@ export const socialInnovationRouter = router({
       return {
         success: true,
         campaignId: `CAMPAIGN-${Date.now()}`,
-        status: 'initializing',
-        message: 'Manus AI is now generating content and scheduling posts for your campaign.',
+        status: "initializing",
+        message:
+          "Manus AI is now generating content and scheduling posts for your campaign.",
         estimatedReach: 50000,
-        expectedEngagement: 0.05
+        expectedEngagement: 0.05,
       };
     }),
 
@@ -107,20 +108,20 @@ export const socialInnovationRouter = router({
   getReputationScore: protectedProcedure.query(async ({ ctx }) => {
     return {
       score: 850, // Out of 1000
-      tier: 'Elite Influencer',
+      tier: "Elite Influencer",
       metrics: {
         accuracy: 0.92,
         engagement: 0.78,
         contribution: 0.85,
-        trust: 0.95
+        trust: 0.95,
       },
-      badges: ['Early Adopter', 'Top Predictor', 'Whale Partner'],
+      badges: ["Early Adopter", "Top Predictor", "Whale Partner"],
       benefits: [
-        'Reduced trading fees (50%)',
-        'Early access to new features',
-        'Priority support',
-        'Exclusive NFT drops'
-      ]
+        "Reduced trading fees (50%)",
+        "Early access to new features",
+        "Priority support",
+        "Exclusive NFT drops",
+      ],
     };
-  })
+  }),
 });

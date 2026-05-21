@@ -4,7 +4,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Copy, Share2, Shield, Star, Zap, TrendingUp } from "lucide-react";
+import {
+  Edit,
+  Copy,
+  Share2,
+  Shield,
+  Star,
+  Zap,
+  TrendingUp,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const PROFILE = {
@@ -43,22 +51,53 @@ export default function ShadowUserProfile() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-0.5">
                 <h1 className="text-xl font-black">{PROFILE.name}</h1>
-                {PROFILE.verified && <Shield className="h-4 w-4 text-blue-400" />}
+                {PROFILE.verified && (
+                  <Shield className="h-4 w-4 text-blue-400" />
+                )}
               </div>
-              <p className="text-xs text-muted-foreground mb-1">{PROFILE.username}</p>
-              <p className="text-xs text-muted-foreground mb-2">{PROFILE.bio}</p>
-              <p className="text-xs text-muted-foreground mb-2">📍 {PROFILE.location} · Joined {PROFILE.joined}</p>
+              <p className="text-xs text-muted-foreground mb-1">
+                {PROFILE.username}
+              </p>
+              <p className="text-xs text-muted-foreground mb-2">
+                {PROFILE.bio}
+              </p>
+              <p className="text-xs text-muted-foreground mb-2">
+                📍 {PROFILE.location} · Joined {PROFILE.joined}
+              </p>
               <div className="flex flex-wrap gap-1">
                 {PROFILE.badges.map(b => (
-                  <Badge key={b} className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">{b}</Badge>
+                  <Badge
+                    key={b}
+                    className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0"
+                  >
+                    {b}
+                  </Badge>
                 ))}
               </div>
             </div>
           </div>
           <div className="flex gap-2 mt-3">
-            <Button size="sm" className="flex-1 h-7 text-xs"><Edit className="h-3 w-3 mr-1" />Edit Profile</Button>
-            <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => { navigator.clipboard.writeText("https://shadowchat.app/u/skylerblue4444"); toast.success("Profile link copied!"); }}><Copy className="h-3 w-3 mr-1" />Copy Link</Button>
-            <Button size="sm" variant="outline" className="h-7 text-xs"><Share2 className="h-3 w-3" /></Button>
+            <Button size="sm" className="flex-1 h-7 text-xs">
+              <Edit className="h-3 w-3 mr-1" />
+              Edit Profile
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-xs"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "https://shadowchat.app/u/skylerblue4444"
+                );
+                toast.success("Profile link copied!");
+              }}
+            >
+              <Copy className="h-3 w-3 mr-1" />
+              Copy Link
+            </Button>
+            <Button size="sm" variant="outline" className="h-7 text-xs">
+              <Share2 className="h-3 w-3" />
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -76,10 +115,16 @@ export default function ShadowUserProfile() {
 
       <Card className="border-border/50">
         <CardContent className="py-3 px-4">
-          <p className="font-black text-sm mb-2 flex items-center gap-1.5"><Zap className="h-4 w-4 text-yellow-400" />Recent Activity</p>
+          <p className="font-black text-sm mb-2 flex items-center gap-1.5">
+            <Zap className="h-4 w-4 text-yellow-400" />
+            Recent Activity
+          </p>
           <div className="space-y-1.5">
             {PROFILE.activity.map((a, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs py-1 border-b border-border/30 last:border-0">
+              <div
+                key={i}
+                className="flex items-center gap-2 text-xs py-1 border-b border-border/30 last:border-0"
+              >
                 <span>{a.type}</span>
                 <span className="flex-1 text-muted-foreground">{a.text}</span>
                 <span className="text-muted-foreground shrink-0">{a.time}</span>

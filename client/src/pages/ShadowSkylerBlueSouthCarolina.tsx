@@ -23,15 +23,40 @@ export default function ShadowSkylerBlueSouthCarolina() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">South Carolina IT</h1>
-          <p className="text-sm text-muted-foreground">Managed IT services in South Carolina with Charleston, Columbia, and Greenville coverage</p>
+          <p className="text-sm text-muted-foreground">
+            Managed IT services in South Carolina with Charleston, Columbia, and
+            Greenville coverage
+          </p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">South Carolina</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">
+          South Carolina
+        </Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">8247</p><p className="text-xs text-muted-foreground">SC Clients</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">Under 2hrs</p><p className="text-xs text-muted-foreground">Response Time</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">247</p><p className="text-xs text-muted-foreground">Local Techs</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">SC statewide</p><p className="text-xs text-muted-foreground">Coverage</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-yellow-400">8247</p>
+            <p className="text-xs text-muted-foreground">SC Clients</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">Under 2hrs</p>
+            <p className="text-xs text-muted-foreground">Response Time</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">247</p>
+            <p className="text-xs text-muted-foreground">Local Techs</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">SC statewide</p>
+            <p className="text-xs text-muted-foreground">Coverage</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,23 +69,38 @@ export default function ShadowSkylerBlueSouthCarolina() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">South Carolina IT — Get Started Today</p>
-        <p className="text-xs text-muted-foreground mb-3">Skyler Blue IT Resolutions — Arkansas #1 IT Partner</p>
+        <p className="font-black text-sm mb-1">
+          South Carolina IT — Get Started Today
+        </p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Skyler Blue IT Resolutions — Arkansas #1 IT Partner
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("South Carolina IT activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("South Carolina IT activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Contacting South Carolina IT team...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Contacting South Carolina IT team...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Contact Us
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

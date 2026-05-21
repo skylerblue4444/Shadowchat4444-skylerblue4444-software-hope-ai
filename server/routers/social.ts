@@ -38,7 +38,7 @@ export const socialRouter = router({
         bio: z.string().optional(),
         location: z.string().optional(),
         interests: z.array(z.string()).optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -49,7 +49,9 @@ export const socialRouter = router({
 
   // ─── Get Feed ─────────────────────────────────────────────────────────────
   getFeed: protectedProcedure
-    .input(z.object({ limit: z.number().default(20), offset: z.number().default(0) }))
+    .input(
+      z.object({ limit: z.number().default(20), offset: z.number().default(0) })
+    )
     .query(async ({ input }) => {
       return {
         posts: [
@@ -71,7 +73,8 @@ export const socialRouter = router({
             userId: 456,
             username: "TradeQueen",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=user2",
-            content: "SHADOW is looking bullish! Technical analysis incoming 📊",
+            content:
+              "SHADOW is looking bullish! Technical analysis incoming 📊",
             image: "https://api.placeholder.com/chart.jpg",
             timestamp: new Date(Date.now() - 7200000),
             likes: 567,
@@ -90,7 +93,7 @@ export const socialRouter = router({
       z.object({
         content: z.string(),
         image: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -118,7 +121,7 @@ export const socialRouter = router({
         postId: z.string(),
         amount: z.string(),
         coin: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -173,7 +176,7 @@ export const socialRouter = router({
         gender: z.string(),
         lookingFor: z.string(),
         photos: z.array(z.string()),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -212,7 +215,9 @@ export const socialRouter = router({
 
   // ─── Messaging: Get Messages ──────────────────────────────────────────────
   getMessages: protectedProcedure
-    .input(z.object({ conversationId: z.string(), limit: z.number().default(50) }))
+    .input(
+      z.object({ conversationId: z.string(), limit: z.number().default(50) })
+    )
     .query(async ({ input }) => {
       return {
         messages: [
@@ -240,7 +245,7 @@ export const socialRouter = router({
       z.object({
         recipientId: z.number(),
         content: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -257,7 +262,7 @@ export const socialRouter = router({
         recipientId: z.number(),
         audioUrl: z.string(),
         duration: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {

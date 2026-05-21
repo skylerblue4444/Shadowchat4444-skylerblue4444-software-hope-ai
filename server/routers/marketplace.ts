@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { db } from "../db";
-import { marketplaceListings, marketplaceOrders, users } from "@/drizzle/schema";
+import {
+  marketplaceListings,
+  marketplaceOrders,
+  users,
+} from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 
@@ -51,7 +55,7 @@ export const marketplaceRouter = router({
 
       const listings = await query.limit(input.limit).offset(input.offset);
 
-      return listings.map((l) => ({
+      return listings.map(l => ({
         ...l,
         images: l.images ? JSON.parse(l.images) : [],
       }));
@@ -64,7 +68,7 @@ export const marketplaceRouter = router({
       .from(marketplaceListings)
       .where(eq(marketplaceListings.sellerId, ctx.user.id));
 
-    return listings.map((l) => ({
+    return listings.map(l => ({
       ...l,
       images: l.images ? JSON.parse(l.images) : [],
     }));

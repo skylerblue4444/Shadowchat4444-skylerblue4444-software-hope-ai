@@ -4,7 +4,7 @@
  * Supports: Spot Trading, Futures, Options, Market Making
  */
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
 // ============================================================================
 // MARKET DATA MANAGER
@@ -49,7 +49,7 @@ class MarketDataManager extends EventEmitter {
    */
   updateTicker(ticker: Ticker): void {
     this.tickers.set(ticker.symbol, ticker);
-    this.emit('ticker:updated', ticker);
+    this.emit("ticker:updated", ticker);
   }
 
   /**
@@ -74,7 +74,7 @@ class MarketDataManager extends EventEmitter {
       this.candles.set(symbol, []);
     }
     this.candles.get(symbol)!.push(candle);
-    this.emit('candle:added', { symbol, candle });
+    this.emit("candle:added", { symbol, candle });
   }
 
   /**
@@ -90,7 +90,7 @@ class MarketDataManager extends EventEmitter {
    */
   updateOrderBook(orderBook: OrderBook): void {
     this.orderBooks.set(orderBook.symbol, orderBook);
-    this.emit('orderbook:updated', orderBook);
+    this.emit("orderbook:updated", orderBook);
   }
 
   /**
@@ -103,7 +103,10 @@ class MarketDataManager extends EventEmitter {
   /**
    * Subscribe to price updates
    */
-  subscribeToPriceUpdates(symbol: string, callback: (ticker: Ticker) => void): void {
+  subscribeToPriceUpdates(
+    symbol: string,
+    callback: (ticker: Ticker) => void
+  ): void {
     const interval = setInterval(() => {
       const ticker = this.getTicker(symbol);
       if (ticker) callback(ticker);
@@ -126,9 +129,15 @@ class MarketDataManager extends EventEmitter {
 // ORDER MANAGER
 // ============================================================================
 
-type OrderType = 'market' | 'limit' | 'stop' | 'stop-limit';
-type OrderSide = 'buy' | 'sell';
-type OrderStatus = 'pending' | 'open' | 'partially_filled' | 'filled' | 'canceled' | 'rejected';
+type OrderType = "market" | "limit" | "stop" | "stop-limit";
+type OrderSide = "buy" | "sell";
+type OrderStatus =
+  | "pending"
+  | "open"
+  | "partially_filled"
+  | "filled"
+  | "canceled"
+  | "rejected";
 
 interface Order {
   id: string;
@@ -185,7 +194,7 @@ class OrderManager extends EventEmitter {
       quantity,
       price,
       stopPrice,
-      status: 'pending',
+      status: "pending",
       filledQuantity: 0,
       filledPrice: 0,
       fee: 0,
@@ -201,16 +210,21 @@ class OrderManager extends EventEmitter {
     }
     this.userOrders.get(userId)!.push(orderId);
 
-    this.emit('order:created', order);
+    this.emit("order:created", order);
     return order;
   }
 
   /**
    * Fill order
    */
-  fillOrder(orderId: string, quantity: number, price: number, fee: number = 0): Order {
+  fillOrder(
+    orderId: string,
+    quantity: number,
+    price: number,
+    fee: number = 0
+  ): Order {
     const order = this.orders.get(orderId);
-    if (!order) throw new Error('Order not found');
+    if (!order) throw new Error("Order not found");
 
     const fill: Fill = {
       id: `fill_${Date.now()}_${Math.random()}`,
@@ -223,19 +237,22 @@ class OrderManager extends EventEmitter {
 
     order.fills.push(fill);
     order.filledQuantity += quantity;
-    order.filledPrice = (order.filledPrice * (order.filledQuantity - quantity) + price * quantity) / order.filledQuantity;
+    order.filledPrice =
+      (order.filledPrice * (order.filledQuantity - quantity) +
+        price * quantity) /
+      order.filledQuantity;
     order.fee += fee;
 
     if (order.filledQuantity >= order.quantity) {
-      order.status = 'filled';
+      order.status = "filled";
     } else if (order.filledQuantity > 0) {
-      order.status = 'partially_filled';
+      order.status = "partially_filled";
     } else {
-      order.status = 'open';
+      order.status = "open";
     }
 
     order.updatedAt = new Date();
-    this.emit('order:filled', { order, fill });
+    this.emit("order:filled", { order, fill });
 
     return order;
   }
@@ -245,12 +262,12 @@ class OrderManager extends EventEmitter {
    */
   cancelOrder(orderId: string): Order {
     const order = this.orders.get(orderId);
-    if (!order) throw new Error('Order not found');
+    if (!order) throw new Error("Order not found");
 
-    order.status = 'canceled';
+    order.status = "canceled";
     order.updatedAt = new Date();
 
-    this.emit('order:canceled', order);
+    this.emit("order:canceled", order);
     return order;
   }
 
@@ -266,10 +283,12 @@ class OrderManager extends EventEmitter {
    */
   getUserOrders(userId: string, status?: OrderStatus): Order[] {
     const orderIds = this.userOrders.get(userId) || [];
-    let orders = orderIds.map((id) => this.orders.get(id)).filter((o) => o !== undefined) as Order[];
+    let orders = orderIds
+      .map(id => this.orders.get(id))
+      .filter(o => o !== undefined) as Order[];
 
     if (status) {
-      orders = orders.filter((o) => o.status === status);
+      orders = orders.filter(o => o.status === status);
     }
 
     return orders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -279,7 +298,9 @@ class OrderManager extends EventEmitter {
    * Get open orders
    */
   getOpenOrders(userId: string): Order[] {
-    return this.getUserOrders(userId).filter((o) => o.status === 'open' || o.status === 'partially_filled');
+    return this.getUserOrders(userId).filter(
+      o => o.status === "open" || o.status === "partially_filled"
+    );
   }
 }
 
@@ -325,7 +346,7 @@ class PortfolioManager extends EventEmitter {
     };
 
     this.portfolios.set(userId, portfolio);
-    this.emit('portfolio:created', portfolio);
+    this.emit("portfolio:created", portfolio);
 
     return portfolio;
   }
@@ -340,9 +361,14 @@ class PortfolioManager extends EventEmitter {
   /**
    * Update position
    */
-  updatePosition(userId: string, symbol: string, quantity: number, price: number): Position {
+  updatePosition(
+    userId: string,
+    symbol: string,
+    quantity: number,
+    price: number
+  ): Position {
     const portfolio = this.portfolios.get(userId);
-    if (!portfolio) throw new Error('Portfolio not found');
+    if (!portfolio) throw new Error("Portfolio not found");
 
     let position = portfolio.positions.get(symbol);
 
@@ -359,18 +385,26 @@ class PortfolioManager extends EventEmitter {
     }
 
     // Update average price
-    const totalCost = position.averagePrice * position.quantity + price * quantity;
+    const totalCost =
+      position.averagePrice * position.quantity + price * quantity;
     position.quantity += quantity;
-    position.averagePrice = position.quantity > 0 ? totalCost / position.quantity : 0;
+    position.averagePrice =
+      position.quantity > 0 ? totalCost / position.quantity : 0;
     position.currentPrice = price;
     position.value = position.quantity * price;
-    position.unrealizedPnL = position.value - position.quantity * position.averagePrice;
-    position.unrealizedPnLPercent = position.averagePrice > 0 ? (position.unrealizedPnL / (position.quantity * position.averagePrice)) * 100 : 0;
+    position.unrealizedPnL =
+      position.value - position.quantity * position.averagePrice;
+    position.unrealizedPnLPercent =
+      position.averagePrice > 0
+        ? (position.unrealizedPnL /
+            (position.quantity * position.averagePrice)) *
+          100
+        : 0;
 
     portfolio.positions.set(symbol, position);
     this.updatePortfolioMetrics(userId);
 
-    this.emit('position:updated', { userId, position });
+    this.emit("position:updated", { userId, position });
     return position;
   }
 
@@ -384,17 +418,18 @@ class PortfolioManager extends EventEmitter {
     let positionsValue = 0;
     let totalPnL = 0;
 
-    portfolio.positions.forEach((position) => {
+    portfolio.positions.forEach(position => {
       positionsValue += position.value;
       totalPnL += position.unrealizedPnL;
     });
 
     portfolio.totalValue = portfolio.cash + positionsValue;
     portfolio.totalPnL = totalPnL;
-    portfolio.totalPnLPercent = portfolio.totalValue > 0 ? (totalPnL / portfolio.totalValue) * 100 : 0;
+    portfolio.totalPnLPercent =
+      portfolio.totalValue > 0 ? (totalPnL / portfolio.totalValue) * 100 : 0;
     portfolio.updatedAt = new Date();
 
-    this.emit('portfolio:updated', portfolio);
+    this.emit("portfolio:updated", portfolio);
   }
 
   /**
@@ -435,8 +470,13 @@ class TradingEngine extends EventEmitter {
   }
 
   private setupEventListeners(): void {
-    this.orderManager.on('order:filled', ({ order, fill }) => {
-      this.portfolioManager.updatePosition(order.userId, order.symbol, order.side === 'buy' ? fill.quantity : -fill.quantity, fill.price);
+    this.orderManager.on("order:filled", ({ order, fill }) => {
+      this.portfolioManager.updatePosition(
+        order.userId,
+        order.symbol,
+        order.side === "buy" ? fill.quantity : -fill.quantity,
+        fill.price
+      );
     });
   }
 
@@ -449,22 +489,30 @@ class TradingEngine extends EventEmitter {
     side: OrderSide,
     quantity: number,
     price: number,
-    type: OrderType = 'market'
+    type: OrderType = "market"
   ): Promise<Order> {
     // Create order
-    const order = this.orderManager.createOrder(userId, symbol, type, side, quantity, price);
+    const order = this.orderManager.createOrder(
+      userId,
+      symbol,
+      type,
+      side,
+      quantity,
+      price
+    );
 
     // For market orders, fill immediately
-    if (type === 'market') {
+    if (type === "market") {
       const ticker = this.marketData.getTicker(symbol);
       if (ticker) {
-        const fillPrice = side === 'buy' ? ticker.price * 1.001 : ticker.price * 0.999; // Slight slippage
-        const fee = (quantity * fillPrice) * 0.001; // 0.1% fee
+        const fillPrice =
+          side === "buy" ? ticker.price * 1.001 : ticker.price * 0.999; // Slight slippage
+        const fee = quantity * fillPrice * 0.001; // 0.1% fee
         this.orderManager.fillOrder(order.id, quantity, fillPrice, fee);
       }
     }
 
-    this.emit('trade:executed', order);
+    this.emit("trade:executed", order);
     return order;
   }
 

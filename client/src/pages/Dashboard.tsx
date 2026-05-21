@@ -5,11 +5,31 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 interface DashboardData {
   portfolio: {
@@ -37,7 +57,9 @@ interface DashboardData {
 }
 
 const Dashboard: React.FC = () => {
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -84,11 +106,19 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (!dashboardData) {
-    return <div className="flex items-center justify-center h-screen">Error loading dashboard</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Error loading dashboard
+      </div>
+    );
   }
 
   const portfolioChartData = [
@@ -111,49 +141,75 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">FinTrack Dashboard</h1>
-          <p className="text-slate-400">Your unified crypto and trading intelligence hub</p>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            FinTrack Dashboard
+          </h1>
+          <p className="text-slate-400">
+            Your unified crypto and trading intelligence hub
+          </p>
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Portfolio Value</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">
+                Portfolio Value
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{dashboardData.portfolio.totalValue}</div>
+              <div className="text-2xl font-bold text-white">
+                {dashboardData.portfolio.totalValue}
+              </div>
               <p className="text-xs text-green-400 mt-1">+5.2% this month</p>
             </CardContent>
           </Card>
 
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Trading Win Rate</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">
+                Trading Win Rate
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{dashboardData.trading.winRate.toFixed(1)}%</div>
-              <p className="text-xs text-blue-400 mt-1">{dashboardData.trading.openTrades} open trades</p>
+              <div className="text-2xl font-bold text-white">
+                {dashboardData.trading.winRate.toFixed(1)}%
+              </div>
+              <p className="text-xs text-blue-400 mt-1">
+                {dashboardData.trading.openTrades} open trades
+              </p>
             </CardContent>
           </Card>
 
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Security Score</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">
+                Security Score
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{dashboardData.security.securityScore}/100</div>
-              <Badge className="mt-1 bg-green-600">{dashboardData.security.level.toUpperCase()}</Badge>
+              <div className="text-2xl font-bold text-white">
+                {dashboardData.security.securityScore}/100
+              </div>
+              <Badge className="mt-1 bg-green-600">
+                {dashboardData.security.level.toUpperCase()}
+              </Badge>
             </CardContent>
           </Card>
 
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Whale Activity</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">
+                Whale Activity
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{dashboardData.whale.activityScore}</div>
-              <p className="text-xs text-yellow-400 mt-1">{dashboardData.whale.anomalies} anomalies</p>
+              <div className="text-2xl font-bold text-white">
+                {dashboardData.whale.activityScore}
+              </div>
+              <p className="text-xs text-yellow-400 mt-1">
+                {dashboardData.whale.anomalies} anomalies
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -174,7 +230,9 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Portfolio Distribution</CardTitle>
+                  <CardTitle className="text-white">
+                    Portfolio Distribution
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -190,7 +248,10 @@ const Dashboard: React.FC = () => {
                         dataKey="value"
                       >
                         {portfolioChartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -201,7 +262,9 @@ const Dashboard: React.FC = () => {
 
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Trading Performance</CardTitle>
+                  <CardTitle className="text-white">
+                    Trading Performance
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -211,8 +274,18 @@ const Dashboard: React.FC = () => {
                       <YAxis stroke="#94a3b8" />
                       <Tooltip />
                       <Legend />
-                      <Line type="monotone" dataKey="return" stroke="#10b981" name="Monthly Return %" />
-                      <Line type="monotone" dataKey="winRate" stroke="#3b82f6" name="Win Rate %" />
+                      <Line
+                        type="monotone"
+                        dataKey="return"
+                        stroke="#10b981"
+                        name="Monthly Return %"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="winRate"
+                        stroke="#3b82f6"
+                        name="Win Rate %"
+                      />
                     </LineChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -225,12 +298,19 @@ const Dashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {dashboardData.portfolio.coins.map((coin) => (
-                    <div key={coin.coinType} className="flex justify-between items-center p-2 bg-slate-700 rounded">
-                      <span className="text-white font-medium">{coin.coinType}</span>
+                  {dashboardData.portfolio.coins.map(coin => (
+                    <div
+                      key={coin.coinType}
+                      className="flex justify-between items-center p-2 bg-slate-700 rounded"
+                    >
+                      <span className="text-white font-medium">
+                        {coin.coinType}
+                      </span>
                       <div className="text-right">
                         <div className="text-white">{coin.balance}</div>
-                        <div className="text-xs text-slate-400">{coin.usdValue}</div>
+                        <div className="text-xs text-slate-400">
+                          {coin.usdValue}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -244,20 +324,28 @@ const Dashboard: React.FC = () => {
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-white">AI Trading Bot</CardTitle>
-                <CardDescription>Automated trading with 5 strategies</CardDescription>
+                <CardDescription>
+                  Automated trading with 5 strategies
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-700 p-4 rounded">
                     <p className="text-slate-400 text-sm">Active Signals</p>
-                    <p className="text-2xl font-bold text-white">{dashboardData.trading.activeSignals}</p>
+                    <p className="text-2xl font-bold text-white">
+                      {dashboardData.trading.activeSignals}
+                    </p>
                   </div>
                   <div className="bg-slate-700 p-4 rounded">
                     <p className="text-slate-400 text-sm">Monthly Return</p>
-                    <p className="text-2xl font-bold text-green-400">{dashboardData.trading.monthlyReturn}%</p>
+                    <p className="text-2xl font-bold text-green-400">
+                      {dashboardData.trading.monthlyReturn}%
+                    </p>
                   </div>
                 </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">View Trading Signals</Button>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  View Trading Signals
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
@@ -272,9 +360,13 @@ const Dashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="bg-slate-700 p-4 rounded">
                   <p className="text-slate-400 text-sm">Concentration Risk</p>
-                  <Badge className="mt-2 bg-yellow-600">{dashboardData.whale.concentrationRisk.toUpperCase()}</Badge>
+                  <Badge className="mt-2 bg-yellow-600">
+                    {dashboardData.whale.concentrationRisk.toUpperCase()}
+                  </Badge>
                 </div>
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">View Whale Activity</Button>
+                <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                  View Whale Activity
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
@@ -284,14 +376,20 @@ const Dashboard: React.FC = () => {
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-white">Security Shield</CardTitle>
-                <CardDescription>Fraud detection and compliance</CardDescription>
+                <CardDescription>
+                  Fraud detection and compliance
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-slate-700 p-4 rounded">
                   <p className="text-slate-400 text-sm">Compliance Status</p>
-                  <Badge className="mt-2 bg-green-600">{dashboardData.security.complianceStatus.toUpperCase()}</Badge>
+                  <Badge className="mt-2 bg-green-600">
+                    {dashboardData.security.complianceStatus.toUpperCase()}
+                  </Badge>
                 </div>
-                <Button className="w-full bg-green-600 hover:bg-green-700">View Audit Log</Button>
+                <Button className="w-full bg-green-600 hover:bg-green-700">
+                  View Audit Log
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
@@ -304,7 +402,9 @@ const Dashboard: React.FC = () => {
                 <CardDescription>Connect with the community</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className="w-full bg-pink-600 hover:bg-pink-700">View Social Feed</Button>
+                <Button className="w-full bg-pink-600 hover:bg-pink-700">
+                  View Social Feed
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
@@ -313,11 +413,17 @@ const Dashboard: React.FC = () => {
           <TabsContent value="youtube" className="space-y-4">
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">YouTube Watch-to-Earn</CardTitle>
-                <CardDescription>Earn SKY4444 by watching crypto content</CardDescription>
+                <CardTitle className="text-white">
+                  YouTube Watch-to-Earn
+                </CardTitle>
+                <CardDescription>
+                  Earn SKY4444 by watching crypto content
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className="w-full bg-red-600 hover:bg-red-700">Start Watching</Button>
+                <Button className="w-full bg-red-600 hover:bg-red-700">
+                  Start Watching
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>

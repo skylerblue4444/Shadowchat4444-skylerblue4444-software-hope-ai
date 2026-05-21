@@ -37,7 +37,7 @@ export class AMMEngine {
     amountIn: string,
     reserveIn: string,
     reserveOut: string,
-    feeBps: number = 25,
+    feeBps: number = 25
   ): string {
     const amountInDecimal = new Decimal(amountIn);
     const reserveInDecimal = new Decimal(reserveIn);
@@ -66,7 +66,7 @@ export class AMMEngine {
     amountOut: string,
     reserveIn: string,
     reserveOut: string,
-    feeBps: number = 25,
+    feeBps: number = 25
   ): string {
     const amountOutDecimal = new Decimal(amountOut);
     const reserveInDecimal = new Decimal(reserveIn);
@@ -86,7 +86,9 @@ export class AMMEngine {
     const amountInUnadjusted = numerator.dividedBy(denominator);
 
     // Adjust for fee: amountIn = amountInUnadjusted / (1 - fee/10000)
-    const feeMultiplier = new Decimal(10000).dividedBy(new Decimal(10000 - feeBps));
+    const feeMultiplier = new Decimal(10000).dividedBy(
+      new Decimal(10000 - feeBps)
+    );
     const amountIn = amountInUnadjusted.times(feeMultiplier);
 
     return amountIn.toFixed(18);
@@ -99,11 +101,11 @@ export class AMMEngine {
     amountIn: string,
     reserveIn: string,
     reserveOut: string,
-    feeBps: number = 25,
+    feeBps: number = 25
   ): number {
     const spotPrice = new Decimal(reserveOut).dividedBy(reserveIn);
     const executionPrice = new Decimal(amountIn).dividedBy(
-      this.getAmountOut(amountIn, reserveIn, reserveOut, feeBps),
+      this.getAmountOut(amountIn, reserveIn, reserveOut, feeBps)
     );
     const priceImpact = executionPrice.dividedBy(spotPrice).minus(1).times(100);
     return parseFloat(priceImpact.toFixed(4));
@@ -116,18 +118,37 @@ export class AMMEngine {
     amountIn: string,
     pool: LiquidityPool,
     tokenIn: string,
-    slippageTolerance: number = 0.5,
+    slippageTolerance: number = 0.5
   ): SwapQuote {
     const isToken0In = tokenIn === pool.token0;
     const reserveIn = isToken0In ? pool.reserve0 : pool.reserve1;
     const reserveOut = isToken0In ? pool.reserve1 : pool.reserve0;
 
-    const amountOut = this.getAmountOut(amountIn, reserveIn, reserveOut, pool.fee);
-    const priceImpact = this.getPriceImpact(amountIn, reserveIn, reserveOut, pool.fee);
-    const fee = new Decimal(amountIn).times(pool.fee).dividedBy(10000).toFixed(18);
-    const executionPrice = new Decimal(amountIn).dividedBy(amountOut).toFixed(18);
-    const slippageAmount = new Decimal(amountOut).times(slippageTolerance).dividedBy(100);
-    const minimumReceived = new Decimal(amountOut).minus(slippageAmount).toFixed(18);
+    const amountOut = this.getAmountOut(
+      amountIn,
+      reserveIn,
+      reserveOut,
+      pool.fee
+    );
+    const priceImpact = this.getPriceImpact(
+      amountIn,
+      reserveIn,
+      reserveOut,
+      pool.fee
+    );
+    const fee = new Decimal(amountIn)
+      .times(pool.fee)
+      .dividedBy(10000)
+      .toFixed(18);
+    const executionPrice = new Decimal(amountIn)
+      .dividedBy(amountOut)
+      .toFixed(18);
+    const slippageAmount = new Decimal(amountOut)
+      .times(slippageTolerance)
+      .dividedBy(100);
+    const minimumReceived = new Decimal(amountOut)
+      .minus(slippageAmount)
+      .toFixed(18);
 
     return {
       amountIn,

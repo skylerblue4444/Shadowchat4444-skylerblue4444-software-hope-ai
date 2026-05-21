@@ -1,9 +1,12 @@
 import Stripe from "stripe";
 
 // Initialize Stripe with test API key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
-  apiVersion: "2024-04-10",
-});
+const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY || "sk_test_placeholder",
+  {
+    apiVersion: "2024-04-10",
+  }
+);
 
 export interface PaymentIntentData {
   amount: number;

@@ -23,15 +23,40 @@ export default function ShadowNFTLoans() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">NFT Loans</h1>
-          <p className="text-sm text-muted-foreground">Instant loans using NFTs as collateral with AI valuation and liquidation protection</p>
+          <p className="text-sm text-muted-foreground">
+            Instant loans using NFTs as collateral with AI valuation and
+            liquidation protection
+          </p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">NFT-Backed Loans</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">
+          NFT-Backed Loans
+        </Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-red-400">8247</p><p className="text-xs text-muted-foreground">Loans/Day</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84M USD</p><p className="text-xs text-muted-foreground">Total Loaned</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">Up to 70pct</p><p className="text-xs text-muted-foreground">LTV</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">Yes</p><p className="text-xs text-muted-foreground">AI Valuation</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-red-400">8247</p>
+            <p className="text-xs text-muted-foreground">Loans/Day</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">84M USD</p>
+            <p className="text-xs text-muted-foreground">Total Loaned</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">Up to 70pct</p>
+            <p className="text-xs text-muted-foreground">LTV</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">Yes</p>
+            <p className="text-xs text-muted-foreground">AI Valuation</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -45,22 +70,35 @@ export default function ShadowNFTLoans() {
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
         <p className="font-black text-sm mb-1">NFT Loans — Activate Now</p>
-        <p className="text-xs text-muted-foreground mb-3">Join 847000+ users already on ShadowChat</p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Join 847000+ users already on ShadowChat
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("NFT Loans activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("NFT Loans activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening NFT Loans docs...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Opening NFT Loans docs...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

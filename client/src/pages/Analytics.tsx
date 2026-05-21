@@ -1,7 +1,27 @@
 import { useState } from "react";
-import { LineChart, Line, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, DollarSign, Activity } from "lucide-react";
 
@@ -49,7 +69,9 @@ export default function Analytics() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Portfolio Value</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Portfolio Value
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-purple-400">$77,222</div>
@@ -62,7 +84,9 @@ export default function Analytics() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Daily Change</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Daily Change
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-400">+$2,000</div>
@@ -72,7 +96,9 @@ export default function Analytics() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">24h Volume</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              24h Volume
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-400">$2.4M</div>
@@ -82,7 +108,9 @@ export default function Analytics() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Top Performer</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Top Performer
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-400">SKY</div>
@@ -99,7 +127,7 @@ export default function Analytics() {
               <CardDescription>7-day portfolio value trend</CardDescription>
             </div>
             <div className="flex gap-2">
-              {["24h", "7d", "30d", "90d", "1y"].map((range) => (
+              {["24h", "7d", "30d", "90d", "1y"].map(range => (
                 <Button
                   key={range}
                   variant={timeRange === range ? "default" : "outline"}
@@ -119,7 +147,12 @@ export default function Analytics() {
               <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
               <XAxis dataKey="date" stroke="#666" />
               <YAxis stroke="#666" />
-              <Tooltip contentStyle={{ backgroundColor: "#0a0a2a", border: "1px solid #2a2a5a" }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#0a0a2a",
+                  border: "1px solid #2a2a5a",
+                }}
+              />
               <Line
                 type="monotone"
                 dataKey="value"
@@ -152,10 +185,18 @@ export default function Analytics() {
                   dataKey="value"
                 >
                   {assetAllocation.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: "#0a0a2a", border: "1px solid #2a2a5a" }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#0a0a2a",
+                    border: "1px solid #2a2a5a",
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
@@ -172,7 +213,12 @@ export default function Analytics() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a5a" />
                 <XAxis dataKey="time" stroke="#666" />
                 <YAxis stroke="#666" />
-                <Tooltip contentStyle={{ backgroundColor: "#0a0a2a", border: "1px solid #2a2a5a" }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#0a0a2a",
+                    border: "1px solid #2a2a5a",
+                  }}
+                />
                 <Bar dataKey="volume" fill="#a855f7" />
               </BarChart>
             </ResponsiveContainer>
@@ -193,26 +239,38 @@ export default function Analytics() {
                   <th className="text-left py-2 text-gray-400">Asset</th>
                   <th className="text-right py-2 text-gray-400">Amount</th>
                   <th className="text-right py-2 text-gray-400">Value</th>
-                  <th className="text-right py-2 text-gray-400">% of Portfolio</th>
+                  <th className="text-right py-2 text-gray-400">
+                    % of Portfolio
+                  </th>
                   <th className="text-right py-2 text-gray-400">24h Change</th>
                 </tr>
               </thead>
               <tbody>
-                {holdings.map((holding) => (
-                  <tr key={holding.symbol} className="border-b border-gray-800 hover:bg-gray-900/50">
+                {holdings.map(holding => (
+                  <tr
+                    key={holding.symbol}
+                    className="border-b border-gray-800 hover:bg-gray-900/50"
+                  >
                     <td className="py-3 font-semibold">{holding.symbol}</td>
-                    <td className="text-right">{holding.amount.toLocaleString()}</td>
-                    <td className="text-right">${holding.value.toLocaleString()}</td>
+                    <td className="text-right">
+                      {holding.amount.toLocaleString()}
+                    </td>
+                    <td className="text-right">
+                      ${holding.value.toLocaleString()}
+                    </td>
                     <td className="text-right">
                       {((holding.value / 77222) * 100).toFixed(1)}%
                     </td>
-                    <td className={`text-right flex items-center justify-end gap-1 ${holding.change >= 0 ? "text-green-400" : "text-red-400"}`}>
+                    <td
+                      className={`text-right flex items-center justify-end gap-1 ${holding.change >= 0 ? "text-green-400" : "text-red-400"}`}
+                    >
                       {holding.change >= 0 ? (
                         <TrendingUp className="w-4 h-4" />
                       ) : (
                         <TrendingDown className="w-4 h-4" />
                       )}
-                      {holding.change >= 0 ? "+" : ""}{holding.change}%
+                      {holding.change >= 0 ? "+" : ""}
+                      {holding.change}%
                     </td>
                   </tr>
                 ))}

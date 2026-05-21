@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { db } from "../db";
-import { coinWallets, coinRewards, coinSupplyEvents, users } from "@/drizzle/schema";
+import {
+  coinWallets,
+  coinRewards,
+  coinSupplyEvents,
+  users,
+} from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 
@@ -39,10 +44,7 @@ export const coinEconomyRouter = router({
       .select()
       .from(coinRewards)
       .where(
-        and(
-          eq(coinRewards.userId, ctx.user.id),
-          eq(coinRewards.claimed, 0)
-        )
+        and(eq(coinRewards.userId, ctx.user.id), eq(coinRewards.claimed, 0))
       );
 
     return rewards;
@@ -89,8 +91,12 @@ export const coinEconomyRouter = router({
         const amount = parseFloat(reward[0].amount);
 
         if (coinType === "skycoin") {
-          const newBalance = (parseFloat(wallet[0].skycoinBalance) + amount).toString();
-          const newEarned = (parseFloat(wallet[0].totalEarned) + amount).toString();
+          const newBalance = (
+            parseFloat(wallet[0].skycoinBalance) + amount
+          ).toString();
+          const newEarned = (
+            parseFloat(wallet[0].totalEarned) + amount
+          ).toString();
 
           await db
             .update(coinWallets)
@@ -101,8 +107,12 @@ export const coinEconomyRouter = router({
             })
             .where(eq(coinWallets.userId, ctx.user.id));
         } else if (coinType === "shadowcoin") {
-          const newBalance = (parseFloat(wallet[0].shadowcoinBalance) + amount).toString();
-          const newEarned = (parseFloat(wallet[0].totalEarned) + amount).toString();
+          const newBalance = (
+            parseFloat(wallet[0].shadowcoinBalance) + amount
+          ).toString();
+          const newEarned = (
+            parseFloat(wallet[0].totalEarned) + amount
+          ).toString();
 
           await db
             .update(coinWallets)
@@ -154,10 +164,7 @@ export const coinEconomyRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const wallets = await db
-        .select()
-        .from(coinWallets)
-        .limit(input.limit);
+      const wallets = await db.select().from(coinWallets).limit(input.limit);
 
       // Sort by appropriate coin type
       const sorted = wallets.sort((a, b) => {

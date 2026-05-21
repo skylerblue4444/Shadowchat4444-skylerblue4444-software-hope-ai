@@ -8,27 +8,66 @@ import { Badge } from "@/components/ui/badge";
 
 export default function ShadowMediaKit() {
   const items = [
-    { icon: "🖼️", title: "Logo Pack", desc: "SVG · PNG · Dark · Light", badge: "Download" },
-          { icon: "📸", title: "Screenshots", desc: "1,655 pages · All features", badge: "Download" },
-          { icon: "👑", title: "Founder Bio", desc: "Skyler Blue · Full bio", badge: "Download" },
-          { icon: "📊", title: "Stats Sheet", desc: "1,655 pages · $1M+ value", badge: "Download" },
-          { icon: "📰", title: "Press Release", desc: "Launch announcement", badge: "Download" },
-          { icon: "✦", title: "Brand Guide", desc: "Colors · Fonts · Voice", badge: "Download" }
+    {
+      icon: "🖼️",
+      title: "Logo Pack",
+      desc: "SVG · PNG · Dark · Light",
+      badge: "Download",
+    },
+    {
+      icon: "📸",
+      title: "Screenshots",
+      desc: "1,655 pages · All features",
+      badge: "Download",
+    },
+    {
+      icon: "👑",
+      title: "Founder Bio",
+      desc: "Skyler Blue · Full bio",
+      badge: "Download",
+    },
+    {
+      icon: "📊",
+      title: "Stats Sheet",
+      desc: "1,655 pages · $1M+ value",
+      badge: "Download",
+    },
+    {
+      icon: "📰",
+      title: "Press Release",
+      desc: "Launch announcement",
+      badge: "Download",
+    },
+    {
+      icon: "✦",
+      title: "Brand Guide",
+      desc: "Colors · Fonts · Voice",
+      badge: "Download",
+    },
   ];
   return (
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-black">Media Kit</h1>
-        <p className="text-xs text-muted-foreground">Press assets · Logo · Screenshots · Founder bio · Stats</p>
+        <p className="text-xs text-muted-foreground">
+          Press assets · Logo · Screenshots · Founder bio · Stats
+        </p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
-          <Card key={i} className="border-border/50 hover:border-primary/30 transition-all">
+          <Card
+            key={i}
+            className="border-border/50 hover:border-primary/30 transition-all"
+          >
             <CardContent className="py-3 px-3">
               <p className="text-2xl mb-1">{item.icon}</p>
               <p className="font-bold text-xs mb-0.5">{item.title}</p>
               <p className="text-xs text-muted-foreground">{item.desc}</p>
-              {item.badge && <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">{item.badge}</Badge>}
+              {item.badge && (
+                <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">
+                  {item.badge}
+                </Badge>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -36,12 +75,18 @@ export default function ShadowMediaKit() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Everything you need to cover ShadowChat.</p>
-          <Button size="sm" className="text-xs">Get Started</Button>
+          <p className="text-xs text-muted-foreground mb-2">
+            Everything you need to cover ShadowChat.
+          </p>
+          <Button size="sm" className="text-xs">
+            Get Started
+          </Button>
         </CardContent>
       </Card>
       <div className="text-center py-2">
-        <p className="text-xs text-muted-foreground">ShadowChat · Skyler Blue IT Resolutions · 479-406-7123</p>
+        <p className="text-xs text-muted-foreground">
+          ShadowChat · Skyler Blue IT Resolutions · 479-406-7123
+        </p>
       </div>
     </div>
   );

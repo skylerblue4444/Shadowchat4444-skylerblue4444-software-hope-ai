@@ -47,9 +47,18 @@ export const icoShopRouter = router({
     .input(
       z.object({
         usdAmount: z.number().positive(),
-        paymentMethod: z.enum(["stripe", "btc", "doge", "xmr", "usdt", "trump", "sky4444", "shadow"]),
+        paymentMethod: z.enum([
+          "stripe",
+          "btc",
+          "doge",
+          "xmr",
+          "usdt",
+          "trump",
+          "sky4444",
+          "shadow",
+        ]),
         tier: z.enum(["early_bird", "standard", "whale"]),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       if (!ENV.icoActive) {
@@ -137,8 +146,17 @@ export const icoShopRouter = router({
       z.object({
         itemId: z.string(),
         quantity: z.number().int().positive(),
-        paymentMethod: z.enum(["stripe", "btc", "doge", "xmr", "usdt", "trump", "sky4444", "shadow"]),
-      }),
+        paymentMethod: z.enum([
+          "stripe",
+          "btc",
+          "doge",
+          "xmr",
+          "usdt",
+          "trump",
+          "sky4444",
+          "shadow",
+        ]),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // Simplified: in production, check inventory, process payment, etc.
@@ -182,7 +200,15 @@ export const icoShopRouter = router({
       investorCount: 1234,
       averageInvestment: 2500000 / 1234,
       supportedCurrencies: ["USD", "EUR", "GBP"],
-      supportedCoins: ["BTC", "DOGE", "XMR", "USDT", "TRUMP", "SKY4444", "SHADOW"],
+      supportedCoins: [
+        "BTC",
+        "DOGE",
+        "XMR",
+        "USDT",
+        "TRUMP",
+        "SKY4444",
+        "SHADOW",
+      ],
     };
   }),
 
@@ -200,13 +226,23 @@ export const icoShopRouter = router({
           name: "Contributor",
           minInvestment: 1000,
           maxInvestment: 10000,
-          perks: ["Early access", "Community badge", "Monthly newsletter", "Governance vote"],
+          perks: [
+            "Early access",
+            "Community badge",
+            "Monthly newsletter",
+            "Governance vote",
+          ],
         },
         {
           name: "Founder",
           minInvestment: 10000,
           maxInvestment: null,
-          perks: ["All above", "VIP support", "Quarterly calls", "Equity-like governance"],
+          perks: [
+            "All above",
+            "VIP support",
+            "Quarterly calls",
+            "Equity-like governance",
+          ],
         },
       ],
     };
@@ -217,7 +253,12 @@ export const icoShopRouter = router({
     return {
       pairs: [
         { pair: "SKY4444/USD", bid: 0.0085, ask: 0.009, volume24h: 5000000 },
-        { pair: "SKY4444/BTC", bid: 0.00000015, ask: 0.00000016, volume24h: 50 },
+        {
+          pair: "SKY4444/BTC",
+          bid: 0.00000015,
+          ask: 0.00000016,
+          volume24h: 50,
+        },
         { pair: "SHADOW/USD", bid: 0.012, ask: 0.0125, volume24h: 2000000 },
         { pair: "TRUMP/USD", bid: 0.05, ask: 0.055, volume24h: 10000000 },
         { pair: "DOGE/USD", bid: 0.08, ask: 0.085, volume24h: 50000000 },

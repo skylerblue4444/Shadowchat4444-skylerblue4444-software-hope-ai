@@ -57,7 +57,7 @@ export const ammDexRouter = router({
         amountIn: z.string(),
         tokenIn: z.string(),
         slippageTolerance: z.number().default(0.5),
-      }),
+      })
     )
     .query(async ({ input }) => {
       // Mock pool for demo
@@ -73,7 +73,12 @@ export const ammDexRouter = router({
         tvl: "7500000",
       };
 
-      const quote = AMMEngine.getSwapQuote(input.amountIn, pool, input.tokenIn, input.slippageTolerance);
+      const quote = AMMEngine.getSwapQuote(
+        input.amountIn,
+        pool,
+        input.tokenIn,
+        input.slippageTolerance
+      );
       return quote;
     }),
 
@@ -85,7 +90,7 @@ export const ammDexRouter = router({
         amountIn: z.string(),
         tokenIn: z.string(),
         minimumAmountOut: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -107,7 +112,7 @@ export const ammDexRouter = router({
         poolId: z.string(),
         amount0: z.string(),
         amount1: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const lpTokens = AMMEngine.getLPTokenAmount(input.amount0, input.amount1);
@@ -129,7 +134,7 @@ export const ammDexRouter = router({
       z.object({
         lpTokenId: z.string(),
         lpTokenAmount: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -180,14 +185,14 @@ export const ammDexRouter = router({
         poolId: z.string(),
         amountIn: z.string(),
         tokenIn: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const impact = AMMEngine.getPriceImpact(
         input.amountIn,
         "5000000",
         "2500000",
-        25,
+        25
       );
 
       return {

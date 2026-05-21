@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Zap, TrendingUp, AlertCircle } from "lucide-react";
@@ -17,7 +23,8 @@ export default function AICopilot() {
     {
       id: "1",
       role: "assistant",
-      content: "Hey! I'm your AI Trading Copilot. I analyze market conditions, provide trade suggestions, and help you make informed decisions. What would you like to know about the market?",
+      content:
+        "Hey! I'm your AI Trading Copilot. I analyze market conditions, provide trade suggestions, and help you make informed decisions. What would you like to know about the market?",
       timestamp: new Date(),
     },
   ]);
@@ -41,7 +48,7 @@ export default function AICopilot() {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
@@ -54,7 +61,8 @@ export default function AICopilot() {
         "AI sentiment analysis: 65% of recent posts are bullish on SKY. Combined with technical indicators, this suggests a potential 5-8% move upward in the next 24h.",
       ];
 
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      const randomResponse =
+        responses[Math.floor(Math.random() * responses.length)];
 
       setTimeout(() => {
         const assistantMessage: Message = {
@@ -63,7 +71,7 @@ export default function AICopilot() {
           content: randomResponse,
           timestamp: new Date(),
         };
-        setMessages((prev) => [...prev, assistantMessage]);
+        setMessages(prev => [...prev, assistantMessage]);
         setLoading(false);
       }, 1000);
     } catch (error) {
@@ -80,23 +88,31 @@ export default function AICopilot() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Sentiment Score</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Sentiment Score
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">{sentimentScore.toFixed(1)}/10</div>
+            <div className="text-3xl font-bold text-purple-400">
+              {sentimentScore.toFixed(1)}/10
+            </div>
             <p className="text-xs text-green-400 mt-1">Market is Bullish</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Market Trend</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Market Trend
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               <TrendingUp className="w-6 h-6 text-green-400" />
               <div>
-                <div className="text-2xl font-bold text-green-400">{marketTrend}</div>
+                <div className="text-2xl font-bold text-green-400">
+                  {marketTrend}
+                </div>
                 <p className="text-xs text-gray-500">Strong uptrend</p>
               </div>
             </div>
@@ -105,10 +121,14 @@ export default function AICopilot() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">AI Confidence</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              AI Confidence
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-400">{confidence}%</div>
+            <div className="text-3xl font-bold text-blue-400">
+              {confidence}%
+            </div>
             <p className="text-xs text-gray-500 mt-1">Based on 15 indicators</p>
           </CardContent>
         </Card>
@@ -117,13 +137,18 @@ export default function AICopilot() {
       <Card className="flex flex-col h-[600px]">
         <CardHeader>
           <CardTitle>AI Trading Copilot</CardTitle>
-          <CardDescription>Real-time market analysis and trading suggestions</CardDescription>
+          <CardDescription>
+            Real-time market analysis and trading suggestions
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col overflow-hidden">
           <ScrollArea className="flex-1 pr-4 mb-4">
             <div className="space-y-4">
-              {messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+              {messages.map(msg => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                >
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       msg.role === "user"
@@ -132,7 +157,9 @@ export default function AICopilot() {
                     }`}
                   >
                     <p className="text-sm">{msg.content}</p>
-                    <p className="text-xs mt-1 opacity-70">{msg.timestamp.toLocaleTimeString()}</p>
+                    <p className="text-xs mt-1 opacity-70">
+                      {msg.timestamp.toLocaleTimeString()}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -141,8 +168,14 @@ export default function AICopilot() {
                   <div className="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg rounded-bl-none">
                     <div className="flex gap-2">
                       <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
-                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                      <div
+                        className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      />
+                      <div
+                        className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -155,8 +188,8 @@ export default function AICopilot() {
             <Input
               placeholder="Ask about market conditions, trade suggestions..."
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+              onChange={e => setInput(e.target.value)}
+              onKeyPress={e => e.key === "Enter" && handleSendMessage()}
               disabled={loading}
               className="bg-gray-900 border-gray-700"
             />
@@ -180,21 +213,27 @@ export default function AICopilot() {
             <Zap className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-sm font-semibold">Strong Buy Signal</p>
-              <p className="text-xs text-gray-400">Price broke above 50-day MA with increasing volume</p>
+              <p className="text-xs text-gray-400">
+                Price broke above 50-day MA with increasing volume
+              </p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <TrendingUp className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-sm font-semibold">Bullish Sentiment</p>
-              <p className="text-xs text-gray-400">65% of social posts are positive on SKY</p>
+              <p className="text-xs text-gray-400">
+                65% of social posts are positive on SKY
+              </p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-sm font-semibold">Resistance Ahead</p>
-              <p className="text-xs text-gray-400">Watch for resistance at $0.0456 level</p>
+              <p className="text-xs text-gray-400">
+                Watch for resistance at $0.0456 level
+              </p>
             </div>
           </div>
         </CardContent>

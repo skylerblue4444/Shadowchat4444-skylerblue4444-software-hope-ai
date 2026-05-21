@@ -56,7 +56,12 @@ export default function PolishedMarketplace() {
         price: newListing.price,
         category: newListing.category,
       });
-      setNewListing({ title: "", description: "", price: "", category: "digital" });
+      setNewListing({
+        title: "",
+        description: "",
+        price: "",
+        category: "digital",
+      });
       setShowCreateForm(false);
     } catch (error) {
       console.error("Error creating listing:", error);
@@ -92,9 +97,12 @@ export default function PolishedMarketplace() {
           <Badge className="mb-4 border-emerald-400/40 bg-emerald-400/10 text-emerald-200">
             Marketplace Beta
           </Badge>
-          <h1 className="text-4xl font-black tracking-tight md:text-6xl">AetherLux Marketplace</h1>
+          <h1 className="text-4xl font-black tracking-tight md:text-6xl">
+            AetherLux Marketplace
+          </h1>
           <p className="mt-3 max-w-3xl text-sm text-zinc-300 md:text-base">
-            Peer-to-peer trading with escrow protection, seller publishing controls, and SKY4444 settlement.
+            Peer-to-peer trading with escrow protection, seller publishing
+            controls, and SKY4444 settlement.
           </p>
         </div>
 
@@ -109,13 +117,17 @@ export default function PolishedMarketplace() {
                 type="text"
                 placeholder="Title"
                 value={newListing.title}
-                onChange={(e) => setNewListing({ ...newListing, title: e.target.value })}
+                onChange={e =>
+                  setNewListing({ ...newListing, title: e.target.value })
+                }
                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-white placeholder-zinc-500 focus:border-emerald-500 focus:outline-none"
               />
               <textarea
                 placeholder="Description"
                 value={newListing.description}
-                onChange={(e) => setNewListing({ ...newListing, description: e.target.value })}
+                onChange={e =>
+                  setNewListing({ ...newListing, description: e.target.value })
+                }
                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-white placeholder-zinc-500 focus:border-emerald-500 focus:outline-none"
                 rows={3}
               />
@@ -123,12 +135,16 @@ export default function PolishedMarketplace() {
                 type="text"
                 placeholder="Price (SKY)"
                 value={newListing.price}
-                onChange={(e) => setNewListing({ ...newListing, price: e.target.value })}
+                onChange={e =>
+                  setNewListing({ ...newListing, price: e.target.value })
+                }
                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-white placeholder-zinc-500 focus:border-emerald-500 focus:outline-none"
               />
               <select
                 value={newListing.category}
-                onChange={(e) => setNewListing({ ...newListing, category: e.target.value })}
+                onChange={e =>
+                  setNewListing({ ...newListing, category: e.target.value })
+                }
                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-white focus:border-emerald-500 focus:outline-none"
               >
                 <option value="digital">Digital</option>
@@ -141,7 +157,9 @@ export default function PolishedMarketplace() {
                   disabled={createListingMutation.isPending}
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700"
                 >
-                  {createListingMutation.isPending ? "Creating..." : "Create Listing"}
+                  {createListingMutation.isPending
+                    ? "Creating..."
+                    : "Create Listing"}
                 </Button>
                 <Button
                   onClick={() => setShowCreateForm(false)}
@@ -174,10 +192,17 @@ export default function PolishedMarketplace() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
-                {sellerListings.map((listing) => (
-                  <div key={listing.id} className="rounded-lg border border-emerald-400/20 bg-emerald-400/5 p-4">
-                    <h3 className="font-semibold text-emerald-300">{listing.title}</h3>
-                    <p className="text-sm text-zinc-400 mb-2">{listing.description}</p>
+                {sellerListings.map(listing => (
+                  <div
+                    key={listing.id}
+                    className="rounded-lg border border-emerald-400/20 bg-emerald-400/5 p-4"
+                  >
+                    <h3 className="font-semibold text-emerald-300">
+                      {listing.title}
+                    </h3>
+                    <p className="text-sm text-zinc-400 mb-2">
+                      {listing.description}
+                    </p>
                     <p className="text-xl font-black text-emerald-400 mb-2">
                       {listing.price} SKY
                     </p>
@@ -193,12 +218,14 @@ export default function PolishedMarketplace() {
 
         {/* Browse Listings */}
         <div className="grid gap-4 md:grid-cols-3">
-          {listings.slice(0, 3).map((listing) => (
+          {listings.slice(0, 3).map(listing => (
             <Card
               key={listing.id}
               onClick={() => setSelectedListing(listing)}
               className={`cursor-pointer border-white/10 bg-zinc-950/85 text-white transition hover:border-emerald-300/60 ${
-                selectedListing?.id === listing.id ? "ring-2 ring-emerald-400" : ""
+                selectedListing?.id === listing.id
+                  ? "ring-2 ring-emerald-400"
+                  : ""
               }`}
             >
               <CardHeader>
@@ -209,7 +236,9 @@ export default function PolishedMarketplace() {
                 <CardTitle className="text-lg">{listing.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-black text-emerald-400">{listing.price} SKY</p>
+                <p className="text-2xl font-black text-emerald-400">
+                  {listing.price} SKY
+                </p>
               </CardContent>
             </Card>
           ))}
@@ -221,38 +250,55 @@ export default function PolishedMarketplace() {
             <CardContent className="grid gap-6 p-6 md:grid-cols-[1fr_0.9fr] md:items-start">
               <div className="space-y-4">
                 <div>
-                  <h2 className="text-3xl font-black mb-2">{selectedListing.title}</h2>
+                  <h2 className="text-3xl font-black mb-2">
+                    {selectedListing.title}
+                  </h2>
                   <p className="text-zinc-300">{selectedListing.description}</p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                   <p className="text-xs text-zinc-400">Price</p>
-                  <p className="text-4xl font-black text-emerald-400">{selectedListing.price} SKY</p>
+                  <p className="text-4xl font-black text-emerald-400">
+                    {selectedListing.price} SKY
+                  </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-lg border border-white/10 bg-white/5 p-3">
                     <p className="text-xs text-zinc-400">Category</p>
-                    <p className="font-semibold capitalize">{selectedListing.category}</p>
+                    <p className="font-semibold capitalize">
+                      {selectedListing.category}
+                    </p>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-white/5 p-3">
                     <p className="text-xs text-zinc-400">Status</p>
-                    <p className="font-semibold capitalize">{selectedListing.status}</p>
+                    <p className="font-semibold capitalize">
+                      {selectedListing.status}
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="space-y-3">
                 <Button
                   onClick={handlePurchase}
-                  disabled={createOrderMutation.isPending || selectedListing.status !== "active"}
+                  disabled={
+                    createOrderMutation.isPending ||
+                    selectedListing.status !== "active"
+                  }
                   className="h-14 w-full bg-emerald-500 text-lg font-black text-black hover:bg-emerald-400"
                 >
-                  <Lock className="mr-2 h-5 w-5" /> {createOrderMutation.isPending ? "Processing..." : "Buy with Escrow"}
+                  <Lock className="mr-2 h-5 w-5" />{" "}
+                  {createOrderMutation.isPending
+                    ? "Processing..."
+                    : "Buy with Escrow"}
                 </Button>
                 <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
                   <div className="flex items-start gap-2 mb-2">
                     <CheckCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold">Escrow Protected</p>
-                      <p className="text-xs mt-1">Funds held safely until delivery confirmed by both parties.</p>
+                      <p className="text-xs mt-1">
+                        Funds held safely until delivery confirmed by both
+                        parties.
+                      </p>
                     </div>
                   </div>
                 </div>

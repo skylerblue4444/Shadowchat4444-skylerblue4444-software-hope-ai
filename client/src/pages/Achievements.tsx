@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, Zap, Target, Star } from "lucide-react";
@@ -111,8 +117,10 @@ export default function Achievements() {
     },
   ]);
 
-  const totalXP = achievements.filter((a) => a.unlocked).reduce((sum, a) => sum + a.xpReward, 0);
-  const unlockedCount = achievements.filter((a) => a.unlocked).length;
+  const totalXP = achievements
+    .filter(a => a.unlocked)
+    .reduce((sum, a) => sum + a.xpReward, 0);
+  const unlockedCount = achievements.filter(a => a.unlocked).length;
   const totalXPPossible = achievements.reduce((sum, a) => sum + a.xpReward, 0);
 
   const rarityColors: Record<string, string> = {
@@ -134,10 +142,14 @@ export default function Achievements() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Total XP</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Total XP
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-400">{totalXP.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-purple-400">
+              {totalXP.toLocaleString()}
+            </div>
             <p className="text-xs text-gray-500 mt-1">
               {((totalXP / totalXPPossible) * 100).toFixed(0)}% of max
             </p>
@@ -146,7 +158,9 @@ export default function Achievements() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Achievements</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Achievements
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-400">
@@ -158,7 +172,9 @@ export default function Achievements() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Level</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Level
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-400">12</div>
@@ -168,7 +184,9 @@ export default function Achievements() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Next Milestone</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">
+              Next Milestone
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-400">5000</div>
@@ -190,7 +208,7 @@ export default function Achievements() {
         <h3 className="font-semibold text-lg">Achievements</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {achievements.map((achievement) => (
+          {achievements.map(achievement => (
             <Card
               key={achievement.id}
               className={`overflow-hidden ${
@@ -202,7 +220,8 @@ export default function Achievements() {
                   <div
                     className={`text-4xl w-16 h-16 rounded-lg flex items-center justify-center ${
                       achievement.unlocked
-                        ? "bg-gradient-to-br " + rarityColors[achievement.rarity]
+                        ? "bg-gradient-to-br " +
+                          rarityColors[achievement.rarity]
                         : "bg-gray-800"
                     }`}
                   >
@@ -211,7 +230,9 @@ export default function Achievements() {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-sm">{achievement.name}</h3>
+                      <h3 className="font-semibold text-sm">
+                        {achievement.name}
+                      </h3>
                       <Badge
                         className={`text-xs text-white ${rarityColors[achievement.rarity]}`}
                       >
@@ -221,18 +242,25 @@ export default function Achievements() {
                         <Star className="w-4 h-4 text-yellow-400" />
                       )}
                     </div>
-                    <p className="text-xs text-gray-400 mb-2">{achievement.description}</p>
+                    <p className="text-xs text-gray-400 mb-2">
+                      {achievement.description}
+                    </p>
 
                     {!achievement.unlocked && (
                       <div className="mb-2">
                         <div className="flex justify-between mb-1">
-                          <span className="text-xs text-gray-400">Progress</span>
+                          <span className="text-xs text-gray-400">
+                            Progress
+                          </span>
                           <span className="text-xs text-gray-400">
                             {achievement.progress}/{achievement.maxProgress}
                           </span>
                         </div>
                         <Progress
-                          value={(achievement.progress / achievement.maxProgress) * 100}
+                          value={
+                            (achievement.progress / achievement.maxProgress) *
+                            100
+                          }
                           className="h-1"
                         />
                       </div>
@@ -275,7 +303,7 @@ export default function Achievements() {
               { rank: 3, name: "You", xp: 21000, achievements: 5 },
               { rank: 4, name: "SkyWalker", xp: 19800, achievements: 6 },
               { rank: 5, name: "VaultKeeper", xp: 18500, achievements: 4 },
-            ].map((entry) => (
+            ].map(entry => (
               <div
                 key={entry.rank}
                 className={`flex items-center justify-between p-3 rounded-lg ${
@@ -290,11 +318,15 @@ export default function Achievements() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold">{entry.name}</p>
-                    <p className="text-xs text-gray-400">{entry.achievements} achievements</p>
+                    <p className="text-xs text-gray-400">
+                      {entry.achievements} achievements
+                    </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-yellow-400">{entry.xp.toLocaleString()} XP</p>
+                  <p className="text-sm font-bold text-yellow-400">
+                    {entry.xp.toLocaleString()} XP
+                  </p>
                 </div>
               </div>
             ))}

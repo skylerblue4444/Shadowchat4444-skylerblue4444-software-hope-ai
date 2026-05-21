@@ -17,7 +17,7 @@ export const cryptoInfrastructureRouter = router({
         coin: z.enum(["SKY4444", "SHADOW", "TRUMP"]),
         amount: z.number().positive(),
         lockupDays: z.number().int().positive(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const apyMap: Record<string, number> = {
@@ -28,7 +28,8 @@ export const cryptoInfrastructureRouter = router({
 
       const apy = apyMap[input.coin] || 0;
       const dailyRate = apy / 365;
-      const estimatedRewards = input.amount * (dailyRate / 100) * input.lockupDays;
+      const estimatedRewards =
+        input.amount * (dailyRate / 100) * input.lockupDays;
 
       return {
         success: true,
@@ -38,7 +39,9 @@ export const cryptoInfrastructureRouter = router({
         lockupDays: input.lockupDays,
         apy,
         estimatedRewards,
-        unlockDate: new Date(Date.now() + input.lockupDays * 24 * 60 * 60 * 1000).toISOString(),
+        unlockDate: new Date(
+          Date.now() + input.lockupDays * 24 * 60 * 60 * 1000
+        ).toISOString(),
         status: "active",
       };
     }),
@@ -48,7 +51,7 @@ export const cryptoInfrastructureRouter = router({
     .input(
       z.object({
         stakingId: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -95,7 +98,7 @@ export const cryptoInfrastructureRouter = router({
         toCoin: z.string(),
         fromAmount: z.number().positive(),
         slippage: z.number().default(0.5),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // Mock exchange rate (in production, use real price feeds)
@@ -132,7 +135,7 @@ export const cryptoInfrastructureRouter = router({
       z.object({
         coin: z.string(),
         amount: z.number().positive(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const burnRate = ENV.burnRateBps / 10000;
@@ -157,7 +160,7 @@ export const cryptoInfrastructureRouter = router({
         coin: z.string(),
         amount: z.number().positive(),
         recipient: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.user?.role !== "admin") {
@@ -181,7 +184,7 @@ export const cryptoInfrastructureRouter = router({
       z.object({
         coin: z.enum(["SKY4444", "SHADOW"]),
         hashrate: z.number().positive().default(100),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const blockReward = ENV.miningBlockReward;
@@ -203,7 +206,7 @@ export const cryptoInfrastructureRouter = router({
     .input(
       z.object({
         miningSessionId: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -271,7 +274,7 @@ export const cryptoInfrastructureRouter = router({
         poolId: z.string(),
         coin1Amount: z.number().positive(),
         coin2Amount: z.number().positive(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -293,7 +296,7 @@ export const cryptoInfrastructureRouter = router({
         amount: z.number().positive(),
         fromChain: z.string(),
         toChain: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -316,7 +319,15 @@ export const cryptoInfrastructureRouter = router({
       totalUsers: 50000,
       totalTransactions: 500000,
       supportedChains: ["Ethereum", "Polygon", "Binance Smart Chain", "Solana"],
-      supportedCoins: ["SKY4444", "SHADOW", "TRUMP", "DOGE", "USDT", "BTC", "MONERO"],
+      supportedCoins: [
+        "SKY4444",
+        "SHADOW",
+        "TRUMP",
+        "DOGE",
+        "USDT",
+        "BTC",
+        "MONERO",
+      ],
       networkHealth: 99.9,
       avgBlockTime: 12,
     };

@@ -80,7 +80,7 @@ export class RealtimeCommunication {
   static initiateCall(
     callerId: number,
     recipientId: number,
-    type: "voice" | "video" | "stream",
+    type: "voice" | "video" | "stream"
   ): CallSession {
     return {
       callId: `CALL-${Date.now()}`,
@@ -108,10 +108,7 @@ export class RealtimeCommunication {
   /**
    * End call and calculate cost
    */
-  static endCall(
-    call: CallSession,
-    durationSeconds: number,
-  ): CallSession {
+  static endCall(call: CallSession, durationSeconds: number): CallSession {
     const durationMinutes = durationSeconds / 60;
     const rate = new Decimal(this.CALL_RATES[call.type] || "0.01");
     const cost = rate.times(durationMinutes);
@@ -131,7 +128,7 @@ export class RealtimeCommunication {
   static calculateCallCost(
     type: "voice" | "video" | "stream",
     durationSeconds: number,
-    viewers?: number,
+    viewers?: number
   ): string {
     const durationMinutes = durationSeconds / 60;
     let rate = new Decimal(this.CALL_RATES[type] || "0.01");
@@ -150,7 +147,7 @@ export class RealtimeCommunication {
     streamerId: number,
     title: string,
     description: string,
-    category: string,
+    category: string
   ): LiveStream {
     return {
       streamId: `STREAM-${Date.now()}`,
@@ -169,10 +166,7 @@ export class RealtimeCommunication {
   /**
    * Add viewer to stream
    */
-  static addStreamViewer(
-    stream: LiveStream,
-    viewerId: number,
-  ): StreamViewer {
+  static addStreamViewer(stream: LiveStream, viewerId: number): StreamViewer {
     return {
       viewerId,
       streamId: stream.streamId,
@@ -184,10 +178,7 @@ export class RealtimeCommunication {
   /**
    * Send tip during stream
    */
-  static tipStream(
-    viewer: StreamViewer,
-    tipAmount: string,
-  ): StreamViewer {
+  static tipStream(viewer: StreamViewer, tipAmount: string): StreamViewer {
     const newTips = new Decimal(viewer.tipsGiven).plus(tipAmount);
     return {
       ...viewer,
@@ -213,7 +204,7 @@ export class RealtimeCommunication {
     name: string,
     type: "private" | "group" | "public",
     members: number[],
-    topic?: string,
+    topic?: string
   ): ChatRoom {
     return {
       roomId: `ROOM-${Date.now()}`,
@@ -235,7 +226,7 @@ export class RealtimeCommunication {
     recipientId: number,
     audioUrl: string,
     duration: number,
-    transcript?: string,
+    transcript?: string
   ): VoiceMessage {
     return {
       messageId: `VMSG-${Date.now()}`,
@@ -264,7 +255,7 @@ export class RealtimeCommunication {
    */
   static calculateStreamEarnings(
     stream: LiveStream,
-    viewerTips: string[],
+    viewerTips: string[]
   ): {
     totalTips: string;
     platformFee: string;
@@ -272,7 +263,7 @@ export class RealtimeCommunication {
   } {
     const totalTips = viewerTips.reduce(
       (sum, tip) => new Decimal(sum).plus(tip),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const platformFee = totalTips.times(0.1); // 10% platform fee
@@ -298,7 +289,7 @@ export class RealtimeCommunication {
     const totalDuration = calls.reduce((sum, call) => sum + call.duration, 0);
     const totalCost = calls.reduce(
       (sum, call) => new Decimal(sum).plus(call.cost),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     return {
@@ -312,7 +303,10 @@ export class RealtimeCommunication {
   /**
    * Get stream statistics
    */
-  static getStreamStats(stream: LiveStream, viewers: StreamViewer[]): {
+  static getStreamStats(
+    stream: LiveStream,
+    viewers: StreamViewer[]
+  ): {
     totalViewers: number;
     totalTips: string;
     averageTipPerViewer: string;
@@ -321,18 +315,16 @@ export class RealtimeCommunication {
     const totalViewers = viewers.length;
     const totalTips = viewers.reduce(
       (sum, viewer) => new Decimal(sum).plus(viewer.tipsGiven),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const averageTipPerViewer =
-      totalViewers > 0
-        ? totalTips.dividedBy(totalViewers)
-        : new Decimal(0);
+      totalViewers > 0 ? totalTips.dividedBy(totalViewers) : new Decimal(0);
 
     const streamDuration = stream.endTime
       ? Math.floor(
-        (stream.endTime.getTime() - stream.startTime.getTime()) / 1000,
-      )
+          (stream.endTime.getTime() - stream.startTime.getTime()) / 1000
+        )
       : Math.floor((Date.now() - stream.startTime.getTime()) / 1000);
 
     return {
@@ -349,7 +341,7 @@ export class RealtimeCommunication {
   static createGroupChat(
     name: string,
     members: number[],
-    creatorId: number,
+    creatorId: number
   ): ChatRoom {
     return this.createChatRoom(name, "group", [creatorId, ...members], name);
   }
@@ -373,7 +365,7 @@ export class RealtimeCommunication {
   static removeMemberFromRoom(room: ChatRoom, memberId: number): ChatRoom {
     return {
       ...room,
-      members: room.members.filter((m) => m !== memberId),
+      members: room.members.filter(m => m !== memberId),
     };
   }
 
@@ -382,12 +374,12 @@ export class RealtimeCommunication {
    */
   static getActiveCallsForUser(
     calls: CallSession[],
-    userId: number,
+    userId: number
   ): CallSession[] {
     return calls.filter(
-      (call) =>
+      call =>
         (call.callerId === userId || call.recipientId === userId) &&
-        call.status === "connected",
+        call.status === "connected"
     );
   }
 

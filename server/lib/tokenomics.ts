@@ -41,7 +41,7 @@ export class Tokenomics {
   static getCirculatingSupply(
     totalSupply: string,
     burnedSupply: string,
-    lockedSupply: string,
+    lockedSupply: string
   ): string {
     const circulating = new Decimal(totalSupply)
       .minus(burnedSupply)
@@ -52,10 +52,7 @@ export class Tokenomics {
   /**
    * Calculate token inflation rate
    */
-  static getInflationRate(
-    currentSupply: string,
-    maxSupply: string,
-  ): number {
+  static getInflationRate(currentSupply: string, maxSupply: string): number {
     const inflationRate = new Decimal(currentSupply)
       .dividedBy(maxSupply)
       .times(100);
@@ -69,11 +66,13 @@ export class Tokenomics {
     currentBlock: number,
     startEmission: string,
     halvingInterval: number,
-    currentBlock_: number,
+    currentBlock_: number
   ): string {
-    const halvings = Math.floor((currentBlock_ - currentBlock) / halvingInterval);
+    const halvings = Math.floor(
+      (currentBlock_ - currentBlock) / halvingInterval
+    );
     const emission = new Decimal(startEmission).dividedBy(
-      new Decimal(2).pow(halvings),
+      new Decimal(2).pow(halvings)
     );
     return emission.toFixed(18);
   }
@@ -84,7 +83,7 @@ export class Tokenomics {
   static getProjectedSupply(
     currentSupply: string,
     emissionRate: string,
-    blocksToProject: number,
+    blocksToProject: number
   ): string {
     const newTokens = new Decimal(emissionRate).times(blocksToProject);
     const projectedSupply = new Decimal(currentSupply).plus(newTokens);
@@ -96,7 +95,7 @@ export class Tokenomics {
    */
   static getVestingClaimable(
     schedule: VestingSchedule,
-    currentBlock: number,
+    currentBlock: number
   ): string {
     if (currentBlock < schedule.startBlock) {
       return "0";
@@ -121,7 +120,7 @@ export class Tokenomics {
    */
   static getVestingProgress(
     schedule: VestingSchedule,
-    currentBlock: number,
+    currentBlock: number
   ): number {
     if (currentBlock < schedule.startBlock) return 0;
     if (currentBlock >= schedule.endBlock) return 100;
@@ -154,7 +153,7 @@ export class Tokenomics {
    */
   static getDistributionPercentage(
     allocation: string,
-    totalSupply: string,
+    totalSupply: string
   ): number {
     const percentage = new Decimal(allocation)
       .dividedBy(totalSupply)
@@ -168,7 +167,7 @@ export class Tokenomics {
   static generateEmissionSchedule(
     startEmission: string,
     halvingInterval: number,
-    halvings: number,
+    halvings: number
   ): EmissionSchedule[] {
     const schedule: EmissionSchedule[] = [];
     let currentEmission = new Decimal(startEmission);
@@ -193,7 +192,7 @@ export class Tokenomics {
   static calculateBurnImpact(
     burnAmount: string,
     circulatingSupply: string,
-    currentPrice: string,
+    currentPrice: string
   ): {
     supplyReduction: number;
     potentialPriceImpact: number;

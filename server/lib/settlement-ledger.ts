@@ -1,11 +1,36 @@
 import { eq, desc } from "drizzle-orm";
 import { settlementLedger } from "../../drizzle/schema";
 
-export type SettlementSource = "mining" | "staking" | "casino" | "tip" | "trading" | "wallet" | "payment" | "escrow" | "admin";
+export type SettlementSource =
+  | "mining"
+  | "staking"
+  | "casino"
+  | "tip"
+  | "trading"
+  | "wallet"
+  | "payment"
+  | "escrow"
+  | "admin";
 export type SettlementDirection = "credit" | "debit" | "neutral";
-export type SettlementProviderStatus = "beta_ledger" | "paper" | "test_mode" | "provider_gated" | "disabled" | "review_required";
-export type SettlementStatus = "recorded" | "pending_review" | "approved" | "rejected" | "voided" | "provider_pending";
-export type SettlementReviewStatus = "none" | "queued" | "approved" | "rejected";
+export type SettlementProviderStatus =
+  | "beta_ledger"
+  | "paper"
+  | "test_mode"
+  | "provider_gated"
+  | "disabled"
+  | "review_required";
+export type SettlementStatus =
+  | "recorded"
+  | "pending_review"
+  | "approved"
+  | "rejected"
+  | "voided"
+  | "provider_pending";
+export type SettlementReviewStatus =
+  | "none"
+  | "queued"
+  | "approved"
+  | "rejected";
 
 export type SettlementRecordInput = {
   idempotencyKey: string;
@@ -25,7 +50,8 @@ export type SettlementRecordInput = {
 };
 
 function normalizeLedgerAmount(amount: string | number) {
-  const numeric = typeof amount === "number" ? amount : Number.parseFloat(amount);
+  const numeric =
+    typeof amount === "number" ? amount : Number.parseFloat(amount);
   if (!Number.isFinite(numeric) || numeric < 0) {
     throw new Error("Settlement amount must be a non-negative number.");
   }
@@ -34,18 +60,30 @@ function normalizeLedgerAmount(amount: string | number) {
 
 function normalizeIdempotencyKey(key: string) {
   const normalized = key.trim().replace(/\s+/g, ":").slice(0, 160);
-  if (normalized.length < 8) throw new Error("Settlement idempotency key is required.");
+  if (normalized.length < 8)
+    throw new Error("Settlement idempotency key is required.");
   return normalized;
 }
 
 function auditToText(audit?: Record<string, unknown>) {
   if (!audit) return undefined;
-  return JSON.stringify({ recordedBy: "settlement-ledger", recordedAt: new Date().toISOString(), ...audit });
+  return JSON.stringify({
+    recordedBy: "settlement-ledger",
+    recordedAt: new Date().toISOString(),
+    ...audit,
+  });
 }
 
-export async function recordSettlementEntry(tx: any, input: SettlementRecordInput) {
+export async function recordSettlementEntry(
+  tx: any,
+  input: SettlementRecordInput
+) {
   const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey);
-  const [existing] = await tx.select().from(settlementLedger).where(eq(settlementLedger.idempotencyKey, idempotencyKey)).limit(1);
+  const [existing] = await tx
+    .select()
+    .from(settlementLedger)
+    .where(eq(settlementLedger.idempotencyKey, idempotencyKey))
+    .limit(1);
   if (existing) return { entry: existing, created: false as const };
 
   await tx.insert(settlementLedger).values({
@@ -65,11 +103,19 @@ export async function recordSettlementEntry(tx: any, input: SettlementRecordInpu
     auditJson: auditToText(input.audit),
   });
 
-  const [entry] = await tx.select().from(settlementLedger).where(eq(settlementLedger.idempotencyKey, idempotencyKey)).limit(1);
+  const [entry] = await tx
+    .select()
+    .from(settlementLedger)
+    .where(eq(settlementLedger.idempotencyKey, idempotencyKey))
+    .limit(1);
   return { entry, created: true as const };
 }
 
-export async function getRecentSettlementEntries(db: any, userId: number, limit = 25) {
+export async function getRecentSettlementEntries(
+  db: any,
+  userId: number,
+  limit = 25
+) {
   return db
     .select()
     .from(settlementLedger)
@@ -87,7 +133,11 @@ export async function getPendingReviewEntries(db: any, limit = 50) {
     .limit(Math.min(Math.max(limit, 1), 100));
 }
 
-function mergeReviewAudit(auditJson: string | null | undefined, reviewStatus: SettlementReviewStatus, adminNote?: string) {
+function mergeReviewAudit(
+  auditJson: string | null | undefined,
+  reviewStatus: SettlementReviewStatus,
+  adminNote?: string
+) {
   let existing: Record<string, unknown> = {};
   if (auditJson) {
     try {
@@ -106,30 +156,52 @@ function mergeReviewAudit(auditJson: string | null | undefined, reviewStatus: Se
   });
 }
 
-export async function updateSettlementReviewStatus(db: any, id: number, reviewStatus: Exclude<SettlementReviewStatus, "none">, adminNote?: string) {
-  const [existing] = await db.select().from(settlementLedger).where(eq(settlementLedger.id, id)).limit(1);
+export async function updateSettlementReviewStatus(
+  db: any,
+  id: number,
+  reviewStatus: Exclude<SettlementReviewStatus, "none">,
+  adminNote?: string
+) {
+  const [existing] = await db
+    .select()
+    .from(settlementLedger)
+    .where(eq(settlementLedger.id, id))
+    .limit(1);
   if (!existing) throw new Error("Settlement ledger entry not found.");
 
-  const settlementStatus = reviewStatus === "approved" ? "approved" : reviewStatus === "rejected" ? "rejected" : existing.settlementStatus;
+  const settlementStatus =
+    reviewStatus === "approved"
+      ? "approved"
+      : reviewStatus === "rejected"
+        ? "rejected"
+        : existing.settlementStatus;
   await db
     .update(settlementLedger)
     .set({
       reviewStatus,
       settlementStatus,
-      memo: adminNote ? `${existing.memo ?? "Admin review"} — ${adminNote}`.slice(0, 255) : existing.memo,
+      memo: adminNote
+        ? `${existing.memo ?? "Admin review"} — ${adminNote}`.slice(0, 255)
+        : existing.memo,
       auditJson: mergeReviewAudit(existing.auditJson, reviewStatus, adminNote),
       updatedAt: new Date(),
     })
     .where(eq(settlementLedger.id, id));
 
-  const [entry] = await db.select().from(settlementLedger).where(eq(settlementLedger.id, id)).limit(1);
+  const [entry] = await db
+    .select()
+    .from(settlementLedger)
+    .where(eq(settlementLedger.id, id))
+    .limit(1);
   return entry;
 }
 
-export function settlementKey(...parts: Array<string | number | undefined | null>) {
+export function settlementKey(
+  ...parts: Array<string | number | undefined | null>
+) {
   return parts
-    .filter((part) => part !== undefined && part !== null && `${part}`.length > 0)
-    .map((part) => `${part}`.replace(/[^a-zA-Z0-9._:-]/g, "-").slice(0, 64))
+    .filter(part => part !== undefined && part !== null && `${part}`.length > 0)
+    .map(part => `${part}`.replace(/[^a-zA-Z0-9._:-]/g, "-").slice(0, 64))
     .join(":")
     .slice(0, 160);
 }

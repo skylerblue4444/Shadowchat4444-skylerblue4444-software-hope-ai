@@ -7,7 +7,12 @@
 import { Decimal } from "decimal.js";
 
 export type SignalType = "buy" | "sell" | "hold" | "strong_buy" | "strong_sell";
-export type BotStrategy = "scalping" | "swing" | "trend_following" | "mean_reversion" | "arbitrage";
+export type BotStrategy =
+  | "scalping"
+  | "swing"
+  | "trend_following"
+  | "mean_reversion"
+  | "arbitrage";
 export type RiskLevel = "conservative" | "moderate" | "aggressive" | "extreme";
 
 export interface TradingSignal {
@@ -95,7 +100,7 @@ export class AITradingBot {
     macd: number,
     sma20: string,
     sma50: string,
-    sentiment: { social: number; news: number; onChain: number },
+    sentiment: { social: number; news: number; onChain: number }
   ): TradingSignal {
     let signal: SignalType = "hold";
     let confidence = 50;
@@ -119,7 +124,8 @@ export class AITradingBot {
     }
 
     // Sentiment analysis
-    const avgSentiment = (sentiment.social + sentiment.news + sentiment.onChain) / 3;
+    const avgSentiment =
+      (sentiment.social + sentiment.news + sentiment.onChain) / 3;
     if (avgSentiment > 50 && signal !== "sell") {
       confidence += 10;
     } else if (avgSentiment < -50 && signal !== "buy") {
@@ -166,7 +172,7 @@ export class AITradingBot {
     signal: TradingSignal,
     quantity: string,
     strategy: BotStrategy,
-    riskLevel: RiskLevel,
+    riskLevel: RiskLevel
   ): BotTrade {
     return {
       tradeId: `TRADE-${Date.now()}`,
@@ -184,10 +190,7 @@ export class AITradingBot {
   /**
    * Close trade and calculate P&L
    */
-  static closeTrade(
-    trade: BotTrade,
-    exitPrice: string,
-  ): BotTrade {
+  static closeTrade(trade: BotTrade, exitPrice: string): BotTrade {
     const entryValue = new Decimal(trade.entryPrice).times(trade.quantity);
     const exitValue = new Decimal(exitPrice).times(trade.quantity);
     const profitLoss = exitValue.minus(entryValue);
@@ -210,14 +213,14 @@ export class AITradingBot {
    * Calculate bot performance metrics
    */
   static calculatePerformance(trades: BotTrade[]): BotPerformance {
-    const closedTrades = trades.filter((t) => t.status === "closed");
+    const closedTrades = trades.filter(t => t.status === "closed");
     const winningTrades = closedTrades.filter(
-      (t) => t.profitLoss && new Decimal(t.profitLoss).gt(0),
+      t => t.profitLoss && new Decimal(t.profitLoss).gt(0)
     );
 
     const totalPnL = closedTrades.reduce(
       (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const winRate =
@@ -228,21 +231,21 @@ export class AITradingBot {
     const avgWin =
       winningTrades.length > 0
         ? winningTrades.reduce(
-          (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
-          new Decimal(0),
-        ) / winningTrades.length
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / winningTrades.length
         : new Decimal(0);
 
     const losingTrades = closedTrades.filter(
-      (t) => t.profitLoss && new Decimal(t.profitLoss).lt(0),
+      t => t.profitLoss && new Decimal(t.profitLoss).lt(0)
     );
 
     const avgLoss =
       losingTrades.length > 0
         ? losingTrades.reduce(
-          (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
-          new Decimal(0),
-        ) / losingTrades.length
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / losingTrades.length
         : new Decimal(0);
 
     const profitFactor = avgLoss.isZero()
@@ -270,9 +273,9 @@ export class AITradingBot {
   static optimizePortfolio(
     coins: string[],
     prices: Record<string, string>,
-    riskLevel: RiskLevel,
+    riskLevel: RiskLevel
   ): BotPortfolio {
-    const allocations = coins.map((coin) => {
+    const allocations = coins.map(coin => {
       let percentage = 100 / coins.length;
 
       // Adjust based on risk level
@@ -306,7 +309,7 @@ export class AITradingBot {
    */
   static analyzeMarketConditions(
     prices: Record<string, string>,
-    volumes: Record<string, string>,
+    volumes: Record<string, string>
   ): MarketCondition {
     // Simplified market analysis
     return {
@@ -326,9 +329,12 @@ export class AITradingBot {
    */
   static getStrategyRecommendation(
     marketCondition: MarketCondition,
-    riskTolerance: RiskLevel,
+    riskTolerance: RiskLevel
   ): BotStrategy {
-    if (marketCondition.trend === "bullish" && marketCondition.volatility === "low") {
+    if (
+      marketCondition.trend === "bullish" &&
+      marketCondition.volatility === "low"
+    ) {
       return "trend_following";
     } else if (marketCondition.trend === "sideways") {
       return "mean_reversion";
@@ -343,25 +349,26 @@ export class AITradingBot {
    */
   static calculateRiskMetrics(
     portfolio: BotPortfolio,
-    trades: BotTrade[],
+    trades: BotTrade[]
   ): {
     valueAtRisk: string;
     maxLoss: string;
     riskRewardRatio: number;
   } {
-    const closedTrades = trades.filter((t) => t.status === "closed");
+    const closedTrades = trades.filter(t => t.status === "closed");
     const losses = closedTrades.filter(
-      (t) => t.profitLoss && new Decimal(t.profitLoss).lt(0),
+      t => t.profitLoss && new Decimal(t.profitLoss).lt(0)
     );
 
     const maxLoss =
       losses.length > 0
-        ? losses.reduce((min, t) =>
-          new Decimal(t.profitLoss || 0).lt(min)
-            ? new Decimal(t.profitLoss || 0)
-            : min,
-          new Decimal(0),
-        )
+        ? losses.reduce(
+            (min, t) =>
+              new Decimal(t.profitLoss || 0).lt(min)
+                ? new Decimal(t.profitLoss || 0)
+                : min,
+            new Decimal(0)
+          )
         : new Decimal(0);
 
     const valueAtRisk = new Decimal(portfolio.totalValue)
@@ -369,14 +376,14 @@ export class AITradingBot {
       .toFixed(18); // 5% VaR
 
     const gains = closedTrades.filter(
-      (t) => t.profitLoss && new Decimal(t.profitLoss).gt(0),
+      t => t.profitLoss && new Decimal(t.profitLoss).gt(0)
     );
     const avgGain =
       gains.length > 0
         ? gains.reduce(
-          (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
-          new Decimal(0),
-        ) / gains.length
+            (sum, t) => new Decimal(sum).plus(t.profitLoss || 0),
+            new Decimal(0)
+          ) / gains.length
         : new Decimal(0);
 
     const riskRewardRatio = avgGain.isZero()
@@ -396,7 +403,7 @@ export class AITradingBot {
   static backtest(
     strategy: BotStrategy,
     historicalData: { price: string; volume: string; timestamp: Date }[],
-    initialCapital: string,
+    initialCapital: string
   ): {
     finalValue: string;
     totalReturn: number;

@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
@@ -21,29 +26,59 @@ export default function CrossChainBridge() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-gray-300">From Chain</label>
-            <select value={fromChain} onChange={(e) => setFromChain(e.target.value)} className="w-full bg-gray-800 border border-gray-700 text-white rounded px-3 py-2 mt-1">
-              {chains.map((c) => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+            <label className="text-sm font-medium text-gray-300">
+              From Chain
+            </label>
+            <select
+              value={fromChain}
+              onChange={e => setFromChain(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 text-white rounded px-3 py-2 mt-1"
+            >
+              {chains.map(c => (
+                <option key={c} value={c}>
+                  {c.charAt(0).toUpperCase() + c.slice(1)}
+                </option>
+              ))}
             </select>
           </div>
 
           <div className="flex justify-center">
-            <Button variant="ghost" className="rounded-full"><ArrowRight className="w-6 h-6" /></Button>
+            <Button variant="ghost" className="rounded-full">
+              <ArrowRight className="w-6 h-6" />
+            </Button>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-300">To Chain</label>
-            <select value={toChain} onChange={(e) => setToChain(e.target.value)} className="w-full bg-gray-800 border border-gray-700 text-white rounded px-3 py-2 mt-1">
-              {chains.map((c) => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+            <label className="text-sm font-medium text-gray-300">
+              To Chain
+            </label>
+            <select
+              value={toChain}
+              onChange={e => setToChain(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 text-white rounded px-3 py-2 mt-1"
+            >
+              {chains.map(c => (
+                <option key={c} value={c}>
+                  {c.charAt(0).toUpperCase() + c.slice(1)}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="text-sm font-medium text-gray-300">Amount</label>
-            <Input type="number" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} className="bg-gray-800 border-gray-700 text-white mt-1" />
+            <Input
+              type="number"
+              placeholder="0.00"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+              className="bg-gray-800 border-gray-700 text-white mt-1"
+            />
           </div>
 
-          <Button className="w-full bg-blue-600 hover:bg-blue-700">Bridge Assets</Button>
+          <Button className="w-full bg-blue-600 hover:bg-blue-700">
+            Bridge Assets
+          </Button>
         </CardContent>
       </Card>
     </div>

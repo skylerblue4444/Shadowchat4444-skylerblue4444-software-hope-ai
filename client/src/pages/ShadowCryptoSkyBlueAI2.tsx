@@ -23,15 +23,38 @@ export default function ShadowCryptoSkyBlueAI2() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">SkyBlue AI 2.0</h1>
-          <p className="text-sm text-muted-foreground">Advanced AI assistant for Skyler Blue IT clients with predictive maintenance</p>
+          <p className="text-sm text-muted-foreground">
+            Advanced AI assistant for Skyler Blue IT clients with predictive
+            maintenance
+          </p>
         </div>
         <Badge className="bg-indigo-600 text-white shrink-0">AI Powered</Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-violet-400">47</p><p className="text-xs text-muted-foreground">AI Models</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">97.3pct</p><p className="text-xs text-muted-foreground">Accuracy</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">8247</p><p className="text-xs text-muted-foreground">Predictions</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">99.99pct</p><p className="text-xs text-muted-foreground">Uptime</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-violet-400">47</p>
+            <p className="text-xs text-muted-foreground">AI Models</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">97.3pct</p>
+            <p className="text-xs text-muted-foreground">Accuracy</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">8247</p>
+            <p className="text-xs text-muted-foreground">Predictions</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">99.99pct</p>
+            <p className="text-xs text-muted-foreground">Uptime</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -45,22 +68,35 @@ export default function ShadowCryptoSkyBlueAI2() {
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
         <p className="font-black text-sm mb-1">SkyBlue AI 2.0 — Activate Now</p>
-        <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Join 847,000+ users already on ShadowChat
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("SkyBlue AI 2.0 activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("SkyBlue AI 2.0 activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening SkyBlue AI 2.0 docs...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Opening SkyBlue AI 2.0 docs...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

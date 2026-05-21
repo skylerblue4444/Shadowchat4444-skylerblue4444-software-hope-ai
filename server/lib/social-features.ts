@@ -73,7 +73,7 @@ export class SocialFeatures {
   static createProfile(
     userId: number,
     username: string,
-    bio: string,
+    bio: string
   ): UserProfile {
     return {
       userId,
@@ -99,7 +99,7 @@ export class SocialFeatures {
     username: string,
     avatar: string,
     content: string,
-    image?: string,
+    image?: string
   ): FeedPost {
     return {
       postId: `POST-${Date.now()}`,
@@ -131,11 +131,7 @@ export class SocialFeatures {
   /**
    * Tip post (send crypto)
    */
-  static tipPost(
-    post: FeedPost,
-    tipAmount: string,
-    coin: string,
-  ): FeedPost {
+  static tipPost(post: FeedPost, tipAmount: string, coin: string): FeedPost {
     const newTips = new Decimal(post.tips).plus(tipAmount);
     return {
       ...post,
@@ -151,7 +147,7 @@ export class SocialFeatures {
     age: number,
     gender: string,
     lookingFor: string,
-    photos: string[],
+    photos: string[]
   ): DatingProfile {
     return {
       ...profile,
@@ -170,7 +166,7 @@ export class SocialFeatures {
    */
   static calculateCompatibility(
     profile1: DatingProfile,
-    profile2: DatingProfile,
+    profile2: DatingProfile
   ): number {
     let score = 0;
 
@@ -179,8 +175,8 @@ export class SocialFeatures {
     score += Math.max(0, 100 - ageDiff * 10);
 
     // Interest overlap
-    const commonInterests = profile1.interests.filter((i) =>
-      profile2.interests.includes(i),
+    const commonInterests = profile1.interests.filter(i =>
+      profile2.interests.includes(i)
     ).length;
     const totalInterests = new Set([
       ...profile1.interests,
@@ -203,7 +199,7 @@ export class SocialFeatures {
     recipientId: number,
     content: string,
     type: "text" | "image" | "tip" | "call" = "text",
-    tipAmount?: string,
+    tipAmount?: string
   ): ChatMessage {
     return {
       messageId: `MSG-${Date.now()}`,
@@ -223,7 +219,7 @@ export class SocialFeatures {
   static createConnection(
     userId1: number,
     userId2: number,
-    type: "friend" | "dating" | "business",
+    type: "friend" | "dating" | "business"
   ): UserConnection {
     return {
       connectionId: `CONN-${Date.now()}`,
@@ -251,7 +247,7 @@ export class SocialFeatures {
   static calculateSocialScore(
     followers: number,
     posts: number,
-    engagement: number,
+    engagement: number
   ): number {
     const followerScore = Math.min(followers / 10, 100);
     const postScore = Math.min(posts * 5, 100);
@@ -278,10 +274,10 @@ export class SocialFeatures {
    */
   static getRecommendedMatches(
     userProfile: DatingProfile,
-    candidates: DatingProfile[],
+    candidates: DatingProfile[]
   ): DatingProfile[] {
     return candidates
-      .map((candidate) => ({
+      .map(candidate => ({
         ...candidate,
         compatibility: this.calculateCompatibility(userProfile, candidate),
       }))
@@ -295,7 +291,7 @@ export class SocialFeatures {
   static generateBadges(
     followers: number,
     posts: number,
-    earnings: string,
+    earnings: string
   ): string[] {
     const badges: string[] = [];
 
@@ -314,12 +310,11 @@ export class SocialFeatures {
   static calculateUserLevel(
     followers: number,
     posts: number,
-    earnings: string,
+    earnings: string
   ): { level: number; progress: number } {
-    const totalScore =
-      followers / 10 + posts * 5 + parseFloat(earnings) / 100;
+    const totalScore = followers / 10 + posts * 5 + parseFloat(earnings) / 100;
     const level = Math.floor(totalScore / 100) + 1;
-    const progress = (totalScore % 100);
+    const progress = totalScore % 100;
 
     return { level, progress: Math.round(progress) };
   }
@@ -331,7 +326,7 @@ export class SocialFeatures {
     userId: number,
     type: string,
     message: string,
-    relatedUserId?: number,
+    relatedUserId?: number
   ): {
     notificationId: string;
     userId: number;

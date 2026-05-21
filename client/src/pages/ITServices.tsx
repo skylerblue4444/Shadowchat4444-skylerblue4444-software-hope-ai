@@ -2,12 +2,35 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
-  Shield, Server, Cloud, HeadphonesIcon, Code, Wifi, Lock,
-  Monitor, Database, Network, CheckCircle, ArrowRight, Phone,
-  Mail, ChevronDown, ChevronUp, Zap, Star, Users, Cpu
+  Shield,
+  Server,
+  Cloud,
+  HeadphonesIcon,
+  Code,
+  Wifi,
+  Lock,
+  Monitor,
+  Database,
+  Network,
+  CheckCircle,
+  ArrowRight,
+  Phone,
+  Mail,
+  ChevronDown,
+  ChevronUp,
+  Zap,
+  Star,
+  Users,
+  Cpu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -168,14 +191,20 @@ export default function ITServices() {
       <div className="border-b border-border/40 bg-muted/20 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <button onClick={() => setLocation("/it")} className="hover:text-foreground transition-colors">Home</button>
+            <button
+              onClick={() => setLocation("/it")}
+              className="hover:text-foreground transition-colors"
+            >
+              Home
+            </button>
             <span>/</span>
             <span className="text-foreground">Services</span>
           </div>
           <h1 className="text-4xl font-bold mb-3">IT Services & Solutions</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Comprehensive technology services designed to keep your business running at peak performance —
-            from managed IT and cybersecurity to cloud infrastructure and custom development.
+            Comprehensive technology services designed to keep your business
+            running at peak performance — from managed IT and cybersecurity to
+            cloud infrastructure and custom development.
           </p>
         </div>
       </div>
@@ -185,14 +214,18 @@ export default function ITServices() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Tabs defaultValue="managed" className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-10 h-auto p-1">
-              {SERVICES_DETAIL.map((s) => (
-                <TabsTrigger key={s.id} value={s.id} className="py-3 flex items-center gap-2">
+              {SERVICES_DETAIL.map(s => (
+                <TabsTrigger
+                  key={s.id}
+                  value={s.id}
+                  className="py-3 flex items-center gap-2"
+                >
                   <s.icon className="h-4 w-4" />
                   <span className="hidden sm:inline">{s.title}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
-            {SERVICES_DETAIL.map((service) => (
+            {SERVICES_DETAIL.map(service => (
               <TabsContent key={service.id} value={service.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -200,17 +233,29 @@ export default function ITServices() {
                   className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
                 >
                   <div>
-                    <div className={`h-14 w-14 rounded-2xl ${service.bg} flex items-center justify-center mb-6`}>
+                    <div
+                      className={`h-14 w-14 rounded-2xl ${service.bg} flex items-center justify-center mb-6`}
+                    >
                       <service.icon className={`h-7 w-7 ${service.color}`} />
                     </div>
                     <h2 className="text-3xl font-bold mb-2">{service.title}</h2>
-                    <p className={`text-lg font-medium mb-4 ${service.color}`}>{service.tagline}</p>
-                    <p className="text-muted-foreground leading-relaxed mb-8">{service.description}</p>
+                    <p className={`text-lg font-medium mb-4 ${service.color}`}>
+                      {service.tagline}
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed mb-8">
+                      {service.description}
+                    </p>
                     <div className="flex gap-3">
-                      <Button onClick={() => setLocation("/it/book")} className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0">
+                      <Button
+                        onClick={() => setLocation("/it/book")}
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0"
+                      >
                         Get Started <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
-                      <Button variant="outline" onClick={() => setLocation("/it/contact")}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setLocation("/it/contact")}
+                      >
                         Ask a Question
                       </Button>
                     </div>
@@ -221,9 +266,14 @@ export default function ITServices() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-3">
-                        {service.features.map((f) => (
-                          <li key={f} className="flex items-start gap-3 text-sm">
-                            <CheckCircle className={`h-4 w-4 mt-0.5 shrink-0 ${service.color}`} />
+                        {service.features.map(f => (
+                          <li
+                            key={f}
+                            className="flex items-start gap-3 text-sm"
+                          >
+                            <CheckCircle
+                              className={`h-4 w-4 mt-0.5 shrink-0 ${service.color}`}
+                            />
                             <span className="text-muted-foreground">{f}</span>
                           </li>
                         ))}
@@ -240,19 +290,65 @@ export default function ITServices() {
       {/* Additional Services Grid */}
       <section className="py-16 bg-muted/20 border-y border-border/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold mb-8 text-center">Additional Services</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">
+            Additional Services
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { icon: HeadphonesIcon, title: "Help Desk Support", desc: "24/7 remote & on-site technical support", color: "text-green-400" },
-              { icon: Code, title: "Custom Development", desc: "Web, mobile & enterprise software", color: "text-yellow-400" },
-              { icon: Network, title: "Network Infrastructure", desc: "Design, installation & management", color: "text-orange-400" },
-              { icon: Database, title: "Data Backup & Recovery", desc: "Automated backups with fast restore", color: "text-pink-400" },
-              { icon: Monitor, title: "VoIP & Communications", desc: "Modern phone systems & video conferencing", color: "text-indigo-400" },
-              { icon: Wifi, title: "Wireless Networking", desc: "Enterprise WiFi design & deployment", color: "text-teal-400" },
-              { icon: Lock, title: "Compliance Consulting", desc: "HIPAA, PCI-DSS, SOC 2 readiness", color: "text-red-400" },
-              { icon: Users, title: "IT Staffing & Talent", desc: "Contract & permanent IT placement", color: "text-cyan-400" },
-            ].map((item) => (
-              <Card key={item.title} className="border-border/50 hover:border-blue-500/30 transition-colors cursor-pointer" onClick={() => setLocation("/it/contact")}>
+              {
+                icon: HeadphonesIcon,
+                title: "Help Desk Support",
+                desc: "24/7 remote & on-site technical support",
+                color: "text-green-400",
+              },
+              {
+                icon: Code,
+                title: "Custom Development",
+                desc: "Web, mobile & enterprise software",
+                color: "text-yellow-400",
+              },
+              {
+                icon: Network,
+                title: "Network Infrastructure",
+                desc: "Design, installation & management",
+                color: "text-orange-400",
+              },
+              {
+                icon: Database,
+                title: "Data Backup & Recovery",
+                desc: "Automated backups with fast restore",
+                color: "text-pink-400",
+              },
+              {
+                icon: Monitor,
+                title: "VoIP & Communications",
+                desc: "Modern phone systems & video conferencing",
+                color: "text-indigo-400",
+              },
+              {
+                icon: Wifi,
+                title: "Wireless Networking",
+                desc: "Enterprise WiFi design & deployment",
+                color: "text-teal-400",
+              },
+              {
+                icon: Lock,
+                title: "Compliance Consulting",
+                desc: "HIPAA, PCI-DSS, SOC 2 readiness",
+                color: "text-red-400",
+              },
+              {
+                icon: Users,
+                title: "IT Staffing & Talent",
+                desc: "Contract & permanent IT placement",
+                color: "text-cyan-400",
+              },
+            ].map(item => (
+              <Card
+                key={item.title}
+                className="border-border/50 hover:border-blue-500/30 transition-colors cursor-pointer"
+                onClick={() => setLocation("/it/contact")}
+              >
                 <CardContent className="pt-5">
                   <item.icon className={`h-6 w-6 ${item.color} mb-3`} />
                   <h3 className="font-semibold text-sm mb-1">{item.title}</h3>
@@ -269,28 +365,39 @@ export default function ITServices() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Transparent Pricing</h2>
-            <p className="text-muted-foreground">No hidden fees. No surprises. Just reliable IT support.</p>
+            <p className="text-muted-foreground">
+              No hidden fees. No surprises. Just reliable IT support.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PLANS.map((plan, i) => (
-              <motion.div key={plan.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
                 <Card className={`h-full border-2 ${plan.color} relative`}>
                   {plan.badge && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge className="bg-blue-600 text-white border-0 px-3">{plan.badge}</Badge>
+                      <Badge className="bg-blue-600 text-white border-0 px-3">
+                        {plan.badge}
+                      </Badge>
                     </div>
                   )}
                   <CardHeader className="pb-4">
                     <CardTitle>{plan.name}</CardTitle>
                     <div className="flex items-baseline gap-1 mt-2">
                       <span className="text-4xl font-bold">{plan.price}</span>
-                      <span className="text-muted-foreground">{plan.period}</span>
+                      <span className="text-muted-foreground">
+                        {plan.period}
+                      </span>
                     </div>
                     <CardDescription>{plan.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3 mb-6">
-                      {plan.features.map((f) => (
+                      {plan.features.map(f => (
                         <li key={f} className="flex items-start gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-green-400 mt-0.5 shrink-0" />
                           <span className="text-muted-foreground">{f}</span>
@@ -299,10 +406,14 @@ export default function ITServices() {
                     </ul>
                     <Button
                       className="w-full"
-                      variant={plan.name === "Professional" ? "default" : "outline"}
+                      variant={
+                        plan.name === "Professional" ? "default" : "outline"
+                      }
                       onClick={() => setLocation("/it/book")}
                     >
-                      {plan.price === "Custom" ? "Contact for Pricing" : "Get Started"}
+                      {plan.price === "Custom"
+                        ? "Contact for Pricing"
+                        : "Get Started"}
                     </Button>
                   </CardContent>
                 </Card>
@@ -315,17 +426,31 @@ export default function ITServices() {
       {/* FAQ */}
       <section className="py-16 bg-muted/20 border-t border-border/40">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">
+            Frequently Asked Questions
+          </h2>
           <div className="space-y-3">
             {FAQS.map((faq, i) => (
-              <Card key={i} className="border-border/50 cursor-pointer" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+              <Card
+                key={i}
+                className="border-border/50 cursor-pointer"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-sm pr-4">{faq.q}</span>
-                    {openFaq === i ? <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />}
+                    {openFaq === i ? (
+                      <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    )}
                   </div>
                   {openFaq === i && (
-                    <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-muted-foreground mt-3 leading-relaxed">
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-sm text-muted-foreground mt-3 leading-relaxed"
+                    >
                       {faq.a}
                     </motion.p>
                   )}
@@ -340,9 +465,15 @@ export default function ITServices() {
       <section className="py-16 bg-gradient-to-r from-blue-950/40 to-cyan-950/30 border-t border-blue-500/20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-muted-foreground mb-8">Schedule a free IT assessment and consultation today.</p>
+          <p className="text-muted-foreground mb-8">
+            Schedule a free IT assessment and consultation today.
+          </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" onClick={() => setLocation("/it/book")} className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0">
+            <Button
+              size="lg"
+              onClick={() => setLocation("/it/book")}
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0"
+            >
               Book Free Consultation <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <a href="tel:4794067123">

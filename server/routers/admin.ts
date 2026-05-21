@@ -72,9 +72,11 @@ export const adminRouter = router({
 
     return {
       totalUsers: totalUsers.length,
-      activeDatingProfiles: datingProfiles_.filter((p) => p.status === "active").length,
-      activeMarketplaceListings: marketplaceListings_.filter((l) => l.status === "active")
+      activeDatingProfiles: datingProfiles_.filter(p => p.status === "active")
         .length,
+      activeMarketplaceListings: marketplaceListings_.filter(
+        l => l.status === "active"
+      ).length,
       livestreamChannels: livestreamChannels_.length,
       timestamp: new Date(),
     };
@@ -84,7 +86,9 @@ export const adminRouter = router({
   getModerationQueue: protectedProcedure
     .input(
       z.object({
-        status: z.enum(["pending", "reviewed", "actioned", "dismissed"]).optional(),
+        status: z
+          .enum(["pending", "reviewed", "actioned", "dismissed"])
+          .optional(),
         limit: z.number().default(50),
       })
     )

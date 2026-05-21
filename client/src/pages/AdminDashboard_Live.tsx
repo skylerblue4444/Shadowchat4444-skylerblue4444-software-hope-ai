@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BarChart3, AlertCircle, Shield, Trash2, CheckCircle } from "lucide-react";
+import {
+  Users,
+  BarChart3,
+  AlertCircle,
+  Shield,
+  Trash2,
+  CheckCircle,
+} from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
 export default function AdminDashboardLive() {
@@ -35,7 +42,8 @@ export default function AdminDashboardLive() {
 
   // Mutations
   const updateRoleMutation = trpc.admin.updateUserRole.useMutation();
-  const updateModerationMutation = trpc.admin.updateModerationStatus.useMutation();
+  const updateModerationMutation =
+    trpc.admin.updateModerationStatus.useMutation();
   const banUserMutation = trpc.admin.banUser.useMutation();
 
   useEffect(() => {
@@ -100,10 +108,15 @@ export default function AdminDashboardLive() {
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,#1a1a2e,#09090b_45%)] p-6 text-white">
       <section className="mx-auto max-w-6xl space-y-6">
         <div className="rounded-3xl border border-red-400/30 bg-black/45 p-8 shadow-2xl shadow-red-500/10">
-          <Badge className="mb-4 border-red-400/40 bg-red-400/10 text-red-200">Admin Only</Badge>
-          <h1 className="text-4xl font-black tracking-tight md:text-6xl">Platform Admin Dashboard</h1>
+          <Badge className="mb-4 border-red-400/40 bg-red-400/10 text-red-200">
+            Admin Only
+          </Badge>
+          <h1 className="text-4xl font-black tracking-tight md:text-6xl">
+            Platform Admin Dashboard
+          </h1>
           <p className="mt-3 max-w-3xl text-sm text-zinc-300 md:text-base">
-            Monitor platform metrics, manage users, review moderation queue, and audit all admin actions.
+            Monitor platform metrics, manage users, review moderation queue, and
+            audit all admin actions.
           </p>
         </div>
 
@@ -118,7 +131,9 @@ export default function AdminDashboardLive() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-black text-blue-400">{metrics.totalUsers}</p>
+                <p className="text-3xl font-black text-blue-400">
+                  {metrics.totalUsers}
+                </p>
               </CardContent>
             </Card>
 
@@ -177,7 +192,7 @@ export default function AdminDashboardLive() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {moderationQueue.slice(0, 10).map((report) => (
+                {moderationQueue.slice(0, 10).map(report => (
                   <div
                     key={report.id}
                     className="flex items-center justify-between rounded-lg border border-orange-400/20 bg-orange-400/5 p-4"
@@ -187,9 +202,12 @@ export default function AdminDashboardLive() {
                         Report #{report.id}
                       </p>
                       <p className="text-sm text-zinc-400">
-                        User {report.reportedUserId} - {report.reportedContentType}
+                        User {report.reportedUserId} -{" "}
+                        {report.reportedContentType}
                       </p>
-                      <p className="text-xs text-zinc-500 mt-1">{report.reason}</p>
+                      <p className="text-xs text-zinc-500 mt-1">
+                        {report.reason}
+                      </p>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -240,14 +258,16 @@ export default function AdminDashboardLive() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allUsers.slice(0, 10).map((user) => (
+                    {allUsers.slice(0, 10).map(user => (
                       <tr
                         key={user.id}
                         className="border-b border-cyan-400/10 hover:bg-cyan-400/5"
                       >
                         <td className="py-2 px-3">{user.id}</td>
                         <td className="py-2 px-3">{user.name || "—"}</td>
-                        <td className="py-2 px-3 text-xs">{user.email || "—"}</td>
+                        <td className="py-2 px-3 text-xs">
+                          {user.email || "—"}
+                        </td>
                         <td className="py-2 px-3">
                           <Badge
                             className={
@@ -293,7 +313,7 @@ export default function AdminDashboardLive() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 max-h-96 overflow-y-auto">
-                {auditLog.slice(0, 20).map((entry) => (
+                {auditLog.slice(0, 20).map(entry => (
                   <div
                     key={entry.id}
                     className="text-xs border-l-2 border-gray-400/20 pl-3 py-1"

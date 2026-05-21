@@ -8,27 +8,66 @@ import { Badge } from "@/components/ui/badge";
 
 export default function ShadowITCybersecurity() {
   const items = [
-    { icon: "🔍", title: "Vulnerability Scan", desc: "Find weaknesses before hackers", badge: "Proactive" },
-          { icon: "🛡️", title: "Endpoint Protection", desc: "Every device secured", badge: "Complete" },
-          { icon: "🔐", title: "Password Manager", desc: "Team-wide password security", badge: "Essential" },
-          { icon: "📧", title: "Email Security", desc: "Stop phishing attacks", badge: "Critical" },
-          { icon: "🚨", title: "Incident Response", desc: "24/7 breach response", badge: "Emergency" },
-          { icon: "📋", title: "Compliance", desc: "HIPAA · PCI · SOC2", badge: "Certified" }
+    {
+      icon: "🔍",
+      title: "Vulnerability Scan",
+      desc: "Find weaknesses before hackers",
+      badge: "Proactive",
+    },
+    {
+      icon: "🛡️",
+      title: "Endpoint Protection",
+      desc: "Every device secured",
+      badge: "Complete",
+    },
+    {
+      icon: "🔐",
+      title: "Password Manager",
+      desc: "Team-wide password security",
+      badge: "Essential",
+    },
+    {
+      icon: "📧",
+      title: "Email Security",
+      desc: "Stop phishing attacks",
+      badge: "Critical",
+    },
+    {
+      icon: "🚨",
+      title: "Incident Response",
+      desc: "24/7 breach response",
+      badge: "Emergency",
+    },
+    {
+      icon: "📋",
+      title: "Compliance",
+      desc: "HIPAA · PCI · SOC2",
+      badge: "Certified",
+    },
   ];
   return (
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-black">Cybersecurity Services</h1>
-        <p className="text-xs text-muted-foreground">Protect your business · Threat detection · Incident response</p>
+        <p className="text-xs text-muted-foreground">
+          Protect your business · Threat detection · Incident response
+        </p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {items.map((item, i) => (
-          <Card key={i} className="border-border/50 hover:border-primary/30 transition-all">
+          <Card
+            key={i}
+            className="border-border/50 hover:border-primary/30 transition-all"
+          >
             <CardContent className="py-3 px-3">
               <p className="text-2xl mb-1">{item.icon}</p>
               <p className="font-bold text-xs mb-0.5">{item.title}</p>
               <p className="text-xs text-muted-foreground">{item.desc}</p>
-              {item.badge && <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">{item.badge}</Badge>}
+              {item.badge && (
+                <Badge className="mt-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs px-1.5 py-0">
+                  {item.badge}
+                </Badge>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -36,12 +75,19 @@ export default function ShadowITCybersecurity() {
       <Card className="border-primary/30 bg-primary/5">
         <CardContent className="py-4 px-4 text-center">
           <p className="font-black text-sm mb-1">✦ Earn SKY4444 Here</p>
-          <p className="text-xs text-muted-foreground mb-2">Protect your business from cyber threats. Expert security from Skyler Blue.</p>
-          <Button size="sm" className="text-xs">Get Started</Button>
+          <p className="text-xs text-muted-foreground mb-2">
+            Protect your business from cyber threats. Expert security from
+            Skyler Blue.
+          </p>
+          <Button size="sm" className="text-xs">
+            Get Started
+          </Button>
         </CardContent>
       </Card>
       <div className="text-center py-2">
-        <p className="text-xs text-muted-foreground">ShadowChat · Skyler Blue IT Resolutions · 479-406-7123</p>
+        <p className="text-xs text-muted-foreground">
+          ShadowChat · Skyler Blue IT Resolutions · 479-406-7123
+        </p>
       </div>
     </div>
   );

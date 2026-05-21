@@ -6,16 +6,22 @@
 
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
-import { DAOGovernance, ProposalStatus, VoteType } from "../lib/dao-governance.ts";
+import {
+  DAOGovernance,
+  ProposalStatus,
+  VoteType,
+} from "../lib/dao-governance.ts";
 
 export const daoGovernanceRouter = router({
   // ─── Get Active Proposals ─────────────────────────────────────────────────
   getProposals: publicProcedure
     .input(
       z.object({
-        status: z.enum(["active", "pending", "executed", "defeated"]).optional(),
+        status: z
+          .enum(["active", "pending", "executed", "defeated"])
+          .optional(),
         limit: z.number().default(20),
-      }),
+      })
     )
     .query(async ({ input }) => {
       return {
@@ -23,7 +29,8 @@ export const daoGovernanceRouter = router({
           {
             id: "PROP-001",
             title: "Increase Staking APY to 25%",
-            description: "Proposal to increase SKY4444 staking APY from 18% to 25%",
+            description:
+              "Proposal to increase SKY4444 staking APY from 18% to 25%",
             proposer: 1,
             status: "active",
             startBlock: 1000000,
@@ -62,16 +69,18 @@ export const daoGovernanceRouter = router({
             functionSignature: z.string(),
             callData: z.string(),
             value: z.string(),
-          }),
+          })
         ),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user has enough tokens to propose (25k minimum)
       const canPropose = DAOGovernance.canPropose("50000");
 
       if (!canPropose) {
-        throw new Error("Insufficient tokens to create proposal (minimum 25,000)");
+        throw new Error(
+          "Insufficient tokens to create proposal (minimum 25,000)"
+        );
       }
 
       return {
@@ -90,7 +99,7 @@ export const daoGovernanceRouter = router({
         proposalId: z.string(),
         support: z.enum(["for", "against", "abstain"]),
         reason: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -112,8 +121,16 @@ export const daoGovernanceRouter = router({
       const againstVotes = "1000000";
       const abstainVotes = "500000";
 
-      const result = DAOGovernance.getProposalResult(forVotes, againstVotes, abstainVotes);
-      const simulation = DAOGovernance.simulateOutcome(forVotes, againstVotes, abstainVotes);
+      const result = DAOGovernance.getProposalResult(
+        forVotes,
+        againstVotes,
+        abstainVotes
+      );
+      const simulation = DAOGovernance.simulateOutcome(
+        forVotes,
+        againstVotes,
+        abstainVotes
+      );
 
       return {
         proposalId: input.proposalId,
@@ -135,7 +152,7 @@ export const daoGovernanceRouter = router({
     const votingPower = DAOGovernance.getVotingPower(tokenBalance);
     const votingPowerPercentage = DAOGovernance.getVotingPowerPercentage(
       votingPower,
-      "1000000000",
+      "1000000000"
     );
 
     return {
@@ -177,7 +194,9 @@ export const daoGovernanceRouter = router({
       return {
         proposalId: input.proposalId,
         ...timeline,
-        estimatedEndTime: new Date(Date.now() + timeline.blocksRemaining * 12000), // ~12s per block
+        estimatedEndTime: new Date(
+          Date.now() + timeline.blocksRemaining * 12000
+        ), // ~12s per block
       };
     }),
 

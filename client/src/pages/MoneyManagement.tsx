@@ -202,7 +202,7 @@ export default function MoneyManagement() {
                 <input
                   type="number"
                   value={paymentAmount}
-                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  onChange={e => setPaymentAmount(e.target.value)}
                   className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none"
                   placeholder="50.00"
                   min="0.50"
@@ -287,10 +287,7 @@ export default function MoneyManagement() {
                   </p>
                   <Button
                     onClick={() =>
-                      handleCreateSubscription(
-                        "starter",
-                        "price_starter_test"
-                      )
+                      handleCreateSubscription("starter", "price_starter_test")
                     }
                     size="sm"
                     className="w-full bg-green-600 hover:bg-green-700"
@@ -323,7 +320,7 @@ export default function MoneyManagement() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 max-h-96 overflow-y-auto">
-                {paymentHistory.map((payment) => (
+                {paymentHistory.map(payment => (
                   <div
                     key={payment.id}
                     className="flex items-center justify-between rounded-lg border border-gray-400/20 bg-gray-400/5 p-3"

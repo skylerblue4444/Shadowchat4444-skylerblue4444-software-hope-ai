@@ -2,7 +2,14 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, CheckCircle, ArrowRight, Shield, TrendingUp, Globe } from "lucide-react";
+import {
+  Zap,
+  CheckCircle,
+  ArrowRight,
+  Shield,
+  TrendingUp,
+  Globe,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const features = [
@@ -23,15 +30,40 @@ export default function ShadowITIdentity() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">IT Identity Mgmt</h1>
-          <p className="text-sm text-muted-foreground">Enterprise identity and access management with SSO, MFA, and privileged access</p>
+          <p className="text-sm text-muted-foreground">
+            Enterprise identity and access management with SSO, MFA, and
+            privileged access
+          </p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Identity First</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">
+          Identity First
+        </Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">84K</p><p className="text-xs text-muted-foreground">Identities Managed</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">247</p><p className="text-xs text-muted-foreground">SSO Apps</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">100pct</p><p className="text-xs text-muted-foreground">MFA Coverage</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">0</p><p className="text-xs text-muted-foreground">Incidents</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">84K</p>
+            <p className="text-xs text-muted-foreground">Identities Managed</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">247</p>
+            <p className="text-xs text-muted-foreground">SSO Apps</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">100pct</p>
+            <p className="text-xs text-muted-foreground">MFA Coverage</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">0</p>
+            <p className="text-xs text-muted-foreground">Incidents</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -44,23 +76,38 @@ export default function ShadowITIdentity() {
         </CardContent>
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
-        <p className="font-black text-sm mb-1">IT Identity Mgmt — Activate Now</p>
-        <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
+        <p className="font-black text-sm mb-1">
+          IT Identity Mgmt — Activate Now
+        </p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Join 847,000+ users already on ShadowChat
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("IT Identity Mgmt activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("IT Identity Mgmt activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening IT Identity Mgmt docs...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Opening IT Identity Mgmt docs...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

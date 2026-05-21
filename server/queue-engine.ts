@@ -1,9 +1,9 @@
 /**
  * Queue Engine - Job queues, background tasks, async processing
  */
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
-type JobStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'retry';
+type JobStatus = "pending" | "processing" | "completed" | "failed" | "retry";
 
 interface Job<T = any> {
   id: string;
@@ -25,12 +25,17 @@ class QueueEngine extends EventEmitter {
   private processing: Set<string> = new Set();
   private handlers: Map<string, (job: Job) => Promise<any>> = new Map();
 
-  enqueue<T>(type: string, data: T, priority: number = 0, maxAttempts: number = 3): Job<T> {
+  enqueue<T>(
+    type: string,
+    data: T,
+    priority: number = 0,
+    maxAttempts: number = 3
+  ): Job<T> {
     const job: Job<T> = {
       id: `job_${Date.now()}_${Math.random()}`,
       type,
       data,
-      status: 'pending',
+      status: "pending",
       attempts: 0,
       maxAttempts,
       priority,
@@ -45,7 +50,7 @@ class QueueEngine extends EventEmitter {
     queue.push(job);
     queue.sort((a, b) => b.priority - a.priority);
 
-    this.emit('job:enqueued', job);
+    this.emit("job:enqueued", job);
     return job;
   }
 
@@ -66,28 +71,28 @@ class QueueEngine extends EventEmitter {
       if (!job) break;
 
       this.processing.add(job.id);
-      job.status = 'processing';
+      job.status = "processing";
       job.startedAt = new Date();
       job.attempts++;
 
       try {
-        this.emit('job:processing', job);
+        this.emit("job:processing", job);
         const result = await handler(job);
-        job.status = 'completed';
+        job.status = "completed";
         job.result = result;
         job.completedAt = new Date();
-        this.emit('job:completed', job);
+        this.emit("job:completed", job);
       } catch (error: any) {
         job.error = error.message;
 
         if (job.attempts < job.maxAttempts) {
-          job.status = 'retry';
+          job.status = "retry";
           queue.push(job);
-          this.emit('job:retry', job);
+          this.emit("job:retry", job);
         } else {
-          job.status = 'failed';
+          job.status = "failed";
           job.completedAt = new Date();
-          this.emit('job:failed', job);
+          this.emit("job:failed", job);
         }
       } finally {
         this.processing.delete(job.id);
@@ -97,7 +102,7 @@ class QueueEngine extends EventEmitter {
 
   getJob(jobId: string): Job | null {
     for (const queue of this.queues.values()) {
-      const job = queue.find((j) => j.id === jobId);
+      const job = queue.find(j => j.id === jobId);
       if (job) return job;
     }
     return null;
@@ -106,8 +111,8 @@ class QueueEngine extends EventEmitter {
   getQueueStats(jobType: string): { pending: number; processing: number } {
     const queue = this.queues.get(jobType) || [];
     return {
-      pending: queue.filter((j) => j.status === 'pending').length,
-      processing: queue.filter((j) => j.status === 'processing').length,
+      pending: queue.filter(j => j.status === "pending").length,
+      processing: queue.filter(j => j.status === "processing").length,
     };
   }
 }

@@ -16,7 +16,7 @@ export const realtimeRouter = router({
       const call = RealtimeCommunication.initiateCall(
         ctx.userId,
         input.recipientId,
-        "voice",
+        "voice"
       );
       return call;
     }),
@@ -28,7 +28,7 @@ export const realtimeRouter = router({
       const call = RealtimeCommunication.initiateCall(
         ctx.userId,
         input.recipientId,
-        "video",
+        "video"
       );
       return call;
     }),
@@ -50,7 +50,7 @@ export const realtimeRouter = router({
     .mutation(async ({ ctx, input }) => {
       const cost = RealtimeCommunication.calculateCallCost(
         "voice",
-        input.durationSeconds,
+        input.durationSeconds
       );
 
       return {
@@ -68,12 +68,12 @@ export const realtimeRouter = router({
       z.object({
         type: z.enum(["voice", "video"]),
         durationSeconds: z.number(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const cost = RealtimeCommunication.calculateCallCost(
         input.type,
-        input.durationSeconds,
+        input.durationSeconds
       );
 
       return {
@@ -112,14 +112,14 @@ export const realtimeRouter = router({
         title: z.string(),
         description: z.string(),
         category: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const stream = RealtimeCommunication.startStream(
         ctx.userId,
         input.title,
         input.description,
-        input.category,
+        input.category
       );
 
       return stream;
@@ -143,7 +143,7 @@ export const realtimeRouter = router({
         streamId: z.string(),
         amount: z.string(),
         coin: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -202,7 +202,7 @@ export const realtimeRouter = router({
       z.object({
         roomId: z.string(),
         content: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -219,7 +219,7 @@ export const realtimeRouter = router({
       z.object({
         roomId: z.string(),
         limit: z.number().default(50),
-      }),
+      })
     )
     .query(async ({ input }) => {
       return {
@@ -248,7 +248,7 @@ export const realtimeRouter = router({
       z.object({
         name: z.string(),
         members: z.array(z.number()),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -267,7 +267,7 @@ export const realtimeRouter = router({
         audioUrl: z.string(),
         duration: z.number(),
         transcript: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {

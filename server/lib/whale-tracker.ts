@@ -32,7 +32,12 @@ export interface WhaleWallet {
 
 export interface MarketSentiment {
   coinType: string;
-  sentiment: "very_bullish" | "bullish" | "neutral" | "bearish" | "very_bearish";
+  sentiment:
+    | "very_bullish"
+    | "bullish"
+    | "neutral"
+    | "bearish"
+    | "very_bearish";
   score: number; // -100 to 100
   sources: {
     social: number;
@@ -68,7 +73,12 @@ export interface OnChainMetrics {
 export interface AnomalyAlert {
   alertId: string;
   coinType: string;
-  type: "unusual_volume" | "whale_movement" | "price_divergence" | "liquidity_crisis" | "exchange_outflow";
+  type:
+    | "unusual_volume"
+    | "whale_movement"
+    | "price_divergence"
+    | "liquidity_crisis"
+    | "exchange_outflow";
   severity: "low" | "medium" | "high" | "critical";
   message: string;
   timestamp: Date;
@@ -93,11 +103,12 @@ export class WhaleTracker {
   static detectWhaleTransaction(
     coinType: string,
     amount: string,
-    price: string,
+    price: string
   ): WhaleTransaction | null {
     const usdValue = new Decimal(amount).times(price);
     const threshold = new Decimal(
-      this.WHALE_THRESHOLDS[coinType as keyof typeof this.WHALE_THRESHOLDS] || 1000000,
+      this.WHALE_THRESHOLDS[coinType as keyof typeof this.WHALE_THRESHOLDS] ||
+        1000000
     );
 
     if (usdValue.lt(threshold)) {
@@ -131,21 +142,23 @@ export class WhaleTracker {
     coinType: string,
     address: string,
     balance: string,
-    price: string,
+    price: string
   ): WhaleWallet {
     const usdValue = new Decimal(balance).times(price);
     const threshold = new Decimal(
-      this.WHALE_THRESHOLDS[coinType as keyof typeof this.WHALE_THRESHOLDS] || 1000000,
+      this.WHALE_THRESHOLDS[coinType as keyof typeof this.WHALE_THRESHOLDS] ||
+        1000000
     );
 
-    let category: "accumulator" | "distributor" | "trader" | "holder" = "holder";
+    let category: "accumulator" | "distributor" | "trader" | "holder" =
+      "holder";
     if (usdValue.gt(threshold.times(10))) {
       category = "accumulator";
     }
 
     const riskScore = Math.min(
       100,
-      usdValue.dividedBy(threshold).times(50).toNumber(),
+      usdValue.dividedBy(threshold).times(50).toNumber()
     );
 
     return {
@@ -169,11 +182,17 @@ export class WhaleTracker {
     socialScore: number,
     newsScore: number,
     onChainScore: number,
-    technicalScore: number,
+    technicalScore: number
   ): MarketSentiment {
-    const avgScore = (socialScore + newsScore + onChainScore + technicalScore) / 4;
+    const avgScore =
+      (socialScore + newsScore + onChainScore + technicalScore) / 4;
 
-    let sentiment: "very_bullish" | "bullish" | "neutral" | "bearish" | "very_bearish" = "neutral";
+    let sentiment:
+      | "very_bullish"
+      | "bullish"
+      | "neutral"
+      | "bearish"
+      | "very_bearish" = "neutral";
     if (avgScore > 75) {
       sentiment = "very_bullish";
     } else if (avgScore > 50) {
@@ -205,7 +224,7 @@ export class WhaleTracker {
     coinType: string,
     amount: string,
     circulatingSupply: string,
-    type: "accumulation" | "distribution" | "liquidation" | "unusual_activity",
+    type: "accumulation" | "distribution" | "liquidation" | "unusual_activity"
   ): LargeMovement {
     const percentage = new Decimal(amount)
       .dividedBy(circulatingSupply)
@@ -244,11 +263,11 @@ export class WhaleTracker {
     transactionVolume: string,
     largeTransactions: number,
     burnRate: string,
-    mintRate: string,
+    mintRate: string
   ): OnChainMetrics {
     const networkHealth = Math.min(
       100,
-      Math.max(0, 50 + activeAddresses / 100 - largeTransactions / 10),
+      Math.max(0, 50 + activeAddresses / 100 - largeTransactions / 10)
     );
 
     const avgTransactionSize = new Decimal(transactionVolume)
@@ -272,9 +291,14 @@ export class WhaleTracker {
    */
   static generateAnomalyAlert(
     coinType: string,
-    type: "unusual_volume" | "whale_movement" | "price_divergence" | "liquidity_crisis" | "exchange_outflow",
+    type:
+      | "unusual_volume"
+      | "whale_movement"
+      | "price_divergence"
+      | "liquidity_crisis"
+      | "exchange_outflow",
     currentValue: string,
-    normalValue: string,
+    normalValue: string
   ): AnomalyAlert {
     const deviation = new Decimal(currentValue)
       .minus(normalValue)
@@ -311,7 +335,7 @@ export class WhaleTracker {
     currentPrice: string,
     movementAmount: string,
     circulatingSupply: string,
-    elasticity: number = 0.5, // Price elasticity
+    elasticity: number = 0.5 // Price elasticity
   ): {
     predictedPrice: string;
     priceChange: string;
@@ -343,7 +367,7 @@ export class WhaleTracker {
    */
   static getWhaleConcentration(
     whales: WhaleWallet[],
-    totalMarketCap: string,
+    totalMarketCap: string
   ): {
     topWhalesPercentage: number;
     concentrationRisk: "low" | "medium" | "high" | "critical";
@@ -351,13 +375,13 @@ export class WhaleTracker {
   } {
     const sorted = whales.sort(
       (a, b) =>
-        new Decimal(b.usdValue).toNumber() - new Decimal(a.usdValue).toNumber(),
+        new Decimal(b.usdValue).toNumber() - new Decimal(a.usdValue).toNumber()
     );
 
     const topWhales = sorted.slice(0, 10);
     const topWhalesValue = topWhales.reduce(
       (sum, w) => new Decimal(sum).plus(w.usdValue),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const topWhalesPercentage = new Decimal(topWhalesValue)
@@ -386,17 +410,24 @@ export class WhaleTracker {
    */
   static monitorExchangeFlows(
     inflow: string,
-    outflow: string,
+    outflow: string
   ): {
     netFlow: string;
     flowDirection: "inflow" | "outflow" | "neutral";
     pressure: "buying" | "selling" | "balanced";
   } {
     const netFlow = new Decimal(inflow).minus(outflow);
-    const flowDirection = netFlow.gt(0) ? "inflow" : netFlow.lt(0) ? "outflow" : "neutral";
+    const flowDirection = netFlow.gt(0)
+      ? "inflow"
+      : netFlow.lt(0)
+        ? "outflow"
+        : "neutral";
 
-    const pressure =
-      netFlow.gt(0) ? "buying" : netFlow.lt(0) ? "selling" : "balanced";
+    const pressure = netFlow.gt(0)
+      ? "buying"
+      : netFlow.lt(0)
+        ? "selling"
+        : "balanced";
 
     return {
       netFlow: netFlow.toFixed(18),
@@ -410,20 +441,20 @@ export class WhaleTracker {
    */
   static getWhaleActivityScore(
     transactions: WhaleTransaction[],
-    timeWindowHours: number = 24,
+    timeWindowHours: number = 24
   ): number {
     const now = Date.now();
     const windowMs = timeWindowHours * 60 * 60 * 1000;
 
     const recentTransactions = transactions.filter(
-      (tx) => now - tx.timestamp.getTime() < windowMs,
+      tx => now - tx.timestamp.getTime() < windowMs
     );
 
     const criticalCount = recentTransactions.filter(
-      (tx) => tx.riskLevel === "critical",
+      tx => tx.riskLevel === "critical"
     ).length;
     const highCount = recentTransactions.filter(
-      (tx) => tx.riskLevel === "high",
+      tx => tx.riskLevel === "high"
     ).length;
 
     return Math.min(100, criticalCount * 20 + highCount * 10);

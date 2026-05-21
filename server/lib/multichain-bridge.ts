@@ -6,7 +6,14 @@
 
 import { Decimal } from "decimal.js";
 
-export type SupportedChain = "ethereum" | "polygon" | "bsc" | "arbitrum" | "optimism" | "solana" | "bitcoin";
+export type SupportedChain =
+  | "ethereum"
+  | "polygon"
+  | "bsc"
+  | "arbitrum"
+  | "optimism"
+  | "solana"
+  | "bitcoin";
 
 export interface ChainBridge {
   bridgeId: string;
@@ -173,7 +180,7 @@ export class MultichainBridge {
     tokenSymbol: string,
     bridgeAddress: string,
     liquidity: string,
-    fee: number = 0.5,
+    fee: number = 0.5
   ): ChainBridge {
     return {
       bridgeId: `BRIDGE-${sourceChain}-${destinationChain}-${Date.now()}`,
@@ -194,10 +201,7 @@ export class MultichainBridge {
    * Calculate bridge fee
    */
   static calculateBridgeFee(amount: string, feePercentage: number): string {
-    return new Decimal(amount)
-      .times(feePercentage)
-      .dividedBy(100)
-      .toFixed(18);
+    return new Decimal(amount).times(feePercentage).dividedBy(100).toFixed(18);
   }
 
   /**
@@ -205,12 +209,10 @@ export class MultichainBridge {
    */
   static calculateAmountReceived(
     amount: string,
-    feePercentage: number,
+    feePercentage: number
   ): string {
     const fee = this.calculateBridgeFee(amount, feePercentage);
-    return new Decimal(amount)
-      .minus(fee)
-      .toFixed(18);
+    return new Decimal(amount).minus(fee).toFixed(18);
   }
 
   /**
@@ -223,13 +225,14 @@ export class MultichainBridge {
     destinationChain: SupportedChain,
     tokenSymbol: string,
     amount: string,
-    feePercentage: number,
+    feePercentage: number
   ): BridgeTransaction {
     const fee = this.calculateBridgeFee(amount, feePercentage);
     const amountReceived = this.calculateAmountReceived(amount, feePercentage);
 
     const sourceChainInfo = this.SUPPORTED_CHAINS[sourceChain];
-    const estimatedTime = sourceChainInfo.avgBlockTime * sourceChainInfo.finality * 2;
+    const estimatedTime =
+      sourceChainInfo.avgBlockTime * sourceChainInfo.finality * 2;
 
     return {
       txId: `BRIDGE-${Date.now()}`,
@@ -256,7 +259,7 @@ export class MultichainBridge {
     tokenSymbol: string,
     sourceChain: SupportedChain,
     destinationChain: SupportedChain,
-    initialLiquidity: string,
+    initialLiquidity: string
   ): LiquidityPool {
     return {
       poolId: `POOL-${Date.now()}`,
@@ -278,7 +281,7 @@ export class MultichainBridge {
   static addLiquidityToPool(
     pool: LiquidityPool,
     userId: number,
-    amount: string,
+    amount: string
   ): BridgeLiquidityProvider {
     return {
       providerId: `LP-${Date.now()}`,
@@ -301,7 +304,7 @@ export class MultichainBridge {
   static calculateLPRewards(
     provider: BridgeLiquidityProvider,
     pool: LiquidityPool,
-    daysActive: number,
+    daysActive: number
   ): string {
     const dailyAPY = new Decimal(pool.apy).dividedBy(365);
     const rewards = new Decimal(provider.liquidityProvided)
@@ -317,21 +320,21 @@ export class MultichainBridge {
    */
   static getBridgeStatus(
     bridge: ChainBridge,
-    transactions: BridgeTransaction[],
+    transactions: BridgeTransaction[]
   ): {
     isHealthy: boolean;
     utilizationRate: number;
     averageTime: number;
     successRate: number;
   } {
-    const completedTxs = transactions.filter((tx) => tx.status === "completed");
+    const completedTxs = transactions.filter(tx => tx.status === "completed");
     const totalTxs = transactions.length;
 
     const successRate =
       totalTxs > 0 ? (completedTxs.length / totalTxs) * 100 : 0;
 
     const utilizationRate = new Decimal(
-      new Decimal(bridge.liquidity).minus(bridge.maxAmount),
+      new Decimal(bridge.liquidity).minus(bridge.maxAmount)
     )
       .dividedBy(bridge.liquidity)
       .times(100)
@@ -340,15 +343,15 @@ export class MultichainBridge {
     const averageTime =
       completedTxs.length > 0
         ? completedTxs.reduce((sum, tx) => {
-          if (tx.estimatedCompletion) {
-            return (
-              sum +
-              (tx.estimatedCompletion.getTime() - tx.timestamp.getTime()) /
-              1000
-            );
-          }
-          return sum;
-        }, 0) / completedTxs.length
+            if (tx.estimatedCompletion) {
+              return (
+                sum +
+                (tx.estimatedCompletion.getTime() - tx.timestamp.getTime()) /
+                  1000
+              );
+            }
+            return sum;
+          }, 0) / completedTxs.length
         : 0;
 
     return {
@@ -364,7 +367,7 @@ export class MultichainBridge {
    */
   static estimateBridgeTime(
     sourceChain: SupportedChain,
-    destinationChain: SupportedChain,
+    destinationChain: SupportedChain
   ): number {
     const sourceInfo = this.SUPPORTED_CHAINS[sourceChain];
     const destInfo = this.SUPPORTED_CHAINS[destinationChain];
@@ -380,13 +383,13 @@ export class MultichainBridge {
    */
   static getBridgeRoutes(
     tokenSymbol: string,
-    bridges: ChainBridge[],
+    bridges: ChainBridge[]
   ): ChainBridge[] {
     return bridges.filter(
-      (bridge) =>
+      bridge =>
         bridge.tokenSymbol === tokenSymbol &&
         bridge.isActive &&
-        bridge.supportedTokens.includes(tokenSymbol),
+        bridge.supportedTokens.includes(tokenSymbol)
     );
   }
 
@@ -395,7 +398,7 @@ export class MultichainBridge {
    */
   static compareBridgeOptions(
     routes: ChainBridge[],
-    amount: string,
+    amount: string
   ): {
     bridgeId: string;
     fee: string;
@@ -403,13 +406,13 @@ export class MultichainBridge {
     estimatedTime: number;
     liquidity: string;
   }[] {
-    return routes.map((bridge) => ({
+    return routes.map(bridge => ({
       bridgeId: bridge.bridgeId,
       fee: this.calculateBridgeFee(amount, bridge.fee),
       amountReceived: this.calculateAmountReceived(amount, bridge.fee),
       estimatedTime: this.estimateBridgeTime(
         bridge.sourceChain,
-        bridge.destinationChain,
+        bridge.destinationChain
       ),
       liquidity: bridge.availableLiquidity,
     }));
@@ -436,7 +439,7 @@ export class MultichainBridge {
     fromAmount: string,
     fromChainFee: number,
     toChainFee: number,
-    exchangeRate: string,
+    exchangeRate: string
   ): {
     fromAmount: string;
     toAmount: string;

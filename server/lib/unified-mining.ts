@@ -6,7 +6,14 @@
 
 import { Decimal } from "decimal.js";
 
-export type MineableCoin = "TRUMP" | "DOGE" | "BTC" | "SHADOW" | "SKYCOIN4444" | "MONERO" | "USDT";
+export type MineableCoin =
+  | "TRUMP"
+  | "DOGE"
+  | "BTC"
+  | "SHADOW"
+  | "SKYCOIN4444"
+  | "MONERO"
+  | "USDT";
 
 export interface MiningConfig {
   coin: MineableCoin;
@@ -119,7 +126,7 @@ export class UnifiedMining {
   static calculateExpectedReward(
     coin: MineableCoin,
     hashrate: string,
-    durationSeconds: number,
+    durationSeconds: number
   ): string {
     const config = MINING_CONFIGS[coin];
     const hashrateDecimal = new Decimal(hashrate);
@@ -129,13 +136,17 @@ export class UnifiedMining {
     const blockProbability = hashrateDecimal.dividedBy(networkHashrate);
 
     // Expected blocks = probability * (duration / blockTime)
-    const expectedBlocks = blockProbability.times(durationSeconds).dividedBy(config.blockTime);
+    const expectedBlocks = blockProbability
+      .times(durationSeconds)
+      .dividedBy(config.blockTime);
 
     // Expected reward = expectedBlocks * blockReward
     const expectedReward = expectedBlocks.times(config.blockReward);
 
     // Apply pool fee
-    const poolFeeMultiplier = new Decimal(10000 - config.poolFee).dividedBy(10000);
+    const poolFeeMultiplier = new Decimal(10000 - config.poolFee).dividedBy(
+      10000
+    );
     const netReward = expectedReward.times(poolFeeMultiplier);
 
     return netReward.toFixed(18);
@@ -146,11 +157,11 @@ export class UnifiedMining {
    */
   static calculateDifficulty(
     coin: MineableCoin,
-    networkHashrate: string,
+    networkHashrate: string
   ): string {
     const config = MINING_CONFIGS[coin];
     const targetBlockTime = config.blockTime;
-    const targetBlocksPerDay = (86400 / targetBlockTime);
+    const targetBlocksPerDay = 86400 / targetBlockTime;
 
     // Difficulty = networkHashrate / targetBlocksPerDay
     const difficulty = new Decimal(networkHashrate)
@@ -163,10 +174,7 @@ export class UnifiedMining {
   /**
    * Calculate time to find block
    */
-  static calculateTimeToBlock(
-    coin: MineableCoin,
-    hashrate: string,
-  ): number {
+  static calculateTimeToBlock(coin: MineableCoin, hashrate: string): number {
     const config = MINING_CONFIGS[coin];
     const hashrateDecimal = new Decimal(hashrate);
     const networkHashrate = new Decimal(config.difficulty).times(1000);
@@ -191,7 +199,7 @@ export class UnifiedMining {
     hashrate: string,
     electricityCostPerKwh: string,
     hardwareCostUsd: string,
-    coinPriceUsd: string,
+    coinPriceUsd: string
   ): {
     dailyReward: string;
     dailyCost: string;
@@ -199,11 +207,17 @@ export class UnifiedMining {
     roi: number;
     breakEvenDays: number;
   } {
-    const dailyRewardCoins = this.calculateExpectedReward(coin, hashrate, 86400);
+    const dailyRewardCoins = this.calculateExpectedReward(
+      coin,
+      hashrate,
+      86400
+    );
     const dailyRewardUsd = new Decimal(dailyRewardCoins).times(coinPriceUsd);
 
     // Estimate power consumption: ~0.5W per MH/s (varies by hardware)
-    const powerConsumption = new Decimal(hashrate).times(0.0005).dividedBy(1000); // kW
+    const powerConsumption = new Decimal(hashrate)
+      .times(0.0005)
+      .dividedBy(1000); // kW
     const dailyCost = powerConsumption.times(24).times(electricityCostPerKwh);
 
     const dailyProfit = dailyRewardUsd.minus(dailyCost);
@@ -228,7 +242,7 @@ export class UnifiedMining {
   static calculatePoolStats(
     coin: MineableCoin,
     totalHashrate: string,
-    totalMiners: number,
+    totalMiners: number
   ): {
     networkHashrate: string;
     difficulty: string;
@@ -258,7 +272,7 @@ export class UnifiedMining {
    */
   static validateMiningSession(
     coin: MineableCoin,
-    hashrate: string,
+    hashrate: string
   ): { valid: boolean; error?: string } {
     const config = MINING_CONFIGS[coin];
     const hashrateDecimal = new Decimal(hashrate);
@@ -279,7 +293,7 @@ export class UnifiedMining {
    */
   static calculateHalvingImpact(
     coin: MineableCoin,
-    currentBlockHeight: number,
+    currentBlockHeight: number
   ): {
     blocksUntilHalving: number;
     currentReward: string;
@@ -287,14 +301,17 @@ export class UnifiedMining {
     rewardReduction: number;
   } {
     const config = MINING_CONFIGS[coin];
-    const blocksUntilHalving = config.halvingInterval - (currentBlockHeight % config.halvingInterval);
-    const halvingCount = Math.floor(currentBlockHeight / config.halvingInterval);
+    const blocksUntilHalving =
+      config.halvingInterval - (currentBlockHeight % config.halvingInterval);
+    const halvingCount = Math.floor(
+      currentBlockHeight / config.halvingInterval
+    );
 
     const currentReward = new Decimal(config.blockReward).dividedBy(
-      new Decimal(2).pow(halvingCount),
+      new Decimal(2).pow(halvingCount)
     );
     const nextReward = new Decimal(config.blockReward).dividedBy(
-      new Decimal(2).pow(halvingCount + 1),
+      new Decimal(2).pow(halvingCount + 1)
     );
 
     const rewardReduction = new Decimal(currentReward)

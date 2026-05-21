@@ -145,7 +145,7 @@ export class CoinInfrastructure {
     totalSupply: string,
     maxSupply: string,
     contractAddress: string,
-    blockchain: string,
+    blockchain: string
   ): Coin {
     return {
       coinId: `COIN-${symbol}-${Date.now()}`,
@@ -170,25 +170,15 @@ export class CoinInfrastructure {
   /**
    * Calculate market cap
    */
-  static calculateMarketCap(
-    circulatingSupply: string,
-    price: string,
-  ): string {
-    return new Decimal(circulatingSupply)
-      .times(price)
-      .toFixed(2);
+  static calculateMarketCap(circulatingSupply: string, price: string): string {
+    return new Decimal(circulatingSupply).times(price).toFixed(2);
   }
 
   /**
    * Calculate fully diluted valuation
    */
-  static calculateFDV(
-    maxSupply: string,
-    price: string,
-  ): string {
-    return new Decimal(maxSupply)
-      .times(price)
-      .toFixed(2);
+  static calculateFDV(maxSupply: string, price: string): string {
+    return new Decimal(maxSupply).times(price).toFixed(2);
   }
 
   /**
@@ -196,7 +186,7 @@ export class CoinInfrastructure {
    */
   static generateEmissionSchedule(
     maxSupply: string,
-    startYear: number = 2024,
+    startYear: number = 2024
   ): EmissionSchedule[] {
     const schedules: EmissionSchedule[] = [];
     let remaining = new Decimal(maxSupply);
@@ -211,7 +201,10 @@ export class CoinInfrastructure {
         year: currentYear,
         quarterlyEmission: quarterlyEmission.toFixed(18),
         halvingEvent: year > 0 && year % 4 === 0,
-        burnAmount: year % 2 === 0 ? quarterlyEmission.times(0.01).toFixed(18) : undefined,
+        burnAmount:
+          year % 2 === 0
+            ? quarterlyEmission.times(0.01).toFixed(18)
+            : undefined,
         totalEmitted: totalEmitted.toFixed(18),
       });
 
@@ -235,7 +228,7 @@ export class CoinInfrastructure {
     totalAmount: string,
     startDate: Date,
     vestingPeriodMonths: number,
-    releaseFrequency: "daily" | "weekly" | "monthly" | "quarterly" | "yearly",
+    releaseFrequency: "daily" | "weekly" | "monthly" | "quarterly" | "yearly"
   ): VestingSchedule {
     const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + vestingPeriodMonths);
@@ -259,7 +252,7 @@ export class CoinInfrastructure {
    */
   static calculateVestingRelease(
     vesting: VestingSchedule,
-    currentDate: Date = new Date(),
+    currentDate: Date = new Date()
   ): string {
     if (currentDate < vesting.startDate) {
       return "0";
@@ -270,16 +263,16 @@ export class CoinInfrastructure {
     }
 
     const totalDays = Math.floor(
-      (vesting.endDate.getTime() - vesting.startDate.getTime()) / (1000 * 60 * 60 * 24),
+      (vesting.endDate.getTime() - vesting.startDate.getTime()) /
+        (1000 * 60 * 60 * 24)
     );
     const elapsedDays = Math.floor(
-      (currentDate.getTime() - vesting.startDate.getTime()) / (1000 * 60 * 60 * 24),
+      (currentDate.getTime() - vesting.startDate.getTime()) /
+        (1000 * 60 * 60 * 24)
     );
 
     const percentage = new Decimal(elapsedDays).dividedBy(totalDays);
-    return new Decimal(vesting.totalAmount)
-      .times(percentage)
-      .toFixed(18);
+    return new Decimal(vesting.totalAmount).times(percentage).toFixed(18);
   }
 
   /**
@@ -328,7 +321,7 @@ export class CoinInfrastructure {
   static calculateBurnImpact(
     circulatingSupply: string,
     burnAmount: string,
-    currentPrice: string,
+    currentPrice: string
   ): {
     newCirculatingSupply: string;
     deflationaryEffect: string;
@@ -358,11 +351,11 @@ export class CoinInfrastructure {
     holders: number,
     transactions24h: number,
     burnedSupply: string,
-    stakedSupply: string,
+    stakedSupply: string
   ): CoinMetrics {
     const marketCap = this.calculateMarketCap(
       coin.circulatingSupply,
-      coin.currentPrice,
+      coin.currentPrice
     );
     const fdv = this.calculateFDV(coin.maxSupply, coin.currentPrice);
 
@@ -388,10 +381,10 @@ export class CoinInfrastructure {
    */
   static calculateInflationRate(
     emissionSchedule: EmissionSchedule[],
-    circulatingSupply: string,
+    circulatingSupply: string
   ): string {
     const yearlyEmission = new Decimal(
-      emissionSchedule[0]?.quarterlyEmission || "0",
+      emissionSchedule[0]?.quarterlyEmission || "0"
     ).times(4);
     const inflationRate = yearlyEmission
       .dividedBy(circulatingSupply)
@@ -407,7 +400,7 @@ export class CoinInfrastructure {
     totalSupply: string,
     circulatingSupply: string,
     burnedSupply: string,
-    stakedSupply: string,
+    stakedSupply: string
   ): {
     total: string;
     circulating: string;
@@ -416,9 +409,7 @@ export class CoinInfrastructure {
     locked: string;
   } {
     const total = new Decimal(totalSupply);
-    const locked = total
-      .minus(circulatingSupply)
-      .minus(burnedSupply);
+    const locked = total.minus(circulatingSupply).minus(burnedSupply);
 
     return {
       total: totalSupply,
@@ -472,7 +463,7 @@ export class CoinInfrastructure {
    */
   static generatePriceHistory(
     startPrice: string,
-    days: number = 30,
+    days: number = 30
   ): { date: Date; price: string }[] {
     const history = [];
     let currentPrice = new Decimal(startPrice);

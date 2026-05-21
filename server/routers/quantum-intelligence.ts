@@ -24,7 +24,7 @@ export const quantumIntelligenceRouter = router({
         socialSentiment: z.number(),
         newsSentiment: z.number(),
         onChainSentiment: z.number(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const signal = AITradingBot.generateSignal(
@@ -38,7 +38,7 @@ export const quantumIntelligenceRouter = router({
           social: input.socialSentiment,
           news: input.newsSentiment,
           onChain: input.onChainSentiment,
-        },
+        }
       );
       return signal;
     }),
@@ -49,9 +49,20 @@ export const quantumIntelligenceRouter = router({
         signalId: z.string(),
         coinType: z.string(),
         quantity: z.string(),
-        strategy: z.enum(["scalping", "swing", "trend_following", "mean_reversion", "arbitrage"]),
-        riskLevel: z.enum(["conservative", "moderate", "aggressive", "extreme"]),
-      }),
+        strategy: z.enum([
+          "scalping",
+          "swing",
+          "trend_following",
+          "mean_reversion",
+          "arbitrage",
+        ]),
+        riskLevel: z.enum([
+          "conservative",
+          "moderate",
+          "aggressive",
+          "extreme",
+        ]),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {
@@ -77,12 +88,17 @@ export const quantumIntelligenceRouter = router({
     .input(
       z.object({
         coins: z.array(z.string()),
-        riskLevel: z.enum(["conservative", "moderate", "aggressive", "extreme"]),
-      }),
+        riskLevel: z.enum([
+          "conservative",
+          "moderate",
+          "aggressive",
+          "extreme",
+        ]),
+      })
     )
     .query(async ({ input }) => {
       return {
-        allocations: input.coins.map((coin) => ({
+        allocations: input.coins.map(coin => ({
           coin,
           percentage: 100 / input.coins.length,
         })),
@@ -98,7 +114,7 @@ export const quantumIntelligenceRouter = router({
         strategy: z.string(),
         period: z.number(), // days
         initialCapital: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return {
@@ -117,13 +133,13 @@ export const quantumIntelligenceRouter = router({
         coinType: z.string(),
         amount: z.string(),
         price: z.string(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       const whale = WhaleTracker.detectWhaleTransaction(
         input.coinType,
         input.amount,
-        input.price,
+        input.price
       );
       return whale || { detected: false };
     }),
@@ -197,7 +213,7 @@ export const quantumIntelligenceRouter = router({
         timeSinceLastTransaction: z.number(),
         locationChange: z.boolean(),
         deviceChange: z.boolean(),
-      }),
+      })
     )
     .query(async ({ ctx, input }) => {
       const fraud = SecurityShield.detectFraud(
@@ -206,7 +222,7 @@ export const quantumIntelligenceRouter = router({
         input.userAverageTransaction,
         input.timeSinceLastTransaction,
         input.locationChange,
-        input.deviceChange,
+        input.deviceChange
       );
       return fraud;
     }),
@@ -270,7 +286,7 @@ export const quantumIntelligenceRouter = router({
         type: z.string(),
         description: z.string(),
         affectedSystems: z.array(z.string()),
-      }),
+      })
     )
     .mutation(async ({ input }) => {
       return {

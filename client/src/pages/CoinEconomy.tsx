@@ -15,7 +15,8 @@ export default function CoinEconomy() {
   const { data: walletData } = trpc.coinEconomy.getWallet.useQuery();
 
   // Fetch available rewards
-  const { data: availableRewards } = trpc.coinEconomy.getAvailableRewards.useQuery();
+  const { data: availableRewards } =
+    trpc.coinEconomy.getAvailableRewards.useQuery();
 
   // Fetch leaderboard
   const { data: leaderboardData } = trpc.coinEconomy.getLeaderboard.useQuery({
@@ -71,9 +72,13 @@ export default function CoinEconomy() {
           <Badge className="mb-4 border-yellow-400/40 bg-yellow-400/10 text-yellow-200">
             Coin Economy
           </Badge>
-          <h1 className="text-4xl font-black tracking-tight md:text-6xl">SKY4444 & Shadow Coin</h1>
+          <h1 className="text-4xl font-black tracking-tight md:text-6xl">
+            SKY4444 & Shadow Coin
+          </h1>
           <p className="mt-3 max-w-3xl text-sm text-zinc-300 md:text-base">
-            Earn, claim, and trade SKYCOIN4444 and Shadow Coin through dating matches, marketplace sales, livestream tips, and platform activities.
+            Earn, claim, and trade SKYCOIN4444 and Shadow Coin through dating
+            matches, marketplace sales, livestream tips, and platform
+            activities.
           </p>
         </div>
 
@@ -138,7 +143,7 @@ export default function CoinEconomy() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {rewards.map((reward) => (
+                {rewards.map(reward => (
                   <div
                     key={reward.id}
                     className="flex items-center justify-between rounded-lg border border-green-400/20 bg-green-400/5 p-4"
@@ -148,11 +153,13 @@ export default function CoinEconomy() {
                         {reward.rewardType.replace(/_/g, " ")}
                       </p>
                       <p className="text-sm text-zinc-400">
-                        {reward.amount} {reward.coinType === "skycoin" ? "SKY" : "Shadow"}
+                        {reward.amount}{" "}
+                        {reward.coinType === "skycoin" ? "SKY" : "Shadow"}
                       </p>
                       {reward.expiresAt && (
                         <p className="text-xs text-yellow-400 mt-1">
-                          Expires: {new Date(reward.expiresAt).toLocaleDateString()}
+                          Expires:{" "}
+                          {new Date(reward.expiresAt).toLocaleDateString()}
                         </p>
                       )}
                     </div>
@@ -181,16 +188,22 @@ export default function CoinEconomy() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {leaderboard.slice(0, 10).map((entry) => (
+                {leaderboard.slice(0, 10).map(entry => (
                   <div
                     key={entry.id}
                     className="flex items-center justify-between rounded-lg border border-blue-400/20 bg-blue-400/5 p-3"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-lg font-black text-blue-400 w-8">#{entry.rank}</span>
+                      <span className="text-lg font-black text-blue-400 w-8">
+                        #{entry.rank}
+                      </span>
                       <div>
-                        <p className="font-semibold">{entry.user?.name || "User"}</p>
-                        <p className="text-xs text-zinc-400">{entry.user?.email || "—"}</p>
+                        <p className="font-semibold">
+                          {entry.user?.name || "User"}
+                        </p>
+                        <p className="text-xs text-zinc-400">
+                          {entry.user?.email || "—"}
+                        </p>
                       </div>
                     </div>
                     <p className="text-xl font-black text-yellow-400">
@@ -211,20 +224,36 @@ export default function CoinEconomy() {
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-4">
-                <h3 className="font-semibold text-cyan-300 mb-2">Dating Matches</h3>
-                <p className="text-sm text-zinc-300">Earn 50 SKY for each successful match</p>
+                <h3 className="font-semibold text-cyan-300 mb-2">
+                  Dating Matches
+                </h3>
+                <p className="text-sm text-zinc-300">
+                  Earn 50 SKY for each successful match
+                </p>
               </div>
               <div className="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-4">
-                <h3 className="font-semibold text-cyan-300 mb-2">Marketplace Sales</h3>
-                <p className="text-sm text-zinc-300">Earn 5% commission on all sales</p>
+                <h3 className="font-semibold text-cyan-300 mb-2">
+                  Marketplace Sales
+                </h3>
+                <p className="text-sm text-zinc-300">
+                  Earn 5% commission on all sales
+                </p>
               </div>
               <div className="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-4">
-                <h3 className="font-semibold text-cyan-300 mb-2">Livestream Tips</h3>
-                <p className="text-sm text-zinc-300">Keep 85% of tips received from viewers</p>
+                <h3 className="font-semibold text-cyan-300 mb-2">
+                  Livestream Tips
+                </h3>
+                <p className="text-sm text-zinc-300">
+                  Keep 85% of tips received from viewers
+                </p>
               </div>
               <div className="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-4">
-                <h3 className="font-semibold text-cyan-300 mb-2">Daily Login</h3>
-                <p className="text-sm text-zinc-300">Earn 10 SKY for daily platform engagement</p>
+                <h3 className="font-semibold text-cyan-300 mb-2">
+                  Daily Login
+                </h3>
+                <p className="text-sm text-zinc-300">
+                  Earn 10 SKY for daily platform engagement
+                </p>
               </div>
             </div>
           </CardContent>

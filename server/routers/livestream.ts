@@ -59,7 +59,9 @@ export const livestreamRouter = router({
 
   // Get all channels (discovery)
   getChannels: protectedProcedure
-    .input(z.object({ limit: z.number().default(20), offset: z.number().default(0) }))
+    .input(
+      z.object({ limit: z.number().default(20), offset: z.number().default(0) })
+    )
     .query(async ({ input }) => {
       return await db
         .select()
@@ -208,7 +210,7 @@ export const livestreamRouter = router({
 
       // Enrich with user data
       return await Promise.all(
-        comments.map(async (comment) => {
+        comments.map(async comment => {
           const user = await db
             .select()
             .from(users)

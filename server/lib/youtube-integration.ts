@@ -110,12 +110,12 @@ export class YouTubeIntegration {
     category: string,
     watchDurationSeconds: number,
     isLive: boolean = false,
-    isVerified: boolean = false,
+    isVerified: boolean = false
   ): string {
-    const baseRate = new Decimal(
-      this.WATCH_REWARD_RATES[category] || "0.05",
+    const baseRate = new Decimal(this.WATCH_REWARD_RATES[category] || "0.05");
+    const watchDurationMinutes = new Decimal(watchDurationSeconds).dividedBy(
+      60
     );
-    const watchDurationMinutes = new Decimal(watchDurationSeconds).dividedBy(60);
 
     let multiplier = new Decimal(1);
 
@@ -127,9 +127,7 @@ export class YouTubeIntegration {
       multiplier = multiplier.times(this.BONUS_MULTIPLIERS.verified_channel);
     }
 
-    const reward = baseRate
-      .times(watchDurationMinutes)
-      .times(multiplier);
+    const reward = baseRate.times(watchDurationMinutes).times(multiplier);
 
     return reward.toFixed(18);
   }
@@ -137,10 +135,7 @@ export class YouTubeIntegration {
   /**
    * Start watch session
    */
-  static startWatchSession(
-    userId: number,
-    videoId: string,
-  ): WatchSession {
+  static startWatchSession(userId: number, videoId: string): WatchSession {
     return {
       sessionId: `WATCH-${Date.now()}`,
       userId,
@@ -161,13 +156,13 @@ export class YouTubeIntegration {
     watchDurationSeconds: number,
     videoCategory: string,
     isLive: boolean = false,
-    isVerified: boolean = false,
+    isVerified: boolean = false
   ): WatchSession {
     const earnedRewards = this.calculateWatchRewards(
       videoCategory,
       watchDurationSeconds,
       isLive,
-      isVerified,
+      isVerified
     );
 
     return {
@@ -200,7 +195,7 @@ export class YouTubeIntegration {
     userId: number,
     amount: string,
     message: string,
-    videoId?: string,
+    videoId?: string
   ): ChannelTip {
     return {
       tipId: `TIP-${Date.now()}`,
@@ -225,18 +220,16 @@ export class YouTubeIntegration {
   } {
     const totalTips = tips.reduce(
       (sum, tip) => new Decimal(sum).plus(tip.amount),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const tipCount = tips.length;
     const averageTip =
-      tipCount > 0
-        ? totalTips.dividedBy(tipCount)
-        : new Decimal(0);
+      tipCount > 0 ? totalTips.dividedBy(tipCount) : new Decimal(0);
 
     // Get top tippers
     const tipperMap = new Map<number, Decimal>();
-    tips.forEach((tip) => {
+    tips.forEach(tip => {
       const current = tipperMap.get(tip.userId) || new Decimal(0);
       tipperMap.set(tip.userId, current.plus(tip.amount));
     });
@@ -270,20 +263,18 @@ export class YouTubeIntegration {
     const totalWatched = sessions.reduce((sum, s) => sum + s.watchDuration, 0);
     const totalEarned = sessions.reduce(
       (sum, s) => new Decimal(sum).plus(s.earnedRewards),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const completedSessions = sessions.filter(
-      (s) => s.status === "completed",
+      s => s.status === "completed"
     ).length;
     const abandonedSessions = sessions.filter(
-      (s) => s.status === "abandoned",
+      s => s.status === "abandoned"
     ).length;
 
     const averageSessionLength =
-      completedSessions > 0
-        ? totalWatched / completedSessions
-        : 0;
+      completedSessions > 0 ? totalWatched / completedSessions : 0;
 
     return {
       totalWatched,
@@ -299,7 +290,7 @@ export class YouTubeIntegration {
    */
   static getTrendingCryptoVideos(videos: YouTubeVideo[]): YouTubeVideo[] {
     return videos
-      .filter((v) => v.category === "trading" || v.category === "mining")
+      .filter(v => v.category === "trading" || v.category === "mining")
       .sort((a, b) => {
         const scoreA = a.viewCount + a.likeCount * 10 + a.commentCount * 5;
         const scoreB = b.viewCount + b.likeCount * 10 + b.commentCount * 5;
@@ -313,16 +304,14 @@ export class YouTubeIntegration {
    */
   static getRecommendedVideos(
     userWatchHistory: YouTubeVideo[],
-    allVideos: YouTubeVideo[],
+    allVideos: YouTubeVideo[]
   ): YouTubeVideo[] {
     // Get categories user has watched
-    const watchedCategories = new Set(
-      userWatchHistory.map((v) => v.category),
-    );
+    const watchedCategories = new Set(userWatchHistory.map(v => v.category));
 
     // Recommend videos from similar categories
     return allVideos
-      .filter((v) => watchedCategories.has(v.category))
+      .filter(v => watchedCategories.has(v.category))
       .sort((a, b) => b.viewCount - a.viewCount)
       .slice(0, 10);
   }
@@ -334,7 +323,7 @@ export class YouTubeIntegration {
     name: string,
     description: string,
     category: string,
-    videos: YouTubeVideo[],
+    videos: YouTubeVideo[]
   ): CryptoPlaylist {
     return {
       playlistId: `PL-${Date.now()}`,
@@ -391,7 +380,7 @@ export class YouTubeIntegration {
    */
   static calculateStreamerRevenue(
     watchSessions: WatchSession[],
-    channelTips: ChannelTip[],
+    channelTips: ChannelTip[]
   ): {
     totalWatchRewards: string;
     totalTips: string;
@@ -400,12 +389,12 @@ export class YouTubeIntegration {
   } {
     const totalWatchRewards = watchSessions.reduce(
       (sum, s) => new Decimal(sum).plus(s.earnedRewards),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     const totalTips = channelTips.reduce(
       (sum, t) => new Decimal(sum).plus(t.amount),
-      new Decimal(0),
+      new Decimal(0)
     );
 
     // 10% platform fee on tips
@@ -413,9 +402,7 @@ export class YouTubeIntegration {
     const tipsAfterFee = totalTips.minus(platformFee);
 
     // Streamer gets 50% of watch rewards, 90% of tips
-    const streamerEarnings = totalWatchRewards
-      .times(0.5)
-      .plus(tipsAfterFee);
+    const streamerEarnings = totalWatchRewards.times(0.5).plus(tipsAfterFee);
 
     return {
       totalWatchRewards: totalWatchRewards.toFixed(18),
@@ -428,10 +415,10 @@ export class YouTubeIntegration {
   /**
    * Get channel leaderboard
    */
-  static getChannelLeaderboard(channels: CryptoYouTubeChannel[]): CryptoYouTubeChannel[] {
-    return channels
-      .sort((a, b) => b.subscribers - a.subscribers)
-      .slice(0, 20);
+  static getChannelLeaderboard(
+    channels: CryptoYouTubeChannel[]
+  ): CryptoYouTubeChannel[] {
+    return channels.sort((a, b) => b.subscribers - a.subscribers).slice(0, 20);
   }
 
   /**
@@ -439,7 +426,7 @@ export class YouTubeIntegration {
    */
   static verifyChannel(
     channelId: string,
-    channelName: string,
+    channelName: string
   ): CryptoYouTubeChannel {
     return {
       channelId,

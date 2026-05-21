@@ -23,15 +23,40 @@ export default function ShadowCryptoFlash() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-black">Flash Loans</h1>
-          <p className="text-sm text-muted-foreground">Uncollateralized flash loans for arbitrage, liquidations, and DeFi strategies</p>
+          <p className="text-sm text-muted-foreground">
+            Uncollateralized flash loans for arbitrage, liquidations, and DeFi
+            strategies
+          </p>
         </div>
-        <Badge className="bg-indigo-600 text-white shrink-0">Instant Capital</Badge>
+        <Badge className="bg-indigo-600 text-white shrink-0">
+          Instant Capital
+        </Badge>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-yellow-400">847M USD</p><p className="text-xs text-muted-foreground">Loan Volume</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-green-400">12</p><p className="text-xs text-muted-foreground">Protocols</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-blue-400">0.84pct</p><p className="text-xs text-muted-foreground">Avg Profit</p></CardContent></Card>
-        <Card className="border-border/50 text-center"><CardContent className="py-3 px-2"><p className="font-black text-lg text-orange-400">1 Block</p><p className="text-xs text-muted-foreground">Speed</p></CardContent></Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-yellow-400">847M USD</p>
+            <p className="text-xs text-muted-foreground">Loan Volume</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-green-400">12</p>
+            <p className="text-xs text-muted-foreground">Protocols</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-blue-400">0.84pct</p>
+            <p className="text-xs text-muted-foreground">Avg Profit</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/50 text-center">
+          <CardContent className="py-3 px-2">
+            <p className="font-black text-lg text-orange-400">1 Block</p>
+            <p className="text-xs text-muted-foreground">Speed</p>
+          </CardContent>
+        </Card>
       </div>
       <Card className="border-border/50">
         <CardContent className="py-3 px-4 space-y-2">
@@ -45,22 +70,35 @@ export default function ShadowCryptoFlash() {
       </Card>
       <div className="rounded-xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 p-4">
         <p className="font-black text-sm mb-1">Flash Loans — Activate Now</p>
-        <p className="text-xs text-muted-foreground mb-3">Join 847,000+ users already on ShadowChat</p>
+        <p className="text-xs text-muted-foreground mb-3">
+          Join 847,000+ users already on ShadowChat
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <Button
             className={`font-bold border-0 ${active ? "bg-green-600" : "bg-indigo-600"} text-white`}
-            onClick={() => { setActive(true); toast.success("Flash Loans activated!"); }}
+            onClick={() => {
+              setActive(true);
+              toast.success("Flash Loans activated!");
+            }}
           >
-            <Zap className="h-4 w-4 mr-2" />{active ? "Active" : "Activate"}
+            <Zap className="h-4 w-4 mr-2" />
+            {active ? "Active" : "Activate"}
           </Button>
-          <Button variant="outline" onClick={() => toast.info("Opening Flash Loans docs...")}>
+          <Button
+            variant="outline"
+            onClick={() => toast.info("Opening Flash Loans docs...")}
+          >
             <ArrowRight className="h-4 w-4 mr-2" /> Learn More
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
-        <p className="font-bold text-xs">Skyler Blue IT Resolutions &bull; 479-406-7123</p>
-        <p className="text-xs text-muted-foreground">skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner</p>
+        <p className="font-bold text-xs">
+          Skyler Blue IT Resolutions &bull; 479-406-7123
+        </p>
+        <p className="text-xs text-muted-foreground">
+          skylerblue4444@gmail.com &bull; Arkansas #1 IT Partner
+        </p>
       </div>
     </div>
   );

@@ -15,10 +15,27 @@ export const aiAnalyticsRouter = router({
     .query(async ({ input }) => {
       // Mock price data
       const prices = [
-        "0.0080", "0.0081", "0.0082", "0.0083", "0.0084", "0.0085",
-        "0.0086", "0.0087", "0.0088", "0.0089", "0.0090", "0.0091",
-        "0.0092", "0.0093", "0.0094", "0.0095", "0.0096", "0.0097",
-        "0.0098", "0.0099", "0.0100",
+        "0.0080",
+        "0.0081",
+        "0.0082",
+        "0.0083",
+        "0.0084",
+        "0.0085",
+        "0.0086",
+        "0.0087",
+        "0.0088",
+        "0.0089",
+        "0.0090",
+        "0.0091",
+        "0.0092",
+        "0.0093",
+        "0.0094",
+        "0.0095",
+        "0.0096",
+        "0.0097",
+        "0.0098",
+        "0.0099",
+        "0.0100",
       ];
 
       const rsi = AIAnalytics.calculateRSI(prices);
@@ -70,7 +87,7 @@ export const aiAnalyticsRouter = router({
         input.coin,
         currentPrice,
         indicators,
-        sentiment,
+        sentiment
       );
 
       return prediction;
@@ -97,7 +114,11 @@ export const aiAnalyticsRouter = router({
         predicted7d: "0.0120",
         confidence: 72,
         trend: "bullish" as const,
-        signals: ["Golden Cross - Strong Uptrend", "RSI Neutral", "MACD Bullish Crossover"],
+        signals: [
+          "Golden Cross - Strong Uptrend",
+          "RSI Neutral",
+          "MACD Bullish Crossover",
+        ],
       };
 
       const sentiment = {
@@ -125,7 +146,7 @@ export const aiAnalyticsRouter = router({
       z.object({
         coin: z.string(),
         period: z.enum(["1h", "4h", "1d", "1w", "1m"]).default("1d"),
-      }),
+      })
     )
     .query(async ({ input }) => {
       return {
@@ -195,14 +216,16 @@ export const aiAnalyticsRouter = router({
         },
         {
           title: "SHADOW Accumulation Phase",
-          description: "Large volume at support levels indicates institutional buying",
+          description:
+            "Large volume at support levels indicates institutional buying",
           impact: "bullish",
           confidence: 72,
           timestamp: new Date(Date.now() - 3600000),
         },
         {
           title: "Overall Market Sentiment Positive",
-          description: "Social and on-chain metrics show strong bullish sentiment",
+          description:
+            "Social and on-chain metrics show strong bullish sentiment",
           impact: "bullish",
           confidence: 78,
           timestamp: new Date(Date.now() - 7200000),
@@ -218,7 +241,7 @@ export const aiAnalyticsRouter = router({
         coin: z.string(),
         priceTarget: z.string(),
         condition: z.enum(["above", "below"]),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return {

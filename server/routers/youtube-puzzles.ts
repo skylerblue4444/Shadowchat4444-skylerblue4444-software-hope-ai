@@ -70,7 +70,7 @@ export const youtubePuzzlesRouter = router({
     .mutation(async ({ ctx, input }) => {
       const session = YouTubeIntegration.startWatchSession(
         ctx.userId,
-        input.videoId,
+        input.videoId
       );
       return session;
     }),
@@ -85,7 +85,7 @@ export const youtubePuzzlesRouter = router({
         category: z.string(),
         isLive: z.boolean().default(false),
         isVerified: z.boolean().default(false),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const mockSession = {
@@ -104,7 +104,7 @@ export const youtubePuzzlesRouter = router({
         input.watchDurationSeconds,
         input.category,
         input.isLive,
-        input.isVerified,
+        input.isVerified
       );
 
       return completedSession;
@@ -128,7 +128,7 @@ export const youtubePuzzlesRouter = router({
         amount: z.string(),
         message: z.string(),
         videoId: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const tip = YouTubeIntegration.createChannelTip(
@@ -136,7 +136,7 @@ export const youtubePuzzlesRouter = router({
         ctx.userId,
         input.amount,
         input.message,
-        input.videoId,
+        input.videoId
       );
 
       return {
@@ -178,7 +178,7 @@ export const youtubePuzzlesRouter = router({
       z.object({
         type: z.string().optional(),
         difficulty: z.string().optional(),
-      }),
+      })
     )
     .query(async ({ input }) => {
       return {
@@ -231,7 +231,7 @@ export const youtubePuzzlesRouter = router({
         submission: z.string(),
         timeSpent: z.number(),
         hintsUsed: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // Mock challenge
@@ -255,7 +255,7 @@ export const youtubePuzzlesRouter = router({
         mockChallenge,
         input.submission,
         input.timeSpent,
-        input.hintsUsed,
+        input.hintsUsed
       );
 
       return {
