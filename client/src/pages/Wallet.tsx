@@ -1,4 +1,8 @@
+ HEAD
 import { useMemo, useState } from "react";
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
+import { useState } from "react";
+ 9f0b2225d9e8d3b03b8888054377a3a089cf8457
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wallet,
@@ -26,7 +30,19 @@ import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+ HEAD
 type Modal = "send" | "receive" | "tip" | "swap" | "escrow" | null;
+const ASSETS = [
+  { symbol: "TRUMP", name: "TRUMP Token", balance: 12450.5, usdValue: 291.34, change24h: +8.42, icon: "TR", color: "text-red-400", chain: "ETH" },
+  { symbol: "SKY4444", name: "SkyCoin444 Token", balance: 85000, usdValue: 2125.00, change24h: +15.21, icon: "SK", color: "text-cyan-400", chain: "ETH" },
+  { symbol: "BTC", name: "Bitcoin", balance: 0.00842, usdValue: 842.10, change24h: +2.14, icon: "₿", color: "text-yellow-400", chain: "BTC" },
+  { symbol: "ETH", name: "Ethereum", balance: 1.245, usdValue: 4231.50, change24h: -1.23, icon: "Ξ", color: "text-blue-400", chain: "ETH" },
+  { symbol: "DOGE", name: "Dogecoin", balance: 15420, usdValue: 2313.00, change24h: +5.67, icon: "DG", color: "text-yellow-300", chain: "DOGE" },
+  { symbol: "XMR", name: "Monero", balance: 4.21, usdValue: 631.50, change24h: -0.89, icon: "XM", color: "text-orange-400", chain: "XMR" },
+  { symbol: "USDT", name: "Tether", balance: 2840.00, usdValue: 2840.00, change24h: 0.00, icon: "US", color: "text-green-400", chain: "ETH" },
+  { symbol: "SHADOW", name: "Shadow Coin", balance: 4444, usdValue: 444.40, change24h: +4.44, icon: "SH", color: "text-purple-400", chain: "SHADOW" },
+];
+>>>>>>> 9f0b2225d9e8d3b03b8888054377a3a089cf8457
 
 const TX_ICONS: Record<string, typeof ArrowUpRight> = {
   transfer: ArrowUpRight,
@@ -177,6 +193,7 @@ export default function WalletPage() {
 
   return (
     <div className="space-y-6">
+<<<<<<< HEAD
       <div className="relative overflow-hidden rounded-2xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 p-6">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.18),transparent_50%)]" />
         <div className="relative z-10 space-y-5">
@@ -188,6 +205,14 @@ export default function WalletPage() {
               </div>
               <p className="text-sm text-slate-300">Database-backed playground ledger for multi-coin balances, social tips, swaps, and escrow-ready transaction records.</p>
             </div>
+=======
+      <SafeCryptoCompliancePanel focus="wallet" compact />
+      {/* Wallet Card */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-blue-500/20 p-6">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-4">
+>>>>>>> 9f0b2225d9e8d3b03b8888054377a3a089cf8457
             <div className="flex items-center gap-2">
               <Badge className="border-cyan-400/30 bg-cyan-500/10 text-cyan-200">Beta ledger</Badge>
               <button onClick={() => setShowBalance(!showBalance)} className="rounded-lg border border-white/10 p-2 text-blue-200 transition hover:bg-white/10 hover:text-white">

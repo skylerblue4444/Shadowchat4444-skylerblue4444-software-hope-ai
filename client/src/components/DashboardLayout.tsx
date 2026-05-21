@@ -36,6 +36,7 @@ import {
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
+import HopeAIGlobalVoiceDock from './HopeAIGlobalVoiceDock';
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
@@ -61,6 +62,7 @@ const NAV_GROUPS: NavGroup[] = [
       { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
       { icon: Bell, label: "Notifications", path: "/dashboard/notifications", badge: "3", badgeColor: "bg-red-500" },
       { icon: Activity, label: "Analytics", path: "/dashboard/analytics" },
+      { icon: Brain, label: "Hope AI Voice", path: "/dashboard/hope-ai", badge: "VOICE", badgeColor: "bg-cyan-600" },
     ],
   },
   {
@@ -381,6 +383,7 @@ function DashboardLayoutContent({ children, setSidebarWidth }: { children: React
         )}
         <main className="flex-1 p-4 min-h-screen">{children}</main>
       </SidebarInset>
+      <HopeAIGlobalVoiceDock />
     </>
   );
 }

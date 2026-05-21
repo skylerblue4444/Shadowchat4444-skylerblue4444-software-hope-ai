@@ -10,6 +10,7 @@ const NotFound       = lazy(() => import('./pages/NotFound'));
 // Core Dashboard / Platform
 const Trading        = lazy(() => import('./pages/Trading'));
 const AICopilot      = lazy(() => import('./pages/AICopilot'));
+const HopeAICommandCenter = lazy(() => import('./pages/HopeAICommandCenter'));
 const SocialFeed     = lazy(() => import('./pages/SocialFeed'));
 const Messaging      = lazy(() => import('./pages/Messaging'));
 const Analytics      = lazy(() => import('./pages/Analytics'));
@@ -212,6 +213,7 @@ function DashboardRoutes() {
 
           {/* AI Tools */}
           <Route path="/dashboard/ai"               component={AIToolsHub} />
+          <Route path="/dashboard/hope-ai"          component={HopeAICommandCenter} />
           <Route path="/dashboard/copilot"          component={AICopilot} />
           <Route path="/dashboard/ai-chat"          component={AIChat} />
           <Route path="/dashboard/ai-image"         component={AIImageGen} />

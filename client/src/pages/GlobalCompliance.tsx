@@ -1,3 +1,4 @@
+import { SafeCryptoCompliancePanel } from "@/components/SafeCryptoCompliancePanel";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -127,6 +128,7 @@ export default function GlobalCompliance() {
 
   return (
     <div className="space-y-5">
+      <SafeCryptoCompliancePanel focus="compliance" compact />
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
