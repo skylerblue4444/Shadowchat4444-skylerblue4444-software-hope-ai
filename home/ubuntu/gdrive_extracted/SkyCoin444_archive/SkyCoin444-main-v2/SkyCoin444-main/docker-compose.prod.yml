@@ -1,0 +1,14 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+version: '3.8'
+services:
+  shadowchat-prod:
+    build: .
+    ports:
+      - "80:4444"
+    volumes:
+      - ./skycoin444.db:/app/skycoin444.db
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEBUG=false
+    command: uvicorn node:app --host 0.0.0.0 --port 4444

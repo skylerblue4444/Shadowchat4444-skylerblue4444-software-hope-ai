@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streams • ShadowChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-[#0a0a2a] text-white p-6">
+    <h1 class="text-4xl font-bold mb-6">📺 Live Streams – Crypto YouTube</h1>
+    <div class="bg-black rounded-3xl aspect-video relative">
+        <video id="liveVideo" class="w-full h-full object-cover" controls autoplay loop>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_320x180_10s_1MB.mp4" type="video/mp4">
+        </video>
+        <div class="absolute bottom-6 left-6 bg-black/70 px-6 py-3 rounded-3xl flex items-center gap-3">
+            <span class="text-green-400 text-sm animate-pulse">● LIVE</span>
+            <span>ShadowCore Live • Tips Enabled</span>
+        </div>
+    </div>
+    <div class="mt-8 flex gap-8">
+        <div class="flex-1">
+            <h3 class="text-xl mb-4">Live Chat</h3>
+            <div class="bg-[#1a0b3d] rounded-3xl p-6 h-64 overflow-y-auto text-purple-300">Welcome! Tip with SKY444 to support the stream ❤️</div>
+        </div>
+        <div class="w-80">
+            <h3 class="text-xl mb-4">Send Live Tip</h3>
+            <button onclick="sendLiveTip(44.44)" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-6 rounded-3xl text-2xl font-bold mb-4">Tip 44.44 SKY444</button>
+        </div>
+    </div>
+    <script>
+        function sendLiveTip(amount) {
+            fetch('/tip', { method: 'POST', body: JSON.stringify({amount}) }).then(() => alert(`💸 ${amount} SKY444 tipped live!`));
+        }
+        window.onload = () => document.getElementById("liveVideo").play();
+    </script>
+</body>
+</html>

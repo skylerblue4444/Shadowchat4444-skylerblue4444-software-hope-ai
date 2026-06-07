@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics • ShadowChat Creator Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-[#0a0a2a] text-white p-6">
+    <h1 class="text-4xl font-bold mb-8 neon-purple">Creator Analytics</h1>
+    <div class="grid grid-cols-2 gap-6">
+        <div class="bg-[#1a0b3d] rounded-3xl p-8 text-center">
+            <p class="text-6xl font-bold text-green-400">1,203</p>
+            <p class="text-sm mt-2">Tips Received This Month</p>
+        </div>
+        <div class="bg-[#1a0b3d] rounded-3xl p-8 text-center">
+            <p class="text-6xl font-bold">$2,844</p>
+            <p class="text-sm mt-2">SKY444 Earnings</p>
+        </div>
+    </div>
+    <div class="mt-10 bg-[#1a0b3d] rounded-3xl p-8">
+        <h2 class="text-xl mb-4">Engagement Breakdown</h2>
+        <div class="space-y-4">
+            <div class="flex justify-between"><span>Posts</span><span class="text-green-400">42</span></div>
+            <div class="flex justify-between"><span>Tips</span><span class="text-green-400">87</span></div>
+            <div class="flex justify-between"><span>Live Stream Tips</span><span class="text-green-400">12</span></div>
+        </div>
+    </div>
+    <button onclick="alert('✅ Analytics exported to wallet on-chain!')" class="mt-12 w-full bg-purple-600 py-6 rounded-3xl font-bold">Export Full Report</button>
+</body>
+</html>

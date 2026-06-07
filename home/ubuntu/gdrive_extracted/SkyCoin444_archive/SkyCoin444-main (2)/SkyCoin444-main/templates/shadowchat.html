@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowChat Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-[#0a0a2a] text-white">
+    <div class="max-w-2xl mx-auto p-4">
+        <div class="bg-[#1a0b3d] rounded-3xl p-6 mb-8">
+            <input id="postInput" type="text" placeholder="What's happening in the shadows? 👻" class="w-full bg-transparent outline-none text-lg">
+            <button onclick="postNow()" class="mt-4 bg-gradient-to-r from-purple-500 to-pink-500 px-8 py-3 rounded-3xl font-bold">Post</button>
+        </div>
+        <div class="bg-[#1a0b3d] rounded-3xl p-6 mb-6">
+            <p class="my-4">Building the next generation of decentralized social media...</p>
+            <button onclick="tipPost(44.44)" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-3 rounded-3xl">Tip 44.44 SKY444</button>
+        </div>
+    </div>
+    <script>
+        function postNow() { alert("✅ Post published!"); }
+        function tipPost(amount) { fetch('/tip', { method: 'POST', body: JSON.stringify({amount}) }).then(r => r.json()).then(d => alert(d.status)); }
+    </script>
+</body>
+</html>

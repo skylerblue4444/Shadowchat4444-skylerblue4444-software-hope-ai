@@ -4,8 +4,8 @@
  * Supports: Credit Cards, Bank Transfers, Crypto Payments, Staking Rewards
  */
 
-import Stripe from "stripe";
-import { EventEmitter } from "events";
+import Stripe from 'stripe';
+import { EventEmitter } from 'events';
 
 // ============================================================================
 // STRIPE PAYMENT ENGINE
@@ -16,7 +16,7 @@ interface PaymentIntent {
   userId: string;
   amount: number;
   currency: string;
-  status: "pending" | "processing" | "succeeded" | "failed" | "canceled";
+  status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'canceled';
   stripeIntentId: string;
   metadata: Record<string, any>;
   createdAt: Date;
@@ -36,9 +36,7 @@ class StripePaymentEngine extends EventEmitter {
 
   constructor(apiKey: string, webhookSecret: string) {
     super();
-    this.stripe = new Stripe(apiKey, {
-      apiVersion: "2026-04-22.dahlia" as any,
-    });
+    this.stripe = new Stripe(apiKey, { apiVersion: '2026-04-22.dahlia' as any });
     this.webhookSecret = webhookSecret;
   }
 
@@ -48,7 +46,7 @@ class StripePaymentEngine extends EventEmitter {
   async createPaymentIntent(
     userId: string,
     amount: number,
-    currency: string = "USD",
+    currency: string = 'USD',
     metadata: Record<string, any> = {}
   ): Promise<PaymentIntent> {
     try {
@@ -69,21 +67,19 @@ class StripePaymentEngine extends EventEmitter {
         userId,
         amount,
         currency,
-        status: "pending",
+        status: 'pending',
         stripeIntentId: stripeIntent.id,
         metadata,
         createdAt: new Date(),
       };
 
       this.payments.set(payment.id, payment);
-      this.emit("payment:created", payment);
+      this.emit('payment:created', payment);
 
       return payment;
     } catch (error: any) {
-      this.emit("payment:error", { error, userId, amount });
-      throw new Error(
-        `Failed to create payment intent: ${error?.message || "Unknown error"}`
-      );
+      this.emit('payment:error', { error, userId, amount });
+      throw new Error(`Failed to create payment intent: ${error?.message || 'Unknown error'}`);
     }
   }
 
@@ -95,7 +91,7 @@ class StripePaymentEngine extends EventEmitter {
     paymentMethodId: string
   ): Promise<PaymentIntent> {
     const payment = this.payments.get(paymentId);
-    if (!payment) throw new Error("Payment not found");
+    if (!payment) throw new Error('Payment not found');
 
     try {
       const confirmed = await this.stripe.paymentIntents.confirm(
@@ -106,17 +102,16 @@ class StripePaymentEngine extends EventEmitter {
         }
       );
 
-      payment.status =
-        confirmed.status === "succeeded" ? "succeeded" : "processing";
+      payment.status = confirmed.status === 'succeeded' ? 'succeeded' : 'processing';
       payment.completedAt = new Date();
 
       this.payments.set(paymentId, payment);
-      this.emit("payment:confirmed", payment);
+      this.emit('payment:confirmed', payment);
 
       return payment;
     } catch (error) {
-      payment.status = "failed";
-      this.emit("payment:failed", { payment, error });
+      payment.status = 'failed';
+      this.emit('payment:failed', { payment, error });
       throw error;
     }
   }
@@ -126,16 +121,16 @@ class StripePaymentEngine extends EventEmitter {
    */
   async handleWebhookEvent(event: StripeWebhookEvent): Promise<void> {
     switch (event.type) {
-      case "payment_intent.succeeded":
+      case 'payment_intent.succeeded':
         this.handlePaymentSucceeded(event.data.object);
         break;
-      case "payment_intent.payment_failed":
+      case 'payment_intent.payment_failed':
         this.handlePaymentFailed(event.data.object);
         break;
-      case "charge.refunded":
+      case 'charge.refunded':
         this.handleRefund(event.data.object);
         break;
-      case "customer.subscription.updated":
+      case 'customer.subscription.updated':
         this.handleSubscriptionUpdate(event.data.object);
         break;
     }
@@ -143,31 +138,31 @@ class StripePaymentEngine extends EventEmitter {
 
   private handlePaymentSucceeded(stripeIntent: any): void {
     const payment = Array.from(this.payments.values()).find(
-      p => p.stripeIntentId === stripeIntent.id
+      (p) => p.stripeIntentId === stripeIntent.id
     );
     if (payment) {
-      payment.status = "succeeded";
+      payment.status = 'succeeded';
       payment.completedAt = new Date();
-      this.emit("payment:webhook:succeeded", payment);
+      this.emit('payment:webhook:succeeded', payment);
     }
   }
 
   private handlePaymentFailed(stripeIntent: any): void {
     const payment = Array.from(this.payments.values()).find(
-      p => p.stripeIntentId === stripeIntent.id
+      (p) => p.stripeIntentId === stripeIntent.id
     );
     if (payment) {
-      payment.status = "failed";
-      this.emit("payment:webhook:failed", payment);
+      payment.status = 'failed';
+      this.emit('payment:webhook:failed', payment);
     }
   }
 
   private handleRefund(charge: any): void {
-    this.emit("payment:refunded", charge);
+    this.emit('payment:refunded', charge);
   }
 
   private handleSubscriptionUpdate(subscription: any): void {
-    this.emit("subscription:updated", subscription);
+    this.emit('subscription:updated', subscription);
   }
 
   /**
@@ -182,7 +177,7 @@ class StripePaymentEngine extends EventEmitter {
    */
   getUserPayments(userId: string, limit: number = 50): PaymentIntent[] {
     return Array.from(this.payments.values())
-      .filter(p => p.userId === userId)
+      .filter((p) => p.userId === userId)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice(0, limit);
   }
@@ -199,7 +194,7 @@ interface CryptoPayment {
   token: string; // 'ETH', 'BTC', 'USDC', 'SKY', etc.
   walletAddress: string;
   txHash?: string;
-  status: "pending" | "confirmed" | "failed";
+  status: 'pending' | 'confirmed' | 'failed';
   confirmations: number;
   requiredConfirmations: number;
   createdAt: Date;
@@ -219,11 +214,10 @@ class CryptoPaymentEngine extends EventEmitter {
   private payments: Map<string, CryptoPayment> = new Map();
   private wallets: Map<string, CryptoWallet> = new Map();
   private rpcEndpoints: Record<string, string> = {
-    ethereum:
-      process.env.ETH_RPC_URL || "https://eth-mainnet.g.alchemy.com/v2/demo",
-    polygon: process.env.POLYGON_RPC_URL || "https://polygon-rpc.com",
-    bsc: process.env.BSC_RPC_URL || "https://bsc-dataseed.bnbchain.org",
-    arbitrum: process.env.ARBITRUM_RPC_URL || "https://arb1.arbitrum.io/rpc",
+    ethereum: process.env.ETH_RPC_URL || 'https://eth-mainnet.g.alchemy.com/v2/demo',
+    polygon: process.env.POLYGON_RPC_URL || 'https://polygon-rpc.com',
+    bsc: process.env.BSC_RPC_URL || 'https://bsc-dataseed.bnbchain.org',
+    arbitrum: process.env.ARBITRUM_RPC_URL || 'https://arb1.arbitrum.io/rpc',
   };
 
   /**
@@ -241,14 +235,14 @@ class CryptoPaymentEngine extends EventEmitter {
       amount,
       token,
       walletAddress,
-      status: "pending",
+      status: 'pending',
       confirmations: 0,
-      requiredConfirmations: token === "BTC" ? 3 : 12, // Different chains need different confirmations
+      requiredConfirmations: token === 'BTC' ? 3 : 12, // Different chains need different confirmations
       createdAt: new Date(),
     };
 
     this.payments.set(payment.id, payment);
-    this.emit("crypto:payment:created", payment);
+    this.emit('crypto:payment:created', payment);
 
     return payment;
   }
@@ -262,18 +256,18 @@ class CryptoPaymentEngine extends EventEmitter {
     confirmations: number = 0
   ): Promise<CryptoPayment> {
     const payment = this.payments.get(paymentId);
-    if (!payment) throw new Error("Crypto payment not found");
+    if (!payment) throw new Error('Crypto payment not found');
 
     payment.txHash = txHash;
     payment.confirmations = confirmations;
 
     if (confirmations >= payment.requiredConfirmations) {
-      payment.status = "confirmed";
+      payment.status = 'confirmed';
       payment.confirmedAt = new Date();
-      this.emit("crypto:payment:confirmed", payment);
+      this.emit('crypto:payment:confirmed', payment);
     } else {
-      payment.status = "pending";
-      this.emit("crypto:payment:pending", payment);
+      payment.status = 'pending';
+      this.emit('crypto:payment:pending', payment);
     }
 
     this.payments.set(paymentId, payment);
@@ -299,7 +293,7 @@ class CryptoPaymentEngine extends EventEmitter {
     };
 
     this.wallets.set(wallet.id, wallet);
-    this.emit("crypto:wallet:added", wallet);
+    this.emit('crypto:wallet:added', wallet);
 
     return wallet;
   }
@@ -312,13 +306,13 @@ class CryptoPaymentEngine extends EventEmitter {
     newBalance: number
   ): Promise<CryptoWallet> {
     const wallet = this.wallets.get(walletId);
-    if (!wallet) throw new Error("Wallet not found");
+    if (!wallet) throw new Error('Wallet not found');
 
     wallet.balance = newBalance;
     wallet.lastUpdated = new Date();
 
     this.wallets.set(walletId, wallet);
-    this.emit("crypto:wallet:updated", wallet);
+    this.emit('crypto:wallet:updated', wallet);
 
     return wallet;
   }
@@ -327,7 +321,7 @@ class CryptoPaymentEngine extends EventEmitter {
    * Get user's crypto wallets
    */
   getUserWallets(userId: string): CryptoWallet[] {
-    return Array.from(this.wallets.values()).filter(w => w.userId === userId);
+    return Array.from(this.wallets.values()).filter((w) => w.userId === userId);
   }
 
   /**
@@ -342,7 +336,7 @@ class CryptoPaymentEngine extends EventEmitter {
    */
   getUserCryptoPayments(userId: string, limit: number = 50): CryptoPayment[] {
     return Array.from(this.payments.values())
-      .filter(p => p.userId === userId)
+      .filter((p) => p.userId === userId)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice(0, limit);
   }
@@ -356,8 +350,8 @@ interface UnifiedPayment {
   id: string;
   userId: string;
   amount: number;
-  paymentMethod: "stripe" | "crypto";
-  status: "pending" | "processing" | "succeeded" | "failed";
+  paymentMethod: 'stripe' | 'crypto';
+  status: 'pending' | 'processing' | 'succeeded' | 'failed';
   details: PaymentIntent | CryptoPayment;
   createdAt: Date;
 }
@@ -373,14 +367,10 @@ class UnifiedPaymentEngine extends EventEmitter {
     this.crypto = new CryptoPaymentEngine();
 
     // Forward events
-    this.stripe.on("payment:created", payment =>
-      this.emit("payment:created", payment)
-    );
-    this.stripe.on("payment:succeeded", payment =>
-      this.emit("payment:succeeded", payment)
-    );
-    this.crypto.on("crypto:payment:confirmed", payment =>
-      this.emit("crypto:payment:confirmed", payment)
+    this.stripe.on('payment:created', (payment) => this.emit('payment:created', payment));
+    this.stripe.on('payment:succeeded', (payment) => this.emit('payment:succeeded', payment));
+    this.crypto.on('crypto:payment:confirmed', (payment) =>
+      this.emit('crypto:payment:confirmed', payment)
     );
   }
 
@@ -390,7 +380,7 @@ class UnifiedPaymentEngine extends EventEmitter {
   async processPayment(
     userId: string,
     amount: number,
-    paymentMethod: "stripe" | "crypto",
+    paymentMethod: 'stripe' | 'crypto',
     metadata: Record<string, any> = {}
   ): Promise<UnifiedPayment> {
     const payment: UnifiedPayment = {
@@ -398,36 +388,36 @@ class UnifiedPaymentEngine extends EventEmitter {
       userId,
       amount,
       paymentMethod,
-      status: "pending",
+      status: 'pending',
       details: null as any,
       createdAt: new Date(),
     };
 
     try {
-      if (paymentMethod === "stripe") {
+      if (paymentMethod === 'stripe') {
         payment.details = await this.stripe.createPaymentIntent(
           userId,
           amount,
-          "USD",
+          'USD',
           metadata
         );
-      } else if (paymentMethod === "crypto") {
+      } else if (paymentMethod === 'crypto') {
         payment.details = this.crypto.createCryptoPayment(
           userId,
           amount,
-          metadata.token || "ETH",
+          metadata.token || 'ETH',
           metadata.walletAddress
         );
       }
 
-      payment.status = "processing";
+      payment.status = 'processing';
       this.payments.set(payment.id, payment);
-      this.emit("payment:processing", payment);
+      this.emit('payment:processing', payment);
 
       return payment;
     } catch (error) {
-      payment.status = "failed";
-      this.emit("payment:error", { payment, error });
+      payment.status = 'failed';
+      this.emit('payment:error', { payment, error });
       throw error;
     }
   }
@@ -444,7 +434,7 @@ class UnifiedPaymentEngine extends EventEmitter {
    */
   getUserPayments(userId: string, limit: number = 50): UnifiedPayment[] {
     return Array.from(this.payments.values())
-      .filter(p => p.userId === userId)
+      .filter((p) => p.userId === userId)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice(0, limit);
   }

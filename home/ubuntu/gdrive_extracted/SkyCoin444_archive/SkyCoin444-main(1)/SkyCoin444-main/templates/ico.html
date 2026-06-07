@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKY444 Token Sale • ShadowChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script>
+        function startCountdown() {
+            const end = new Date().getTime() + (44 * 24 * 60 * 60 * 1000);
+            setInterval(() => {
+                const distance = end - new Date().getTime();
+                document.getElementById("days").innerText = Math.floor(distance / (1000*60*60*24));
+                document.getElementById("hours").innerText = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+                document.getElementById("mins").innerText = Math.floor((distance % (1000*60*60)) / (1000*60));
+                document.getElementById("secs").innerText = Math.floor((distance % (1000*60)) / 1000);
+            }, 1000);
+        }
+        window.onload = startCountdown;
+    </script>
+</head>
+<body class="bg-[#0a0a2a] text-white">
+    <div class="max-w-2xl mx-auto p-6">
+        <div class="bg-[#1a0b3d] rounded-3xl p-8 border border-purple-400">
+            <p class="text-center text-purple-300 tracking-widest">PRE-SALE PRICE</p>
+            <div class="flex justify-center items-center gap-6 my-8">
+                <span class="text-8xl font-bold text-yellow-400">$0.44</span>
+            </div>
+            <p class="text-center text-white/80">SKY444 Token • ERC-20 • Multi-chain Ready</p>
+
+            <div class="grid grid-cols-4 gap-4 my-10 text-center">
+                <div class="bg-black/50 rounded-2xl p-4"><div id="days" class="text-5xl font-bold">44</div><div class="text-xs">Days</div></div>
+                <div class="bg-black/50 rounded-2xl p-4"><div id="hours" class="text-5xl font-bold">04</div><div class="text-xs">Hours</div></div>
+                <div class="bg-black/50 rounded-2xl p-4"><div id="mins" class="text-5xl font-bold">44</div><div class="text-xs">Mins</div></div>
+                <div class="bg-black/50 rounded-2xl p-4"><div id="secs" class="text-5xl font-bold">26</div><div class="text-xs">Secs</div></div>
+            </div>
+
+            <div class="mb-10">
+                <div class="flex justify-between text-sm mb-2"><span>$2.9M Raised</span><span>of $5M Goal</span></div>
+                <div class="h-3 bg-gray-700 rounded-full"><div class="h-full w-[58%] bg-cyan-400"></div></div>
+            </div>
+
+            <button onclick="alert('✅ Wallet connected • SKY444 purchase initiated on-chain!')" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-7 rounded-3xl text-2xl font-bold flex items-center justify-center gap-3">
+                Buy SKY444 Now 🚀
+            </button>
+        </div>
+    </div>
+</body>
+</html>

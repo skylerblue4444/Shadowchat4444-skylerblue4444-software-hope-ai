@@ -24,28 +24,12 @@ export const commandControl = {
     type: "tip" | "pay" | "swap" | "escrow_hold"
   ): Promise<CommandResult> {
     try {
-<<<<<<< HEAD
       const sender = await db.query.users.findFirst({ where: eq(users.id, ctx.user.id) });
-=======
-      const sender = await db.query.users.findFirst({
-        where: eq(users.id, ctx.user.id),
-      });
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       if (!sender || parseFloat(sender.balance || "0") < parseFloat(amount)) {
         return { success: false, error: "Insufficient balance" };
       }
 
-<<<<<<< HEAD
       const transferResult = await multiCoinService.transfer(ctx, fromCoin, amount, recipientId, type);
-=======
-      const transferResult = await multiCoinService.transfer(
-        ctx,
-        fromCoin,
-        amount,
-        recipientId,
-        type
-      );
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
       if (!transferResult.success) {
         return { success: false, error: "Transfer failed at service layer" };
@@ -54,7 +38,6 @@ export const commandControl = {
       const fee = (parseFloat(amount) * 0.15).toFixed(2);
       const netAmount = (parseFloat(amount) - parseFloat(fee)).toFixed(2);
 
-<<<<<<< HEAD
       const [newTx] = await db.insert(transactions).values({
         userId: ctx.user.id,
         type,
@@ -65,24 +48,6 @@ export const commandControl = {
         metadata: JSON.stringify({ fee, charitySplit: (parseFloat(fee) * 0.4).toFixed(2) }),
         createdAt: new Date(),
       }).returning();
-=======
-      const [newTx] = await db
-        .insert(transactions)
-        .values({
-          userId: ctx.user.id,
-          type,
-          amount: netAmount,
-          token: fromCoin,
-          toUserId: recipientId,
-          status: "completed",
-          metadata: JSON.stringify({
-            fee,
-            charitySplit: (parseFloat(fee) * 0.4).toFixed(2),
-          }),
-          createdAt: new Date(),
-        })
-        .returning();
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
       if (type === "escrow_hold") {
         await db.insert(escrow_holds).values({
@@ -102,14 +67,7 @@ export const commandControl = {
       };
     } catch (error: any) {
       console.error("[CommandControl] Transfer error:", error);
-<<<<<<< HEAD
       return { success: false, error: error.message || "Internal command error" };
-=======
-      return {
-        success: false,
-        error: error.message || "Internal command error",
-      };
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     }
   },
 
@@ -122,27 +80,11 @@ export const commandControl = {
     return {
       balances,
       pendingEscrow: pendingEscrow.length,
-<<<<<<< HEAD
       totalEscrowValue: pendingEscrow.reduce((sum, h) => sum + parseFloat(h.amount), 0),
     };
   },
 
   async recordReward(userId: string, coin: Coin, amount: string, source: string) {
-=======
-      totalEscrowValue: pendingEscrow.reduce(
-        (sum, h) => sum + parseFloat(h.amount),
-        0
-      ),
-    };
-  },
-
-  async recordReward(
-    userId: string,
-    coin: Coin,
-    amount: string,
-    source: string
-  ) {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return this.executeTransfer(
       { user: { id: userId } },
       coin,
@@ -153,8 +95,4 @@ export const commandControl = {
   },
 };
 
-<<<<<<< HEAD
 export default commandControl;
-=======
-export default commandControl;
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498

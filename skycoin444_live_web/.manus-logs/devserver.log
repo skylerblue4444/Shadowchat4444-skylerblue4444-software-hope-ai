@@ -1,0 +1,5 @@
+[2026-05-31T06:10:49.421Z] Starting dev server with command: pnpm run dev
+[2026-05-31T06:10:51.544Z] > skycoin444_live_web@1.0.0 dev /home/ubuntu/skycoin444_live_web
+[2026-05-31T06:10:51.544Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-31T06:10:53.088Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-31T06:10:53.314Z] Server running on http://localhost:3000/

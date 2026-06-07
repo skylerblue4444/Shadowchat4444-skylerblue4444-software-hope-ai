@@ -4,7 +4,7 @@
  * Supports: Liquidity Pools, Staking, Yield Farming, Lending
  */
 
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
 // ============================================================================
 // LIQUIDITY POOL MANAGER
@@ -45,13 +45,7 @@ class LiquidityPoolManager extends EventEmitter {
   /**
    * Create liquidity pool
    */
-  createPool(
-    token0: string,
-    token1: string,
-    reserve0: number,
-    reserve1: number,
-    fee: number = 0.003
-  ): LiquidityPool {
+  createPool(token0: string, token1: string, reserve0: number, reserve1: number, fee: number = 0.003): LiquidityPool {
     const poolId = `pool_${++this.poolIdCounter}`;
 
     const pool: LiquidityPool = {
@@ -68,7 +62,7 @@ class LiquidityPoolManager extends EventEmitter {
     };
 
     this.pools.set(poolId, pool);
-    this.emit("pool:created", pool);
+    this.emit('pool:created', pool);
 
     return pool;
   }
@@ -76,14 +70,9 @@ class LiquidityPoolManager extends EventEmitter {
   /**
    * Add liquidity
    */
-  addLiquidity(
-    userId: string,
-    poolId: string,
-    token0Amount: number,
-    token1Amount: number
-  ): LiquidityPosition {
+  addLiquidity(userId: string, poolId: string, token0Amount: number, token1Amount: number): LiquidityPosition {
     const pool = this.pools.get(poolId);
-    if (!pool) throw new Error("Pool not found");
+    if (!pool) throw new Error('Pool not found');
 
     // Calculate LP tokens to mint
     const lpTokens = Math.sqrt(token0Amount * token1Amount);
@@ -114,22 +103,19 @@ class LiquidityPoolManager extends EventEmitter {
     pool.totalSupply += lpTokens;
     pool.tvl = pool.reserve0 + pool.reserve1;
 
-    this.emit("liquidity:added", { position, pool });
+    this.emit('liquidity:added', { position, pool });
     return position;
   }
 
   /**
    * Remove liquidity
    */
-  removeLiquidity(
-    positionId: string,
-    lpTokenAmount: number
-  ): LiquidityPosition {
+  removeLiquidity(positionId: string, lpTokenAmount: number): LiquidityPosition {
     const position = this.positions.get(positionId);
-    if (!position) throw new Error("Position not found");
+    if (!position) throw new Error('Position not found');
 
     const pool = this.pools.get(position.poolId);
-    if (!pool) throw new Error("Pool not found");
+    if (!pool) throw new Error('Pool not found');
 
     // Calculate tokens to return
     const token0Out = (lpTokenAmount / pool.totalSupply) * pool.reserve0;
@@ -147,20 +133,16 @@ class LiquidityPoolManager extends EventEmitter {
     pool.totalSupply -= lpTokenAmount;
     pool.tvl = pool.reserve0 + pool.reserve1;
 
-    this.emit("liquidity:removed", { position, pool, token0Out, token1Out });
+    this.emit('liquidity:removed', { position, pool, token0Out, token1Out });
     return position;
   }
 
   /**
    * Swap tokens
    */
-  swapTokens(
-    poolId: string,
-    tokenIn: string,
-    amountIn: number
-  ): { amountOut: number; fee: number } {
+  swapTokens(poolId: string, tokenIn: string, amountIn: number): { amountOut: number; fee: number } {
     const pool = this.pools.get(poolId);
-    if (!pool) throw new Error("Pool not found");
+    if (!pool) throw new Error('Pool not found');
 
     const isToken0In = tokenIn === pool.token0;
     const reserveIn = isToken0In ? pool.reserve0 : pool.reserve1;
@@ -169,8 +151,7 @@ class LiquidityPoolManager extends EventEmitter {
     // Constant product formula: x * y = k
     const fee = amountIn * pool.fee;
     const amountInAfterFee = amountIn - fee;
-    const amountOut =
-      (amountInAfterFee * reserveOut) / (reserveIn + amountInAfterFee);
+    const amountOut = (amountInAfterFee * reserveOut) / (reserveIn + amountInAfterFee);
 
     // Update reserves
     if (isToken0In) {
@@ -181,18 +162,14 @@ class LiquidityPoolManager extends EventEmitter {
       pool.reserve0 -= amountOut;
     }
 
-    this.emit("swap:executed", { poolId, tokenIn, amountIn, amountOut, fee });
+    this.emit('swap:executed', { poolId, tokenIn, amountIn, amountOut, fee });
     return { amountOut, fee };
   }
 
   /**
    * Calculate APR
    */
-  private calculateAPR(
-    reserve0: number,
-    reserve1: number,
-    fee: number
-  ): number {
+  private calculateAPR(reserve0: number, reserve1: number, fee: number): number {
     // Simplified APR calculation
     const dailyVolume = (reserve0 + reserve1) * 0.1; // Assume 10% daily volume
     const dailyFees = dailyVolume * fee;
@@ -214,8 +191,8 @@ class LiquidityPoolManager extends EventEmitter {
   getUserPositions(userId: string): LiquidityPosition[] {
     const positionIds = this.userPositions.get(userId) || [];
     return positionIds
-      .map(id => this.positions.get(id))
-      .filter(p => p !== undefined && p.lpTokens > 0) as LiquidityPosition[];
+      .map((id) => this.positions.get(id))
+      .filter((p) => p !== undefined && p.lpTokens > 0) as LiquidityPosition[];
   }
 
   /**
@@ -259,12 +236,7 @@ class StakingManager extends EventEmitter {
   /**
    * Create staking pool
    */
-  createStakingPool(
-    token: string,
-    rewardToken: string,
-    rewardRate: number,
-    lockupPeriod: number = 0
-  ): StakingPool {
+  createStakingPool(token: string, rewardToken: string, rewardRate: number, lockupPeriod: number = 0): StakingPool {
     const poolId = `stake_${++this.poolIdCounter}`;
 
     const pool: StakingPool = {
@@ -278,7 +250,7 @@ class StakingManager extends EventEmitter {
     };
 
     this.pools.set(poolId, pool);
-    this.emit("staking:pool:created", pool);
+    this.emit('staking:pool:created', pool);
 
     return pool;
   }
@@ -288,7 +260,7 @@ class StakingManager extends EventEmitter {
    */
   stake(userId: string, poolId: string, amount: number): StakingPosition {
     const pool = this.pools.get(poolId);
-    if (!pool) throw new Error("Staking pool not found");
+    if (!pool) throw new Error('Staking pool not found');
 
     const position: StakingPosition = {
       id: `stake_${Date.now()}_${Math.random()}`,
@@ -309,32 +281,28 @@ class StakingManager extends EventEmitter {
 
     pool.totalStaked += amount;
 
-    this.emit("staking:staked", { position, pool });
+    this.emit('staking:staked', { position, pool });
     return position;
   }
 
   /**
    * Claim rewards
    */
-  claimRewards(positionId: string): {
-    rewards: number;
-    newPosition: StakingPosition;
-  } {
+  claimRewards(positionId: string): { rewards: number; newPosition: StakingPosition } {
     const position = this.positions.get(positionId);
-    if (!position) throw new Error("Staking position not found");
+    if (!position) throw new Error('Staking position not found');
 
     const pool = this.pools.get(position.poolId);
-    if (!pool) throw new Error("Staking pool not found");
+    if (!pool) throw new Error('Staking pool not found');
 
     // Calculate rewards
     const stakingDuration = Date.now() - position.stakedAt.getTime();
     const stakingDurationYears = stakingDuration / (365 * 24 * 60 * 60 * 1000);
-    const rewards =
-      position.stakedAmount * (pool.rewardRate / 100) * stakingDurationYears;
+    const rewards = position.stakedAmount * (pool.rewardRate / 100) * stakingDurationYears;
 
     position.rewards += rewards;
 
-    this.emit("staking:rewards:claimed", { position, rewards });
+    this.emit('staking:rewards:claimed', { position, rewards });
     return { rewards, newPosition: position };
   }
 
@@ -343,10 +311,10 @@ class StakingManager extends EventEmitter {
    */
   unstake(positionId: string): { stakedAmount: number; rewards: number } {
     const position = this.positions.get(positionId);
-    if (!position) throw new Error("Staking position not found");
+    if (!position) throw new Error('Staking position not found');
 
     if (Date.now() < position.unlockedAt.getTime()) {
-      throw new Error("Tokens are still locked");
+      throw new Error('Tokens are still locked');
     }
 
     const pool = this.pools.get(position.poolId);
@@ -359,7 +327,7 @@ class StakingManager extends EventEmitter {
 
     this.positions.delete(positionId);
 
-    this.emit("staking:unstaked", { positionId, stakedAmount, rewards });
+    this.emit('staking:unstaked', { positionId, stakedAmount, rewards });
     return { stakedAmount, rewards };
   }
 
@@ -369,8 +337,8 @@ class StakingManager extends EventEmitter {
   getUserStakingPositions(userId: string): StakingPosition[] {
     const positionIds = this.userPositions.get(userId) || [];
     return positionIds
-      .map(id => this.positions.get(id))
-      .filter(p => p !== undefined) as StakingPosition[];
+      .map((id) => this.positions.get(id))
+      .filter((p) => p !== undefined) as StakingPosition[];
   }
 
   /**
@@ -412,11 +380,7 @@ class YieldFarmingManager extends EventEmitter {
   /**
    * Create yield farm pool
    */
-  createYieldFarmPool(
-    lpToken: string,
-    rewardToken: string,
-    rewardRate: number
-  ): YieldFarmPool {
+  createYieldFarmPool(lpToken: string, rewardToken: string, rewardRate: number): YieldFarmPool {
     const poolId = `farm_${++this.poolIdCounter}`;
 
     const pool: YieldFarmPool = {
@@ -429,7 +393,7 @@ class YieldFarmingManager extends EventEmitter {
     };
 
     this.pools.set(poolId, pool);
-    this.emit("farm:pool:created", pool);
+    this.emit('farm:pool:created', pool);
 
     return pool;
   }
@@ -437,13 +401,9 @@ class YieldFarmingManager extends EventEmitter {
   /**
    * Deposit LP tokens
    */
-  deposit(
-    userId: string,
-    poolId: string,
-    lpTokenAmount: number
-  ): YieldFarmPosition {
+  deposit(userId: string, poolId: string, lpTokenAmount: number): YieldFarmPosition {
     const pool = this.pools.get(poolId);
-    if (!pool) throw new Error("Yield farm pool not found");
+    if (!pool) throw new Error('Yield farm pool not found');
 
     const position: YieldFarmPosition = {
       id: `farm_${Date.now()}_${Math.random()}`,
@@ -463,32 +423,28 @@ class YieldFarmingManager extends EventEmitter {
 
     pool.totalLiquidity += lpTokenAmount;
 
-    this.emit("farm:deposited", { position, pool });
+    this.emit('farm:deposited', { position, pool });
     return position;
   }
 
   /**
    * Harvest rewards
    */
-  harvest(positionId: string): {
-    rewards: number;
-    position: YieldFarmPosition;
-  } {
+  harvest(positionId: string): { rewards: number; position: YieldFarmPosition } {
     const position = this.positions.get(positionId);
-    if (!position) throw new Error("Yield farm position not found");
+    if (!position) throw new Error('Yield farm position not found');
 
     const pool = this.pools.get(position.poolId);
-    if (!pool) throw new Error("Yield farm pool not found");
+    if (!pool) throw new Error('Yield farm pool not found');
 
     // Calculate rewards
     const farmingDuration = Date.now() - position.depositedAt.getTime();
     const farmingDurationYears = farmingDuration / (365 * 24 * 60 * 60 * 1000);
-    const rewards =
-      position.lpTokenAmount * (pool.rewardRate / 100) * farmingDurationYears;
+    const rewards = position.lpTokenAmount * (pool.rewardRate / 100) * farmingDurationYears;
 
     position.rewards += rewards;
 
-    this.emit("farm:harvested", { position, rewards });
+    this.emit('farm:harvested', { position, rewards });
     return { rewards, position };
   }
 
@@ -497,7 +453,7 @@ class YieldFarmingManager extends EventEmitter {
    */
   withdraw(positionId: string): { lpTokenAmount: number; rewards: number } {
     const position = this.positions.get(positionId);
-    if (!position) throw new Error("Yield farm position not found");
+    if (!position) throw new Error('Yield farm position not found');
 
     const pool = this.pools.get(position.poolId);
     if (pool) {
@@ -509,7 +465,7 @@ class YieldFarmingManager extends EventEmitter {
 
     this.positions.delete(positionId);
 
-    this.emit("farm:withdrawn", { positionId, lpTokenAmount, rewards });
+    this.emit('farm:withdrawn', { positionId, lpTokenAmount, rewards });
     return { lpTokenAmount, rewards };
   }
 
@@ -519,8 +475,8 @@ class YieldFarmingManager extends EventEmitter {
   getUserFarmingPositions(userId: string): YieldFarmPosition[] {
     const positionIds = this.userPositions.get(userId) || [];
     return positionIds
-      .map(id => this.positions.get(id))
-      .filter(p => p !== undefined) as YieldFarmPosition[];
+      .map((id) => this.positions.get(id))
+      .filter((p) => p !== undefined) as YieldFarmPosition[];
   }
 }
 

@@ -3,19 +3,15 @@
  * Production-Grade Payment Processing API
  */
 
-import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
-import {
-  UnifiedPaymentEngine,
-  StripePaymentEngine,
-  CryptoPaymentEngine,
-} from "./payment-engine";
-import { BlockchainProviderManager, TokenManager } from "./blockchain-engine";
+import { z } from 'zod';
+import { protectedProcedure, publicProcedure, router } from './_core/trpc';
+import { UnifiedPaymentEngine, StripePaymentEngine, CryptoPaymentEngine } from './payment-engine';
+import { BlockchainProviderManager, TokenManager } from './blockchain-engine';
 
 // Initialize engines
 const paymentEngine = new UnifiedPaymentEngine(
-  process.env.STRIPE_API_KEY || "",
-  process.env.STRIPE_WEBHOOK_SECRET || ""
+  process.env.STRIPE_API_KEY || '',
+  process.env.STRIPE_WEBHOOK_SECRET || ''
 );
 
 const blockchainManager = new BlockchainProviderManager();
@@ -31,7 +27,7 @@ export const paymentRouter = router({
     .input(
       z.object({
         amount: z.number().positive(),
-        currency: z.string().default("USD"),
+        currency: z.string().default('USD'),
         description: z.string().optional(),
       })
     )
@@ -40,7 +36,7 @@ export const paymentRouter = router({
         const payment = await paymentEngine.processPayment(
           ctx.user.id.toString(),
           input.amount,
-          "stripe",
+          'stripe',
           {
             description: input.description,
             currency: input.currency,
@@ -65,10 +61,7 @@ export const paymentRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         const stripeEngine = paymentEngine.getStripeEngine();
-        const payment = await stripeEngine.confirmPayment(
-          input.paymentId,
-          input.paymentMethodId
-        );
+        const payment = await stripeEngine.confirmPayment(input.paymentId, input.paymentMethodId);
         return payment;
       } catch (error: any) {
         throw new Error(`Payment confirmation failed: ${error?.message}`);
@@ -82,7 +75,7 @@ export const paymentRouter = router({
     .input(z.object({ paymentId: z.string() }))
     .query(({ input }) => {
       const payment = paymentEngine.getPaymentStatus(input.paymentId);
-      if (!payment) throw new Error("Payment not found");
+      if (!payment) throw new Error('Payment not found');
       return payment;
     }),
 
@@ -104,7 +97,7 @@ export const paymentRouter = router({
     .input(
       z.object({
         amount: z.number().positive(),
-        token: z.enum(["ETH", "BTC", "USDC", "SKY", "MATIC", "BNB"]),
+        token: z.enum(['ETH', 'BTC', 'USDC', 'SKY', 'MATIC', 'BNB']),
         walletAddress: z.string(),
       })
     )
@@ -144,9 +137,7 @@ export const paymentRouter = router({
         );
         return payment;
       } catch (error: any) {
-        throw new Error(
-          `Crypto payment confirmation failed: ${error?.message}`
-        );
+        throw new Error(`Crypto payment confirmation failed: ${error?.message}`);
       }
     }),
 
@@ -158,7 +149,7 @@ export const paymentRouter = router({
     .query(({ input }) => {
       const cryptoEngine = paymentEngine.getCryptoEngine();
       const payment = cryptoEngine.getCryptoPaymentStatus(input.paymentId);
-      if (!payment) throw new Error("Crypto payment not found");
+      if (!payment) throw new Error('Crypto payment not found');
       return payment;
     }),
 
@@ -169,10 +160,7 @@ export const paymentRouter = router({
     .input(z.object({ limit: z.number().default(50) }))
     .query(({ ctx, input }) => {
       const cryptoEngine = paymentEngine.getCryptoEngine();
-      return cryptoEngine.getUserCryptoPayments(
-        ctx.user.id.toString(),
-        input.limit
-      );
+      return cryptoEngine.getUserCryptoPayments(ctx.user.id.toString(), input.limit);
     }),
 
   // ========== CRYPTO WALLETS ==========
@@ -184,7 +172,7 @@ export const paymentRouter = router({
     .input(
       z.object({
         address: z.string(),
-        token: z.enum(["ETH", "BTC", "USDC", "SKY", "MATIC", "BNB"]),
+        token: z.enum(['ETH', 'BTC', 'USDC', 'SKY', 'MATIC', 'BNB']),
         balance: z.number().default(0),
       })
     )
@@ -224,10 +212,7 @@ export const paymentRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         const cryptoEngine = paymentEngine.getCryptoEngine();
-        const wallet = await cryptoEngine.updateWalletBalance(
-          input.walletId,
-          input.newBalance
-        );
+        const wallet = await cryptoEngine.updateWalletBalance(input.walletId, input.newBalance);
         return wallet;
       } catch (error: any) {
         throw new Error(`Wallet update failed: ${error?.message}`);
@@ -248,10 +233,7 @@ export const paymentRouter = router({
     )
     .query(async ({ input }) => {
       try {
-        const balance = await blockchainManager.getBalance(
-          input.chain,
-          input.address
-        );
+        const balance = await blockchainManager.getBalance(input.chain, input.address);
         return { balance, chain: input.chain, address: input.address };
       } catch (error: any) {
         throw new Error(`Balance fetch failed: ${error?.message}`);
@@ -277,10 +259,7 @@ export const paymentRouter = router({
     )
     .query(async ({ input }) => {
       try {
-        const status = await blockchainManager.getTransactionStatus(
-          input.chain,
-          input.txHash
-        );
+        const status = await blockchainManager.getTransactionStatus(input.chain, input.txHash);
         return status;
       } catch (error: any) {
         throw new Error(`Transaction status fetch failed: ${error?.message}`);
@@ -331,7 +310,7 @@ export const paymentRouter = router({
     )
     .query(({ input }) => {
       const token = tokenManager.getTokenInfo(input.chain, input.tokenAddress);
-      if (!token) throw new Error("Token not found");
+      if (!token) throw new Error('Token not found');
       return token;
     }),
 

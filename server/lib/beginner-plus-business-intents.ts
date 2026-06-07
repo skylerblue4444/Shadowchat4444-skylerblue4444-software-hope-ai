@@ -8,16 +8,8 @@ export type BeginnerPlusBusinessAction =
   | "queue-creator-monetization"
   | "open-partner-path";
 
-export type BeginnerPlusBusinessReviewStatus =
-  | "none"
-  | "queued"
-  | "approved"
-  | "rejected";
-export type BeginnerPlusBusinessIntentStatus =
-  | "queued-for-guided-user-review"
-  | "queued-for-business-and-creator-review"
-  | "approved"
-  | "rejected";
+export type BeginnerPlusBusinessReviewStatus = "none" | "queued" | "approved" | "rejected";
+export type BeginnerPlusBusinessIntentStatus = "queued-for-guided-user-review" | "queued-for-business-and-creator-review" | "approved" | "rejected";
 
 type RecordBeginnerPlusBusinessIntentInput = {
   intentKey: string;
@@ -33,8 +25,7 @@ type RecordBeginnerPlusBusinessIntentInput = {
 
 function normalizeIntentKey(intentKey: string) {
   const normalized = intentKey.trim().replace(/\s+/g, ":").slice(0, 160);
-  if (normalized.length < 8)
-    throw new Error("Beginner Plus business intent key is required.");
+  if (normalized.length < 8) throw new Error("Beginner Plus business intent key is required.");
   return normalized;
 }
 
@@ -42,16 +33,9 @@ function stringifySnapshot(snapshot: unknown) {
   return JSON.stringify({ recordedAt: new Date().toISOString(), snapshot });
 }
 
-export async function recordBeginnerPlusBusinessIntent(
-  db: any,
-  input: RecordBeginnerPlusBusinessIntentInput
-) {
+export async function recordBeginnerPlusBusinessIntent(db: any, input: RecordBeginnerPlusBusinessIntentInput) {
   const intentKey = normalizeIntentKey(input.intentKey);
-  const [existing] = await db
-    .select()
-    .from(beginnerPlusBusinessIntents)
-    .where(eq(beginnerPlusBusinessIntents.intentKey, intentKey))
-    .limit(1);
+  const [existing] = await db.select().from(beginnerPlusBusinessIntents).where(eq(beginnerPlusBusinessIntents.intentKey, intentKey)).limit(1);
   if (existing) return { intent: existing, created: false as const };
 
   await db.insert(beginnerPlusBusinessIntents).values({
@@ -67,19 +51,11 @@ export async function recordBeginnerPlusBusinessIntent(
     guardrailsJson: stringifySnapshot(input.guardrails),
   });
 
-  const [intent] = await db
-    .select()
-    .from(beginnerPlusBusinessIntents)
-    .where(eq(beginnerPlusBusinessIntents.intentKey, intentKey))
-    .limit(1);
+  const [intent] = await db.select().from(beginnerPlusBusinessIntents).where(eq(beginnerPlusBusinessIntents.intentKey, intentKey)).limit(1);
   return { intent, created: true as const };
 }
 
-export async function getRecentBeginnerPlusBusinessIntents(
-  db: any,
-  userId: number,
-  limit = 10
-) {
+export async function getRecentBeginnerPlusBusinessIntents(db: any, userId: number, limit = 10) {
   return db
     .select()
     .from(beginnerPlusBusinessIntents)
@@ -88,10 +64,7 @@ export async function getRecentBeginnerPlusBusinessIntents(
     .limit(Math.min(Math.max(limit, 1), 50));
 }
 
-export async function getPendingBeginnerPlusBusinessIntents(
-  db: any,
-  limit = 25
-) {
+export async function getPendingBeginnerPlusBusinessIntents(db: any, limit = 25) {
   return db
     .select()
     .from(beginnerPlusBusinessIntents)
@@ -105,21 +78,13 @@ export async function updateBeginnerPlusBusinessReviewStatus(
   id: number,
   reviewStatus: Exclude<BeginnerPlusBusinessReviewStatus, "none">,
   reviewerId: number,
-  adminNote?: string
+  adminNote?: string,
 ) {
-  const [existing] = await db
-    .select()
-    .from(beginnerPlusBusinessIntents)
-    .where(eq(beginnerPlusBusinessIntents.id, id))
-    .limit(1);
+  const [existing] = await db.select().from(beginnerPlusBusinessIntents).where(eq(beginnerPlusBusinessIntents.id, id)).limit(1);
   if (!existing) throw new Error("Beginner Plus business intent not found.");
 
   const status: BeginnerPlusBusinessIntentStatus =
-    reviewStatus === "approved"
-      ? "approved"
-      : reviewStatus === "rejected"
-        ? "rejected"
-        : "queued-for-business-and-creator-review";
+    reviewStatus === "approved" ? "approved" : reviewStatus === "rejected" ? "rejected" : "queued-for-business-and-creator-review";
 
   await db
     .update(beginnerPlusBusinessIntents)
@@ -133,26 +98,13 @@ export async function updateBeginnerPlusBusinessReviewStatus(
     })
     .where(eq(beginnerPlusBusinessIntents.id, id));
 
-  const [intent] = await db
-    .select()
-    .from(beginnerPlusBusinessIntents)
-    .where(eq(beginnerPlusBusinessIntents.id, id))
-    .limit(1);
+  const [intent] = await db.select().from(beginnerPlusBusinessIntents).where(eq(beginnerPlusBusinessIntents.id, id)).limit(1);
   return intent;
 }
 
-export function beginnerPlusBusinessIntentKey(
-  userId: number,
-  action: BeginnerPlusBusinessAction,
-  entropy = Date.now()
-) {
-  return [
-    "beginner-plus-business",
-    userId,
-    action,
-    entropy.toString(36).toUpperCase(),
-  ]
-    .map(part => `${part}`.replace(/[^a-zA-Z0-9._:-]/g, "-").slice(0, 64))
+export function beginnerPlusBusinessIntentKey(userId: number, action: BeginnerPlusBusinessAction, entropy = Date.now()) {
+  return ["beginner-plus-business", userId, action, entropy.toString(36).toUpperCase()]
+    .map((part) => `${part}`.replace(/[^a-zA-Z0-9._:-]/g, "-").slice(0, 64))
     .join(":")
     .slice(0, 160);
 }

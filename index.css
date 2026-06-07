@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { @apply border-border; }
+body { font-family: 'Sora', sans-serif; }
+code { font-family: 'JetBrains Mono', monospace; }
+
+.gold-text { @apply text-[#FFD700]; }
+.gold-border { @apply border-[#FFD700]; }
+.luxury-card { @apply bg-card border border-[#FFD700]/20 rounded-lg p-6; }
+.luxury-button { @apply px-4 py-2 bg-[#FFD700] text-black font-semibold rounded-lg hover:bg-[#FFE55C] transition-all; }

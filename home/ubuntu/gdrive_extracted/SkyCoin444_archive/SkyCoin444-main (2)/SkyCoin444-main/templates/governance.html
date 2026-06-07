@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Governance • ShadowChat DAO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-[#0a0a2a] text-white p-6">
+    <h1 class="text-4xl font-bold mb-8 neon-purple">Governance • DAO Voting</h1>
+    <div class="space-y-8">
+        <div class="bg-[#1a0b3d] rounded-3xl p-8">
+            <h2 class="text-2xl font-bold">Proposal #44 – Add Monero Trading Pair</h2>
+            <p class="text-purple-300 mt-2">Stake your SKY444 to vote. Ends in 7 days.</p>
+            <div class="flex gap-4 mt-8">
+                <button onclick="vote('yes')" class="flex-1 bg-green-500 py-6 rounded-3xl text-2xl font-bold">YES</button>
+                <button onclick="vote('no')" class="flex-1 bg-red-500 py-6 rounded-3xl text-2xl font-bold">NO</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function vote(choice) {
+            fetch('/tip', { method: 'POST', body: JSON.stringify({amount: 444}) }).then(() => alert(`✅ Vote ${choice.toUpperCase()} recorded on-chain with 444 SKY444 staking power!`));
+        }
+    </script>
+</body>
+</html>

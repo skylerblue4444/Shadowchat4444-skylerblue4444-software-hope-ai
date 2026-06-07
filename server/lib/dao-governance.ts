@@ -99,11 +99,7 @@ export class DAOGovernance {
   static getProposalResult(
     forVotes: string,
     againstVotes: string,
-<<<<<<< HEAD
     abstainVotes: string,
-=======
-    abstainVotes: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { passed: boolean; margin: string } {
     const forDecimal = new Decimal(forVotes);
     const againstDecimal = new Decimal(againstVotes);
@@ -117,18 +113,8 @@ export class DAOGovernance {
   /**
    * Calculate voting power percentage
    */
-<<<<<<< HEAD
   static getVotingPowerPercentage(votingPower: string, totalSupply: string): number {
     const percentage = new Decimal(votingPower).dividedBy(totalSupply).times(100);
-=======
-  static getVotingPowerPercentage(
-    votingPower: string,
-    totalSupply: string
-  ): number {
-    const percentage = new Decimal(votingPower)
-      .dividedBy(totalSupply)
-      .times(100);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return parseFloat(percentage.toFixed(4));
   }
 
@@ -138,11 +124,7 @@ export class DAOGovernance {
   static simulateOutcome(
     forVotes: string,
     againstVotes: string,
-<<<<<<< HEAD
     abstainVotes: string,
-=======
-    abstainVotes: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     result: "passed" | "defeated";
     forPercentage: number;
@@ -161,7 +143,6 @@ export class DAOGovernance {
     }
 
     const forPercentage = parseFloat(
-<<<<<<< HEAD
       new Decimal(forVotes).dividedBy(total).times(100).toFixed(2),
     );
     const againstPercentage = parseFloat(
@@ -172,20 +153,6 @@ export class DAOGovernance {
     );
 
     const result = new Decimal(forVotes).gt(againstVotes) ? "passed" : "defeated";
-=======
-      new Decimal(forVotes).dividedBy(total).times(100).toFixed(2)
-    );
-    const againstPercentage = parseFloat(
-      new Decimal(againstVotes).dividedBy(total).times(100).toFixed(2)
-    );
-    const abstainPercentage = parseFloat(
-      new Decimal(abstainVotes).dividedBy(total).times(100).toFixed(2)
-    );
-
-    const result = new Decimal(forVotes).gt(againstVotes)
-      ? "passed"
-      : "defeated";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       result,
@@ -201,11 +168,7 @@ export class DAOGovernance {
    */
   static calculateDelegationEffect(
     delegatorBalance: string,
-<<<<<<< HEAD
     delegateCurrentVotingPower: string,
-=======
-    delegateCurrentVotingPower: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): { newDelegateVotingPower: string; delegatorVotingPower: string } {
     const delegateNewPower = new Decimal(delegateCurrentVotingPower)
       .plus(delegatorBalance)
@@ -219,14 +182,7 @@ export class DAOGovernance {
   /**
    * Calculate proposal voting timeline
    */
-<<<<<<< HEAD
   static getVotingTimeline(startBlock: number, currentBlock: number): {
-=======
-  static getVotingTimeline(
-    startBlock: number,
-    currentBlock: number
-  ): {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     status: "not_started" | "active" | "ended";
     blocksRemaining: number;
     percentageComplete: number;

@@ -1,0 +1,43 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [
+    "server",
+    "db",
+    "user"
+  ],
+  "dev_command": "pnpm run dev",
+  "env_vars": {
+    "DATABASE_URL": "mysql://4RKfjNuAF4RJYRo.root:Re51qc5O2G1LFLw8ydBi@gateway06.us-east-1.prod.aws.tidbcloud.com:4000/GahcEcL7rKJDmWyN5k2ujC?ssl={\"rejectUnauthorized\":true}"
+  },
+  "experiments": [
+    "no_db_push"
+  ],
+  "git_remote": {
+    "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663608806484/GahcEcL7rKJDmWyN5k2ujC",
+    "access_key_id": "ASIAZV3A2ECZOMINETDE",
+    "secret_access_key": "sKVVGlKQWwS9GdSa6U0Czho9ErYDgDWbQqtO/EVP",
+    "session_token": "IQoJb3JpZ2luX2VjECcaCXVzLWVhc3QtMSJHMEUCIDXwazGMpX0J6qO8qxCPl94kJOmBvuS2Q7eDNDKUOfQJAiEAgvIit00bqUCfgmO0Df5AduUlkHH3KcIdOJNPrUWhLfsq/wMI7///////////ARAEGgw2NjUzODYwOTg4NjYiDNNC04g2IEjklhkEeirTAwhMMRJF/bjs5vzoFZMxVbSlRfsRWVEvxVESCH0GvMoDBeWFF/oV0SVJgVZhbwZ/acBGrb/pIubuqCCi9K+ll126ZNYR63Bk+u/J0CUOU7htChhKh6myiSIRHgX36nixBuIj+BeOGRaXlRsdaKCd3x5Qc34Zi6a/vYwdWSUF407nikYpXJo2eY6eSfq0XJWGtIW3KR6DHVfWouTPolDSKYzIEMn0ig752CdesRGys3LcAzsPx23KjeTAipYvWttG4fufI1W2z9x/ajJyfInIXW7tmBF62HzD29VrLT07xw3+LeWgYJVsKZBkAFMFCdCUhLSMjI5Iu7z7DIlNFWwTtq1Ap3PaPL8Mg9dYX+fFfc7sAWkhZq98+0BEJbJ3ZlARhtp/TMPhplk+1CqlniDulcbSSN5CuuH2g+XyssKgj4HGvr4gMNuhIrhVjZBbGf7ojNenhxdWc9+DPscJsEW6XWN1yIhbNN7r61PjmJT8kTMjlX+bLCerWW5KLY+sp+jYMIURZ4pAatWPJ1xXd0wjCFggA20BaN2D+OuterCOalqoFRzZ0vzs4odnFRyHlzmPxp4qM4njH1u/NCvlxAJtuRmawqOmR2hib6CXhJIuHTRBPus0MOSh79AGOp0BGOdySB+f8q9+NPzT15YNiXwDqpfpePXfopz7y5Ee/7qC6sTFHDRufc+/abjC6kFrmQUUZ2f87TwwQ5FEo/ck5P6jN2OUZzKt1AAg+1JiipGnW+8Y0h6trFKpa2xIKVqpAMYh9rItus/m2A8X1lIGNHC7ES7ahNSeCRBC35ISHOo9G03ntlM7Poh4H5GTYr/BFGtDczHXAqtYul4aVw==",
+    "expiration": "2026-05-31T18:10:44.000Z"
+  },
+  "name": "skycoin444_live_web",
+  "path": "/home/ubuntu/skycoin444_live_web",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "PLcpRKxkpAmiaFLMaLwqiQ",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "C5uanBXvx6tUBMiewsksUW",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "skyler.spillers",
+    "OWNER_OPEN_ID": "i5c89UaWooZWufcVeSCvBp",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "edbd9bb2-2471-4aef-b19b-403329c0998e",
+    "VITE_APP_ID": "GahcEcL7rKJDmWyN5k2ujC",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "SkyCoin444 v10 Live - Official Platform",
+    "VITE_FRONTEND_FORGE_API_KEY": "E5uNV8q3o4J3dETNFLCdyu",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-db-user",
+  "test_command": "pnpm test"
+}

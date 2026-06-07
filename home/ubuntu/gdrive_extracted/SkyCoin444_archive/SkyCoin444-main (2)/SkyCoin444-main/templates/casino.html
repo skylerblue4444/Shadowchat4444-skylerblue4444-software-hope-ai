@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino • Charity Gaming – ShadowChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-[#0a0a2a] text-white p-6">
+    <h1 class="text-4xl font-bold mb-8 neon-purple text-center">🎰 Charity Casino</h1>
+    <p class="text-center text-purple-400 mb-8">25% of every spin auto-donated on-chain to community causes</p>
+    <div id="slot" class="bg-black rounded-3xl p-12 text-center text-8xl mb-12 h-48 flex items-center justify-center">🎰</div>
+    <button onclick="spin()" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-8 rounded-3xl text-3xl font-bold">SPIN – 44 SKY444</button>
+    <script>
+        function spin() {
+            const emojis = ["🍒","⭐","👻","🚀","💎","🪙","🔥"];
+            const result = Array(3).fill().map(() => emojis[Math.floor(Math.random()*emojis.length)]).join("");
+            document.getElementById("slot").innerHTML = result;
+            if (Math.random() > 0.6) {
+                alert("🎉 WINNER! +44.44 SKY444 added • 25% sent to charity on-chain");
+            } else {
+                alert("Better luck next spin! Tip to play again 💸");
+            }
+        }
+    </script>
+</body>
+</html>

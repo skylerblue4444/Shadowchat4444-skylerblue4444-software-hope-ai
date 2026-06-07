@@ -1,0 +1,6 @@
+{
+  "title": "ShadowChat Dashboard",
+  "panels": [
+    { "title": "SKY444 Supply", "type": "stat" }
+  ]
+}

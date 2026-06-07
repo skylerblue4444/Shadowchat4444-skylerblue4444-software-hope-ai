@@ -1,0 +1,22 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shadowchat
+spec:
+  replicas: 500
+  selector:
+    matchLabels:
+      app: shadowchat
+  template:
+    metadata:
+      labels:
+        app: shadowchat
+    spec:
+      containers:
+      - name: shadowchat
+        image: skylerblue4444/shadowchat:latest
+        resources:
+          limits:
+            cpu: "32"
+            memory: "128Gi"

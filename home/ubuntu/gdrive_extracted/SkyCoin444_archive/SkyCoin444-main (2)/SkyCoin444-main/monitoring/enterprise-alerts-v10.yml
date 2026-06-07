@@ -1,0 +1,7 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+groups:
+- name: billion-scale-alerts-v10
+  rules:
+  - alert: CriticalLoadV10
+    expr: requests_total > 50000000
+    for: 2m

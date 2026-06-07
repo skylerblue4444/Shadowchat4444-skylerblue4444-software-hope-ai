@@ -1,0 +1,26 @@
+{
+  "name": "SKY444 — Web3 Super-App",
+  "short_name": "SKY444",
+  "description": "The ultimate Web3 super-app: Mining, Staking, DeFi, NFTs, ShadowChat, Casino, DAO Governance.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0a1e",
+  "theme_color": "#0a0a1e",
+  "categories": ["finance", "social", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Wallet", "url": "/", "description": "Open wallet dashboard" },
+    { "name": "Mining", "url": "/mining", "description": "Start mining SKY444" },
+    { "name": "Swap", "url": "/swap", "description": "DeFi token swap" },
+    { "name": "ShadowChat", "url": "/shadowchat", "description": "Encrypted chat" }
+  ],
+  "prefer_related_applications": false
+}

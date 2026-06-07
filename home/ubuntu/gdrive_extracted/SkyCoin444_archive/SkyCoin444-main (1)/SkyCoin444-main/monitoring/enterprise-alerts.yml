@@ -1,0 +1,7 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+groups:
+- name: enterprise-alerts
+  rules:
+  - alert: HighTraffic
+    expr: requests_total > 10000
+    for: 5m

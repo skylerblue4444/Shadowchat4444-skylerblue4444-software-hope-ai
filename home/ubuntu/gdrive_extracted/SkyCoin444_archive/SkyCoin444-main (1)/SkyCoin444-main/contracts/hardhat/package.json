@@ -1,0 +1,12 @@
+{
+  "name": "sky444-hardhat",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "npx hardhat run scripts/deploy.js --network sepolia",
+    "deploy-mainnet": "npx hardhat run scripts/deploy.js --network mainnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  }
+}

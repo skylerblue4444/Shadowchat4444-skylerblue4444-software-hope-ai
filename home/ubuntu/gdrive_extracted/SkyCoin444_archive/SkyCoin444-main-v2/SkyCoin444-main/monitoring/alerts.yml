@@ -1,0 +1,7 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+groups:
+- name: shadowchat-alerts
+  rules:
+  - alert: HighCPU
+    expr: process_cpu_seconds_total > 0.8
+    for: 5m

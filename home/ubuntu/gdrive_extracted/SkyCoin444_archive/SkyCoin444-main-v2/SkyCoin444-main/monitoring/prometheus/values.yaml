@@ -1,0 +1,9 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+server:
+  persistentVolume:
+    enabled: true
+    size: 100Gi
+extraScrapeConfigs: |
+  - job_name: 'shadowchat'
+    static_configs:
+      - targets: ['shadowchat-service:4444']

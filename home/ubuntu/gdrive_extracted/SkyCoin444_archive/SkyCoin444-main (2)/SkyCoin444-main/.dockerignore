@@ -1,0 +1,18 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.db
+skycoin444.db
+*.env
+node_modules/
+.DS_Store
+logs/
+.git
+.github
+p2p/__pycache__
+tests/

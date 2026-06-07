@@ -1,0 +1,54 @@
+import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
+
+type ToastKind = 'success' | 'error' | 'info' | 'warning';
+interface Toast { id: number; kind: ToastKind; message: string; }
+
+interface ToastAPI {
+  success: (msg: string) => void;
+  error:   (msg: string) => void;
+  info:    (msg: string) => void;
+  warning: (msg: string) => void;
+}
+
+const ToastCtx = createContext<ToastAPI | null>(null);
+
+export function ToastProvider({ children }: { children: ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const push = useCallback((kind: ToastKind, message: string) => {
+    const id = Date.now() + Math.random();
+    setToasts(t => [...t, { id, kind, message }]);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 4500);
+  }, []);
+
+  const api: ToastAPI = {
+    success: (m) => push('success', m),
+    error:   (m) => push('error',   m),
+    info:    (m) => push('info',    m),
+    warning: (m) => push('warning', m),
+  };
+
+  const dismiss = (id: number) => setToasts(t => t.filter(x => x.id !== id));
+
+  return (
+    <ToastCtx.Provider value={api}>
+      {children}
+      <div className="toast-stack" role="status" aria-live="polite" aria-atomic="true">
+        {toasts.map(t => (
+          <div key={t.id} className={`toast toast-${t.kind}`} onClick={() => dismiss(t.id)}>
+            <span className="toast-icon" aria-hidden="true">
+              {t.kind === 'success' ? '✓' : t.kind === 'error' ? '✕' : t.kind === 'warning' ? '⚠' : 'ℹ'}
+            </span>
+            <span className="toast-msg">{t.message}</span>
+          </div>
+        ))}
+      </div>
+    </ToastCtx.Provider>
+  );
+}
+
+export function useToast(): ToastAPI {
+  const ctx = useContext(ToastCtx);
+  if (!ctx) throw new Error('useToast must be used within <ToastProvider>');
+  return ctx;
+}

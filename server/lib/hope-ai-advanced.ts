@@ -37,18 +37,7 @@ export interface PredictiveAnalysis {
 export interface PersonalizedRecommendation {
   recommendationId: string;
   userId: number;
-<<<<<<< HEAD
   type: "buy" | "sell" | "hold" | "diversify" | "rebalance" | "stake" | "unstake";
-=======
-  type:
-    | "buy"
-    | "sell"
-    | "hold"
-    | "diversify"
-    | "rebalance"
-    | "stake"
-    | "unstake";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   coin: string;
   amount?: string;
   reasoning: string;
@@ -66,15 +55,7 @@ export interface WealthPlan {
   currentAmount: string;
   timeframe: number; // months
   strategy: string;
-<<<<<<< HEAD
   milestones: { month: number; target: string; status: "pending" | "achieved" }[];
-=======
-  milestones: {
-    month: number;
-    target: string;
-    status: "pending" | "achieved";
-  }[];
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   progress: number; // 0-100
 }
 
@@ -93,16 +74,7 @@ export interface VoiceCommand {
 export interface AIAlert {
   alertId: string;
   userId: number;
-<<<<<<< HEAD
   type: "price_target" | "risk_warning" | "opportunity" | "rebalance" | "compliance";
-=======
-  type:
-    | "price_target"
-    | "risk_warning"
-    | "opportunity"
-    | "rebalance"
-    | "compliance";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   message: string;
   severity: "info" | "warning" | "critical";
   actionUrl?: string;
@@ -146,11 +118,7 @@ export class HopeAIAdvanced {
     title: string,
     description: string,
     confidence: number,
-<<<<<<< HEAD
     actionItems: string[],
-=======
-    actionItems: string[]
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): AIInsight {
     let priority: "low" | "medium" | "high" | "critical" = "medium";
     if (confidence > 85 && type === "risk") {
@@ -183,11 +151,7 @@ export class HopeAIAdvanced {
     rsi: number,
     macd: number,
     bollingerBands: { upper: string; lower: string; middle: string },
-<<<<<<< HEAD
     timeframe: "1h" | "4h" | "1d" | "1w" | "1m" = "1d",
-=======
-    timeframe: "1h" | "4h" | "1d" | "1w" | "1m" = "1d"
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): PredictiveAnalysis {
     let prediction: "bullish" | "bearish" | "neutral" = "neutral";
     let confidence = 50;
@@ -210,13 +174,8 @@ export class HopeAIAdvanced {
 
     const currentPriceDecimal = new Decimal(currentPrice);
     const targetPrice = currentPriceDecimal.times(1.15); // 15% upside target
-<<<<<<< HEAD
     const supportLevel = currentPriceDecimal.times(0.90);
     const resistanceLevel = currentPriceDecimal.times(1.10);
-=======
-    const supportLevel = currentPriceDecimal.times(0.9);
-    const resistanceLevel = currentPriceDecimal.times(1.1);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       analysisId: `PRED-${Date.now()}`,
@@ -242,42 +201,18 @@ export class HopeAIAdvanced {
     userId: number,
     portfolio: { coin: string; balance: string }[],
     marketConditions: { trend: string; volatility: string },
-<<<<<<< HEAD
     riskTolerance: "conservative" | "moderate" | "aggressive",
   ): PersonalizedRecommendation {
     let type: "buy" | "sell" | "hold" | "diversify" | "rebalance" | "stake" | "unstake" = "hold";
-=======
-    riskTolerance: "conservative" | "moderate" | "aggressive"
-  ): PersonalizedRecommendation {
-    let type:
-      | "buy"
-      | "sell"
-      | "hold"
-      | "diversify"
-      | "rebalance"
-      | "stake"
-      | "unstake" = "hold";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     let coin = "SKYCOIN4444";
     let reasoning = "";
     let expectedReturn = 0;
     let confidence = 75;
 
-<<<<<<< HEAD
     if (marketConditions.trend === "bullish" && riskTolerance !== "conservative") {
       type = "buy";
       coin = "BTC";
       reasoning = "Strong bullish trend with low volatility presents buying opportunity";
-=======
-    if (
-      marketConditions.trend === "bullish" &&
-      riskTolerance !== "conservative"
-    ) {
-      type = "buy";
-      coin = "BTC";
-      reasoning =
-        "Strong bullish trend with low volatility presents buying opportunity";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       expectedReturn = 15;
     } else if (marketConditions.trend === "bearish") {
       type = "diversify";
@@ -285,12 +220,7 @@ export class HopeAIAdvanced {
       expectedReturn = 8;
     } else if (portfolio.length < 4) {
       type = "diversify";
-<<<<<<< HEAD
       reasoning = "Portfolio lacks diversification. Consider adding more coins.";
-=======
-      reasoning =
-        "Portfolio lacks diversification. Consider adding more coins.";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       expectedReturn = 12;
     } else {
       type = "stake";
@@ -320,11 +250,7 @@ export class HopeAIAdvanced {
     goal: string,
     targetAmount: string,
     currentAmount: string,
-<<<<<<< HEAD
     timeframeMonths: number,
-=======
-    timeframeMonths: number
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): WealthPlan {
     const target = new Decimal(targetAmount);
     const current = new Decimal(currentAmount);
@@ -359,7 +285,6 @@ export class HopeAIAdvanced {
   /**
    * Process voice command
    */
-<<<<<<< HEAD
   static processVoiceCommand(
     userId: number,
     transcript: string,
@@ -367,40 +292,15 @@ export class HopeAIAdvanced {
     const lowerTranscript = transcript.toLowerCase();
 
     let intent: "trade" | "check" | "alert" | "execute" | "analyze" | "recommend" = "check";
-=======
-  static processVoiceCommand(userId: number, transcript: string): VoiceCommand {
-    const lowerTranscript = transcript.toLowerCase();
-
-    let intent:
-      | "trade"
-      | "check"
-      | "alert"
-      | "execute"
-      | "analyze"
-      | "recommend" = "check";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     let action = "";
 
     if (lowerTranscript.includes("buy") || lowerTranscript.includes("sell")) {
       intent = "trade";
       action = "Initiating trade execution";
-<<<<<<< HEAD
     } else if (lowerTranscript.includes("portfolio") || lowerTranscript.includes("balance")) {
       intent = "check";
       action = "Retrieving portfolio information";
     } else if (lowerTranscript.includes("alert") || lowerTranscript.includes("notify")) {
-=======
-    } else if (
-      lowerTranscript.includes("portfolio") ||
-      lowerTranscript.includes("balance")
-    ) {
-      intent = "check";
-      action = "Retrieving portfolio information";
-    } else if (
-      lowerTranscript.includes("alert") ||
-      lowerTranscript.includes("notify")
-    ) {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       intent = "alert";
       action = "Setting up price alert";
     } else if (lowerTranscript.includes("analyze")) {
@@ -428,20 +328,9 @@ export class HopeAIAdvanced {
    */
   static generateAlert(
     userId: number,
-<<<<<<< HEAD
     type: "price_target" | "risk_warning" | "opportunity" | "rebalance" | "compliance",
     message: string,
     severity: "info" | "warning" | "critical",
-=======
-    type:
-      | "price_target"
-      | "risk_warning"
-      | "opportunity"
-      | "rebalance"
-      | "compliance",
-    message: string,
-    severity: "info" | "warning" | "critical"
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): AIAlert {
     return {
       alertId: `ALERT-${Date.now()}`,
@@ -460,15 +349,9 @@ export class HopeAIAdvanced {
   static optimizePortfolio(
     userId: number,
     currentAllocation: { coin: string; percentage: number }[],
-<<<<<<< HEAD
     riskProfile: "conservative" | "moderate" | "aggressive",
   ): PortfolioOptimization {
     const recommendedAllocation = currentAllocation.map((coin) => {
-=======
-    riskProfile: "conservative" | "moderate" | "aggressive"
-  ): PortfolioOptimization {
-    const recommendedAllocation = currentAllocation.map(coin => {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       let newPercentage = coin.percentage;
 
       if (riskProfile === "conservative") {
@@ -516,11 +399,7 @@ export class HopeAIAdvanced {
     portfolio: { coin: string; percentage: number }[],
     trades: { profitLoss: string }[],
     riskScore: number,
-<<<<<<< HEAD
     complianceStatus: string,
-=======
-    complianceStatus: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): FinancialHealthScore {
     // Diversification score
     const diversificationScore = Math.min(100, portfolio.length * 15);
@@ -529,16 +408,8 @@ export class HopeAIAdvanced {
     const riskManagementScore = Math.max(0, 100 - riskScore);
 
     // Profitability score
-<<<<<<< HEAD
     const profitableTrades = trades.filter((t) => new Decimal(t.profitLoss).gt(0)).length;
     const profitabilityScore = trades.length > 0 ? (profitableTrades / trades.length) * 100 : 50;
-=======
-    const profitableTrades = trades.filter(t =>
-      new Decimal(t.profitLoss).gt(0)
-    ).length;
-    const profitabilityScore =
-      trades.length > 0 ? (profitableTrades / trades.length) * 100 : 50;
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     // Compliance score
     const complianceScore = complianceStatus === "compliant" ? 100 : 50;
@@ -554,16 +425,7 @@ export class HopeAIAdvanced {
         engagementScore) /
       5;
 
-<<<<<<< HEAD
     const trend = overallScore > 75 ? "improving" : overallScore < 50 ? "declining" : "stable";
-=======
-    const trend =
-      overallScore > 75
-        ? "improving"
-        : overallScore < 50
-          ? "declining"
-          : "stable";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       scoreId: `HEALTH-${Date.now()}`,
@@ -602,12 +464,7 @@ export class HopeAIAdvanced {
 
     return {
       greeting: `${greeting}! Here's your Hope AI daily briefing.`,
-<<<<<<< HEAD
       portfolioSummary: "Your portfolio is up 5.2% this month with strong diversification.",
-=======
-      portfolioSummary:
-        "Your portfolio is up 5.2% this month with strong diversification.",
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       marketHighlights: [
         "BTC showing bullish momentum with RSI at 65",
         "SKYCOIN4444 trading near resistance at $0.0015",
@@ -631,11 +488,7 @@ export class HopeAIAdvanced {
   static analyzeUserBehavior(
     userId: number,
     trades: { type: string; coin: string; amount: string; timestamp: Date }[],
-<<<<<<< HEAD
     interactions: { feature: string; count: number }[],
-=======
-    interactions: { feature: string; count: number }[]
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     tradingStyle: string;
     preferredCoins: string[];
@@ -643,7 +496,6 @@ export class HopeAIAdvanced {
     activityLevel: "low" | "medium" | "high";
   } {
     // Determine trading style
-<<<<<<< HEAD
     const buyCount = trades.filter((t) => t.type === "buy").length;
     const sellCount = trades.filter((t) => t.type === "sell").length;
     const tradingStyle =
@@ -652,20 +504,6 @@ export class HopeAIAdvanced {
     // Find preferred coins
     const coinCounts: Record<string, number> = {};
     trades.forEach((t) => {
-=======
-    const buyCount = trades.filter(t => t.type === "buy").length;
-    const sellCount = trades.filter(t => t.type === "sell").length;
-    const tradingStyle =
-      buyCount > sellCount * 2
-        ? "accumulator"
-        : sellCount > buyCount * 2
-          ? "trader"
-          : "balanced";
-
-    // Find preferred coins
-    const coinCounts: Record<string, number> = {};
-    trades.forEach(t => {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       coinCounts[t.coin] = (coinCounts[t.coin] || 0) + 1;
     });
     const preferredCoins = Object.entries(coinCounts)
@@ -676,15 +514,8 @@ export class HopeAIAdvanced {
     // Determine risk profile
     const avgTradeSize =
       trades.length > 0
-<<<<<<< HEAD
         ? trades.reduce((sum, t) => new Decimal(sum).plus(t.amount), new Decimal(0)) /
           trades.length
-=======
-        ? trades.reduce(
-            (sum, t) => new Decimal(sum).plus(t.amount),
-            new Decimal(0)
-          ) / trades.length
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : new Decimal(0);
     const riskProfile =
       avgTradeSize.gt(10000) || tradingStyle === "trader"
@@ -695,16 +526,7 @@ export class HopeAIAdvanced {
 
     // Determine activity level
     const totalInteractions = interactions.reduce((sum, i) => sum + i.count, 0);
-<<<<<<< HEAD
     const activityLevel = totalInteractions > 100 ? "high" : totalInteractions > 20 ? "medium" : "low";
-=======
-    const activityLevel =
-      totalInteractions > 100
-        ? "high"
-        : totalInteractions > 20
-          ? "medium"
-          : "low";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       tradingStyle,

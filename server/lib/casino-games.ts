@@ -72,13 +72,7 @@ export class CasinoGames {
 
     // Check for wins
     const middleSymbols = [reels[0][1], reels[1][1], reels[2][1]];
-<<<<<<< HEAD
     const allMatch = middleSymbols[0] === middleSymbols[1] && middleSymbols[1] === middleSymbols[2];
-=======
-    const allMatch =
-      middleSymbols[0] === middleSymbols[1] &&
-      middleSymbols[1] === middleSymbols[2];
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     let multiplier = 0;
     if (allMatch) {
@@ -87,16 +81,9 @@ export class CasinoGames {
       else multiplier = 3;
     }
 
-<<<<<<< HEAD
     const winAmount = multiplier > 0
       ? new Decimal(betAmount).times(multiplier).toFixed(18)
       : "0";
-=======
-    const winAmount =
-      multiplier > 0
-        ? new Decimal(betAmount).times(multiplier).toFixed(18)
-        : "0";
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       reels,
@@ -158,7 +145,6 @@ export class CasinoGames {
 
     // Red numbers
     [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].forEach(
-<<<<<<< HEAD
       (n) => (colors[n] = "red"),
     );
 
@@ -166,15 +152,6 @@ export class CasinoGames {
     [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35].forEach(
       (n) => (colors[n] = "black"),
     );
-=======
-      n => (colors[n] = "red")
-    );
-
-    // Black numbers
-    [
-      2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35,
-    ].forEach(n => (colors[n] = "black"));
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     // Green (0)
     colors[0] = "green";
@@ -196,14 +173,7 @@ export class CasinoGames {
   /**
    * Play Dice Game
    */
-<<<<<<< HEAD
   static playDice(betAmount: string, prediction: "high" | "low" | "even" | "odd"): DiceResult {
-=======
-  static playDice(
-    betAmount: string,
-    prediction: "high" | "low" | "even" | "odd"
-  ): DiceResult {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const roll1 = Math.floor(Math.random() * 6) + 1;
     const roll2 = Math.floor(Math.random() * 6) + 1;
     const total = roll1 + roll2;
@@ -255,13 +225,7 @@ export class CasinoGames {
    */
   static generateCharityDonation(winAmount: string): string {
     const donationPercentage = Math.floor(Math.random() * 5) + 1; // 1-5%
-<<<<<<< HEAD
     const donation = new Decimal(winAmount).times(donationPercentage).dividedBy(100);
-=======
-    const donation = new Decimal(winAmount)
-      .times(donationPercentage)
-      .dividedBy(100);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     return donation.toFixed(18);
   }
 
@@ -282,11 +246,7 @@ export class CasinoGames {
     let charityDonated = new Decimal(0);
     let wins = 0;
 
-<<<<<<< HEAD
     games.forEach((game) => {
-=======
-    games.forEach(game => {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       totalBet = totalBet.plus(game.betAmount);
       if (game.result === "win") {
         totalWon = totalWon.plus(game.winAmount);
@@ -315,33 +275,11 @@ export class CasinoGames {
    */
   private static generateDeck(): string[] {
     const suits = ["♠", "♥", "♦", "♣"];
-<<<<<<< HEAD
     const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
     const deck: string[] = [];
 
     suits.forEach((suit) => {
       ranks.forEach((rank) => {
-=======
-    const ranks = [
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "J",
-      "Q",
-      "K",
-      "A",
-    ];
-    const deck: string[] = [];
-
-    suits.forEach(suit => {
-      ranks.forEach(rank => {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         deck.push(`${rank}${suit}`);
       });
     });
@@ -363,11 +301,7 @@ export class CasinoGames {
     let score = 0;
     let aces = 0;
 
-<<<<<<< HEAD
     cards.forEach((card) => {
-=======
-    cards.forEach(card => {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       const rank = card.slice(0, -1);
 
       if (rank === "A") {

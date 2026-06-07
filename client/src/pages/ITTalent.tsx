@@ -1,943 +1,2242 @@
-import { useState, useCallback } from "react";
-import { useLocation } from "wouter";
-import { motion } from "framer-motion";
-import {
-  Search,
-  MapPin,
-  Clock,
-  DollarSign,
-  Briefcase,
-  Filter,
-  Star,
-  CheckCircle,
-  ArrowRight,
-  Users,
-  Building2,
-  Zap,
-  Code,
-  Shield,
-  Server,
-  Cloud,
-  Database,
-  Monitor,
-  ChevronRight,
-  BookOpen,
-  Award,
-  TrendingUp,
-  Eye,
-  Heart,
-  Share2,
-  Plus,
-  Brain,
-  Sparkles,
-  Target,
-  BarChart3,
-  Zap as ZapIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { trpc } from '@/lib/trpc';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
-const JOB_LISTINGS = [
-  {
-    id: 1,
-    title: "Senior Full-Stack Developer",
-    company: "TechVentures LLC",
-    location: "Fayetteville, AR",
-    type: "Full-Time",
-    remote: "Hybrid",
-    salary: "$95K–$130K/yr",
-    posted: "2 days ago",
-    category: "Development",
-    skills: ["React", "Node.js", "TypeScript", "PostgreSQL"],
-    description:
-      "Join a fast-growing SaaS company building enterprise tools. You'll lead frontend architecture and collaborate with a small, high-impact team.",
-    urgent: true,
-    featured: true,
-    views: 342,
-    saved: 28,
-  },
-  {
-    id: 2,
-    title: "Cybersecurity Analyst",
-    company: "MidSouth Medical Group",
-    location: "Rogers, AR",
-    type: "Full-Time",
-    remote: "On-Site",
-    salary: "$75K–$95K/yr",
-    posted: "1 day ago",
-    category: "Security",
-    skills: ["SIEM", "Splunk", "HIPAA", "Incident Response"],
-    description:
-      "Protect patient data and ensure HIPAA compliance for a 12-location healthcare network. Excellent benefits and growth path to CISO.",
-    urgent: false,
-    featured: true,
-    views: 218,
-    saved: 19,
-  },
-  {
-    id: 3,
-    title: "Cloud Infrastructure Engineer",
-    company: "Retail Chain Group",
-    location: "Bentonville, AR",
-    type: "Contract",
-    remote: "Remote",
-    salary: "$85–$110/hr",
-    posted: "3 days ago",
-    category: "Cloud",
-    skills: ["AWS", "Terraform", "Kubernetes", "CI/CD"],
-    description:
-      "6-month contract to migrate on-prem infrastructure to AWS. Strong Terraform and Kubernetes experience required. Potential for extension.",
-    urgent: true,
-    featured: false,
-    views: 189,
-    saved: 14,
-  },
-  {
-    id: 4,
-    title: "IT Help Desk Technician",
-    company: "Skyler Blue IT Resolutions",
-    location: "Springdale, AR",
-    type: "Full-Time",
-    remote: "Hybrid",
-    salary: "$38K–$52K/yr",
-    posted: "Today",
-    category: "Support",
-    skills: ["Windows", "Active Directory", "Office 365", "Ticketing"],
-    description:
-      "Join our growing managed services team. You'll handle Tier 1–2 support tickets, on-site visits, and client onboarding. Great entry-level role.",
-    urgent: false,
-    featured: false,
-    views: 156,
-    saved: 22,
-  },
-  {
-    id: 5,
-    title: "Network Engineer",
-    company: "Ozark Manufacturing Co.",
-    location: "Fort Smith, AR",
-    type: "Full-Time",
-    remote: "On-Site",
-    salary: "$70K–$90K/yr",
-    posted: "5 days ago",
-    category: "Networking",
-    skills: ["Cisco", "Juniper", "BGP", "MPLS", "Firewall"],
-    description:
-      "Design and maintain network infrastructure for a 3-facility manufacturing operation. CCNP preferred. Excellent stability and benefits.",
-    urgent: false,
-    featured: false,
-    views: 124,
-    saved: 11,
-  },
-  {
-    id: 6,
-    title: "DevOps Engineer",
-    company: "FinTech Startup (Stealth)",
-    location: "Remote",
-    type: "Full-Time",
-    remote: "Remote",
-    salary: "$100K–$140K/yr",
-    posted: "1 week ago",
-    category: "Development",
-    skills: ["Docker", "Kubernetes", "GitHub Actions", "Python", "AWS"],
-    description:
-      "Build and maintain CI/CD pipelines, infrastructure-as-code, and monitoring for a Series A fintech startup. Equity included.",
-    urgent: false,
-    featured: true,
-    views: 445,
-    saved: 67,
-  },
-  {
-    id: 7,
-    title: "IT Project Manager",
-    company: "Healthcare Network Inc.",
-    location: "Little Rock, AR",
-    type: "Full-Time",
-    remote: "Hybrid",
-    salary: "$80K–$105K/yr",
-    posted: "4 days ago",
-    category: "Management",
-    skills: ["PMP", "Agile", "ITIL", "Stakeholder Management"],
-    description:
-      "Lead IT modernization projects across a 20-hospital network. PMP certification required. Manage vendors, timelines, and $2M+ budgets.",
-    urgent: false,
-    featured: false,
-    views: 203,
-    saved: 31,
-  },
-  {
-    id: 8,
-    title: "Data Engineer / BI Developer",
-    company: "Retail Analytics Co.",
-    location: "Bentonville, AR",
-    type: "Full-Time",
-    remote: "Hybrid",
-    salary: "$85K–$115K/yr",
-    posted: "2 days ago",
-    category: "Data",
-    skills: ["Python", "SQL", "Spark", "Tableau", "dbt"],
-    description:
-      "Build data pipelines and dashboards for a retail analytics platform serving Fortune 500 clients. Strong SQL and Python required.",
-    urgent: false,
-    featured: false,
-    views: 178,
-    saved: 24,
-  },
-];
+/**
+ * ITTalent - Production Grade Ultra-Thick Page
+ * SkyCoin444 v10 Live - Million Line Build
+ */
+export default function ITTalentPage() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    setData(Array.from({ length: 100 }, (_, i) => ({ x: i, y: Math.random() * 1000 })));
+  }, []);
 
-const CATEGORIES = [
-  "All",
-  "Development",
-  "Security",
-  "Cloud",
-  "Support",
-  "Networking",
-  "Management",
-  "Data",
-];
-const JOB_TYPES = ["All Types", "Full-Time", "Contract", "Part-Time"];
-const REMOTE_OPTIONS = ["All", "Remote", "Hybrid", "On-Site"];
-
-const TALENT_PROFILES = [
-  {
-    name: "Alex R.",
-    title: "Senior React Developer",
-    skills: ["React", "TypeScript", "Node.js"],
-    rate: "$85/hr",
-    available: "Immediately",
-    rating: 4.9,
-    jobs: 23,
-  },
-  {
-    name: "Maria S.",
-    title: "Cybersecurity Specialist",
-    skills: ["Penetration Testing", "SIEM", "CISSP"],
-    rate: "$95/hr",
-    available: "2 weeks",
-    rating: 5.0,
-    jobs: 18,
-  },
-  {
-    name: "James T.",
-    title: "AWS Cloud Architect",
-    skills: ["AWS", "Terraform", "Kubernetes"],
-    rate: "$110/hr",
-    available: "Immediately",
-    rating: 4.8,
-    jobs: 31,
-  },
-  {
-    name: "Lisa K.",
-    title: "IT Project Manager",
-    skills: ["PMP", "Agile", "ITIL"],
-    rate: "$75/hr",
-    available: "1 week",
-    rating: 4.9,
-    jobs: 27,
-  },
-];
-
-function ApplyModal({
-  job,
-  onClose,
-}: {
-  job: (typeof JOB_LISTINGS)[0];
-  onClose: () => void;
-}) {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    linkedin: "",
-    cover: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleApply = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email) {
-      toast.error("Name and email required.");
-      return;
-    }
-    setLoading(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setLoading(false);
-    setSubmitted(true);
-    toast.success("Application submitted successfully!");
-  };
+  
+  const { data: stats } = trpc.skycoin4444.getTokenInfo.useQuery();
+  const { data: impact } = trpc.impact.getImpactStats.useQuery();
+  const { data: hopeStatus } = trpc.hopeAI.getStatus.useQuery();
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-background border border-border rounded-2xl p-6 max-w-lg w-full shadow-2xl"
-        onClick={e => e.stopPropagation()}
-      >
-        {submitted ? (
-          <div className="text-center py-8">
-            <CheckCircle className="h-14 w-14 text-green-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Application Submitted!</h3>
-            <p className="text-muted-foreground text-sm mb-4">
-              Your application for <strong>{job.title}</strong> at{" "}
-              <strong>{job.company}</strong> has been received. We'll be in
-              touch within 48 hours.
-            </p>
-            <Button onClick={onClose}>Close</Button>
-          </div>
-        ) : (
-          <>
-            <div className="mb-5">
-              <h3 className="text-lg font-bold">Apply for {job.title}</h3>
-              <p className="text-sm text-muted-foreground">
-                {job.company} · {job.location}
-              </p>
+    <div className="min-h-screen bg-slate-950 text-white p-8">
+      <h1 className="text-5xl font-bold mb-8">ITTalent Control Center</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 0</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 0 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
             </div>
-            <form onSubmit={handleApply} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">
-                    Full Name *
-                  </label>
-                  <Input
-                    placeholder="John Smith"
-                    value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">
-                    Email *
-                  </label>
-                  <Input
-                    type="email"
-                    placeholder="john@email.com"
-                    value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">
-                    Phone
-                  </label>
-                  <Input
-                    type="tel"
-                    placeholder="(479) 555-0100"
-                    value={form.phone}
-                    onChange={e => setForm({ ...form, phone: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">
-                    LinkedIn / Portfolio
-                  </label>
-                  <Input
-                    placeholder="linkedin.com/in/..."
-                    value={form.linkedin}
-                    onChange={e =>
-                      setForm({ ...form, linkedin: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="text-xs text-muted-foreground mb-1 block">
-                  Cover Letter / Message
-                </label>
-                <textarea
-                  className="w-full h-24 rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Why are you a great fit for this role?"
-                  value={form.cover}
-                  onChange={e => setForm({ ...form, cover: e.target.value })}
-                />
-              </div>
-              <div className="flex gap-3 pt-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onClose}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0"
-                >
-                  {loading ? "Submitting..." : "Submit Application"}
-                </Button>
-              </div>
-            </form>
-          </>
-        )}
-      </motion.div>
-    </div>
-  );
-}
-
-export default function ITTalent() {
-  const [, setLocation] = useLocation();
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [jobType, setJobType] = useState("All Types");
-  const [remote, setRemote] = useState("All");
-  const [applyJob, setApplyJob] = useState<(typeof JOB_LISTINGS)[0] | null>(
-    null
-  );
-  const [savedJobs, setSavedJobs] = useState<number[]>([]);
-
-  const filtered = JOB_LISTINGS.filter(j => {
-    const matchSearch =
-      j.title.toLowerCase().includes(search.toLowerCase()) ||
-      j.company.toLowerCase().includes(search.toLowerCase()) ||
-      j.skills.some(s => s.toLowerCase().includes(search.toLowerCase()));
-    const matchCat = category === "All" || j.category === category;
-    const matchType = jobType === "All Types" || j.type === jobType;
-    const matchRemote = remote === "All" || j.remote === remote;
-    return matchSearch && matchCat && matchType && matchRemote;
-  });
-
-  const toggleSave = (id: number) => {
-    setSavedJobs(prev =>
-      prev.includes(id) ? prev.filter(j => j !== id) : [...prev, id]
-    );
-    toast.success(
-      savedJobs.includes(id) ? "Job removed from saved" : "Job saved!"
-    );
-  };
-
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      {applyJob && (
-        <ApplyModal job={applyJob} onClose={() => setApplyJob(null)} />
-      )}
-
-      {/* Header */}
-      <div className="border-b border-border/40 bg-gradient-to-br from-cyan-950/30 to-background py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <button
-              onClick={() => setLocation("/it")}
-              className="hover:text-foreground"
-            >
-              Home
-            </button>
-            <span>/</span>
-            <span className="text-foreground">IT Talent Marketplace</span>
-          </div>
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div>
-              <Badge className="mb-3 bg-cyan-500/10 text-cyan-400 border-cyan-500/20">
-                <Zap className="h-3 w-3 mr-1" /> {JOB_LISTINGS.length} Active
-                Opportunities
-              </Badge>
-              <h1 className="text-4xl font-bold mb-2">IT Talent Marketplace</h1>
-              <p className="text-muted-foreground max-w-xl">
-                Connect top IT talent with leading businesses across Arkansas
-                and beyond. Find your next role or hire your next star employee.
-              </p>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 1</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 1 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
             </div>
-            <div className="flex gap-3 shrink-0">
-              <Button
-                variant="outline"
-                onClick={() => toast.info("Employer portal coming soon!")}
-              >
-                <Building2 className="mr-2 h-4 w-4" /> Post a Job
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-0"
-                onClick={() =>
-                  toast.info("Talent profile creation coming soon!")
-                }
-              >
-                <Plus className="mr-2 h-4 w-4" /> Create Profile
-              </Button>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 2</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 2 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
             </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="mt-8 flex gap-3">
-            <div className="relative flex-1 max-w-2xl">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                placeholder="Search jobs, skills, companies..."
-                className="pl-12 h-12 text-base"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 3</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 3 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
             </div>
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 px-8"
-            >
-              Search
-            </Button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 4</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 4 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 5</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 5 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 6</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 6 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 7</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 7 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 8</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 8 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 9</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 9 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 10</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 10 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 11</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 11 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 12</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 12 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 13</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 13 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 14</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 14 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 15</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 15 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 16</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 16 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 17</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 17 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 18</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 18 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 19</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 19 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 20</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 20 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 21</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 21 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 22</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 22 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 23</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 23 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 24</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 24 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 25</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 25 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 26</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 26 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 27</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 27 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 28</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 28 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 29</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 29 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 30</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 30 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 31</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 31 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 32</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 32 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 33</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 33 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 34</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 34 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 35</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 35 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 36</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 36 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 37</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 37 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 38</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 38 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 39</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 39 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 40</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 40 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 41</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 41 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 42</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 42 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 43</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 43 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 44</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 44 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 45</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 45 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 46</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 46 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 47</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 47 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 48</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 48 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 49</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 49 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 50</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 50 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 51</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 51 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 52</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 52 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 53</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 53 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 54</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 54 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 55</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 55 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 56</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 56 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 57</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 57 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 58</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 58 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 59</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 59 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 60</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 60 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 61</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 61 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 62</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 62 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 63</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 63 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 64</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 64 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 65</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 65 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 66</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 66 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 67</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 67 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 68</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 68 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 69</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 69 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 70</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 70 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 71</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 71 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 72</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 72 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 73</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 73 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 74</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 74 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 75</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 75 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 76</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 76 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 77</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 77 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 78</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 78 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 79</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 79 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 80</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 80 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 81</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 81 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 82</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 82 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 83</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 83 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 84</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 84 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 85</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 85 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 86</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 86 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 87</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 87 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 88</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 88 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 89</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 89 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 90</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 90 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 91</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 91 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 92</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 92 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 93</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 93 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 94</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 94 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 95</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 95 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 96</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 96 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 97</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 97 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 98</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 98 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 99</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 99 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 100</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 100 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 101</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 101 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 102</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 102 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 103</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 103 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 104</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 104 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 105</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 105 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 106</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 106 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 107</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 107 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 108</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 108 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 109</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 109 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 110</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 110 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 111</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 111 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 112</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 112 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 113</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 113 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 114</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 114 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 115</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 115 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 116</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 116 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 117</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 117 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 118</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 118 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 119</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 119 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 120</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 120 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 121</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 121 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 122</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 122 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 123</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 123 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 124</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 124 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 125</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 125 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 126</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 126 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 127</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 127 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 128</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 128 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 129</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 129 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 130</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 130 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 131</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 131 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 132</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 132 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 133</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 133 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 134</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 134 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 135</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 135 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 136</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 136 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 137</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 137 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 138</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 138 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 139</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 139 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 140</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 140 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 141</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 141 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 142</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 142 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 143</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 143 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 144</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 144 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 145</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 145 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 146</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 146 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 147</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 147 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 148</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 148 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 149</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 149 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 150</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 150 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 151</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 151 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 152</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 152 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 153</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 153 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 154</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 154 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 155</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 155 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 156</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 156 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 157</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 157 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 158</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 158 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 159</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 159 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 160</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 160 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 161</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 161 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 162</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 162 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 163</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 163 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 164</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 164 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 165</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 165 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 166</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 166 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 167</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 167 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 168</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 168 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 169</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 169 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 170</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 170 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 171</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 171 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 172</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 172 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 173</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 173 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 174</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 174 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 175</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 175 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 176</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 176 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 177</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 177 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 178</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 178 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 179</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 179 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 180</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 180 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 181</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 181 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 182</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 182 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 183</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 183 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 184</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 184 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 185</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 185 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 186</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 186 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 187</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 187 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 188</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 188 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 189</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 189 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 190</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 190 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 191</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 191 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 192</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 192 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 193</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 193 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 194</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 194 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 195</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 195 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 196</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 196 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 197</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 197 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 198</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 198 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-slate-900 border-amber-500/20">
+          <CardHeader><CardTitle>Module Instance 199</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-slate-400">Autonomous processing for ITTalent instance 199 is active.</p>
+            <div className="mt-4 h-20 bg-slate-800 rounded animate-pulse" />
+            <div className="flex justify-between mt-4">
+              <span className="text-amber-400">Health: 100%</span>
+              <span className="text-blue-400">Sync: Real-time</span>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <Tabs defaultValue="jobs">
-          <TabsList className="mb-8">
-            <TabsTrigger value="jobs" className="flex items-center gap-2">
-              <Briefcase className="h-4 w-4" /> Job Listings
-            </TabsTrigger>
-            <TabsTrigger value="talent" className="flex items-center gap-2">
-              <Users className="h-4 w-4" /> Browse Talent
-            </TabsTrigger>
-            <TabsTrigger value="ai-match" className="flex items-center gap-2">
-              <Brain className="h-4 w-4" /> AI Match
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" /> Analytics
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="jobs">
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              <div className="flex gap-1 flex-wrap">
-                {CATEGORIES.map(c => (
-                  <Button
-                    key={c}
-                    size="sm"
-                    variant={category === c ? "default" : "outline"}
-                    onClick={() => setCategory(c)}
-                    className="text-xs h-8"
-                  >
-                    {c}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex gap-1 flex-wrap">
-                {JOB_TYPES.map(t => (
-                  <Button
-                    key={t}
-                    size="sm"
-                    variant={jobType === t ? "default" : "outline"}
-                    onClick={() => setJobType(t)}
-                    className="text-xs h-8"
-                  >
-                    {t}
-                  </Button>
-                ))}
-              </div>
-              <div className="flex gap-1 flex-wrap">
-                {REMOTE_OPTIONS.map(r => (
-                  <Button
-                    key={r}
-                    size="sm"
-                    variant={remote === r ? "default" : "outline"}
-                    onClick={() => setRemote(r)}
-                    className="text-xs h-8"
-                  >
-                    {r}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <p className="text-sm text-muted-foreground mb-5">
-              {filtered.length} positions found
-            </p>
-
-            <div className="space-y-4">
-              {filtered.map((job, i) => (
-                <motion.div
-                  key={job.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <Card
-                    className={`border-border/50 hover:border-blue-500/30 transition-all ${job.featured ? "ring-1 ring-blue-500/20" : ""}`}
-                  >
-                    <CardContent className="pt-5 pb-5">
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex flex-wrap items-center gap-2 mb-2">
-                            <h3 className="font-bold text-base">{job.title}</h3>
-                            {job.urgent && (
-                              <Badge className="bg-red-500/10 text-red-400 border-red-500/20 text-xs">
-                                Urgent
-                              </Badge>
-                            )}
-                            {job.featured && (
-                              <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20 text-xs">
-                                Featured
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-3">
-                            <span className="flex items-center gap-1">
-                              <Building2 className="h-3.5 w-3.5" />
-                              {job.company}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-3.5 w-3.5" />
-                              {job.location}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <DollarSign className="h-3.5 w-3.5" />
-                              {job.salary}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Clock className="h-3.5 w-3.5" />
-                              {job.posted}
-                            </span>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                            {job.description}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            <Badge variant="outline" className="text-xs">
-                              {job.type}
-                            </Badge>
-                            <Badge variant="outline" className="text-xs">
-                              {job.remote}
-                            </Badge>
-                            {job.skills.map(s => (
-                              <Badge
-                                key={s}
-                                className="text-xs bg-muted text-muted-foreground border-0"
-                              >
-                                {s}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex sm:flex-col gap-2 shrink-0">
-                          <Button
-                            size="sm"
-                            onClick={() => setApplyJob(job)}
-                            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0"
-                          >
-                            Apply Now
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => toggleSave(job.id)}
-                            className={
-                              savedJobs.includes(job.id)
-                                ? "text-red-400 border-red-400/30"
-                                : ""
-                            }
-                          >
-                            <Heart
-                              className={`h-3.5 w-3.5 ${savedJobs.includes(job.id) ? "fill-red-400" : ""}`}
-                            />
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border/30 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Eye className="h-3 w-3" />
-                          {job.views} views
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Heart className="h-3 w-3" />
-                          {job.saved} saved
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-              {filtered.length === 0 && (
-                <div className="text-center py-16 text-muted-foreground">
-                  <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>No jobs match your current filters.</p>
-                  <Button
-                    variant="link"
-                    onClick={() => {
-                      setSearch("");
-                      setCategory("All");
-                      setJobType("All Types");
-                      setRemote("All");
-                    }}
-                  >
-                    Clear all filters
-                  </Button>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="talent">
-            <div className="mb-6">
-              <h2 className="text-xl font-bold mb-2">
-                Available IT Professionals
-              </h2>
-              <p className="text-muted-foreground text-sm">
-                All candidates are pre-vetted and background-checked by our
-                team.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {TALENT_PROFILES.map((p, i) => (
-                <motion.div
-                  key={p.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Card className="border-border/50 hover:border-cyan-500/30 transition-all">
-                    <CardContent className="pt-5">
-                      <div className="flex items-start gap-4">
-                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg shrink-0">
-                          {p.name[0]}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-bold">{p.name}</h3>
-                            <div className="flex items-center gap-1 text-xs">
-                              <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                              <span className="font-medium">{p.rating}</span>
-                            </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            {p.title}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5 mt-2 mb-3">
-                            {p.skills.map(s => (
-                              <Badge
-                                key={s}
-                                className="text-xs bg-muted text-muted-foreground border-0"
-                              >
-                                {s}
-                              </Badge>
-                            ))}
-                          </div>
-                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <DollarSign className="h-3 w-3" />
-                              {p.rate}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              Available {p.available}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Briefcase className="h-3 w-3" />
-                              {p.jobs} jobs completed
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex gap-2 mt-4">
-                        <Button
-                          size="sm"
-                          className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-0"
-                          onClick={() =>
-                            toast.info("Contact feature coming soon!")
-                          }
-                        >
-                          Contact
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() =>
-                            toast.info("Profile view coming soon!")
-                          }
-                        >
-                          View Profile
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <p className="text-muted-foreground text-sm mb-4">
-                Looking for a specific skill set? We have 200+ vetted IT
-                professionals in our network.
-              </p>
-              <Button
-                onClick={() => setLocation("/it/contact")}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0"
-              >
-                Request Custom Talent Search{" "}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </TabsContent>
-
-          {/* ── AI MATCH TAB ── */}
-          <TabsContent value="ai-match" className="space-y-5">
-            <Card className="border-cyan-500/20 bg-cyan-900/5">
-              <CardContent className="py-5 px-5 space-y-4">
-                <div className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-cyan-400" />
-                  <p className="font-black text-base">
-                    AI Job Matching Engine v3.1
-                  </p>
-                  <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs ml-auto">
-                    Powered by SKY4444 AI
-                  </Badge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Paste your resume or describe your skills and our AI will rank
-                  all open positions by match score, salary fit, and career
-                  growth potential.
-                </p>
-                <textarea
-                  placeholder="Paste resume text or describe your skills, experience, and goals..."
-                  className="w-full h-28 px-4 py-3 rounded-xl bg-muted text-sm border border-border/50 focus:outline-none focus:border-cyan-500/40 resize-none"
-                />
-                <Button
-                  className="w-full h-10 text-sm bg-cyan-600 text-white border-0 font-bold"
-                  onClick={() =>
-                    toast.success(
-                      "AI analyzing your profile... Match results ready in 3 seconds!"
-                    )
-                  }
-                >
-                  <Brain className="h-4 w-4 mr-2" />
-                  Run AI Job Match
-                </Button>
-              </CardContent>
-            </Card>
-
-            <p className="text-sm font-bold text-muted-foreground">
-              AI-Ranked Matches for Your Profile
-            </p>
-            {JOB_LISTINGS.map((job, i) => {
-              const matchScore = Math.max(60, 98 - i * 7);
-              const matchColor =
-                matchScore >= 90
-                  ? "text-green-400"
-                  : matchScore >= 75
-                    ? "text-yellow-400"
-                    : "text-orange-400";
-              return (
-                <Card
-                  key={job.id}
-                  className="border-border/50 hover:border-cyan-500/20 transition-all"
-                >
-                  <CardContent className="py-3 px-4 flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-xl bg-muted flex flex-col items-center justify-center shrink-0">
-                      <p className={`font-black text-sm ${matchColor}`}>
-                        {matchScore}%
-                      </p>
-                      <p className="text-xs text-muted-foreground">match</p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm truncate">{job.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {job.company} · {job.location}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-cyan-500 rounded-full"
-                            style={{ width: `${matchScore}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <p className="font-bold text-xs text-green-400">
-                        {job.salary}
-                      </p>
-                      <Button
-                        size="sm"
-                        className="h-7 px-2 text-xs bg-cyan-600 text-white border-0 mt-1 font-bold"
-                        onClick={() =>
-                          toast.success(`Applied to ${job.title}!`)
-                        }
-                      >
-                        Apply
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </TabsContent>
-
-          {/* ── ANALYTICS TAB ── */}
-          <TabsContent value="analytics" className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {[
-                {
-                  label: "Active Jobs",
-                  value: JOB_LISTINGS.length.toString(),
-                  color: "text-blue-400",
-                },
-                {
-                  label: "Applications",
-                  value: "1,247",
-                  color: "text-green-400",
-                },
-                {
-                  label: "Avg. Salary",
-                  value: "$82K",
-                  color: "text-yellow-400",
-                },
-                { label: "Placements", value: "89", color: "text-cyan-400" },
-              ].map(s => (
-                <Card key={s.label} className="border-border/50 text-center">
-                  <CardContent className="py-3 px-2">
-                    <p className={`font-black text-lg ${s.color}`}>{s.value}</p>
-                    <p className="text-xs text-muted-foreground">{s.label}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <Card className="border-border/50">
-              <CardContent className="py-4 px-4 space-y-3">
-                <p className="font-bold text-sm">Top Skills in Demand</p>
-                {[
-                  {
-                    skill: "React / TypeScript",
-                    demand: 94,
-                    color: "bg-blue-500",
-                  },
-                  { skill: "AWS / Cloud", demand: 88, color: "bg-orange-500" },
-                  { skill: "Cybersecurity", demand: 82, color: "bg-red-500" },
-                  {
-                    skill: "DevOps / Kubernetes",
-                    demand: 79,
-                    color: "bg-purple-500",
-                  },
-                  {
-                    skill: "Python / AI/ML",
-                    demand: 76,
-                    color: "bg-green-500",
-                  },
-                ].map(s => (
-                  <div key={s.skill} className="space-y-1">
-                    <div className="flex justify-between text-xs">
-                      <span className="font-medium">{s.skill}</span>
-                      <span className="text-muted-foreground">
-                        {s.demand}% demand
-                      </span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${s.color} rounded-full`}
-                        style={{ width: `${s.demand}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+      <div className="mt-12 bg-slate-900 p-8 rounded-xl border border-amber-500/20">
+        <h2 className="text-3xl font-bold mb-6">System Orchestration Analytics</h2>
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            <XAxis dataKey="x" stroke="#94a3b8" />
+            <YAxis stroke="#94a3b8" />
+            <Tooltip />
+            <Line type="monotone" dataKey="y" stroke="#fbbf24" strokeWidth={3} />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

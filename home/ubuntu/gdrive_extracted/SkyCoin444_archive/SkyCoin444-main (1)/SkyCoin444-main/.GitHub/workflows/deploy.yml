@@ -1,0 +1,15 @@
+r
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push Docker
+        run: docker-compose -f docker-compose.prod.yml up --build -d

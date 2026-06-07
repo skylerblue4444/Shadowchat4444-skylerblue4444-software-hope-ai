@@ -1,7 +1,7 @@
 /**
  * Cache Engine - In-memory caching with TTL
  */
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
 interface CacheEntry<T> {
   value: T;
@@ -24,7 +24,7 @@ class CacheEngine extends EventEmitter {
       expiresAt: Date.now() + ttlSeconds * 1000,
       hits: 0,
     });
-    this.emit("cache:set", { key, ttl: ttlSeconds });
+    this.emit('cache:set', { key, ttl: ttlSeconds });
   }
 
   get<T>(key: string): T | null {
@@ -37,7 +37,7 @@ class CacheEngine extends EventEmitter {
     }
 
     entry.hits++;
-    this.emit("cache:hit", { key, hits: entry.hits });
+    this.emit('cache:hit', { key, hits: entry.hits });
     return entry.value as T;
   }
 
@@ -53,12 +53,12 @@ class CacheEngine extends EventEmitter {
 
   delete(key: string): void {
     this.cache.delete(key);
-    this.emit("cache:delete", { key });
+    this.emit('cache:delete', { key });
   }
 
   clear(): void {
     this.cache.clear();
-    this.emit("cache:cleared", {});
+    this.emit('cache:cleared', {});
   }
 
   private cleanup(): void {
@@ -73,7 +73,7 @@ class CacheEngine extends EventEmitter {
     }
 
     if (deleted > 0) {
-      this.emit("cache:cleanup", { deleted, remaining: this.cache.size });
+      this.emit('cache:cleanup', { deleted, remaining: this.cache.size });
     }
   }
 

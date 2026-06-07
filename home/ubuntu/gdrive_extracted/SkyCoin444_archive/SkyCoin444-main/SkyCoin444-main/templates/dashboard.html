@@ -1,0 +1,17 @@
+<!-- Made by Skyler - Business Innovative Information Technology Resolutions LLC -->
+<!DOCTYPE html>
+<html>
+<head><title>Dashboard - skyCoin444</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body>
+    <h1>Your Wallet</h1>
+    <p>Address: {{ address }}</p>
+    <p>Balance: {{ balance }} SKY444</p>
+    <p>Staking Reward Ready: {{ staking_reward }} SKY444</p>
+    <form action="/transaction" method="post">
+        <input type="text" name="recipient" placeholder="Recipient Address" required>
+        <input type="number" name="amount" placeholder="Amount" step="0.00000001" required>
+        <button type="submit">Send SKY444</button>
+    </form>
+    <a href="/">Home</a>
+</body>
+</html>

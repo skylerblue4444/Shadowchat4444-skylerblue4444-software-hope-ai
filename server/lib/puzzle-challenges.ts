@@ -101,14 +101,7 @@ export interface UserChallengeStats {
 
 export class PuzzleChallenges {
   // Reward multipliers by difficulty
-<<<<<<< HEAD
   private static readonly DIFFICULTY_MULTIPLIERS: Record<DifficultyLevel, number> = {
-=======
-  private static readonly DIFFICULTY_MULTIPLIERS: Record<
-    DifficultyLevel,
-    number
-  > = {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     easy: 1.0,
     medium: 2.0,
     hard: 3.5,
@@ -127,14 +120,7 @@ export class PuzzleChallenges {
   };
 
   // Time bonus (extra reward for solving quickly)
-<<<<<<< HEAD
   private static readonly TIME_BONUS_THRESHOLD: Record<DifficultyLevel, number> = {
-=======
-  private static readonly TIME_BONUS_THRESHOLD: Record<
-    DifficultyLevel,
-    number
-  > = {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     easy: 300, // 5 minutes
     medium: 600, // 10 minutes
     hard: 1200, // 20 minutes
@@ -149,11 +135,7 @@ export class PuzzleChallenges {
     type: ChallengeType,
     difficulty: DifficultyLevel,
     timeSpent: number,
-<<<<<<< HEAD
     hintsUsed: number,
-=======
-    hintsUsed: number
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string {
     const baseReward = new Decimal(this.TYPE_BASE_REWARDS[type]);
     const difficultyMultiplier = this.DIFFICULTY_MULTIPLIERS[difficulty];
@@ -184,11 +166,7 @@ export class PuzzleChallenges {
     difficulty: DifficultyLevel,
     flag: string,
     category: string,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): CTFChallenge {
     return {
       challengeId: `CTF-${Date.now()}`,
@@ -218,11 +196,7 @@ export class PuzzleChallenges {
     startingCode: string,
     testCases: { input: string; expectedOutput: string }[],
     solution: string,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): CodeChallenge {
     return {
       challengeId: `CODE-${Date.now()}`,
@@ -253,11 +227,7 @@ export class PuzzleChallenges {
     answers: string[],
     explanation: string,
     difficulty: DifficultyLevel,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): RiddleChallenge {
     return {
       challengeId: `RIDDLE-${Date.now()}`,
@@ -288,11 +258,7 @@ export class PuzzleChallenges {
     plaintext: string,
     difficulty: DifficultyLevel,
     hint: string,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): CryptoChallenge {
     return {
       challengeId: `CRYPTO-${Date.now()}`,
@@ -322,11 +288,7 @@ export class PuzzleChallenges {
     puzzle: string,
     solution: string,
     difficulty: DifficultyLevel,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): LogicChallenge {
     return {
       challengeId: `LOGIC-${Date.now()}`,
@@ -355,11 +317,7 @@ export class PuzzleChallenges {
     objective: string,
     solution: string,
     difficulty: DifficultyLevel,
-<<<<<<< HEAD
     hints: string[] = [],
-=======
-    hints: string[] = []
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ReverseEngineeringChallenge {
     return {
       challengeId: `RE-${Date.now()}`,
@@ -383,7 +341,6 @@ export class PuzzleChallenges {
   /**
    * Verify challenge solution
    */
-<<<<<<< HEAD
   static verifySolution(
     challenge: Challenge,
     submission: string,
@@ -392,13 +349,6 @@ export class PuzzleChallenges {
       const riddleChallenge = challenge as RiddleChallenge;
       return riddleChallenge.answers.some(
         (answer) => answer.toLowerCase() === submission.toLowerCase(),
-=======
-  static verifySolution(challenge: Challenge, submission: string): boolean {
-    if (challenge.type === "riddle") {
-      const riddleChallenge = challenge as RiddleChallenge;
-      return riddleChallenge.answers.some(
-        answer => answer.toLowerCase() === submission.toLowerCase()
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       );
     }
 
@@ -429,28 +379,16 @@ export class PuzzleChallenges {
     challenge: Challenge,
     submission: string,
     timeSpent: number,
-<<<<<<< HEAD
     hintsUsed: number,
-=======
-    hintsUsed: number
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ChallengeAttempt {
     const isCorrect = this.verifySolution(challenge, submission);
     const reward = isCorrect
       ? this.calculateReward(
-<<<<<<< HEAD
         challenge.type,
         challenge.difficulty,
         timeSpent,
         hintsUsed,
       )
-=======
-          challenge.type,
-          challenge.difficulty,
-          timeSpent,
-          hintsUsed
-        )
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       : "0";
 
     return {
@@ -470,26 +408,15 @@ export class PuzzleChallenges {
    * Get user challenge statistics
    */
   static getUserStats(attempts: ChallengeAttempt[]): UserChallengeStats {
-<<<<<<< HEAD
     const successfulAttempts = attempts.filter((a) => a.isCorrect);
     const totalEarned = attempts.reduce(
       (sum, a) => new Decimal(sum).plus(a.reward),
       new Decimal(0),
-=======
-    const successfulAttempts = attempts.filter(a => a.isCorrect);
-    const totalEarned = attempts.reduce(
-      (sum, a) => new Decimal(sum).plus(a.reward),
-      new Decimal(0)
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
 
     const totalTimeSpent = successfulAttempts.reduce(
       (sum, a) => sum + a.timeSpent,
-<<<<<<< HEAD
       0,
-=======
-      0
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
     const averageTimePerChallenge =
       successfulAttempts.length > 0
@@ -550,15 +477,9 @@ export class PuzzleChallenges {
    */
   static getChallengesByDifficulty(
     challenges: Challenge[],
-<<<<<<< HEAD
     difficulty: DifficultyLevel,
   ): Challenge[] {
     return challenges.filter((c) => c.difficulty === difficulty);
-=======
-    difficulty: DifficultyLevel
-  ): Challenge[] {
-    return challenges.filter(c => c.difficulty === difficulty);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
@@ -586,11 +507,7 @@ export class PuzzleChallenges {
    */
   static getRecommendedChallenges(
     userStats: UserChallengeStats,
-<<<<<<< HEAD
     allChallenges: Challenge[],
-=======
-    allChallenges: Challenge[]
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): Challenge[] {
     // Recommend challenges slightly above current level
     const userLevel = userStats.level;
@@ -606,11 +523,7 @@ export class PuzzleChallenges {
       difficulty[Math.min(userLevel, difficulty.length - 1)];
 
     return allChallenges
-<<<<<<< HEAD
       .filter((c) => c.difficulty === nextDifficulty)
-=======
-      .filter(c => c.difficulty === nextDifficulty)
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       .sort((a, b) => b.successRate - a.successRate)
       .slice(0, 5);
   }

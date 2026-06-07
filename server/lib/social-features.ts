@@ -73,11 +73,7 @@ export class SocialFeatures {
   static createProfile(
     userId: number,
     username: string,
-<<<<<<< HEAD
     bio: string,
-=======
-    bio: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): UserProfile {
     return {
       userId,
@@ -103,11 +99,7 @@ export class SocialFeatures {
     username: string,
     avatar: string,
     content: string,
-<<<<<<< HEAD
     image?: string,
-=======
-    image?: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): FeedPost {
     return {
       postId: `POST-${Date.now()}`,
@@ -139,15 +131,11 @@ export class SocialFeatures {
   /**
    * Tip post (send crypto)
    */
-<<<<<<< HEAD
   static tipPost(
     post: FeedPost,
     tipAmount: string,
     coin: string,
   ): FeedPost {
-=======
-  static tipPost(post: FeedPost, tipAmount: string, coin: string): FeedPost {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     const newTips = new Decimal(post.tips).plus(tipAmount);
     return {
       ...post,
@@ -163,11 +151,7 @@ export class SocialFeatures {
     age: number,
     gender: string,
     lookingFor: string,
-<<<<<<< HEAD
     photos: string[],
-=======
-    photos: string[]
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): DatingProfile {
     return {
       ...profile,
@@ -186,11 +170,7 @@ export class SocialFeatures {
    */
   static calculateCompatibility(
     profile1: DatingProfile,
-<<<<<<< HEAD
     profile2: DatingProfile,
-=======
-    profile2: DatingProfile
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): number {
     let score = 0;
 
@@ -199,13 +179,8 @@ export class SocialFeatures {
     score += Math.max(0, 100 - ageDiff * 10);
 
     // Interest overlap
-<<<<<<< HEAD
     const commonInterests = profile1.interests.filter((i) =>
       profile2.interests.includes(i),
-=======
-    const commonInterests = profile1.interests.filter(i =>
-      profile2.interests.includes(i)
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     ).length;
     const totalInterests = new Set([
       ...profile1.interests,
@@ -228,11 +203,7 @@ export class SocialFeatures {
     recipientId: number,
     content: string,
     type: "text" | "image" | "tip" | "call" = "text",
-<<<<<<< HEAD
     tipAmount?: string,
-=======
-    tipAmount?: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): ChatMessage {
     return {
       messageId: `MSG-${Date.now()}`,
@@ -252,11 +223,7 @@ export class SocialFeatures {
   static createConnection(
     userId1: number,
     userId2: number,
-<<<<<<< HEAD
     type: "friend" | "dating" | "business",
-=======
-    type: "friend" | "dating" | "business"
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): UserConnection {
     return {
       connectionId: `CONN-${Date.now()}`,
@@ -284,11 +251,7 @@ export class SocialFeatures {
   static calculateSocialScore(
     followers: number,
     posts: number,
-<<<<<<< HEAD
     engagement: number,
-=======
-    engagement: number
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): number {
     const followerScore = Math.min(followers / 10, 100);
     const postScore = Math.min(posts * 5, 100);
@@ -315,17 +278,10 @@ export class SocialFeatures {
    */
   static getRecommendedMatches(
     userProfile: DatingProfile,
-<<<<<<< HEAD
     candidates: DatingProfile[],
   ): DatingProfile[] {
     return candidates
       .map((candidate) => ({
-=======
-    candidates: DatingProfile[]
-  ): DatingProfile[] {
-    return candidates
-      .map(candidate => ({
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         ...candidate,
         compatibility: this.calculateCompatibility(userProfile, candidate),
       }))
@@ -339,11 +295,7 @@ export class SocialFeatures {
   static generateBadges(
     followers: number,
     posts: number,
-<<<<<<< HEAD
     earnings: string,
-=======
-    earnings: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): string[] {
     const badges: string[] = [];
 
@@ -362,20 +314,12 @@ export class SocialFeatures {
   static calculateUserLevel(
     followers: number,
     posts: number,
-<<<<<<< HEAD
     earnings: string,
   ): { level: number; progress: number } {
     const totalScore =
       followers / 10 + posts * 5 + parseFloat(earnings) / 100;
     const level = Math.floor(totalScore / 100) + 1;
     const progress = (totalScore % 100);
-=======
-    earnings: string
-  ): { level: number; progress: number } {
-    const totalScore = followers / 10 + posts * 5 + parseFloat(earnings) / 100;
-    const level = Math.floor(totalScore / 100) + 1;
-    const progress = totalScore % 100;
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return { level, progress: Math.round(progress) };
   }
@@ -387,11 +331,7 @@ export class SocialFeatures {
     userId: number,
     type: string,
     message: string,
-<<<<<<< HEAD
     relatedUserId?: number,
-=======
-    relatedUserId?: number
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): {
     notificationId: string;
     userId: number;

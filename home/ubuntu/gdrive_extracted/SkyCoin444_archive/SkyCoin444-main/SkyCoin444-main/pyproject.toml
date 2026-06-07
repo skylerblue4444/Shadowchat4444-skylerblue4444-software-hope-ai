@@ -1,0 +1,18 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+[project]
+name = "shadowchat"
+version = "2.0.0"
+description = "Decentralized social media powered by skyCoin444"
+authors = [{ name = "Skyler Blue Spillers", email = "skylerspillers@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.115.0",
+    "uvicorn==0.32.0",
+    "ecdsa",
+    "sqlalchemy==2.0.36",
+    "pydantic==2.10.1",
+    "cryptography"
+]
+
+[tool.setuptools]
+packages = ["shadowchat"]

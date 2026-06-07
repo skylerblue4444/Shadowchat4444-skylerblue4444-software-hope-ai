@@ -1,0 +1,16 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+version: '3.8'
+services:
+  shadowchat:
+    build: .
+    deploy:
+      replicas: 300
+      resources:
+        limits:
+          cpus: '24.0'
+          memory: 64G
+  p2p-cluster-v8:
+    build: .
+    command: python p2p/node_p2p.py
+    deploy:
+      replicas: 150

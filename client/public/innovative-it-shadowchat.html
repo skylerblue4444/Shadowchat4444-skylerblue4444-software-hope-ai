@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovative IT Resolutions LLC | ShadowChat + SKY44</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --bg: #04000d;
+  --bg2: #070010;
+  --surface: rgba(255,255,255,0.03);
+  --border: rgba(168,85,247,0.18);
+  --purple: #a855f7;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --gold: #fbbf24;
+  --green: #10b981;
+  --text: #f0e8ff;
+  --muted: #8b7aa0;
+  --glow: 0 0 40px rgba(168,85,247,0.25);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+h1,h2,h3,.heading{font-family:'Syne',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.5;
+}
+
+/* ─── GRID LINES ─── */
+.grid-bg{
+  background-image:linear-gradient(rgba(168,85,247,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(168,85,247,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;width:100%;z-index:999;
+  background:rgba(4,0,13,.92);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:0 5vw;
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;
+}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  box-shadow:0 0 20px rgba(168,85,247,.5);
+}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);}
+.logo-sub{font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  color:var(--muted);text-decoration:none;font-size:.85rem;
+  letter-spacing:.04em;transition:color .2s;
+}
+.nav-links a:hover{color:var(--purple);}
+.nav-cta{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;border:none;cursor:pointer;
+  padding:10px 22px;border-radius:8px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;
+  letter-spacing:.04em;text-decoration:none;
+  box-shadow:0 0 20px rgba(168,85,247,.4);
+  transition:all .2s;
+}
+.nav-cta:hover{box-shadow:0 0 35px rgba(168,85,247,.7);transform:translateY(-1px);}
+
+/* ─── SECTIONS ─── */
+section{position:relative;padding:100px 5vw;}
+
+/* ─── HERO ─── */
+#home{
+  min-height:100vh;
+  display:flex;align-items:center;
+  background:radial-gradient(ellipse 80% 60% at 60% 0%, rgba(168,85,247,.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(236,72,153,.08) 0%, transparent 60%),
+    var(--bg);
+  padding-top:120px;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  max-width:1200px;margin:0 auto;width:100%;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);
+  border-radius:100px;padding:6px 16px;font-size:.75rem;
+  color:var(--purple);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--purple);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:800;line-height:1;
+  margin-bottom:24px;
+  background:linear-gradient(135deg,#fff 0%,rgba(168,85,247,.9) 60%,var(--pink) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{color:var(--muted);font-size:1.1rem;line-height:1.7;margin-bottom:40px;max-width:500px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;border:none;cursor:pointer;
+  padding:14px 28px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;
+  text-decoration:none;display:inline-block;
+  box-shadow:0 0 30px rgba(168,85,247,.4);
+  transition:all .25s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(168,85,247,.6);}
+.btn-secondary{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text);cursor:pointer;
+  padding:14px 28px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;
+  text-decoration:none;display:inline-block;
+  transition:all .25s;
+}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple);}
+.hero-stats{
+  display:flex;gap:40px;margin-top:48px;padding-top:48px;
+  border-top:1px solid var(--border);
+}
+.stat-item .num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--purple);}
+.stat-item .lbl{font-size:.75rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+
+/* WALLET CARD */
+.wallet-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:20px;padding:32px;
+  backdrop-filter:blur(20px);
+}
+.wallet-balance{
+  font-family:'JetBrains Mono',monospace;
+  font-size:2.8rem;font-weight:500;
+  color:var(--green);
+  text-shadow:0 0 30px rgba(16,185,129,.4);
+}
+.wallet-label{color:var(--muted);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.asset-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.asset-row:last-child{border-bottom:none;}
+.asset-name{font-size:.85rem;font-weight:500;}
+.asset-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--green);}
+.asset-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;margin-right:10px;}
+.asset-left{display:flex;align-items:center;}
+.wallet-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:20px;}
+.wallet-btn{
+  padding:10px;border-radius:8px;font-family:'Syne',sans-serif;
+  font-size:.75rem;font-weight:700;cursor:pointer;border:none;
+  transition:all .2s;
+}
+.trust-bar{
+  display:flex;align-items:center;gap:20px;
+  flex-wrap:wrap;margin-top:40px;
+  padding:16px 0;border-top:1px solid var(--border);
+}
+.trust-bar span{font-size:.75rem;color:var(--muted);letter-spacing:.06em;}
+.token-chip{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:4px 10px;
+  font-size:.7rem;color:var(--text);font-weight:500;
+}
+
+/* ─── SECTION HEADER ─── */
+.section-header{text-align:center;margin-bottom:60px;}
+.section-tag{
+  display:inline-block;background:rgba(168,85,247,.1);
+  border:1px solid rgba(168,85,247,.2);color:var(--purple);
+  border-radius:4px;padding:4px 12px;font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;
+}
+.section-header h2{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;margin-bottom:16px;}
+.section-header p{color:var(--muted);max-width:560px;margin:0 auto;line-height:1.7;}
+
+/* ─── CARDS ─── */
+.card-grid{display:grid;gap:20px;max-width:1200px;margin:0 auto;}
+.card-grid-3{grid-template-columns:repeat(3,1fr);}
+.card-grid-2{grid-template-columns:repeat(2,1fr);}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;padding:28px;
+  transition:all .3s;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(168,85,247,.06),transparent);
+  opacity:0;transition:.3s;
+}
+.card:hover::before{opacity:1;}
+.card:hover{border-color:rgba(168,85,247,.4);transform:translateY(-4px);box-shadow:var(--glow);}
+.card-icon{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;margin-bottom:16px;
+}
+.card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.card p{color:var(--muted);font-size:.87rem;line-height:1.6;}
+.card .tag{
+  display:inline-block;margin-top:14px;padding:3px 10px;
+  border-radius:4px;font-size:.7rem;font-weight:600;letter-spacing:.05em;
+}
+
+/* ─── SERVICES SECTION ─── */
+#services{background:var(--bg2);} 
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto 60px;}
+.price-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:32px;text-align:center;transition:all .3s;
+}
+.price-card.featured{
+  border-color:var(--purple);
+  background:rgba(168,85,247,.08);
+  box-shadow:var(--glow);
+  transform:scale(1.03);
+}
+.price-card .price{
+  font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;
+  margin:12px 0;
+}
+.price-card .price span{font-size:1rem;color:var(--muted);}
+.price-card h4{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:6px;}
+.price-card p{color:var(--muted);font-size:.82rem;line-height:1.6;margin-bottom:20px;}
+.price-card ul{list-style:none;text-align:left;space-y:8px;}
+.price-card ul li{font-size:.82rem;color:var(--muted);padding:5px 0;display:flex;gap:8px;}
+.price-card ul li::before{content:'✓';color:var(--green);flex-shrink:0;}
+
+/* ─── SHADOWCHAT ─── */
+#shadowchat{
+  background:radial-gradient(ellipse 70% 60% at 20% 50%, rgba(168,85,247,.1) 0%, transparent 70%),var(--bg);
+}
+.features-mega{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1200px;margin:0 auto 60px;}
+.feature-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+}
+.feature-item .fi{font-size:1.4rem;margin-bottom:10px;}
+.feature-item h4{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;}
+.feature-item p{font-size:.78rem;color:var(--muted);line-height:1.5;}
+.screen-demo{
+  max-width:1200px;margin:0 auto;
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  border-radius:20px;padding:40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+}
+.app-mockup{
+  background:#0f0020;border:1px solid rgba(168,85,247,.3);
+  border-radius:16px;padding:0;overflow:hidden;
+}
+.app-topbar{
+  background:rgba(168,85,247,.15);padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(168,85,247,.2);
+}
+.app-topbar .title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;}
+.app-content{padding:20px;}
+.post-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;padding:14px;margin-bottom:10px;
+}
+.post-card .user{font-size:.75rem;color:var(--purple);margin-bottom:6px;}
+.post-card .text{font-size:.8rem;color:var(--muted);line-height:1.5;}
+.post-card .actions{display:flex;gap:14px;margin-top:10px;}
+.post-card .actions span{font-size:.72rem;color:var(--muted);cursor:pointer;}
+.post-card .actions span:hover{color:var(--purple);}
+
+/* ─── SKY44 ─── */
+#sky44{background:var(--bg2);}
+.token-hero{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+}
+.token-price-box{
+  background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(236,72,153,.08));
+  border:1px solid rgba(168,85,247,.3);
+  border-radius:20px;padding:36px;text-align:center;
+}
+.token-price{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:500;color:var(--gold);}
+.tokenomics{max-width:1200px;margin:60px auto 0;}
+.tokenomics h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:24px;}
+.alloc-bar{margin-bottom:14px;}
+.alloc-label{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px;}
+.alloc-label .pct{color:var(--purple);font-weight:600;}
+.bar{height:8px;border-radius:4px;background:rgba(255,255,255,.06);}
+.bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.utility-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  margin-top:40px;max-width:1200px;margin:40px auto 0;
+}
+.utility-chip{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:16px;text-align:center;
+}
+.utility-chip .ui{font-size:1.5rem;margin-bottom:8px;}
+.utility-chip p{font-size:.75rem;color:var(--muted);}
+
+/* ─── CREATORS ─── */
+#creators{
+  background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(236,72,153,.08) 0%,transparent 70%),var(--bg);
+}
+.creator-flow{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.flow-steps{display:flex;flex-direction:column;gap:20px;}
+.flow-step{
+  display:flex;gap:16px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+}
+.step-num{
+  width:36px;height:36px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;
+}
+.leaderboard{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+}
+.lb-header{
+  background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(236,72,153,.1));
+  padding:16px 20px;font-family:'Syne',sans-serif;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+}
+.lb-row{
+  display:flex;align-items:center;padding:14px 20px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  transition:.2s;
+}
+.lb-row:hover{background:rgba(255,255,255,.02);}
+.lb-rank{font-family:'Syne',sans-serif;font-weight:700;font-size:.8rem;width:30px;color:var(--muted);}
+.lb-rank.gold{color:var(--gold);}
+.lb-name{flex:1;font-size:.87rem;}
+.lb-score{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--purple);}
+
+/* ─── CASINO ─── */
+#casino{background:var(--bg2);}
+.casino-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;max-width:1200px;margin:0 auto;align-items:center;}
+.casino-card{
+  background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(168,85,247,.08));
+  border:1px solid rgba(16,185,129,.2);
+  border-radius:20px;padding:36px;
+}
+.casino-stat{margin-bottom:24px;}
+.casino-stat .big{font-family:'JetBrains Mono',monospace;font-size:3rem;color:var(--green);}
+.charity-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);
+  border-radius:8px;padding:10px 18px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--green);
+}
+
+/* ─── TECH / ROADMAP ─── */
+#tech{background:var(--bg);}
+.code-block{
+  background:#080016;border:1px solid rgba(168,85,247,.2);
+  border-radius:12px;padding:24px;
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;
+  line-height:1.8;overflow-x:auto;
+}
+.code-block .kw{color:#a855f7;}
+.code-block .str{color:#fbbf24;}
+.code-block .cm{color:#4b5563;}
+.code-block .fn{color:#22d3ee;}
+.code-block .num{color:#10b981;}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;}
+.roadmap-timeline{max-width:800px;margin:0 auto;position:relative;padding-left:40px;}
+.roadmap-timeline::before{
+  content:'';position:absolute;left:12px;top:0;bottom:0;
+  width:2px;background:linear-gradient(to bottom,var(--purple),var(--pink),transparent);
+}
+.rm-item{position:relative;margin-bottom:36px;}
+.rm-dot{
+  position:absolute;left:-34px;top:4px;
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  box-shadow:0 0 12px rgba(168,85,247,.5);
+}
+.rm-phase{font-size:.7rem;color:var(--purple);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.rm-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;}
+.rm-desc{font-size:.83rem;color:var(--muted);line-height:1.6;}
+.rm-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.rm-chip{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:4px;padding:2px 8px;font-size:.68rem;color:var(--purple);}
+
+/* ─── CONTACT ─── */
+#contact{
+  background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(168,85,247,.12) 0%,transparent 70%),var(--bg2);
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1100px;margin:0 auto;align-items:start;}
+.contact-info h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:20px;}
+.contact-item{
+  display:flex;align-items:center;gap:14px;
+  padding:16px;background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:12px;text-decoration:none;color:var(--text);
+  transition:.2s;
+}
+.contact-item:hover{border-color:var(--purple);}
+.contact-item .ci{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;}
+.contact-item .cd small{display:block;color:var(--muted);font-size:.72rem;margin-bottom:2px;}
+form input,form textarea,form select{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;
+  outline:none;transition:.2s;margin-bottom:14px;
+}
+form input:focus,form textarea:focus{border-color:var(--purple);}
+form textarea{height:120px;resize:vertical;}
+form input::placeholder,form textarea::placeholder{color:var(--muted);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:#020009;
+  border-top:1px solid var(--border);
+  padding:60px 5vw 40px;
+}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto 40px;}
+.footer-brand p{color:var(--muted);font-size:.85rem;line-height:1.7;margin-top:12px;max-width:280px;}
+.footer-col h5{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;margin-bottom:14px;color:var(--text);}
+.footer-col a{display:block;color:var(--muted);text-decoration:none;font-size:.82rem;margin-bottom:8px;transition:.2s;}
+.footer-col a:hover{color:var(--purple);}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted);}
+.live-dot{display:inline-flex;align-items:center;gap:6px;}
+.live-dot::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+
+/* ─── TICKER ─── */
+.ticker{
+  background:rgba(168,85,247,.08);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:10px 0;overflow:hidden;
+}
+.ticker-inner{
+  display:flex;gap:48px;
+  animation:scroll-x 20s linear infinite;white-space:nowrap;
+}
+@keyframes scroll-x{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{font-family:'JetBrains Mono',monospace;font-size:.75rem;display:flex;gap:10px;align-items:center;}
+.ticker-item .up{color:var(--green);}
+.ticker-item .sym{color:var(--purple);}
+
+/* ─── DIVIDER ─── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 5vw;}
+
+/* ─── FULL WALLET ─── */
+#wallet{background:var(--bg);}
+.wallet-full{max-width:900px;margin:0 auto;}
+.wallet-header{
+  background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(168,85,247,.08));
+  border:1px solid rgba(16,185,129,.2);
+  border-radius:20px;padding:36px;text-align:center;margin-bottom:24px;
+}
+.wallet-actions{display:flex;gap:12px;justify-content:center;margin-top:20px;}
+.wa-btn{
+  padding:12px 28px;border-radius:8px;font-family:'Syne',sans-serif;
+  font-weight:700;font-size:.85rem;cursor:pointer;border:none;transition:all .2s;
+  text-decoration:none;color:#fff;
+}
+.asset-table{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.at-header{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  padding:14px 20px;background:rgba(255,255,255,.03);
+  font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;
+}
+.at-row{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  padding:16px 20px;border-top:1px solid rgba(255,255,255,.04);
+  transition:.2s;align-items:center;
+}
+.at-row:hover{background:rgba(255,255,255,.02);}
+.at-asset{display:flex;align-items:center;gap:12px;}
+.at-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;}
+.at-sym{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;}
+.at-name{font-size:.75rem;color:var(--muted);}
+.at-val{font-family:'JetBrains Mono',monospace;font-size:.87rem;}
+
+/* ─── ABOUT ─── */
+#about{background:var(--bg2);}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;max-width:1200px;margin:0 auto;align-items:center;}
+.founder-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:32px;
+}
+.founder-avatar{
+  width:80px;height:80px;border-radius:16px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;margin-bottom:16px;
+}
+.founder-card h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;}
+.founder-card .role{color:var(--purple);font-size:.82rem;letter-spacing:.04em;margin-bottom:16px;}
+.founder-card p{color:var(--muted);font-size:.87rem;line-height:1.7;}
+.skills-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.skill-chip{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:4px;padding:3px 10px;font-size:.72rem;color:var(--purple);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid,.card-grid-3,.pricing-grid,.features-mega,.token-hero,.creator-flow,.tech-grid,.contact-grid,.about-grid,.footer-grid,.casino-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .utility-grid{grid-template-columns:repeat(2,1fr);}
+  .card-grid-2{grid-template-columns:1fr;}
+  .at-header,.at-row{grid-template-columns:2fr 1fr 1fr;}
+  .wallet-actions{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="sym">SKY44</span> $0.44 <span class="up">▲ +12.4%</span></div>
+    <div class="ticker-item"><span class="sym">BTC</span> $68,420 <span class="up">▲ +2.1%</span></div>
+    <div class="ticker-item"><span class="sym">DOGE</span> $0.184 <span class="up">▲ +5.3%</span></div>
+    <div class="ticker-item"><span class="sym">ETH</span> $3,580 <span class="up">▲ +1.8%</span></div>
+    <div class="ticker-item"><span class="sym">TRUMP</span> $12.44 <span class="up">▲ +8.7%</span></div>
+    <div class="ticker-item"><span class="sym">SHADOW</span> $4.20 <span class="up">▲ +22.1%</span></div>
+    <div class="ticker-item"><span class="sym">USDT</span> $1.00 — stable</div>
+    <!-- duplicate for seamless loop -->
+    <div class="ticker-item"><span class="sym">SKY44</span> $0.44 <span class="up">▲ +12.4%</span></div>
+    <div class="ticker-item"><span class="sym">BTC</span> $68,420 <span class="up">▲ +2.1%</span></div>
+    <div class="ticker-item"><span class="sym">DOGE</span> $0.184 <span class="up">▲ +5.3%</span></div>
+    <div class="ticker-item"><span class="sym">ETH</span> $3,580 <span class="up">▲ +1.8%</span></div>
+    <div class="ticker-item"><span class="sym">TRUMP</span> $12.44 <span class="up">▲ +8.7%</span></div>
+    <div class="ticker-item"><span class="sym">SHADOW</span> $4.20 <span class="up">▲ +22.1%</span></div>
+    <div class="ticker-item"><span class="sym">USDT</span> $1.00 — stable</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">
+    <div class="logo-icon">👻</div>
+    <div>
+      <div class="logo-text">Innovative IT</div>
+      <div class="logo-sub">Resolutions LLC</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#shadowchat">ShadowChat</a></li>
+    <li><a href="#sky44">SKY44</a></li>
+    <li><a href="#wallet">Wallet</a></li>
+    <li><a href="#creators">Creators</a></li>
+    <li><a href="#casino">Casino</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://shadowchat-beta.emergent.host" target="_blank" class="nav-cta">🚀 Launch Beta</a>
+</nav>
+
+<!-- ═══════════════════ HOME ═══════════════════ -->
+<section id="home" class="grid-bg">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">👻 ShadowChat Beta Live Now</div>
+      <h1>The Crypto-Native Everything App</h1>
+      <p>Social media + real-time chat + non-custodial wallet + creator economy + charity casino — all powered by the SKY44 token. Built in Arkansas to replace Silicon Valley.</p>
+      <div class="hero-btns">
+        <a href="https://shadowchat-beta.emergent.host" target="_blank" class="btn-primary">🚀 Launch ShadowChat Beta</a>
+        <a href="#wallet" class="btn-secondary">View $821K Wallet Demo</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="num">12K+</div><div class="lbl">Token Holders</div></div>
+        <div class="stat-item"><div class="num">$0.44</div><div class="lbl">SKY44 Pre-Sale</div></div>
+        <div class="stat-item"><div class="num">25%</div><div class="lbl">Casino → Charity</div></div>
+      </div>
+      <div class="trust-bar">
+        <span>SUPPORTED ASSETS:</span>
+        <span class="token-chip">SKY44</span>
+        <span class="token-chip">BTC</span>
+        <span class="token-chip">DOGE</span>
+        <span class="token-chip">TRUMP</span>
+        <span class="token-chip">ETH</span>
+        <span class="token-chip">SHADOW</span>
+        <span class="token-chip">USDT</span>
+      </div>
+    </div>
+    <div class="wallet-card">
+      <div class="wallet-label">Live Demo Wallet Balance</div>
+      <div class="wallet-balance">$821,730</div>
+      <p style="font-size:.75rem;color:var(--muted);margin-bottom:20px;margin-top:4px;">Non-custodial • Your keys, your crypto</p>
+      <div class="asset-row">
+        <div class="asset-left"><div class="asset-icon" style="background:rgba(168,85,247,.2);color:var(--purple);">SKY</div><div><div class="asset-name">SKY44</div><div style="font-size:.72rem;color:var(--muted);">100,000 tokens</div></div></div>
+        <div class="asset-val">$444,000</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-left"><div class="asset-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;">SHAD</div><div><div class="asset-name">SHADOW</div><div style="font-size:.72rem;color:var(--muted);">50,000 tokens</div></div></div>
+        <div class="asset-val">$210,000</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-left"><div class="asset-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;">BTC</div><div><div class="asset-name">Bitcoin</div><div style="font-size:.72rem;color:var(--muted);">1 BTC</div></div></div>
+        <div class="asset-val">$68,420</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-left"><div class="asset-icon" style="background:rgba(253,196,96,.15);color:#fdc460;">TRMP</div><div><div class="asset-name">TRUMP</div><div style="font-size:.72rem;color:var(--muted);">5,000 tokens</div></div></div>
+        <div class="asset-val">$62,200</div>
+      </div>
+      <div class="wallet-btns">
+        <button class="wallet-btn" style="background:linear-gradient(135deg,var(--purple),var(--pink));" onclick="alert('Connect to ShadowChat Beta to send tokens')">Send</button>
+        <button class="wallet-btn" style="background:var(--surface);border:1px solid var(--border);" onclick="alert('QR code receive — live in beta')">Receive</button>
+        <button class="wallet-btn" style="background:linear-gradient(135deg,var(--cyan),var(--purple));" onclick="alert('Multi-token swap — live in beta')">Swap</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-tag">The Team</div>
+    <h2>Built by Skyler Blue Spillers</h2>
+    <p>A real IT company in Arkansas building the future of decentralized social finance — no VC money, no hype, just code and commitment.</p>
+  </div>
+  <div class="about-grid">
+    <div>
+      <div class="founder-card">
+        <div class="founder-avatar">🧑‍💻</div>
+        <h3>Skyler Blue Spillers</h3>
+        <div class="role">Founder · Full Stack Engineer · Blockchain Architect · Project Manager</div>
+        <p>Arkansas-based engineer building ShadowChat as a one-person army — full-stack development, smart contract engineering, ethical hacking, and product design all in-house. Bootstrapped with IT services revenue. Community-owned from day one.</p>
+        <div class="skills-list">
+          <span class="skill-chip">Next.js</span>
+          <span class="skill-chip">Solidity</span>
+          <span class="skill-chip">Node.js</span>
+          <span class="skill-chip">Ethical Hacking</span>
+          <span class="skill-chip">PostgreSQL</span>
+          <span class="skill-chip">AI Integration</span>
+          <span class="skill-chip">React Native</span>
+          <span class="skill-chip">AWS</span>
+        </div>
+      </div>
+      <div class="founder-card" style="margin-top:16px;">
+        <h4 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:12px;">🏢 Company Info</h4>
+        <p style="color:var(--muted);font-size:.85rem;line-height:1.8;">
+          <strong style="color:var(--text);">Innovative Information Technology Resolutions LLC</strong><br>
+          1845 Lake Fort Smith Road<br>Mountainburg, AR 72946<br><br>
+          <a href="tel:4794068378" style="color:var(--purple);text-decoration:none;">📞 479-406-8378</a><br>
+          <a href="mailto:skylerblu4444@gmail.com" style="color:var(--purple);text-decoration:none;">✉️ skylerblu4444@gmail.com</a>
+        </p>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:20px;">Why ShadowChat Wins</h3>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="font-size:1.2rem;margin-bottom:8px;">💰</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px;">Real Token Utility — Not Speculation</h4>
+        <p style="font-size:.83rem;color:var(--muted);">Every tip, post, quest, spin, and swap uses SKY44. Real demand drives real value — with 2% burn on every transaction.</p>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="font-size:1.2rem;margin-bottom:8px;">🛡️</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px;">Non-Custodial by Default</h4>
+        <p style="font-size:.83rem;color:var(--muted);">Your keys, your crypto. No central authority holds your assets. True ownership, not a promise.</p>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="font-size:1.2rem;margin-bottom:8px;">❤️</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px;">25% Casino Revenue → Charity</h4>
+        <p style="font-size:.83rem;color:var(--muted);">Gaming on ShadowChat funds real causes voted on by the community. Play and give simultaneously.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.2rem;margin-bottom:8px;">🏗️</div>
+        <h4 style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:6px;">Real IT Company Backing</h4>
+        <p style="font-size:.83rem;color:var(--muted);">Traditional IT revenue funds development. No VC round needed. Sustainable from Arkansas Day 1.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SERVICES ═══════════════════ -->
+<section id="services">
+  <div class="section-header">
+    <div class="section-tag">IT Services</div>
+    <h2>Enterprise-Grade IT & Web3 Services</h2>
+    <p>Real revenue-generating IT services that fund ShadowChat development. Serving Northwest Arkansas and nationwide remote clients.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Starter</div>
+      <div class="price">$49<span>/mo</span></div>
+      <h4>IT Care Basic</h4>
+      <p>Perfect for small businesses needing reliable IT backbone.</p>
+      <ul>
+        <li>24/7 system monitoring</li>
+        <li>Remote support (4 hrs/mo)</li>
+        <li>Patch management</li>
+        <li>Basic endpoint protection</li>
+        <li>Monthly health reports</li>
+      </ul>
+      <div style="margin-top:20px;"><a href="#contact" class="btn-secondary" style="display:block;text-align:center;padding:10px;">Get Started</a></div>
+    </div>
+    <div class="price-card featured">
+      <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);">Most Popular</div>
+      <div class="price" style="color:var(--purple);">$199<span>/mo</span></div>
+      <h4>IT Care Pro</h4>
+      <p>Full-service IT management with cybersecurity and cloud.</p>
+      <ul>
+        <li>Everything in Starter</li>
+        <li>Unlimited remote support</li>
+        <li>Cybersecurity hardening</li>
+        <li>Cloud migration support</li>
+        <li>Backup & DR planning</li>
+        <li>Penetration testing (quarterly)</li>
+        <li>NW Arkansas onsite support</li>
+      </ul>
+      <div style="margin-top:20px;"><a href="#contact" class="btn-primary" style="display:block;text-align:center;padding:10px;">Get Started</a></div>
+    </div>
+    <div class="price-card">
+      <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Enterprise</div>
+      <div class="price">Custom</div>
+      <h4>Full Stack + Web3</h4>
+      <p>Blockchain development, custom dApps, and enterprise IT.</p>
+      <ul>
+        <li>Smart contract development</li>
+        <li>Custom token launches</li>
+        <li>Full-stack web platform dev</li>
+        <li>AI integration</li>
+        <li>ShadowChat white-label</li>
+        <li>Dedicated project manager</li>
+      </ul>
+      <div style="margin-top:20px;"><a href="#contact" class="btn-secondary" style="display:block;text-align:center;padding:10px;">Contact Us</a></div>
+    </div>
+  </div>
+  <div class="card-grid card-grid-3" style="max-width:1200px;margin:0 auto;">
+    <div class="card">
+      <div class="card-icon" style="background:rgba(168,85,247,.15);color:var(--purple);"><i class="fas fa-shield-halved"></i></div>
+      <h3>Managed IT</h3>
+      <p>Proactive monitoring, remote support, patch management, and endpoint security. We keep your systems running so you can focus on business.</p>
+      <span class="tag" style="background:rgba(168,85,247,.1);color:var(--purple);">From $49/mo</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(236,72,153,.12);color:var(--pink);"><i class="fas fa-bug"></i></div>
+      <h3>Penetration Testing</h3>
+      <p>Ethical hacking services to find your vulnerabilities before attackers do. Comprehensive reports with actionable remediation steps.</p>
+      <span class="tag" style="background:rgba(236,72,153,.1);color:var(--pink);">Custom Pricing</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(34,211,238,.12);color:var(--cyan);"><i class="fas fa-cloud"></i></div>
+      <h3>Cloud Migrations</h3>
+      <p>Seamless migration to AWS, Azure, or GCP. Zero-downtime strategy, cost optimization, and ongoing cloud management.</p>
+      <span class="tag" style="background:rgba(34,211,238,.1);color:var(--cyan);">Project-Based</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(16,185,129,.12);color:var(--green);"><i class="fas fa-database"></i></div>
+      <h3>Backup & Disaster Recovery</h3>
+      <p>Automated backups, recovery planning, and business continuity solutions. Never lose data again with our 3-2-1 backup architecture.</p>
+      <span class="tag" style="background:rgba(16,185,129,.1);color:var(--green);">Included in Pro</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(251,191,36,.12);color:var(--gold);"><i class="fab fa-ethereum"></i></div>
+      <h3>Blockchain Development</h3>
+      <p>Custom ERC-20 tokens, DeFi protocols, NFT systems, smart contract auditing, and full dApp development from concept to launch.</p>
+      <span class="tag" style="background:rgba(251,191,36,.1);color:var(--gold);">Enterprise</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(168,85,247,.15);color:var(--purple);"><i class="fas fa-screwdriver-wrench"></i></div>
+      <h3>Onsite Support NW Arkansas</h3>
+      <p>Boots on the ground in Northwest Arkansas. Hardware setup, network configuration, and hands-on IT support when remote won't cut it.</p>
+      <span class="tag" style="background:rgba(168,85,247,.1);color:var(--purple);">Available Now</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SHADOWCHAT ═══════════════════ -->
+<section id="shadowchat">
+  <div class="section-header">
+    <div class="section-tag">The Platform</div>
+    <h2>ShadowChat — The Everything App</h2>
+    <p>One decentralized platform replacing 10 Silicon Valley giants. No data harvesting, no opaque algorithms, no permission needed to earn.</p>
+  </div>
+  <div class="features-mega">
+    <div class="feature-item"><div class="fi">📱</div><h4>Algorithmic Feed</h4><p>AI-ranked content. "What's happening in the shadows?" — trend without a blue checkmark.</p></div>
+    <div class="feature-item"><div class="fi">💬</div><h4>Real-Time Chat</h4><p>Discord-style rooms with in-chat tipping, voice messages, and AI assistant integration.</p></div>
+    <div class="feature-item"><div class="fi">💸</div><h4>In-Chat Payments</h4><p>Tip anyone, anywhere, instantly — inside a DM or public post. Zero-fee for SKY44 holders.</p></div>
+    <div class="feature-item"><div class="fi">🎰</div><h4>Charity Casino</h4><p>Spin, win, and give. 25% of every casino session funds community-voted charities.</p></div>
+    <div class="feature-item"><div class="fi">🏆</div><h4>Daily Quests</h4><p>Complete tasks, earn XP, rise the leaderboard, and collect SKY44 rewards every day.</p></div>
+    <div class="feature-item"><div class="fi">🤖</div><h4>AI Assistants</h4><p>Multiple AI personas — Shadow AI, Dev Advisor, Governance Bot — built into your feed and DMs.</p></div>
+    <div class="feature-item"><div class="fi">🥽</div><h4>VR Rooms</h4><p>Immersive social spaces for communities. Host events, concerts, and watch parties on-chain.</p></div>
+    <div class="feature-item"><div class="fi">🗳️</div><h4>Governance</h4><p>SKY44 stakers vote on features, treasury allocation, and which charities receive casino revenue.</p></div>
+    <div class="feature-item"><div class="fi">🎨</div><h4>NFT Marketplace</h4><p>Mint, list, and trade NFTs directly in your feed. Creator royalties enforced on-chain forever.</p></div>
+    <div class="feature-item"><div class="fi">📺</div><h4>Live Streaming</h4><p>Stream to your followers and earn real-time tips in SKY44 during your broadcast.</p></div>
+    <div class="feature-item"><div class="fi">🔒</div><h4>Non-Custodial</h4><p>Your private keys never leave your device. No central server holds your crypto.</p></div>
+    <div class="feature-item"><div class="fi">🌐</div><h4>Creator Subscriptions</h4><p>Paywall your content, set your price in SKY44, and get paid directly — no platform middleman.</p></div>
+  </div>
+
+  <div class="screen-demo">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:16px;">Live Beta Available Now</h3>
+      <p style="color:var(--muted);font-size:.9rem;line-height:1.7;margin-bottom:24px;">ShadowChat beta is running live with a real multi-asset wallet ($821K demo), SKY44 ICO, Charity Casino, AI assistants, daily quests, leaderboard, and VR rooms.</p>
+      <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;">
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">Demo Credentials</div>
+        <div class="mono" style="font-size:.85rem;">admin@shadowchat.io / shadow444</div>
+      </div>
+      <a href="https://shadowchat-beta.emergent.host" target="_blank" class="btn-primary" style="display:block;text-align:center;">🚀 Launch ShadowChat Beta</a>
+      <p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:10px;">No wallet required to explore</p>
+    </div>
+    <div class="app-mockup">
+      <div class="app-topbar">
+        <span class="title">👻 ShadowChat</span>
+        <span style="font-size:.75rem;color:var(--purple);">● Live</span>
+      </div>
+      <div class="app-content">
+        <div class="post-card">
+          <div class="user">@ShadowCore • 2m ago</div>
+          <div class="text">Just hit 100K SHADOW on the leaderboard 🏆 This platform is something else. Tipping 500 SKY44 to everyone who reposts!</div>
+          <div class="actions">
+            <span>❤️ 847</span><span>💬 142</span><span>💸 Tip SKY44</span><span>🔁 Repost</span>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="user">@CryptoCreator_AR • 5m ago</div>
+          <div class="text">New video dropped — exclusive for SKY44 subscribers. Daily quest reward is doubled this week on ShadowChat 🚀</div>
+          <div class="actions">
+            <span>❤️ 412</span><span>💬 89</span><span>💸 Tip SKY44</span><span>🔁 Repost</span>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="user">@SKY44_Official • just now</div>
+          <div class="text">🔔 ICO ALERT: SKY44 Pre-sale now LIVE at $0.44. 12,000+ holders. Charity Casino raised $8,400 for local causes this week. 🙏</div>
+          <div class="actions">
+            <span>❤️ 2.1K</span><span>💬 344</span><span>💸 Buy SKY44</span><span>🔁 Repost</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SKY44 ═══════════════════ -->
+<section id="sky44">
+  <div class="section-header">
+    <div class="section-tag">The Token</div>
+    <h2>SKY44 Cryptocurrency</h2>
+    <p>Deflationary utility token powering every interaction on ShadowChat. Real usage drives real demand — with 2% burn on every transaction.</p>
+  </div>
+  <div class="token-hero">
+    <div>
+      <div class="token-price-box">
+        <div style="font-size:.75rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">Pre-Sale Price</div>
+        <div class="token-price">$0.44</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">SKY44 Token · ERC-20 · Multi-chain Ready</div>
+        <a href="https://shadowchat-beta.emergent.host" target="_blank" class="btn-primary" style="display:block;text-align:center;">Buy SKY44 In App →</a>
+        <div style="display:flex;justify-content:space-around;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);">
+          <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">1B</div><div style="font-size:.72rem;color:var(--muted);">Fixed Supply</div></div>
+          <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">2%</div><div style="font-size:.72rem;color:var(--muted);">Burn Rate</div></div>
+          <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">12K+</div><div style="font-size:.72rem;color:var(--muted);">Holders</div></div>
+        </div>
+      </div>
+      <!-- Also accepts -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:16px;">
+        <div style="font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;">ShadowChat Also Accepts</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="token-chip">🟠 BTC</span>
+          <span class="token-chip">🐕 DOGE</span>
+          <span class="token-chip">🇺🇸 TRUMP</span>
+          <span class="token-chip">👻 SHADOW</span>
+          <span class="token-chip">🔷 ETH</span>
+          <span class="token-chip">💵 USDT</span>
+        </div>
+      </div>
+    </div>
+    <div class="tokenomics">
+      <h3>Token Allocation</h3>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>Community Rewards & Liquidity Mining</span><span class="pct">40%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,var(--purple),var(--pink));"></div></div>
+      </div>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>DEX/CEX Liquidity Pools</span><span class="pct">20%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:20%;background:var(--cyan);"></div></div>
+      </div>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>Team & Founder (4-yr vest)</span><span class="pct">15%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:15%;background:var(--gold);"></div></div>
+      </div>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>Marketing & KOL Partnerships</span><span class="pct">10%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:10%;background:var(--pink);"></div></div>
+      </div>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>Ecosystem Development Fund</span><span class="pct">10%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:10%;background:var(--purple);"></div></div>
+      </div>
+      <div class="alloc-bar">
+        <div class="alloc-label"><span>Charity Treasury</span><span class="pct">5%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:5%;background:var(--green);"></div></div>
+      </div>
+      <div style="margin-top:24px;padding:16px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:10px;">
+        <div style="font-size:.8rem;color:var(--green);font-weight:600;margin-bottom:6px;">🔥 Deflationary Mechanics</div>
+        <div style="font-size:.8rem;color:var(--muted);">2% burn on every on-platform transaction + automatic buyback/burn from casino and platform fee revenue. Every user action reduces circulating supply.</div>
+      </div>
+    </div>
+  </div>
+  <div class="utility-grid">
+    <div class="utility-chip"><div class="ui">💸</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Tips & Payouts</strong><p>Instant creator tips in feed, DMs, and live streams</p></div>
+    <div class="utility-chip"><div class="ui">🔒</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Staking</strong><p>Earn yield + boosted governance voting power</p></div>
+    <div class="utility-chip"><div class="ui">🎰</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Casino Entry</strong><p>Premium odds & higher payouts for SKY44 stakers</p></div>
+    <div class="utility-chip"><div class="ui">🏆</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Quest Rewards</strong><p>Daily & weekly task completions earn SKY44</p></div>
+    <div class="utility-chip"><div class="ui">🗳️</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Governance</strong><p>Vote on features, treasury, and charity causes</p></div>
+    <div class="utility-chip"><div class="ui">🎨</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">NFT Fees</strong><p>Mint and marketplace fees paid in SKY44 (burned)</p></div>
+    <div class="utility-chip"><div class="ui">🥽</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">VR & AI Access</strong><p>Host VR rooms and unlock premium AI personas</p></div>
+    <div class="utility-chip"><div class="ui">📺</div><strong style="font-family:'Syne',sans-serif;font-size:.85rem;display:block;margin-bottom:4px;">Subscriptions</strong><p>Creator content paywalls priced in SKY44</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ WALLET ═══════════════════ -->
+<section id="wallet">
+  <div class="section-header">
+    <div class="section-tag">The Wallet</div>
+    <h2>Non-Custodial Multi-Asset Wallet</h2>
+    <p>Send, receive, swap, and stake — all without giving up your keys. Your wallet, your rules.</p>
+  </div>
+  <div class="wallet-full">
+    <div class="wallet-header">
+      <div style="font-size:.75rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">Total Portfolio Value · Demo Account</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:4rem;color:var(--green);text-shadow:0 0 40px rgba(16,185,129,.4);">$821,730.00</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-top:6px;">↑ 14.2% (24h) • Non-custodial • Your keys, your crypto</div>
+      <div class="wallet-actions">
+        <button class="wa-btn" style="background:linear-gradient(135deg,var(--purple),var(--pink));" onclick="alert('Connect to ShadowChat Beta to send')">📤 Send</button>
+        <button class="wa-btn" style="background:var(--surface);border:1px solid var(--border);" onclick="alert('QR Receive — live in beta')">📥 Receive</button>
+        <button class="wa-btn" style="background:linear-gradient(135deg,var(--cyan),var(--purple));" onclick="alert('Multi-token Swap — live in beta')">🔄 Swap</button>
+        <button class="wa-btn" style="background:linear-gradient(135deg,var(--gold),#f97316);" onclick="alert('Staking module launching week 3')">🔒 Stake SKY44</button>
+        <a href="https://shadowchat-beta.emergent.host" target="_blank" class="wa-btn" style="background:linear-gradient(135deg,var(--green),var(--cyan));">🚀 Open in App</a>
+      </div>
+    </div>
+    <div class="asset-table">
+      <div class="at-header">
+        <div>Asset</div><div>Holdings</div><div>Price</div><div>Value</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(168,85,247,.2);color:var(--purple);">SKY</div><div><div class="at-sym">SKY44</div><div class="at-name">ShadowChat Token</div></div></div>
+        <div class="mono" style="font-size:.82rem;">100,000</div>
+        <div class="mono" style="font-size:.82rem;">$4.44</div>
+        <div class="at-val">$444,000</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(100,100,100,.2);color:#ccc;">SHD</div><div><div class="at-sym">SHADOW</div><div class="at-name">Shadow Token</div></div></div>
+        <div class="mono" style="font-size:.82rem;">50,000</div>
+        <div class="mono" style="font-size:.82rem;">$4.20</div>
+        <div class="at-val">$210,000</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;">BTC</div><div><div class="at-sym">Bitcoin</div><div class="at-name">BTC</div></div></div>
+        <div class="mono" style="font-size:.82rem;">1.000</div>
+        <div class="mono" style="font-size:.82rem;">$68,420</div>
+        <div class="at-val">$68,420</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(253,196,96,.15);color:#fdc460;">TRP</div><div><div class="at-sym">TRUMP</div><div class="at-name">Trump Coin</div></div></div>
+        <div class="mono" style="font-size:.82rem;">5,000</div>
+        <div class="mono" style="font-size:.82rem;">$12.44</div>
+        <div class="at-val">$62,200</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(34,211,238,.15);color:var(--cyan);">ETH</div><div><div class="at-sym">Ethereum</div><div class="at-name">ETH</div></div></div>
+        <div class="mono" style="font-size:.82rem;">5.000</div>
+        <div class="mono" style="font-size:.82rem;">$3,580</div>
+        <div class="at-val">$17,900</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(16,185,129,.15);color:var(--green);">UDT</div><div><div class="at-sym">USDT</div><div class="at-name">Tether USD</div></div></div>
+        <div class="mono" style="font-size:.82rem;">10,000</div>
+        <div class="mono" style="font-size:.82rem;">$1.00</div>
+        <div class="at-val">$10,000</div>
+      </div>
+      <div class="at-row">
+        <div class="at-asset"><div class="at-icon" style="background:rgba(184,120,56,.15);color:#b87838;">DGE</div><div><div class="at-sym">Dogecoin</div><div class="at-name">DOGE</div></div></div>
+        <div class="mono" style="font-size:.82rem;">50,000</div>
+        <div class="mono" style="font-size:.82rem;">$0.184</div>
+        <div class="at-val">$9,210</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CREATORS ═══════════════════ -->
+<section id="creators">
+  <div class="section-header">
+    <div class="section-tag">Creator Economy</div>
+    <h2>Earn What You Actually Deserve</h2>
+    <p>ShadowChat's creator economy puts money directly in your wallet — no 45% platform cut, no waiting 30 days, no getting demonetized without notice.</p>
+  </div>
+  <div class="creator-flow">
+    <div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div><strong style="font-family:'Syne',sans-serif;display:block;margin-bottom:4px;">Create & Post</strong><p style="font-size:.83rem;color:var(--muted);">Share videos, posts, streams, or gated content. Set your subscription price in SKY44.</p></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div><strong style="font-family:'Syne',sans-serif;display:block;margin-bottom:4px;">Earn Tips Instantly</strong><p style="font-size:.83rem;color:var(--muted);">Fans tip you SKY44 directly in your feed or during live streams. Hits your wallet in seconds.</p></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div><strong style="font-family:'Syne',sans-serif;display:block;margin-bottom:4px;">Grow Your Subscribers</strong><p style="font-size:.83rem;color:var(--muted);">Paywall exclusive content. Monthly SKY44 subscriptions auto-renew on-chain — no chargebacks.</p></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div><strong style="font-family:'Syne',sans-serif;display:block;margin-bottom:4px;">Complete Quests & Level Up</strong><p style="font-size:.83rem;color:var(--muted);">Daily quests award SKY44. Higher leaderboard rank = more platform visibility.</p></div>
+        </div>
+      </div>
+      <div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:12px;padding:20px;margin-top:20px;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:8px;">Creator Fee Comparison</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.8rem;">
+          <div style="color:var(--muted);">YouTube</div><div style="color:#ef4444;">45% platform cut</div>
+          <div style="color:var(--muted);">TikTok</div><div style="color:#ef4444;">~50% for gifts</div>
+          <div style="color:var(--muted);">OnlyFans</div><div style="color:#ef4444;">20% cut</div>
+          <div style="color:var(--muted);">ShadowChat</div><div style="color:var(--green);">~5% platform fee only</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="leaderboard">
+        <div class="lb-header">🏆 Live Creator Leaderboard</div>
+        <div class="lb-row"><div class="lb-rank gold">🥇</div><div class="lb-name">ShadowCore</div><div class="lb-score">100,000 SHADOW</div></div>
+        <div class="lb-row"><div class="lb-rank">🥈</div><div class="lb-name">CryptoCreator_AR</div><div class="lb-score">84,200 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank">🥉</div><div class="lb-name">SkylerBuild</div><div class="lb-score">67,500 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:var(--muted);">4</div><div class="lb-name">GhostMode_44</div><div class="lb-score">51,100 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:var(--muted);">5</div><div class="lb-name">ARK_Validator</div><div class="lb-score">44,900 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:var(--muted);">6</div><div class="lb-name">ShadowStreamer</div><div class="lb-score">38,200 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:var(--muted);">7</div><div class="lb-name">NFT_Frontier</div><div class="lb-score">29,700 SKY44</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:var(--muted);">8</div><div class="lb-name">CasinoKing_SKY</div><div class="lb-score">22,400 SKY44</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--purple);">$0</div>
+          <div style="font-size:.75rem;color:var(--muted);">Cost to Start</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--green);">Instant</div>
+          <div style="font-size:.75rem;color:var(--muted);">Tip Payouts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CASINO ═══════════════════ -->
+<section id="casino">
+  <div class="section-header">
+    <div class="section-tag">Charity Casino</div>
+    <h2>Play. Win. Give.</h2>
+    <p>ShadowChat's Charity Casino is the only gaming platform where 25% of every session automatically funds community-voted causes.</p>
+  </div>
+  <div class="casino-grid">
+    <div class="casino-card">
+      <div class="casino-stat">
+        <div style="font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">Total Donated This Week</div>
+        <div class="big">$8,420</div>
+        <div style="font-size:.82rem;color:var(--muted);">to community-voted charities</div>
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:24px;">
+        <div style="flex:1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:16px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--green);">25%</div>
+          <div style="font-size:.72rem;color:var(--muted);">→ Charity</div>
+        </div>
+        <div style="flex:1;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:10px;padding:16px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--purple);">75%</div>
+          <div style="font-size:.72rem;color:var(--muted);">→ Prize Pool</div>
+        </div>
+      </div>
+      <div class="charity-badge">❤️ Charity-First Gaming</div>
+      <p style="font-size:.83rem;color:var(--muted);line-height:1.7;margin-top:16px;">SKY44 holders vote monthly on which causes receive casino revenue — local food banks, disaster relief, education funds, and more.</p>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <h3>🎰 Casino Games Available</h3>
+        <p>Slots, card games, spin-to-win, and seasonal special events. All wagered in SKY44 — stakers get better base odds.</p>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <h3>🗳️ Community Votes on Charities</h3>
+        <p>Every 30 days, SKY44 governance holders vote on charity recipients. Full transparency — all transactions on-chain.</p>
+      </div>
+      <div class="card">
+        <h3>🎖️ Casino Leaderboard</h3>
+        <p>Top casino players earn bonus SKY44 rewards and exclusive ShadowChat badges. The more you play, the more you contribute.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ ROADMAP ═══════════════════ -->
+<section id="roadmap" style="background:var(--bg);">
+  <div class="section-header">
+    <div class="section-tag">Development Plan</div>
+    <h2>From Beta to Billion-User Platform</h2>
+    <p>8–12 week sprint to full public launch. Then scale to replace Silicon Valley — one feature at a time.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1200px;margin:0 auto;">
+    <div class="roadmap-timeline">
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">Now · Phase 0</div>
+        <div class="rm-title">Beta Live ✅</div>
+        <div class="rm-desc">ShadowChat beta running at emergent.host. Wallet, ICO, Casino, AI, Quests, Leaderboard, VR rooms all active.</div>
+        <div class="rm-chips"><span class="rm-chip">Feed</span><span class="rm-chip">Wallet</span><span class="rm-chip">Casino</span><span class="rm-chip">ICO</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">Weeks 1–2</div>
+        <div class="rm-title">Website + Token Infrastructure</div>
+        <div class="rm-desc">Full company website live on innovativeit.support. SKY44 smart contract audited and deployed. DEX liquidity locked.</div>
+        <div class="rm-chips"><span class="rm-chip">Next.js Site</span><span class="rm-chip">Solidity Audit</span><span class="rm-chip">DEX Launch</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">Weeks 3–4</div>
+        <div class="rm-title">Staking + Governance</div>
+        <div class="rm-desc">SKY44 staking module live. Governance voting on charity causes and features. Creator subscription system upgraded.</div>
+        <div class="rm-chips"><span class="rm-chip">Staking</span><span class="rm-chip">Governance</span><span class="rm-chip">Creator Tools</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">Weeks 5–8</div>
+        <div class="rm-title">Mobile Apps + Marketplace</div>
+        <div class="rm-desc">React Native iOS & Android apps. NFT marketplace. Live streaming backend. AI feed algorithm v2.0.</div>
+        <div class="rm-chips"><span class="rm-chip">iOS App</span><span class="rm-chip">Android</span><span class="rm-chip">NFT Market</span><span class="rm-chip">Live Streams</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot" style="background:var(--muted);box-shadow:none;"></div>
+        <div class="rm-phase">Post-Launch</div>
+        <div class="rm-title">Global Scaling</div>
+        <div class="rm-desc">Multi-chain expansion (Polygon, BNB, Solana). CEX listings. Enterprise API licensing. ShadowChat white-label for businesses.</div>
+        <div class="rm-chips"><span class="rm-chip">Multi-Chain</span><span class="rm-chip">CEX</span><span class="rm-chip">Enterprise API</span></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:20px;">Tech Stack</h3>
+      <div class="tech-grid" style="grid-template-columns:1fr;margin:0;">
+        <div class="code-block" style="margin-bottom:16px;">
+<span class="cm">// Frontend</span>
+<span class="kw">Next.js</span> 15 App Router · TypeScript
+Tailwind CSS · shadcn/ui · Framer Motion
+
+<span class="cm">// Backend</span>
+<span class="kw">NestJS</span> · WebSockets · Redis
+PostgreSQL · Prisma ORM
+
+<span class="cm">// Blockchain</span>
+<span class="fn">Solidity</span> ERC-20 (SKY44)
+ethers.js · The Graph indexer
+
+<span class="cm">// Infrastructure</span>
+AWS S3 + IPFS · Vercel · Railway
+        </div>
+        <div class="code-block">
+<span class="cm">-- Production DB Schema (core)</span>
+<span class="kw">users</span>(id, username, wallet_address, sid)
+<span class="kw">posts</span>(id, user_id, content, tips_total)
+<span class="kw">wallets</span>(id, user_id, sky44, btc, doge)
+<span class="kw">transactions</span>(from, to, amount, token)
+<span class="kw">sky44_stakes</span>(user_id, amount, rewards)
+<span class="kw">quests</span>(id, title, reward, completed_by)
+<span class="kw">casino_spins</span>(user_id, bet, outcome)
+<span class="kw">creators</span>(user_id, earnings, subscribers)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-tag">Get In Touch</div>
+    <h2>Work With Skyler</h2>
+    <p>Book a free IT consultation, start a blockchain project, or invest in the ShadowChat ecosystem. Direct access to the founder.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Direct Contact</h3>
+      <a href="tel:4794068378" class="contact-item">
+        <div class="ci" style="background:rgba(168,85,247,.15);color:var(--purple);">📞</div>
+        <div class="cd"><small>Call or Text Direct</small>479-406-8378</div>
+      </a>
+      <a href="mailto:skylerblu4444@gmail.com" class="contact-item">
+        <div class="ci" style="background:rgba(236,72,153,.15);color:var(--pink);">✉️</div>
+        <div class="cd"><small>Email Skyler</small>skylerblu4444@gmail.com</div>
+      </a>
+      <a href="https://shadowchat-beta.emergent.host" target="_blank" class="contact-item">
+        <div class="ci" style="background:rgba(16,185,129,.15);color:var(--green);">👻</div>
+        <div class="cd"><small>Try the Platform</small>ShadowChat Beta — Live Now</div>
+      </a>
+      <div class="contact-item" style="cursor:default;">
+        <div class="ci" style="background:rgba(34,211,238,.15);color:var(--cyan);">📍</div>
+        <div class="cd"><small>Company Address</small>1845 Lake Fort Smith Rd, Mountainburg, AR 72946</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(236,72,153,.05));border:1px solid rgba(168,85,247,.2);border-radius:12px;padding:20px;margin-top:8px;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:8px;">🆓 Free IT Consultation</div>
+        <p style="font-size:.83rem;color:var(--muted);">30-minute call to assess your IT needs — managed services, cybersecurity, cloud, or blockchain development. No obligation.</p>
+      </div>
+    </div>
+    <div>
+      <form onsubmit="handleSubmit(event)" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;">
+        <h4 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:20px;">Send a Message</h4>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="tel" placeholder="Phone (Optional)">
+        <select style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:14px;">
+          <option value="">What can we help with?</option>
+          <option>Managed IT Services</option>
+          <option>Cybersecurity / Pen Testing</option>
+          <option>Blockchain Development</option>
+          <option>Cloud Migration</option>
+          <option>ShadowChat / SKY44 Investment</option>
+          <option>White-Label Platform</option>
+          <option>Other</option>
+        </select>
+        <textarea placeholder="Tell us about your project or question..."></textarea>
+        <button type="submit" class="btn-primary" style="width:100%;text-align:center;padding:14px;">Send Message →</button>
+        <p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:12px;">Skyler responds within 24 hours</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:12px;">
+        <div class="logo-icon">👻</div>
+        <div>
+          <div class="logo-text">Innovative IT Resolutions LLC</div>
+          <div class="logo-sub" style="font-size:.65rem;color:var(--muted);">Mountainburg, AR</div>
+        </div>
+      </div>
+      <p>Building the decentralized everything app — social media, wallet, creator economy, and charity gaming — powered by the SKY44 token.</p>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <span class="live-dot" style="font-size:.78rem;color:var(--green);">Beta Live</span>
+        <span style="font-size:.78rem;color:var(--muted);">· SKY44 Pre-Sale Active</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Platform</h5>
+      <a href="#shadowchat">ShadowChat</a>
+      <a href="#sky44">SKY44 Token</a>
+      <a href="#wallet">Wallet</a>
+      <a href="#casino">Charity Casino</a>
+      <a href="#creators">Creator Economy</a>
+      <a href="https://shadowchat-beta.emergent.host" target="_blank">Launch Beta →</a>
+    </div>
+    <div class="footer-col">
+      <h5>IT Services</h5>
+      <a href="#services">Managed IT</a>
+      <a href="#services">Cybersecurity</a>
+      <a href="#services">Penetration Testing</a>
+      <a href="#services">Cloud Migrations</a>
+      <a href="#services">Blockchain Dev</a>
+      <a href="#contact">Free Consultation</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#about">About Skyler</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#contact">Contact</a>
+      <a href="tel:4794068378">479-406-8378</a>
+      <a href="mailto:skylerblu4444@gmail.com">skylerblu4444@gmail.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Innovative Information Technology Resolutions LLC · Mountainburg, AR 72946</div>
+    <div style="display:flex;gap:16px;align-items:center;">
+      <span class="token-chip">SKY44 $0.44</span>
+      <span class="token-chip">DOGE</span>
+      <span class="token-chip">TRUMP</span>
+      <span class="live-dot" style="font-size:.75rem;color:var(--green);">All systems operational</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+
+// Form submit
+function handleSubmit(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('button[type="submit"]');
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(()=>{
+    btn.textContent='✅ Message Sent!';
+    btn.style.background='linear-gradient(135deg,#10b981,#059669)';
+    e.target.reset();
+    setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';btn.disabled=false;},4000);
+  },1200);
+}
+
+// Animate allocation bars on scroll
+const bars=document.querySelectorAll('.bar-fill');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.transition='width 1.2s ease';e.target.style.width=e.target.style.width;}});
+},{threshold:0.3});
+bars.forEach(b=>observer.observe(b));
+
+// Wallet buttons
+document.querySelectorAll('.wallet-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(!btn.onclick){alert('Connect to ShadowChat Beta at shadowchat-beta.emergent.host');}
+  });
+});
+</script>
+</body>
+</html>

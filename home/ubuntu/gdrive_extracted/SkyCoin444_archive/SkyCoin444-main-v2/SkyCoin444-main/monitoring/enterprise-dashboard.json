@@ -1,0 +1,8 @@
+{
+  "title": "ShadowChat Enterprise Dashboard",
+  "panels": [
+    { "title": "SKY444 Supply", "type": "stat" },
+    { "title": "Active Users", "type": "stat" },
+    { "title": "P2P Nodes", "type": "stat" }
+  ]
+}

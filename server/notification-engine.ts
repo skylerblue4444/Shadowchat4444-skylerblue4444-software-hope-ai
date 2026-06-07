@@ -1,16 +1,10 @@
 /**
  * Notification Engine - Real-time notifications, push alerts, email
  */
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
-type NotificationType =
-  | "trade"
-  | "alert"
-  | "system"
-  | "social"
-  | "security"
-  | "payment";
-type NotificationChannel = "in-app" | "email" | "push" | "sms";
+type NotificationType = 'trade' | 'alert' | 'system' | 'social' | 'security' | 'payment';
+type NotificationChannel = 'in-app' | 'email' | 'push' | 'sms';
 
 interface Notification {
   id: string;
@@ -28,15 +22,14 @@ interface Notification {
 class NotificationEngine extends EventEmitter {
   private notifications: Map<string, Notification> = new Map();
   private userNotifications: Map<string, string[]> = new Map();
-  private subscriptions: Map<string, Set<(n: Notification) => void>> =
-    new Map();
+  private subscriptions: Map<string, Set<(n: Notification) => void>> = new Map();
 
   async sendNotification(
     userId: string,
     type: NotificationType,
     title: string,
     message: string,
-    channels: NotificationChannel[] = ["in-app"],
+    channels: NotificationChannel[] = ['in-app'],
     data?: Record<string, any>
   ): Promise<Notification> {
     const notification: Notification = {
@@ -58,7 +51,7 @@ class NotificationEngine extends EventEmitter {
     }
     this.userNotifications.get(userId)!.push(notification.id);
 
-    this.emit("notification:sent", notification);
+    this.emit('notification:sent', notification);
     this.notifySubscribers(userId, notification);
 
     return notification;
@@ -68,32 +61,24 @@ class NotificationEngine extends EventEmitter {
     const notification = this.notifications.get(notificationId);
     if (notification) {
       notification.read = true;
-      this.emit("notification:read", notification);
+      this.emit('notification:read', notification);
     }
   }
 
-  getUserNotifications(
-    userId: string,
-    unreadOnly: boolean = false
-  ): Notification[] {
+  getUserNotifications(userId: string, unreadOnly: boolean = false): Notification[] {
     const notifIds = this.userNotifications.get(userId) || [];
     let notifications = notifIds
-      .map(id => this.notifications.get(id))
-      .filter(n => n !== undefined) as Notification[];
+      .map((id) => this.notifications.get(id))
+      .filter((n) => n !== undefined) as Notification[];
 
     if (unreadOnly) {
-      notifications = notifications.filter(n => !n.read);
+      notifications = notifications.filter((n) => !n.read);
     }
 
-    return notifications.sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return notifications.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
-  subscribe(
-    userId: string,
-    callback: (notification: Notification) => void
-  ): () => void {
+  subscribe(userId: string, callback: (notification: Notification) => void): () => void {
     if (!this.subscriptions.has(userId)) {
       this.subscriptions.set(userId, new Set());
     }
@@ -107,14 +92,9 @@ class NotificationEngine extends EventEmitter {
   private notifySubscribers(userId: string, notification: Notification): void {
     const subscribers = this.subscriptions.get(userId);
     if (subscribers) {
-      subscribers.forEach(callback => callback(notification));
+      subscribers.forEach((callback) => callback(notification));
     }
   }
 }
 
-export {
-  NotificationEngine,
-  Notification,
-  NotificationType,
-  NotificationChannel,
-};
+export { NotificationEngine, Notification, NotificationType, NotificationChannel };

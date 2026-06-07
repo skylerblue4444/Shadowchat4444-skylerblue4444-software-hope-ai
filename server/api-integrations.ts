@@ -4,8 +4,8 @@
  * Supports: CoinGecko, Binance, Uniswap, Aave, Curve, OpenSea
  */
 
-import axios, { AxiosInstance } from "axios";
-import { EventEmitter } from "events";
+import axios, { AxiosInstance } from 'axios';
+import { EventEmitter } from 'events';
 
 // ============================================================================
 // COINGECKO API INTEGRATION
@@ -33,7 +33,7 @@ interface CoinGeckoPrice {
 
 class CoinGeckoAPI extends EventEmitter {
   private client: AxiosInstance;
-  private baseUrl = "https://api.coingecko.com/api/v3";
+  private baseUrl = 'https://api.coingecko.com/api/v3';
 
   constructor() {
     super();
@@ -46,25 +46,22 @@ class CoinGeckoAPI extends EventEmitter {
   /**
    * Get price data for multiple coins
    */
-  async getPrices(
-    coinIds: string[],
-    vsCurrencies: string[] = ["usd"]
-  ): Promise<Record<string, any>> {
+  async getPrices(coinIds: string[], vsCurrencies: string[] = ['usd']): Promise<Record<string, any>> {
     try {
-      const response = await this.client.get("/simple/price", {
+      const response = await this.client.get('/simple/price', {
         params: {
-          ids: coinIds.join(","),
-          vs_currencies: vsCurrencies.join(","),
+          ids: coinIds.join(','),
+          vs_currencies: vsCurrencies.join(','),
           include_market_cap: true,
           include_24hr_vol: true,
           include_24hr_change: true,
         },
       });
 
-      this.emit("prices:fetched", { coinIds, data: response.data });
+      this.emit('prices:fetched', { coinIds, data: response.data });
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "CoinGecko", error });
+      this.emit('api:error', { service: 'CoinGecko', error });
       throw error;
     }
   }
@@ -86,7 +83,7 @@ class CoinGeckoAPI extends EventEmitter {
 
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "CoinGecko", error });
+      this.emit('api:error', { service: 'CoinGecko', error });
       throw error;
     }
   }
@@ -94,11 +91,7 @@ class CoinGeckoAPI extends EventEmitter {
   /**
    * Get historical price data
    */
-  async getHistoricalPrice(
-    coinId: string,
-    date: string,
-    vsCurrency: string = "usd"
-  ): Promise<any> {
+  async getHistoricalPrice(coinId: string, date: string, vsCurrency: string = 'usd'): Promise<any> {
     try {
       const response = await this.client.get(`/coins/${coinId}/history`, {
         params: { date, localization: false, vs_currency: vsCurrency },
@@ -106,7 +99,7 @@ class CoinGeckoAPI extends EventEmitter {
 
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "CoinGecko", error });
+      this.emit('api:error', { service: 'CoinGecko', error });
       throw error;
     }
   }
@@ -114,11 +107,7 @@ class CoinGeckoAPI extends EventEmitter {
   /**
    * Get market chart data
    */
-  async getMarketChart(
-    coinId: string,
-    days: number = 30,
-    vsCurrency: string = "usd"
-  ): Promise<any> {
+  async getMarketChart(coinId: string, days: number = 30, vsCurrency: string = 'usd'): Promise<any> {
     try {
       const response = await this.client.get(`/coins/${coinId}/market_chart`, {
         params: { vs_currency: vsCurrency, days },
@@ -126,7 +115,7 @@ class CoinGeckoAPI extends EventEmitter {
 
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "CoinGecko", error });
+      this.emit('api:error', { service: 'CoinGecko', error });
       throw error;
     }
   }
@@ -162,7 +151,7 @@ interface BinanceTicker {
 
 class BinanceAPI extends EventEmitter {
   private client: AxiosInstance;
-  private baseUrl = "https://api.binance.com/api/v3";
+  private baseUrl = 'https://api.binance.com/api/v3';
 
   constructor() {
     super();
@@ -177,13 +166,11 @@ class BinanceAPI extends EventEmitter {
    */
   async get24hTicker(symbol: string): Promise<BinanceTicker> {
     try {
-      const response = await this.client.get("/ticker/24hr", {
-        params: { symbol },
-      });
-      this.emit("ticker:fetched", { symbol, data: response.data });
+      const response = await this.client.get('/ticker/24hr', { params: { symbol } });
+      this.emit('ticker:fetched', { symbol, data: response.data });
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Binance", error });
+      this.emit('api:error', { service: 'Binance', error });
       throw error;
     }
   }
@@ -191,19 +178,15 @@ class BinanceAPI extends EventEmitter {
   /**
    * Get klines (candlestick data)
    */
-  async getKlines(
-    symbol: string,
-    interval: string,
-    limit: number = 500
-  ): Promise<any[]> {
+  async getKlines(symbol: string, interval: string, limit: number = 500): Promise<any[]> {
     try {
-      const response = await this.client.get("/klines", {
+      const response = await this.client.get('/klines', {
         params: { symbol, interval, limit },
       });
 
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Binance", error });
+      this.emit('api:error', { service: 'Binance', error });
       throw error;
     }
   }
@@ -213,12 +196,10 @@ class BinanceAPI extends EventEmitter {
    */
   async getOrderBook(symbol: string, limit: number = 20): Promise<any> {
     try {
-      const response = await this.client.get("/depth", {
-        params: { symbol, limit },
-      });
+      const response = await this.client.get('/depth', { params: { symbol, limit } });
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Binance", error });
+      this.emit('api:error', { service: 'Binance', error });
       throw error;
     }
   }
@@ -228,12 +209,10 @@ class BinanceAPI extends EventEmitter {
    */
   async getRecentTrades(symbol: string, limit: number = 500): Promise<any[]> {
     try {
-      const response = await this.client.get("/trades", {
-        params: { symbol, limit },
-      });
+      const response = await this.client.get('/trades', { params: { symbol, limit } });
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Binance", error });
+      this.emit('api:error', { service: 'Binance', error });
       throw error;
     }
   }
@@ -245,8 +224,7 @@ class BinanceAPI extends EventEmitter {
 
 class UniswapAPI extends EventEmitter {
   private client: AxiosInstance;
-  private baseUrl =
-    "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3";
+  private baseUrl = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3';
 
   constructor() {
     super();
@@ -261,10 +239,10 @@ class UniswapAPI extends EventEmitter {
    */
   async querySubgraph(query: string): Promise<any> {
     try {
-      const response = await this.client.post("", { query });
+      const response = await this.client.post('', { query });
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Uniswap", error });
+      this.emit('api:error', { service: 'Uniswap', error });
       throw error;
     }
   }
@@ -321,7 +299,7 @@ class UniswapAPI extends EventEmitter {
 
 class AaveAPI extends EventEmitter {
   private client: AxiosInstance;
-  private baseUrl = "https://api.aave.com/data";
+  private baseUrl = 'https://api.aave.com/data';
 
   constructor() {
     super();
@@ -339,7 +317,7 @@ class AaveAPI extends EventEmitter {
       const response = await this.client.get(`/reserves/${reserveAddress}`);
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Aave", error });
+      this.emit('api:error', { service: 'Aave', error });
       throw error;
     }
   }
@@ -349,10 +327,10 @@ class AaveAPI extends EventEmitter {
    */
   async getAllReserves(): Promise<any[]> {
     try {
-      const response = await this.client.get("/reserves");
+      const response = await this.client.get('/reserves');
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Aave", error });
+      this.emit('api:error', { service: 'Aave', error });
       throw error;
     }
   }
@@ -365,7 +343,7 @@ class AaveAPI extends EventEmitter {
       const response = await this.client.get(`/users/${userAddress}`);
       return response.data;
     } catch (error: any) {
-      this.emit("api:error", { service: "Aave", error });
+      this.emit('api:error', { service: 'Aave', error });
       throw error;
     }
   }
@@ -392,14 +370,10 @@ class APIManager extends EventEmitter {
   }
 
   private setupEventListeners(): void {
-    this.coingecko.on("prices:fetched", data =>
-      this.emit("prices:updated", data)
-    );
-    this.binance.on("ticker:fetched", data =>
-      this.emit("ticker:updated", data)
-    );
-    this.coingecko.on("api:error", error => this.emit("api:error", error));
-    this.binance.on("api:error", error => this.emit("api:error", error));
+    this.coingecko.on('prices:fetched', (data) => this.emit('prices:updated', data));
+    this.binance.on('ticker:fetched', (data) => this.emit('ticker:updated', data));
+    this.coingecko.on('api:error', (error) => this.emit('api:error', error));
+    this.binance.on('api:error', (error) => this.emit('api:error', error));
   }
 
   /**
@@ -446,7 +420,7 @@ class APIManager extends EventEmitter {
         timestamp: new Date(),
       };
     } catch (error: any) {
-      this.emit("api:error", { error });
+      this.emit('api:error', { error });
       throw error;
     }
   }

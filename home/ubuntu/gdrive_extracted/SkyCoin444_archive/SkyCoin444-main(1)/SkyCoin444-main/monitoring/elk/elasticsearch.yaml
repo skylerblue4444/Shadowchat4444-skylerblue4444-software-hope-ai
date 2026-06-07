@@ -1,0 +1,10 @@
+# Made by Skyler Blue Spillers - Innovative Information Technology Resolutions LLC
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: shadowchat-logging
+spec:
+  version: 8.15.0
+  nodeSets:
+  - name: default
+    count: 3

@@ -58,12 +58,7 @@ export const CHARITY_ORGS: CharityOrganization[] = [
   {
     orgId: "CHARITY-002",
     name: "Education First",
-<<<<<<< HEAD
     description: "Building schools and providing education to underprivileged children",
-=======
-    description:
-      "Building schools and providing education to underprivileged children",
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     cause: "Education",
     website: "https://educationfirst.org",
     verified: true,
@@ -101,11 +96,7 @@ export class CharityJackpot {
     userId: number,
     coin: string,
     amount: string,
-<<<<<<< HEAD
     ticketNumbers?: number[],
-=======
-    ticketNumbers?: number[]
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): JackpotTicket {
     const numbers = ticketNumbers || this.generateTicketNumbers();
 
@@ -126,28 +117,18 @@ export class CharityJackpot {
    */
   static calculateMatches(
     ticketNumbers: number[],
-<<<<<<< HEAD
     winningNumbers: number[],
   ): number {
     return ticketNumbers.filter((num) => winningNumbers.includes(num)).length;
-=======
-    winningNumbers: number[]
-  ): number {
-    return ticketNumbers.filter(num => winningNumbers.includes(num)).length;
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
    * Calculate win amount based on matches
    */
-<<<<<<< HEAD
   static calculateWinAmount(
     matches: number,
     poolAmount: string,
   ): string {
-=======
-  static calculateWinAmount(matches: number, poolAmount: string): string {
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     // Prize tiers
     const prizePercentages: Record<number, number> = {
       6: 50, // 50% of pool for 6 matches
@@ -186,7 +167,6 @@ export class CharityJackpot {
    */
   static processDraw(
     tickets: JackpotTicket[],
-<<<<<<< HEAD
     winningNumbers: number[],
   ): {
     winners: { ticketId: string; userId: number; matches: number; winAmount: string }[];
@@ -199,31 +179,6 @@ export class CharityJackpot {
     const winners = tickets
       .map((ticket) => {
         const matches = this.calculateMatches(ticket.ticketNumbers, winningNumbers);
-=======
-    winningNumbers: number[]
-  ): {
-    winners: {
-      ticketId: string;
-      userId: number;
-      matches: number;
-      winAmount: string;
-    }[];
-    charityAmount: string;
-  } {
-    const { winnerPool, charityPool } = this.splitJackpotPool(
-      tickets.reduce(
-        (sum, t) => new Decimal(sum).plus(t.amount).toString(),
-        "0"
-      )
-    );
-
-    const winners = tickets
-      .map(ticket => {
-        const matches = this.calculateMatches(
-          ticket.ticketNumbers,
-          winningNumbers
-        );
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         const winAmount = this.calculateWinAmount(matches, winnerPool);
 
         return {
@@ -233,11 +188,7 @@ export class CharityJackpot {
           winAmount,
         };
       })
-<<<<<<< HEAD
       .filter((w) => parseFloat(w.winAmount) > 0);
-=======
-      .filter(w => parseFloat(w.winAmount) > 0);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       winners,
@@ -272,14 +223,7 @@ export class CharityJackpot {
     // Simplified EV calculation
     // Assuming 50% goes to winners, 50% to charity
     const ev = new Decimal(ticketPrice).times(0.5);
-<<<<<<< HEAD
     const roi = new Decimal(ev).minus(ticketPrice).dividedBy(ticketPrice).times(100);
-=======
-    const roi = new Decimal(ev)
-      .minus(ticketPrice)
-      .dividedBy(ticketPrice)
-      .times(100);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
 
     return {
       expectedValue: ev.toFixed(18),
@@ -291,22 +235,14 @@ export class CharityJackpot {
    * Get charity organization by ID
    */
   static getCharityOrg(orgId: string): CharityOrganization | undefined {
-<<<<<<< HEAD
     return CHARITY_ORGS.find((org) => org.orgId === orgId);
-=======
-    return CHARITY_ORGS.find(org => org.orgId === orgId);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
    * Get all verified charities
    */
   static getVerifiedCharities(): CharityOrganization[] {
-<<<<<<< HEAD
     return CHARITY_ORGS.filter((org) => org.verified);
-=======
-    return CHARITY_ORGS.filter(org => org.verified);
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   }
 
   /**
@@ -315,11 +251,7 @@ export class CharityJackpot {
   static getTotalCharityDonations(): string {
     return CHARITY_ORGS.reduce(
       (sum, org) => new Decimal(sum).plus(org.totalReceived).toString(),
-<<<<<<< HEAD
       "0",
-=======
-      "0"
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
     );
   }
 
@@ -335,34 +267,18 @@ export class CharityJackpot {
   } {
     const totalWinners = draw.winners.length;
     const largestWin = draw.winners.length
-<<<<<<< HEAD
       ? draw.winners.reduce((max, w) =>
         new Decimal(w.winAmount).gt(max) ? w.winAmount : max,
         "0",
       )
-=======
-      ? draw.winners.reduce(
-          (max, w) => (new Decimal(w.winAmount).gt(max) ? w.winAmount : max),
-          "0"
-        )
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
       : "0";
 
     const averageWin =
       totalWinners > 0
         ? draw.winners
-<<<<<<< HEAD
           .reduce((sum, w) => new Decimal(sum).plus(w.winAmount), new Decimal(0))
           .dividedBy(totalWinners)
           .toFixed(18)
-=======
-            .reduce(
-              (sum, w) => new Decimal(sum).plus(w.winAmount),
-              new Decimal(0)
-            )
-            .dividedBy(totalWinners)
-            .toFixed(18)
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
         : "0";
 
     return {
@@ -379,11 +295,7 @@ export class CharityJackpot {
    */
   static isEligibleForBonusDraw(
     totalTicketsPurchased: number,
-<<<<<<< HEAD
     totalSpent: string,
-=======
-    totalSpent: string
->>>>>>> 62ca6f40e0514b9e63894cfb1ec6f9dacf744498
   ): boolean {
     // Bonus draw eligibility: 5+ tickets or 500+ coins spent
     return totalTicketsPurchased >= 5 || parseFloat(totalSpent) >= 500;
